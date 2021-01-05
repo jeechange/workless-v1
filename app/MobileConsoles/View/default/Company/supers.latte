@@ -1,0 +1,430 @@
+{layout "../Layout/layout.latte"}
+
+{block custom}
+    {include "../Public/custom.latte" , title1=>"选择子管理员", title2=>"选择验收人"}
+
+
+{/block}
+
+{block private_css}
+    <style>
+        .item-title{
+            font-size:14px;
+        }
+
+        .item-title .icon{
+            font-size:25px;
+        }
+
+        .anything{
+            width:100%;
+            opacity:0.6;
+            padding:0.3rem 0;
+            background:#0087E2;
+            font-family:Arial;
+            font-style:normal;
+            font-size:14px;
+            text-align:center;
+            line-height:31px;
+            color:#fff;
+            clear:both;
+        }
+
+        .anything span{
+            display:inline-block;
+            vertical-align:middle;
+        }
+
+        .anything .badge{
+            background:#fff;
+            vertical-align:middle;
+            color:#FF4081;
+        }
+
+        .anything .close{
+            float:right;
+            margin-right:10px;
+        }
+
+        .user-info{
+            box-sizing:border-box;
+            height:130px;
+            background:#fafafa;
+            padding:15px 30px;
+            vertical-align:bottom;
+            color:#aaa;
+            position:relative;
+        }
+
+        .user-info .headerImg{
+            position:absolute;
+            top:0;
+            left:0;
+            z-index:3;
+            width:100%;
+            height:100%;
+            display:block;
+        }
+
+        .headerSZ{
+            position:relative;
+            display:block;
+            width:100%;
+            height:30px;
+            z-index:5;
+        }
+
+        .user-info .user-overview{
+            width:65%;
+            float:left;
+            padding-top:5px;
+            position:absolute;
+            z-index:5;
+            color:white;
+        }
+
+        .user-info .user-overview .user-names{
+            /*color:#101010;*/
+            font-size:18px;
+            line-height:26px;
+            font-weight:bold;
+            display:inline-block;
+        }
+
+        .user-info .user-overview .user-acorn{
+            height:23px;
+            line-height:20px;
+            /*color:rgba(16, 16, 16, 1);*/
+            font-size:14px;
+            text-align:center;
+            display:inline-block;
+            margin-left:30px;
+        }
+
+        .user-base{
+            padding:0px 10px 5px;
+        }
+
+        .user-info .user-overview .user-company{
+            display:block;
+            height:40px;
+            line-height:20px;
+            /*color:rgba(16, 16, 16, 1);*/
+            color:white;
+            font-size:14px;
+            padding:5px 10px;
+        }
+
+        .user-info .user-head{
+            position:absolute;
+            z-index:5;
+            right:10px;
+            width:35%;
+            float:right;
+            text-align:center;
+        }
+
+        .user-info .user-head img{
+            display:block;
+            margin:0 auto;
+            width:70px;
+            height:70px;
+            border-radius:50%;
+        }
+
+        .user-info .user-head span{
+            color:#0087E2;
+            font-size:12px;
+            line-height:17px;
+        }
+
+        .user-info .user-head .user-img{
+            display:block;
+            margin:0 auto;
+            width:60px;
+            height:60px;
+            border-radius:50%;
+        }
+
+        .mlrLogo{
+            margin:0 0.8rem 0 0.5rem;
+            color:#0087E2;
+        }
+
+        .influence{
+            width:100%;
+            padding:0.5rem 0;
+            display:block;
+            background:#fff;
+        }
+
+        .boxOne{
+            position:relative;
+            float:left;
+            width:33.333%;
+            text-align:center;
+        }
+
+        .boxOne:after{
+            position:absolute;
+            content:'';
+            top:30%;
+            left:0;
+            width:1px;
+            height:40%;
+            background:#0087E2;
+        }
+
+        .boxOne:first-child:after{
+            position:absolute;
+            content:'';
+            top:30%;
+            left:0;
+            width:1px;
+            height:40%;
+            background:none !important;
+        }
+
+        .fraction{
+            color:#0087E2;
+            font-size:1.1rem;
+            margin:0.05rem 0;
+        }
+
+        .words{
+            font-size:0.75rem;
+            margin:0.05rem 0;
+        }
+
+        .Abtn{
+            box-sizing:border-box;
+            margin:30px 0 20px;
+            width:100%;
+            height:2.4rem;
+            line-height:2.4rem;
+            display:block;
+            background:#fff;
+            color:#333;
+        }
+
+        .signOut{
+            width:100%;
+            height:2.4rem;
+            line-height:2.4rem;
+            text-align:center;
+        }
+
+        .companyName{
+            padding:0.8rem;
+            background:white;
+        }
+
+        .mlrLogo{
+            margin:0 0.8rem 0 0.8rem;
+            color:#0087E2;
+        }
+
+        .influence{
+            width:100%;
+            padding:0.5rem 0;
+            display:block;
+            background:#fff;
+        }
+
+        .wztx{
+            width:40px;
+            height:40px;
+            display:block;
+            line-height:40px;
+            text-align:center;
+            font-size:0.7rem;
+            color:white;
+            border-radius:50%;
+            background:#0087e2;
+        }
+
+        .JiaoHaoIMG{
+            width:40px;
+            height:40px;
+            display:block;
+            line-height:40px;
+            text-align:center;
+            font-size:30px;
+            color:white;
+            border-radius:50%;
+            background:#0087e2;
+            float:left;
+        }
+
+        .boxOne{
+            position:relative;
+            float:left;
+            width:33.33%;
+            text-align:center;
+        }
+
+        .boxOne:after{
+            position:absolute;
+            content:'';
+            top:30%;
+            left:0;
+            width:1px;
+            height:40%;
+            background:#0087E2;
+        }
+
+        .boxOne:first-child:after{
+            position:absolute;
+            content:'';
+            top:30%;
+            left:0;
+            width:1px;
+            height:40%;
+            background:none !important;
+        }
+
+        .fraction{
+            color:#0087E2;
+            font-size:1.2rem;
+            margin:0.05rem 0;
+        }
+
+        .words{
+            font-size:0.60rem;
+            margin:0.05rem 0;
+        }
+
+        .tab-link{
+            height:3rem !important;
+            line-height:3rem !important;
+        }
+
+        .create-actions{
+            position:fixed;
+            background:rgba(24, 28, 31, 0.6);
+            width:44px;
+            height:44px;
+            line-height:44px;
+            z-index:9999;
+            bottom:65px;
+            right:15px;
+            text-align:center;
+            color:#fff;
+            border-radius:50px;
+        }
+
+        li:after{
+            content:'';
+            position:absolute;
+            left:0;
+            bottom:0;
+            right:auto;
+            top:auto;
+            height:1px;
+            width:100%;
+            background-color:#e7e7e7;
+            display:block;
+            z-index:15;
+            -webkit-transform-origin:50% 100%;
+            transform-origin:50% 100%;
+        }
+
+        .added-button-box .worker-added-item{
+            display:none;
+        }
+
+
+    </style>
+{/block}
+{block private_js}
+    {include "../Public/customJs.latte"}
+    <script>
+        $(function () {
+
+            $(".delete-action").on("click", function () {
+                var dataUrl = $(this).attr("data-url");
+                $.confirm("确定删除子管理员吗?", function () {
+                    $.showPreloader('正在操作，请稍候...');
+                    $.ajax({
+                        type: "GET",
+                        dataType: "json",
+                        url: dataUrl,
+                        success: function (res) {
+                            $.hidePreloader();
+                            try {
+                                if (res.status === "y") {
+                                    $.toast(res.data);
+                                    setTimeout(function () {
+                                        location.reload(true);
+                                    }, 1000)
+                                } else {
+                                    $.toast(res.info);
+                                }
+                            } catch (e) {
+                                $.toast(e.message);
+                            }
+                        }
+                    });
+                });
+            });
+
+        });
+    </script>
+{/block}
+
+{block content}
+    <div class="list-block" style="margin:0.5rem auto 0;">
+        <ul>
+            <li>
+                <a class="item-content item-link">
+                    <div style="width:100%;">
+                        <div class="item-title" style="padding:0.5rem 0;">
+                            <div style="width:15%; float:left;">
+                                <div class="wztx">{$companyUser?$companyUser->getFullName():""}</div>
+                            </div>
+                            <div style="width:85%; float:left;">
+                                <p style="margin:0;">{$companyUser?$companyUser->getFullName():""}（主管理员）</p>
+                                <p style="margin:0;">TEL:{$companyUser?$companyUser->getPhone():"未设置"}</p>
+                            </div>
+                        </div>
+                        <div style="clear:both;"></div>
+                    </div>
+                </a>
+            </li>
+
+        </ul>
+    </div>
+    <div class="list-block">
+        <ul>
+            {foreach $subUsers as $subUser}
+                <li>
+                    <a class="item-content item-link">
+                        <div style="width:95%;">
+                            <div class="item-title" style="padding:0.5rem 0;">
+                                <div style="width:15%; float:left;">
+                                    <div class="wztx">{$subUser["fullName"]}</div>
+                                </div>
+                                <div style="width:73%; float:left;">
+                                    <p style="margin:0;">{$subUser["fullName"]}(子管理员)</p>
+                                    <p style="margin:0;">TEL:{$subUser["phone"]}</p>
+                                </div>
+                                <div class="delete-action" data-url="{url("mobileConsoles_company_super_del",array("id"=>$subUser["id"]))}" style="width:10%; float:left; color:#ff151f; line-height: 40px;">
+                                    删除
+                                </div>
+                            </div>
+
+                            <div style="clear:both;"></div>
+                        </div>
+                    </a>
+                </li>
+            {/foreach}
+        </ul>
+    </div>
+    <div class="content-block">
+        <div class="col-95 added-button-box">
+            <div class="button button-big button-fill open-popup open-worker-added-box" data-popup=".staff-popup" id="executors" data-url="{url("mobileConsoles_company_supers")}">
+                添加子管理员
+            </div>
+        </div>
+    </div>
+{/block}

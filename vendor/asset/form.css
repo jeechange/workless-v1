@@ -1,0 +1,40 @@
+.frm-controls{
+
+}
+.frm-control{
+    height: 40px;
+}
+.stdform label.tfrm-label{
+    float: none;
+    display: inline; 
+}
+.frm-label{
+    width: 200px;
+    text-align: right;
+}
+.frm-btn-controls{
+    margin-top: 15px;
+}
+
+
+form input.frm-text{
+    width: 300px;
+}
+.frm-tip{
+    width: 230px;
+    text-indent: 15px;
+}
+.phpexForm-error{
+    color:red;
+}
+.phpexForm-success{
+    color:green;
+}
+form input.frm-number{
+    width: 120px;
+}
+form label.frm-checkbox_item,form label.frm-radio_item{
+    float: none;
+    margin-left: 5px;
+    margin-right: 8px;
+}

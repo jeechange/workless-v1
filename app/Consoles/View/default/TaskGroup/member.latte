@@ -1,0 +1,54 @@
+{layout '../Public/layoutList.latte'} {*继承layoutList模板*}
+{block title}成员{/block}
+{block actionstab}
+    {include './detailTab.latte'}
+{/block}
+{*选中记录的操作按钮*}
+{block actions2}
+{/block}
+{block private_css}
+    <style type="text/css">
+        .list-more-action{
+            display:none;
+        }
+    </style>
+{/block}
+{block content}
+    {if $lists}
+        <table cellpadding="0" cellspacing="0" border="0" class="stdtable">
+            <thead>
+            <tr>
+                <th><span class="table-head">姓名</span></th> {*在th加入 data-sort 可对数据库进行排序*}
+                <th><span class="table-head">手机号码</span></th>
+                <th><span class="table-head">直线经理</span></th>
+                <th><span class="table-head">微信号</span></th>
+                <th><span class="table-head">QQ号</span></th>
+                <th><span class="table-head">邮箱</span></th>
+                <th><span class="table-head">备注</span></th>
+            </tr>
+            </thead>
+            <tbody>
+            {foreach $lists as $key=>$item}
+                <tr>
+                    <td>{$item['fullName']}</td>
+                    <td>{$item['phone']}</td>
+                    <td>{$item['leaderName']}</td>
+                    <td>{$item['wx']}</td>
+                    <td>{$item['qq']}</td>
+                    <td>{$item['email']}</td>
+                    <td>{$item['memo']}</td>
+                </tr>
+            {/foreach}
+            </tbody>
+        </table>
+    {else}
+        <div style="position:relative; width:100%; line-height:50px; display:block; text-align:center;">
+            <img src="{path('[MobileConsoles]/img/null.png')}" alt="" class="" style="margin:50px auto 0; width:300px; height:300px; display:block;">
+            <div style="width:100%; color:#999; text-align:center; font-size:1.5rem;">暂时没有成员哦！</div>
+        </div>
+    {/if}
+{/block}
+
+
+
+

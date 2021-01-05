@@ -1,0 +1,277 @@
+{layout '../Public/layoutDetail.latte'}
+{block title}更多讨论{/block}
+{block private_css}
+    <style>
+        /*.dynamic-item{*/
+            /*margin:15px 10px;*/
+        /*}*/
+
+        .dynamic-item dt{
+            border-bottom:1px dashed #dfdfdf;
+            line-height:30px;
+            height:30px;
+        }
+
+        .dynamic-item dt .dynamic-names{
+            float:left;
+            color:#009dd9;
+            font-size:14px;
+        }
+
+        .dynamic-item dt .dynamic-time{
+            float:right;
+            color:#666;
+        }
+
+        .dynamic-item dd{
+            padding-top:15px;
+            color:#666;
+            font-size:14px;
+            line-height:30px;
+        }
+
+        .dynamic-item dt .dynamic-reply{
+            color:#666;
+            font-size:14px;
+            margin:0 5px;
+        }
+
+        .dynamic-item dt .dynamic-time-comment, .dynamic-item dt .dynamic-time-reply{
+            color:#666;
+            font-size:12px;
+            cursor:pointer;
+            margin:0 5px;
+        }
+
+        .dynamic-item dt .dynamic-time-comment:hover, .dynamic-item dt .dynamic-time-reply:hover{
+            text-decoration:underline;
+            color:#009dd9;
+        }
+
+        .dynamic-item dd.dynamic-reply-dd, .dynamic-item dd.dynamic-comment-dd{
+            display:none;
+        }
+
+        .dynamic-comment-dd ul, .dynamic-comment-dd li{
+            margin:0; padding:0;
+            list-style-type:none;
+        }
+
+        .dynamic-comment-dd ul{
+            background:#f2f2f2;
+            padding-left:5px;
+            padding-bottom:5px;
+            width:100%;
+        }
+
+        .dynamic-comment-dd li span{
+            line-height:20px;
+            cursor:pointer;
+        }
+
+        .dynamic-comment-dd li textarea{
+            width:400px;
+            height:70px;
+        }
+
+        .dynamic-comment-dd li .dynamic-comment-say{
+            color:#009dd9;
+        }
+
+        .dynamic-comment-dd li .dynamic-comment-say .dynamic-comment-reply{
+            color:#666; margin:0 5px;
+        }
+
+        .dynamic-comment-reply-input input{
+            display:block;
+            height:30px;
+            line-height:30px;
+            margin-top:5px;
+            margin-bottom:5px;
+            padding:0 30px;
+        }
+    </style>
+{/block}
+{block private_js}
+    <script type="text/javascript">
+        function postPages(toUrl, data, callback) {
+            var msgIndex = layer.msg("正在提交", {
+                offset: 't',
+                time: 0,
+                icon: 16
+            });
+            $.ajax({
+                type: "POST",
+                dataType: "json",
+                url: toUrl,
+                data: data,
+                complete: function (request) {
+                    layer.close(msgIndex);
+                    try {
+                        var res = $.parseJSON(request.responseText);
+                        if (res.status === "y") {
+                            layer.msg(res.info, {
+                                time: 2000
+                            }, function () {
+                                getPage({url("consoles_detail", "con=taskGroup&id=" . $id)}, null, null,{Q()->server->get("HTTP_AJAX_REFERER")?:url("consoles_detail", "con=taskGroup&id=" . $id)});
+                                hideSideForm(false);
+                            });
+                            callback && callback();
+                        } else {
+                            layer.alert(res.info);
+                        }
+                    } catch (e) {
+                        layer.alert(e.message);
+                    }
+                }
+            });
+        }
+        init.ready(function () {
+            $(".dynamic-time-reply").unbind().bind("click", function () {
+                if ($(this).parents("dt").siblings(".dynamic-reply-dd").is(":visible")) {
+                    $(this).parents("dt").siblings(".dynamic-reply-dd").slideUp();
+                } else {
+                    $(".dynamic-item .dynamic-reply-dd,.dynamic-item .dynamic-comment-dd").hide();
+                    $(this).parents("dt").siblings(".dynamic-reply-dd").slideDown();
+                }
+            });
+            $(".dynamic-time-comment").unbind().bind("click", function () {
+                if ($(this).parents("dt").siblings(".dynamic-comment-dd").is(":visible")) {
+                    $(this).parents("dt").siblings(".dynamic-comment-dd").slideUp();
+                } else {
+                    $(".dynamic-item .dynamic-reply-dd,.dynamic-item .dynamic-comment-dd").hide();
+                    $(this).parents("dt").siblings(".dynamic-comment-dd").slideDown();
+                }
+            });
+            $(".dynamic-comment-dd li:not(.dynamic-comment-reply-input)").unbind().bind("click", function () {
+                var names = $(this).attr("data-names");
+                var relId = $(this).attr("data-rel-id");
+                if (relId > 0) {
+                    $(this).siblings(".dynamic-comment-reply-input").children("input").val("回复" + names).attr("data-rel", relId);
+                } else {
+                    $(this).siblings(".dynamic-comment-reply-input").children("input").val("评论").attr("data-rel", 0);
+                }
+            });
+            $(".dynamic-comment-button").unbind().bind("click", function () {
+                var url = $(this).attr("data-url");
+                var relId = $(this).attr("data-rel");
+                var content = $(this).siblings("textarea").val();
+                var sendData = {
+                    relId: relId,
+                    content: content
+                };
+                postPages(url, sendData);
+            });
+
+            $(".submit-data").unbind().bind("click", function () {
+                var types = $(this).attr("data-types");
+                var url = {url("consoles_taskGroup_createDiscuss",array("id"=>$id))};
+
+                var acceptCyclesId = $("#cycles_id").val();
+                var acceptDay = $("#acceptDay").val();
+                var acceptHour = $("#acceptHour").val();
+                var acceptMinute = $("#acceptMinute").val();
+                var acceptNum = $("#acceptNum").val();
+                var acceptMemo = $("#accept-memo").val();
+
+                var redeployDay = $("#redeployDay").val();
+                var redeployHour = $("#redeployHour").val();
+                var redeployMinute = $("#redeployMinute").val();
+                var redeployNum = $("#redeployNum").val();
+                var redeployMemo = $("#redeployMemo").val();
+
+                var overMemo = $("#content-accept-over").val();
+
+
+                var cancelMemo = $("#content-accept-cancel").val();
+                var dynamicMemo = $("#dynamic-content").val();
+
+                var sendData = {
+                    cyclesId: acceptCyclesId,
+                    acceptDay: acceptDay,
+                    acceptHour: acceptHour,
+                    acceptMinute: acceptMinute,
+                    acceptMemo: acceptMemo,
+                    acceptNum: acceptNum,
+
+                    redeployDay: redeployDay,
+                    redeployHour: redeployHour,
+                    redeployMinute: redeployMinute,
+                    redeployMemo: redeployMemo,
+                    redeployNum: redeployNum,
+
+                    overMemo: overMemo,
+                    cancelMemo: cancelMemo,
+                    dynamicMemo: dynamicMemo,
+
+                    types: types
+                };
+
+                if (types === "dynamic") {
+                    if (!sendData["dynamicMemo"]) {
+                        layer.alert("动态内容不能为空");
+                        return;
+                    }
+                }
+                if (types === "dynamic") {
+                    postPages(url, sendData);
+                } else if (typeof  titles[types] !== "undefined") {
+                    layer.confirm(titles[types], function () {
+                        postPages(url, sendData);
+                    });
+                } else {
+                    layer.alert("操作出错，请刷新页面重试");
+                }
+            });
+        });
+    </script>
+{/block}
+{block content}
+    <div class="task-detail-section task-detail-section2" style="margin: 20px;">
+        {foreach $lists as $dynamic}
+            <dl class="dynamic-item">
+                <dt>
+                    <span class="dynamic-names">{$dynamic["gd_userName"]} :</span>
+                    <span class="dynamic-time">
+                        <span>{$dynamic["gd_addTime"]|totime}</span>
+                        {*<span class="dynamic-time-reply">回复</span>*}
+                        <span class="dynamic-time-comment">评论({count($comments[$dynamic["gd_id"]])})</span>
+                    </span>
+                </dt>
+                <dd>{str_replace(array("\r\n","\n","\r"),"<br>",$dynamic["gd_content"])|noescape}</dd>
+
+                {if $dynamic["gd_thumbs"]}
+                    <dd>
+                        {foreach $dynamic["gd_thumbs"] as $thumb}
+                            {if $thumb["type"]=="img"}
+                                <img class="layer-photos" layer-pid="" layer-src="{$thumb['src']}" style="max-width:150px;max-height:150px;cursor:pointer" src="{$cdnThumbBase}{$thumb['val']}" alt="{$thumb['name']}">
+                            {else}
+                                <a href="{$thumb['src']}" title="{$thumb['val']}" target="_blank">{$thumb['name']}</a>
+                            {/if}
+                        {/foreach}
+                    </dd>
+                {/if}
+                <dd class="dynamic-reply-dd">
+                    <textarea id="rich_reply_{$dynamic["gd_id"]}" name="reply_{$dynamic["gd_id"]}" data-toggle="rich" style="width: 500px; height: 250px"></textarea>
+                    <input type="button" class="dynamic-reply-button" data-rel="{$dynamic["gd_id"]}" value="回复" data-url="{url("consoles_task_dynamic_reply",array("types"=>"temp","id"=>$dynamic["gd_id"]))}"/>
+                </dd>
+                <dd class="dynamic-comment-dd">
+                    <ul>
+                        {foreach $comments[$dynamic["gd_id"]] as $comment}
+                            <li data-rel-id="{$userId==$comment["userId"]?$comment["replyId"]:$comment["userId"]}" data-names="{$userId==$comment["userId"]?$comment["ruserName"]:$comment["userName"]}">
+                                <span class="dynamic-comment-say">{$comment["userName"]} {if $comment["replyId"]}<span class="dynamic-comment-reply">回复</span> {$comment["ruserName"]}{/if}：</span>
+                                <span>{$comment["content"]}</span>
+                            </li>
+                        {/foreach}
+                        <li class="dynamic-comment-reply-input">
+                            <textarea name="dynamic_comment_{$dynamic["gd_id"]}" style="margin-top: 10px;width: 300px;height: 60px;"></textarea>
+                            <input type="button" data-url="{url("consoles_taskGroup_discuss_comment",array("id"=>$dynamic["gd_id"]))}" class="dynamic-comment-button" value="评论" data-rel="0"/>
+                        </li>
+                    </ul>
+                </dd>
+            </dl>
+        {/foreach}
+        <textarea id="dynamic-content" style="width:80%;height:80px;margin-left:13px"></textarea><br>
+        <input type="button" class="btn submit-data" value="发布动态" data-types="dynamic" style="margin-left:13px"/>
+    </div>
+{/block}

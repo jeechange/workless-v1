@@ -1,0 +1,14 @@
+default:
+        driver:   pdo_mysql
+        type:     mysql
+        host:     127.0.0.1
+        port:     3306
+        dbname:   workless-v1
+        user:     root
+        password: root
+        prefix:   jee_
+        charset:  utf8
+        mapType:  yml
+        mapPath:  "%core.main getAppRoot%/Admin/Conf/mapping"
+        paths:
+            Admin: "%core.main getAppRoot%/Admin/Conf/doctrine"

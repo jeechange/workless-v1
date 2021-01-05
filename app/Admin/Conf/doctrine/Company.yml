@@ -1,0 +1,191 @@
+Admin\Entity\Company:
+  type: entity
+  table: company
+  id:
+    id:
+      type: integer
+      nullable: false
+      unsigned: false
+      comment: ''
+      id: true
+      generator:
+        strategy: IDENTITY
+  fields:
+    codeNo:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+      column: code_no
+    names:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    shortNames:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+      column: short_names
+    superid:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+    industry:
+      type: smallint
+      nullable: true
+      unsigned: false
+      comment: ''
+    levels:
+      type: smallint
+      nullable: true
+      unsigned: false
+      comment: ''
+    source:
+      type: smallint
+      nullable: true
+      unsigned: false
+      comment: ''
+    addTime:
+      type: datetime
+      nullable: true
+      comment: ''
+      column: add_time
+    renewTime:
+      type: datetime
+      nullable: true
+      comment: ''
+      column: renew_time
+    expireTime:
+      type: datetime
+      nullable: true
+      comment: ''
+      column: expire_time
+    keywords:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    scales:
+      type: smallint
+      nullable: true
+      unsigned: false
+      comment: ''
+    legal:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    address:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    memo:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    status:
+      type: smallint
+      nullable: true
+      unsigned: false
+      comment: ''
+    subSuperid:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+      column: sub_superid
+    bonus:
+      type: decimal
+      nullable: true
+      precision: 20
+      scale: 2
+      comment: ''
+    province:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    city:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    area:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    hfSignature:
+      type: text
+      nullable: true
+      length: null
+      fixed: false
+      comment: ''
+      column: hf_signature
+    maxScore:
+      type: string
+      nullable: true
+      length: 1000
+      fixed: false
+      comment: ''
+      column: max_score
+    apps:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    userCount:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: user_count
+    detailArea:
+      type: string
+      nullable: true
+      length: 50
+      fixed: false
+      comment: ''
+      column: detail_area
+    maxAcorn:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: max_acorn
+    amount:
+      type: decimal
+      nullable: true
+      precision: 10
+      scale: 2
+      comment: ''
+    platform:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    usingCount:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: using_count
+  lifecycleCallbacks: {  }

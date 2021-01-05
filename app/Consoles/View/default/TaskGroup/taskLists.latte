@@ -1,0 +1,179 @@
+{layout '../Public/layoutList.latte'} {*继承layoutList模板*}
+{block title}任务{/block}
+
+{block actionstab}
+    {include "./detailTab.latte"}
+{/block}
+{block private_css}
+    {include "../TaskMe/listCss.latte"}
+    <style>
+        .list-more-action{
+            display:none;
+        }
+
+        .right-exchange{
+            box-sizing:border-box;
+            margin-right:6px;
+            margin-bottom:6px;
+            padding:0;
+            float:left;
+            border:none;
+            -webkit-user-select:none;
+            -moz-user-select:none;
+            -ms-user-select:none;
+            user-select:none;
+            cursor:pointer;
+        }
+
+        .NewTips{
+            box-sizing:border-box;
+            position:fixed;
+            top:-100%;
+            left:-100%;
+            margin:0;
+            padding:10px 100px;
+            transform:translateX(-50%);
+            max-width:100%;
+            height:50px;
+            line-height:30px;
+            display:none;
+            color:black;
+            background:none;
+        }
+
+        .minW{ min-width:80px; }
+    </style>
+{/block}
+
+{block content}
+    {if $lists}
+        <table cellpadding="0" cellspacing="0" border="0" class="stdtable">
+            <thead>
+            <tr>
+                <th style="max-width:50px;" data-sort="t.codeNo"><span class="table-head">任务编号</span></th>
+                <th style="max-width:50px;" data-sort="t.priority"><span class="table-head">优先级</span></th> {*在th加入 data-sort 可对数据库进行排序*}
+                <th class="minW" data-sort="t.names"><span class="table-head">任务</span></th>
+                <th data-sort="s.acorn" class="minW"><span class="table-head">积分</span></th>
+                <th data-sort="t.issueId"><span class="table-head">发布人</span></th>
+                <th data-sort="t.executors"><span class="table-head">执行人</span></th>
+                <th data-sort="t.acceptId"><span class="table-head">验收人</span></th>
+                <th data-sort="t.addTime"><span class="table-head">发布时间</span></th>
+                <th data-sort="t.deadline"><span class="table-head">剩余时间</span></th>
+                <th data-sort="t.status"><span class="table-head">状态</span></th>
+                <th><span class="table-head">操作</span></th>
+            </tr>
+            </thead>
+            <tbody>
+            {foreach $lists as $k => $item}
+                <tr>
+                    <td class="wid-auto">#{$item['t_codeNo']}{if $item["t_types"]==3 && $item['t_cycleUse']>0}-{$item['t_cycleUse']}{/if}</td>
+                    <td class="wid-auto">
+                        <div class="garden Letter-{$item['priorityMemo']}">{$item['priorityMemo']}</div>
+                    </td>
+                    <td class="wid-auto">
+                        {$item['t_names']}
+                    </td>
+                    {if $item["s_acorn"]==0}
+                        <td class="task-item-reward" style="font-size:12px">日基础分&times;难度系数&times;完成质量&times;天数</td>
+                    {else}
+                        <td class="wid-auto">{$item['s_names']}:{$item['s_acorn']}</td>
+                    {/if}
+                    <td class="wid-auto">{$item['u_fullName']}</td>
+                    <td class="wid-auto">{$item['executorsMemo']}</td>
+                    <td class="wid-auto">{$item['u2_fullName']}</td>
+                    <td class="wid-auto">{$item['t_addTime']|totime}</td>
+                    <td class="wid-auto" {if $item["t_status"]==0}data-deadline="{$item["t_deadline"]|totime}"{/if}></td>
+                    <td class="wid-auto">{$item["statusMemo"]}</td>
+                    <td style="width:140px !important;">
+                        <a class="right-exchange" href="{url('consoles_task_details','id='.$item["t_id"])}">详情</a>
+                        <div class="right-exchange divHref" data-href="{url('~consoles_task_delete','id='.$item["t_id"])}">删除</div>
+                    </td>
+                </tr>
+            {/foreach}
+            </tbody>
+        </table>
+        <div class="NewTips" id="NewTips"></div>
+    {else}
+        {if $params == 1}
+            <div style="position:relative; width:100%; line-height:50px; display:block; text-align:center;">
+                <img src="{path('[MobileConsoles]/img/null.png')}" alt="" class="" style="margin:50px auto 0; width:300px; height:300px; display:block;">
+                <div style="width:100%; color:#999; text-align:center; font-size:1.5rem;">查询为空</div>
+            </div>
+        {else}
+            <div style="position:relative; width:100%; line-height:50px; display:block; text-align:center;">
+                <img src="{path('[MobileConsoles]/img/null.png')}" alt="" class="" style="margin:50px auto 0; width:300px; height:300px; display:block;">
+                <div style="width:100%; color:#999; text-align:center; font-size:1.5rem;">暂无普通任务</div>
+            </div>
+        {/if}
+    {/if}
+{/block}
+
+{block private_js}
+    <script>
+        init.ready(function () {
+            if (typeof window.timerdeadlineList !== "undefined") {
+                clearInterval(window.timerdeadlineList);
+            }
+            window.timerdeadlineList = setInterval(function () {
+                $("[data-deadline]").each(function () {
+                    var endTimes = $(this).attr("data-deadline");
+                    var cTime = countDown(endTimes);
+                    $(this).text(cTime);
+                });
+            }, 1000);
+        });
+
+        $(function () {
+            $(".divHref").click(function () {
+                var that = this;
+                var toUrl = $(this).attr("data-href");
+                var confirmLayer = layer.confirm('确定要删除吗？', function () {
+                    $.ajax({
+                        type: "GET",
+                        dataType: "json",
+                        url: toUrl,
+                        success: function (request) {
+                            if (request.status == 'y') {
+                                $(that).parent().parent().remove();
+                                NewTips(request.status, request.info);
+                            } else {
+                                NewTips(request.status, request.info);
+                            }
+                            layer.close(confirmLayer);
+                        },
+                        error: function (request) {
+                            if (request.status == 'y') {
+                                $(that).parent().parent().remove();
+                                NewTips(request.status, request.info);
+                            } else {
+                                NewTips(request.status, request.info);
+                            }
+                            layer.close(confirmLayer);
+                        }
+                    });
+                });
+            });
+        });
+
+        function NewTips(status, info) {
+            document.getElementById('NewTips').innerHTML = info;
+            $(".NewTips").css("top", "10%");
+            $(".NewTips").css("left", "50%");
+            $(".NewTips").css("display", "inline");
+            if (status === 'y') {
+                $(".NewTips").css("background", "green");
+            } else {
+                $(".NewTips").css("background", "red");
+            }
+            $(".NewTips").css("color", "#ffffff");
+
+            setTimeout("CloseTips()", 5000);
+        }
+
+        function CloseTips() {
+            $(".NewTips").css("top", "-100%");
+            $(".NewTips").css("left", "-100%");
+            $(".NewTips").css("display", "none");
+        }
+    </script>
+{/block}

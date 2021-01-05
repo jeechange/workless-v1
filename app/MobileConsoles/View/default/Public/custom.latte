@@ -1,0 +1,397 @@
+<style>
+    .staff-add{
+        display:inline-block; width:40px; height:40px; background:#f6f6f6; color:#aaa; text-align:center; line-height:40px; font-size:36px; border-radius:50%;
+        vertical-align:bottom;
+    }
+
+    .worker-added-list .worker-fold-off{
+        display:none;
+    }
+
+    .worker-added-find-list{
+        display:none;
+    }
+
+    .list-block ul ul{
+        padding-left:0.75rem;
+    }
+
+    .list-staff-block > .worker-selected{
+        justify-content:space-between; display:flex;
+        margin-top:.5rem;
+    }
+
+    .list-staff-block > .worker-selected > span{
+        display:block;
+    }
+
+    .list-staff-block > .worker-selected > .worker-selected-memo{
+        line-height:2.2rem;
+    }
+
+    .list-staff-block > .worker-selected > .worker-confirm{
+        background:#4d91e4;
+        padding:0 20px;
+        height:1.8rem;
+        line-height:1.8rem;
+        margin-top:.2rem;
+        cursor:pointer;
+        color:#fff;
+    }
+
+    .label-checkbox.checked > .item-media > .icon-form-checkbox{
+        background:#0894ec;
+        border:none;
+    }
+
+    .label-checkbox.checked > .item-media > .icon-form-checkbox:after{
+        background:no-repeat center; background-image:url("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20x%3D'0px'%20y%3D'0px'%20viewBox%3D'0%200%2012%209'%20xml%3Aspace%3D'preserve'%3E%3Cpolygon%20fill%3D'%23ffffff'%20points%3D'12%2C0.7%2011.3%2C0%203.9%2C7.4%200.7%2C4.2%200%2C4.9%203.9%2C8.8%203.9%2C8.8%203.9%2C8.8%20'%2F%3E%3C%2Fsvg%3E"); background-size:.6rem .45rem
+    }
+
+    .worker-added-item{
+        display:inline-block;
+        width:40px;
+        height:40px;
+        background:#f6f6f6;
+        color:#aaa;
+        text-align:center;
+        line-height:40px;
+        font-size:12px;
+        border-radius:50%;
+        margin-right:15px;
+        position:relative;
+        /*margin-top:10px;*/
+        vertical-align:bottom;
+    }
+
+    .worker-added-item-remove{
+        position:absolute;
+        top:0;
+        right:0;
+        line-height:12px;
+        width:12px;
+        height:12px;
+        text-align:center;
+        border-radius:50%;
+        background:#181c1f;
+        color:#fff;
+    }
+
+    .worker-added-find-list .highlight{
+        color:#ff4a2b;
+        margin:0;
+        font-weight:700;
+    }
+
+    .study-item-label .item-title img{
+        width:30px;
+        height:30px;
+        vertical-align:middle;
+    }
+
+    .study-item-label .item-subtitle{
+        padding:5px 0;
+    }
+
+    .label-label.checked > .item-media > .icon-form-checkbox{
+        background:#0894ec;
+        border:none;
+    }
+
+    .label-label.checked > .item-media > .icon-form-checkbox:after{
+        background:no-repeat center; background-image:url("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20x%3D'0px'%20y%3D'0px'%20viewBox%3D'0%200%2012%209'%20xml%3Aspace%3D'preserve'%3E%3Cpolygon%20fill%3D'%23ffffff'%20points%3D'12%2C0.7%2011.3%2C0%203.9%2C7.4%200.7%2C4.2%200%2C4.9%203.9%2C8.8%203.9%2C8.8%203.9%2C8.8%20'%2F%3E%3C%2Fsvg%3E"); background-size:.6rem .45rem
+    }
+
+    .list-study-block > .study-selected{
+        justify-content:space-between; display:flex;
+    }
+
+    .list-study-block > .study-selected > span{
+        display:block;
+    }
+
+    .list-study-block > .study-selected > .study-selected-memo{
+        line-height:2.2rem;
+    }
+
+    .list-study-block > .study-selected > .study-confirm{
+        background:#4d91e4;
+        padding:0 20px;
+        height:1.8rem;
+        line-height:1.8rem;
+        margin-top:.2rem;
+        cursor:pointer;
+        color:#fff;
+    }
+
+    .study-find-list .highlight{
+        color:#ff4a2b;
+        margin:0;
+        font-weight:700;
+    }
+
+    .study-item{
+        display:inline-block;
+        min-width:40px;
+        height:40px;
+        background:#fff;
+        border:1px solid #f6f6f6;;
+        color:#aaa;
+        text-align:center;
+        line-height:40px;
+        font-size:12px;
+        border-radius:5px;
+        margin-right:15px;
+        position:relative;
+        margin-top:10px;
+        padding-left:5px;
+        padding-right:5px;
+        vertical-align:middle;
+    }
+
+    .study-item img{
+        width:30px;
+        height:30px;
+        background:#f6f6f6;
+        vertical-align:middle;
+    }
+
+    .study-item-remove{
+        position:absolute;
+        top:-3px;
+        right:-3px;
+        line-height:12px;
+        width:12px;
+        height:12px;
+        text-align:center;
+        border-radius:50%;
+        background:#181c1f;
+        color:#fff;
+    }
+
+    .list-block .item-content.worker-member-label,
+    .list-block .item-content.worker-department-label,
+    .list-block .item-content.worker-member-label .item-inner
+    .list-block .item-content.worker-department-label .item-inner{
+        min-height:3rem;
+    }
+
+    .list-block.media-list .item-content.worker-member-label .item-inner,
+    .list-block.media-list .item-content.worker-department-label .item-inner{
+        padding-top:0.8rem;
+    }
+
+    .popup .bar{
+        height:3rem;
+    }
+
+    .popup .bar .title{
+        line-height:3rem;
+    }
+
+    .popup .bar .button-link{
+        line-height:3rem;
+        height:3rem;
+        margin-right:0.5rem;
+    }
+
+    .selected-group-show{
+        height:3rem;
+    }
+</style>
+
+<div class="popup staff-popup worker-added-box" data-relate-id="executors">
+    <header class="bar bar-nav">
+        <a class="button button-link button-nav pull-right close-popup" data-popup=".staff-popup">
+            关闭
+        </a>
+        <h1 class="title">{$title1}</h1>
+    </header>
+    <div class="bar bar-standard bar-footer list-staff-block" style="background: #fff;">
+        {$executors["confirm"]|noescape}
+    </div>
+    <div class="content">
+        <div class="content-inner">
+            <div class="content-block">
+                {$executors["body"]|noescape}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="popup accept-popup worker-added-box" data-relate-id="accept">
+    <header class="bar bar-nav">
+        <a class="button button-link button-nav pull-right close-popup" data-popup=".accept-popup">
+            关闭
+        </a>
+        <h1 class="title">{$title2}</h1>
+    </header>
+    <div class="bar bar-standard bar-footer list-staff-block" style="background: #fff;">
+        {$accept["confirm"]|noescape}
+    </div>
+    <div class="content">
+        <div class="content-inner">
+            <div class="content-block">
+                {$accept["body"]|noescape}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="popup cPerson-popup worker-added-box" data-relate-id="cPerson">
+    <header class="bar bar-nav">
+        <a class="button button-link button-nav pull-right close-popup" data-popup=".cPerson-popup">
+            关闭
+        </a>
+        <h1 class="title">{$title3}</h1>
+    </header>
+    <div class="bar bar-standard bar-footer list-staff-block" style="background: #fff;">
+        {$cPerson["confirm"]|noescape}
+    </div>
+    <div class="content">
+        <div class="content-inner">
+            <div class="content-block">
+                {$cPerson["body"]|noescape}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="popup superior-popup worker-added-box" data-relate-id="superior">
+    <header class="bar bar-nav">
+        <a class="button button-link button-nav pull-right close-popup" data-popup=".superior-popup">
+            关闭
+        </a>
+        <h1 class="title">{$title4}</h1>
+    </header>
+    <div class="bar bar-standard bar-footer list-staff-block" style="background: #fff;">
+        {$superior["confirm"]|noescape}
+    </div>
+    <div class="content">
+        <div class="content-inner">
+            <div class="content-block">
+                {$superior["body"]|noescape}
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{foreach $acceptHtml as $v}
+    {$v|noescape}
+{/foreach}
+
+
+<div class="popup learns-popup learns-box" data-relate-id="learns">
+    <header class="bar bar-nav">
+        <a class="button button-link button-nav pull-right close-popup">
+            关闭
+        </a>
+        <h1 class="title">选择检验学习内容</h1>
+    </header>
+    <div class="bar bar-standard bar-footer list-study-block" style="background: #fff;">
+        {$learns["confirm"]|noescape}
+    </div>
+    <div class="content">
+        <div class="content-inner">
+            <div class="content-block">
+                {$learns["body"]|noescape}
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="popup task-group-popup">
+    <header class="bar bar-nav">
+        <a class="button button-link button-nav pull-left open-create-group">
+            新建项目
+        </a>
+        <a class="button button-link button-nav pull-right close-popup">
+            关闭
+        </a>
+        <h1 class="title">选择任务项目</h1>
+    </header>
+    <div class="bar bar-standard bar-footer list-group-block" style="background: #5CABFB;">
+        <div class="select-group-confirm" style="text-align: center;height:2.2rem;line-height: 2.2rem;color:#fff;font-size:1.1rem;letter-spacing:0.3rem">确定</div>
+    </div>
+    <div class="content">
+        <div class="content-inner">
+            <div class="list-block form-group-create" style="display: none;">
+                <ul>
+                    <!-- Text inputs -->
+                    <li>
+                        <div class="item-content">
+                            <div class="item-inner">
+                                <div class="item-title label">项目名称</div>
+                                <div class="item-input">
+                                    <input type="text" name="group_name" placeholder="项目名称">
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="item-content">
+                            <div class="item-inner">
+                                <div class="item-title label">创建日期</div>
+                                <div class="item-input">
+                                    <input type="text" name="group_addTime" id='addTime' placeholder="选择日期">
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="align-top">
+                        <div class="item-content">
+                            <div class="item-inner">
+                                <div class="item-title label">说明</div>
+                                <div class="item-input">
+                                    <textarea name="group_memo" placeholder="说明"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                <div class="content-block">
+                    <div class="row">
+                        <div class="col-50">
+                            <a href="#" class="button button-big button-fill button-danger cancel-create-group">取消</a>
+                        </div>
+                        <div class="col-50">
+                            <a href="#" data-url="{url("mobileConsoles_task_group_add")}" class="button button-big button-fill button-success submit-create-group">提交</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="content-block list-group-block" style="margin:.75rem 0">
+                <div class="searchbar row">
+                    <div class="search-input col-80">
+                        <label class="icon icon-search" for="search"></label>
+                        <input type="search" id='search' placeholder='输入关键字...'/>
+                    </div>
+                    <a class="button button-fill button-primary col-20">搜索</a>
+                </div>
+
+                <div class="list-block media-list">
+                    <ul id="group-lists">
+                        {foreach $groups as $group}
+                            {include '../Task/groupListsItem.latte', group=>$group}
+                        {/foreach}
+                    </ul>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+<div class="popup info-popup" data-relate-id="info">
+    <header class="bar bar-nav">
+        <a class="button button-link button-nav pull-right close-popup">
+            关闭
+        </a>
+        <h1 class="title">个人信息</h1>
+    </header>
+    <div class="" style="width:100%; height:3.5rem; display:block;"></div>
+    <div id="PersonalCard"></div>
+</div>

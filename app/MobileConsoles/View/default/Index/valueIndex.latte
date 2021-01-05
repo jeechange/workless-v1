@@ -1,0 +1,306 @@
+{layout "../Layout/layout.latte"}
+{block headTitle}我的价值指数{/block}
+{block private_css}
+    <style>
+        .head-box{
+            background:#40b2ec;
+            color:#fff;
+            padding-top:5px;
+        }
+
+        .head-box .bar:after{
+            display:none;
+        }
+
+        .head-box .bar{
+            height:2.6rem;
+        }
+
+        .head-box .bar .searchbar{
+            background:#40b2ec;
+            height:2.6rem;
+        }
+
+        .bar .searchbar .searchbar-cancel{
+            color:#fff;
+            height:1.8rem;
+            line-height:1.8rem;
+        }
+
+        .searchbar .search-input input{
+            background:#399bcc;
+            height:1.8rem;
+        }
+
+        .signature{
+            padding:0 .5rem 0.5rem .5rem;
+            display:flex;
+            justify-content:space-between;
+            margin:8px 0;
+        }
+
+        .sections{
+            margin:0 .5rem -90px .5rem;
+            background:#fff;
+            border-radius:10px;
+            padding:20px 40px;
+            z-index:15;
+            position:relative;
+        }
+
+        .sections .sections-row{
+            justify-content:space-between;
+            display:flex;
+        }
+
+        .sections .sections-row .sections-item{
+            color:#101010;
+            text-align:center;
+            font-size:.75rem;
+        }
+
+        .sections .sections-row .sections-item .icon{
+            display:block;
+            font-size:2.2rem;
+            margin-bottom:.1rem;
+        }
+
+        .sections .apply{
+            margin:0 auto 0 auto;
+            width:180px;
+            background:#40b2ec;
+            height:40px;
+            line-height:40px;
+            text-align:center;
+            border-radius:30px;
+            position:relative;
+            top:40px;
+            color:#fff;
+        }
+
+        .details{
+            /*min-height:100%;*/
+            padding:10px .5rem;
+            background:#fff;
+        }
+
+        .details-head{
+            position:relative;
+            height:40px;
+            line-height:40px;
+            display:flex;
+            justify-content:space-between;
+        }
+
+        .details-head:after{
+            content:'';
+            position:absolute;
+            left:0;
+            bottom:0;
+            right:auto;
+            top:auto;
+            height:1px;
+            width:100%;
+            background-color:#e7e7e7;
+            display:block;
+            z-index:15;
+            -webkit-transform-origin:50% 100%;
+            transform-origin:50% 100%;
+        }
+
+        .details-head-title{
+            margin-top:8px;
+            position:relative;
+            padding-left:15px;
+            height:20px;
+            line-height:20px;
+            vertical-align:bottom;
+        }
+
+        .details-head-title:before{
+            content:'';
+            position:absolute;
+            left:0;
+            top:0;
+            height:100%;
+            width:3px;
+            background-color:#40b3eb;
+            display:block;
+            z-index:16;
+            -webkit-transform-origin:50% 100%;
+            transform-origin:50% 100%;
+        }
+
+        .details-head-more{
+            color:#a6a6a6;
+        }
+
+        .details-body ul{
+            padding:0;
+            margin:0;
+        }
+
+        .details-body li{
+            display:flex;
+            width:100%;
+            height:2.6rem;
+            line-height:2.6rem;
+            padding:0 1rem;
+            font-size:14px;
+        }
+
+        .details-body li:nth-child(2n){
+            background:#f9f9f9;
+        }
+
+        .details-body li .item-memo{
+            flex:1;
+            text-align:left;
+        }
+
+        .details-body li .item-task{
+            width:100px;
+        }
+
+        .details-body li .item-last{
+            width:100px;
+            text-align:right;
+        }
+
+        #main{
+            background-color:#ffffff;
+        }
+    </style>
+{/block}
+{block private_js}
+    <script type="text/javascript" src="/public/consoles/default/js/echarts.js"></script>
+    <script>
+        var myChart = echarts.init(document.getElementById('main'));
+        option = {
+            // title : {
+            //     text: '个人价值指数'
+            // },
+            // tooltip : {
+            //     trigger: 'axis'
+            // },
+            // color:['#fd9c9c'],
+            // legend: {
+            //     x : 'center',
+            //     bottom : '0',
+            //     data:['个人价值指数']
+            // },
+            {*toolbox: {*}
+            {*show : true,*}
+            {*feature : {*}
+            {*mark : {show: true},*}
+            {*dataView : {show: true, readOnly: false},*}
+            {*restore : {show: true},*}
+            {*saveAsImage : {show: true}*}
+            {*}*}
+            {*},*}
+            // calculable : true,
+            xAxis: {
+                type: 'category',
+                boundaryGap: false,
+                axisLabel: {
+                    interval: 0,
+                },
+                data: {$month}
+            },
+            yAxis: {
+                type: 'value'
+            },
+            series: [{
+                data: {$valueIndex},
+                type: 'line'
+            }]
+
+        };
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+        //雷达图
+
+        var myChartRadar = echarts.init(document.getElementById('Radar'));
+
+        Radaroption = {
+            // title : {
+            //     text: '个人 vs 平均',
+            //     subtext: '个人积分动态'
+            // },
+            // tooltip : {
+            //     trigger: 'axis'
+            // },
+            color: ['#fd9c9c', '#95beda'],
+            legend: {
+                x: 'center',
+                bottom: '0',
+                data: ['个人', '公司']
+            },
+            calculable: true,
+            polar: [
+                {
+                    shape: 'circle',
+                    name: {
+                        textStyle: {
+                            color: '#999',
+                            backgroundColor: '#fff',
+                            borderRadius: 3,
+                            padding: [3, 5]
+
+                        }
+                    },
+                    indicator: {$max},
+                    radius: 100
+                }
+            ],
+            series: [
+                {
+                    name: '个人积分数据',
+                    type: 'radar',
+                    itemStyle: {
+                        normal: {
+                            areaStyle: {
+                                type: 'default'
+                            }
+                        }
+                    },
+                    data: [
+                        {
+                            value: {$myavg},
+                            name: '个人'
+                        },
+                        {
+                            value: {$avg},
+                            name: '公司'
+                        }
+                    ]
+                }
+            ]
+        };
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChartRadar.setOption(Radaroption);
+    </script>
+{/block}
+{block content}
+    <div class="details">
+        <div class="details-head">
+            <span class="details-head-title">我的价值指数</span>
+            <a class="details-head-more" href="{url('mobileConsoles_index_index')}">返回</a>
+        </div>
+        <div id="main" style="width:310px;height:310px;margin:0 auto;"></div>
+        {*{if $lists}*}
+        {*<div id="main" style="width:320px;height:380px;margin:0 auto;margin-bottom:40px;margin-top:-10px;"></div>*}
+        {*{else}*}
+        {*<div style="margin-top:50px;margin-bottom:30px;text-align:center">*}
+        {*<img src="{path('[MobileConsoles]/img/null.png')}" alt="" class="" style="width:60%; height:100%; margin: 0 20%; display:block;">*}
+        {*<div style="color:#999;">暂无数据</div>*}
+        {*</div>*}
+        {*{/if}*}
+        <div style="font-size:0.6rem;text-align:center;">个人价值指数 = 个人当月积分 / 公司当月人均积分 * 100</div>
+        {*<p style="margin-top:10px;">雷达图</p>*}
+        <div id="Radar" style="width:320px;height:380px;margin:0 auto;margin-bottom:40px;margin-top:20px;"></div>
+    </div>
+    {*<div id="main" style="width:360px;height:380px;margin:0 auto;margin-bottom:40px;"></div>*}
+{/block}

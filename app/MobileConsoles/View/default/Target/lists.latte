@@ -1,0 +1,248 @@
+{layout "../Layout/layout.latte"}
+{block headTitle}学历信息{/block}
+{block tabs_content}
+    {*{include "./tabs.latte"}*}
+{/block}
+{block private_js}
+    <script type="text/javascript">
+        $(function () {
+            $(".openDetails").live("click", function () {
+                var id = $(this).attr("data-id");
+                $(".openDetailsBox" + id).toggle();
+                $(".oneTB" + id).toggle();
+                $(".twoTB" + id).toggle();
+            });
+
+            $(".headerMenu").live("click", function () {
+                $(".menuBox").toggle();
+            });
+
+            $(".ckzp").live("click", function () {
+                $("#zpBox").css("display", "block");
+                var eval = $(this).attr("data-eval");
+                console.log(eval);
+                $("#zpfs").html(eval);
+                var content = $(this).attr("data-content");
+                console.log(content);
+                $("#zphb").html(content);
+            });
+
+            $(".closeZPBox").live("click", function () {
+                $("#zpBox").css("display", "none");
+            });
+
+            $(".closeTPBox").live("click", function () {
+                $("#tpBox").css("display", "none");
+            });
+
+            $(".cktp").live("click", function () {
+                $("#tpBox").css("display", "block");
+
+                var loading = $('#loading').attr('src');
+                var htmls = '<div style="width:100%; height:300px; line-height:300px; text-align:center; display:block;">';
+                htmls += "<img src=" + loading + " style='width:100px;margin:auto;' />";
+                htmls += '</div>';
+                $("#tpBox > .tpDiv").html(htmls);
+
+                var url = {url("mobileConsoles_Target_ajaxOthers")};
+                var mid = $(this).attr("data-mid");
+                var did = $(this).attr("data-did");
+                var data = {
+                    mid: mid,
+                    did: did
+                };
+
+                $.ajax({
+                    url: url,
+                    type: "POST",
+                    data: data,
+                    dataType: "json",
+                    success: function (res) {
+                        if (res.status == 'y') {
+                            if (res.types == 1) {
+                                $("#tpBox > .tpDiv").html(res.date);
+                            } else {
+                                $("#tpBox > .tpDiv").html('<div style="width:100%; height:300px; line-height:300px; text-align:center; display:block;">当前尚无他评</div>');
+                            }
+                        } else {
+                            $("#tpBox > .tpDiv").html('<div style="width:100%; height:300px; line-height:300px; text-align:center; display:block;">加载失败</div>');
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+{/block}
+
+{block private_css}
+    <style>
+        .page, .page-group{ background:#fff !important; }
+
+        .content, .page-group{ background:#fff !important; }
+
+        li{ list-style:none; font-size:14px; }
+
+        p{ padding:0; margin:0; width:100%; text-align:center; color:#999; }
+
+        .item-title, input{ font-size:0.9rem !important; }
+
+        .box-type0{
+            background-color:red;
+        }
+
+        .box-type1{
+            background-color:orange;
+        }
+
+        .box-type2{
+            background-color:green;
+        }
+
+        .box-type4{
+            background-color:#4d91e4;
+        }
+
+        .box-type5{
+            background-color:#999;
+        }
+
+        .box-type6{
+            background-color:rgba(0, 0, 0, 0.6);
+        }
+
+        .status-type0{
+            color:red;
+        }
+
+        .status-type1{
+            color:orange;
+        }
+
+        .status-type2{
+            color:green;
+        }
+
+        .status-type4{
+            color:#4d91e4;
+        }
+
+        .status-type5{
+            color:#999;
+        }
+
+        .status-type6{
+            color:rgba(0, 0, 0, 0.6);
+        }
+
+        .menuBox{ position:relative; width:100%; height:0; display:none; }
+
+        .menuBox > .menu{ position:absolute; top:0; right:5px; z-index:111; box-sizing:border-box; margin:0; padding:0; width:100px; display:inline-block; background:#fff; box-shadow:0 1px 1px #999; }
+
+        .menuBox > .menu > ul{ margin:0; padding:0; width:100%; }
+
+        .menuBox > .menu > ul > li{ margin:0; padding:0; width:100%; }
+
+        .menuBox > .menu > ul > li > a{ margin:0; padding:10px 0; width:100%; display:block; text-align:center; cursor:pointer; color:#000; }
+
+        .on{ background:#0064DA; color:#fff !important; }
+
+        .headerTitle{ box-sizing:border-box; margin:0; padding:0; width:100%; height:40px; line-height:40px; text-align:center; font-size:16px; font-weight:600; position:relative; }
+
+        .headerMenu{ position:absolute; top:0; right:0; margin:0; padding:10px; width:40px; height:40px; line-height:20px; font-size:14px; cursor:pointer; }
+
+        .ckzp{ margin:5px 0 8px 0; width:100%; height:16px; line-height:16px; font-size:12px; overflow:hidden; }
+
+        .cktp{ margin:8px 0 5px 0; width:100%; height:16px; line-height:16px; font-size:12px; overflow:hidden; }
+
+        #zpBox, #tpBox{ box-sizing:border-box; position:fixed; top:10%; left:2%; z-index:200; margin:0; padding:10px; width:96%; height:80%; display:none; background:#fff; box-shadow:0 2px 2px #999; font-size:14px; border:1px solid #e0e0e0; border-radius:8px; }
+
+        .tpDiv{ box-sizing:border-box; margin:0; padding:10px 5px; width:100%; height:90%; overflow-y:scroll; }
+    </style>
+{/block}
+{block content}
+    <img src="{path('[MobileConsoles]/img/loading.gif')}" style="display:none;" id="loading" alt="">
+    <div class="headerTitle">我的目标
+        {*        <span class="headerMenu"><i class="al-icon al-icon-caidan" style="color:#0064DA;"></i></span>*}
+    </div>
+    {*    <div class="menuBox">*}
+    {*        <div class="menu">*}
+    {*            <ul>*}
+    {*                <li><a class="on" href="{url('mobileConsoles_Target_lists',array("types"=>"my"))}">我的目标</a></li>*}
+    {*                <li><a href="#">部门目标</a></li>*}
+    {*                <li><a href="#">公司目标</a></li>*}
+    {*                <li><a href="#">愿景&使命</a></li>*}
+    {*            </ul>*}
+    {*        </div>*}
+    {*    </div>*}
+    <div style="box-sizing:border-box; padding:0; width:100%; background:#fff;">
+        {if  $lists}
+            <ul style="box-sizing:border-box; margin:0; padding:0; width:100%;">
+                {foreach $lists as $k => $v}
+                    <li style="box-sizing:border-box; margin:6% 0; padding:2%; width:100%; border:1px solid #e0e0e0; box-shadow:0 2px 2px #999;">
+                        <div style="position:relative;">
+                            <p style="font-size:16px; color:#0064DA;">{$v['t_names']}</p>
+                            <p>目标时间：{$v['t_times']}</p>
+                            <p>考核时间：{$v['t_startTime']|totime:"Y-m-d"} 至 {$v['t_endTime']|totime:"Y-m-d"}</p>
+                            <p class="status-type{$v['tm_status']}">{$ASM[$v['tm_status']]}</p>
+
+                            <div class="openDetails" data-id="{$v['t_id']}" style="position:absolute; top:25px; left:0; cursor:pointer; padding:5px;"><i class="oneTB{$v['t_id']} al-icon al-icon-fenzuzhankai" style="font-size:20px; color:#0064DA;"></i><i class="twoTB{$v['t_id']} al-icon al-icon-fenzuzhankaixiangxia" style="display:none; font-size:20px;  color:#0064DA;"></i></div>
+                        </div>
+
+                        <div class="openDetailsBox{$v['t_id']}" style="display:none;">
+                            {foreach $v['targetDetail'] as $kk => $vv}
+                                <div style="box-sizing:border-box; margin:10px 0; padding:13px; width:100%; height:80px; overflow:hidden; border:1px solid #e0e0e0; border-radius:10px; box-shadow:0 2px 2px #707070;">
+                                    <div style="float:left; width:77%; color:#3D3D3D;">
+                                        <div style="margin:5px 0 8px 0; width:100%; height:20px; line-height:20px; font-size:16px; overflow:hidden;">{$vv['td_names']}</div>
+                                        <div style="margin:8px 0 5px 0; width:100%; height:14px; line-height:14px; font-size:12px; overflow:hidden;">占比：{$vv['td_percent']}%</div>
+                                    </div>
+                                    <div class="box-type{$v['tm_status']}" style="float:left; margin:0 .5%; padding:0; width:.5%; height:100%;"></div>
+                                    <div style="box-sizing:border-box; margin:0; padding:1px 0 1px 10px; float:left; width:20.5%; color:#0064DA;">
+                                        {if $v['tm_status'] > 3 && $v['tm_status'] != 6}
+                                            <div class="ckzp" data-eval="{$vv['td_selfEval']}" data-content="{$vv['td_selfContent']}">查看自评</div>
+                                        {/if}
+                                        {if $v['tm_status'] >= 4 && $v['tm_status'] != 6}
+                                            <div class="cktp" data-mid="{$v['tm_id']}" data-did="{$vv['td_id']}">查看他评</div>
+                                        {/if}
+                                    </div>
+                                </div>
+                            {/foreach}
+                        </div>
+                    </li>
+                {/foreach}
+            </ul>
+        {else}
+            <div style="margin-top:50px;margin-bottom:30px;text-align:center">
+                <img src="{path('[MobileConsoles]/img/null.png')}" alt="" class="" style="width:60%; height:100%; margin: 0 20%; display:block;">
+                <div style="color:#999;">暂无目标</div>
+            </div>
+        {/if}
+    </div>
+    <div id="zpBox">
+        <div>自评分数：<span id="zpfs">100</span>分</div>
+        <div style="overflow-y:scroll;">
+            结果汇报：
+            <div id="zphb">1、</div>
+        </div>
+        <div style="width:100%; height:55px; display:block;"></div>
+        <div style="position:absolute; left:0; bottom:0; width:100%; height:55px; display:block;">
+            <i class="closeZPBox al-icon al-icon-guanbi" style="margin:auto; width:30px; height:30px; display:block; font-size:30px; color:#0064DA;"></i>
+        </div>
+    </div>
+    <div id="tpBox">
+        <div class="tpDiv">
+            {*{for $a=0;$a<10;$a++}*}
+            {*<div style="width:100%; text-align:center; color:#0064da;">评价人</div>*}
+            {*<div>自评分数：<span id="tpfs">100</span>分</div>*}
+            {*<div>*}
+            {*结果汇报：*}
+            {*<div id="tphb">1、</div>*}
+            {*</div>*}
+            {*{/for}*}
+            <div style="width:100%; height:300px; line-height:300px; text-align:center; display:block;">加载中</div>
+        </div>
+        <div style="width:100%; height:55px; display:block;"></div>
+        <div style="position:absolute; left:0; bottom:0; width:100%; height:55px; display:block;">
+            <i class="closeTPBox al-icon al-icon-guanbi" style="margin:auto; width:30px; height:30px; display:block; font-size:30px; color:#0064DA;"></i>
+        </div>
+    </div>
+{/block}

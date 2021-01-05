@@ -1,0 +1,152 @@
+Admin\Entity\GoodsOrder:
+  type: entity
+  table: goods_order
+  id:
+    id:
+      type: integer
+      nullable: false
+      unsigned: false
+      comment: ''
+      id: true
+      generator:
+        strategy: IDENTITY
+  fields:
+    sid:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+    userId:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: user_id
+    goodsId:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: goods_id
+    orderNo:
+      type: string
+      nullable: true
+      length: 32
+      fixed: false
+      comment: ''
+      column: order_no
+    shareId:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: share_id
+    price:
+      type: decimal
+      nullable: true
+      precision: 10
+      scale: 2
+      comment: ''
+    num:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+    money:
+      type: decimal
+      nullable: true
+      precision: 10
+      scale: 2
+      comment: ''
+    payTypes:
+      type: smallint
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: pay_types
+    payMoney:
+      type: decimal
+      nullable: true
+      precision: 10
+      scale: 2
+      comment: ''
+      column: pay_money
+    platform:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    receiver:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    phone:
+      type: string
+      nullable: true
+      length: 15
+      fixed: false
+      comment: ''
+    province:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    city:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    county:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    address:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    checker:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+    addTime:
+      type: datetime
+      nullable: true
+      comment: ''
+      column: add_time
+    payTime:
+      type: datetime
+      nullable: true
+      comment: ''
+      column: pay_time
+    checkTime:
+      type: datetime
+      nullable: true
+      comment: ''
+      column: check_time
+    finishTime:
+      type: datetime
+      nullable: true
+      comment: ''
+      column: finish_time
+    status:
+      type: smallint
+      nullable: true
+      unsigned: false
+      comment: ''
+    memo:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+  lifecycleCallbacks: {  }

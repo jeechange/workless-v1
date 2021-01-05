@@ -1,0 +1,222 @@
+{layout "../Layout/layout.latte"}
+{block private_js}
+    <script type="text/javascript">
+        $(function () {
+            if ($("input[name='acorn']").val() == 0) {
+                $("#acorn").hide();
+                $(".acorn-show").html('不预设');
+            } else {
+                $("#acorn").show();
+                $(".acorn-show").html('预设');
+            }
+            $("#bnt").click(function () {
+                $.ajax({
+                    type: "post",
+                    url: $("#formArticle").attr("action"),
+                    data: $("#formArticle").serialize(),
+                    cache: false,
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.status == "n") {
+                            $.toast(data.info);
+                            return false;
+                        } else {
+                            $.toast(data.info);
+                            setTimeout(function () {
+                                $.showPreloader();
+                                location.replace(data.url);
+                            }, 2000);
+                        }
+                    }
+                });
+            });
+
+            $(".create-actions").click(function () {
+                var buttons1 = [
+                    {
+                        text: '请选择',
+                        label: true
+                    },
+                    {
+                        text: '编辑',
+                        onClick: function () {
+                            var toUrl = $(".create-actions").attr("data-url");
+                            $.showPreloader('加载中...');
+                            window.location.href = toUrl;
+                        }
+                    }
+                ];
+                var buttons2 = [
+                    {
+                        text: '取消',
+                        bg: 'danger'
+                    }
+                ];
+                var groups = [buttons1, buttons2];
+                $.actions(groups);
+            });
+        });
+
+        function deleteAdr(atr) {
+            $.confirm('是否确认删除?', function () {
+                var dele = $(atr);
+                $.ajax({
+                    type: "post",
+                    url: dele.attr("data-url"),
+                    data: " ",
+                    cache: false,
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.status == "n") {
+                            $.toast(data.info);
+                            return false;
+                        } else {
+                            $.toast(data.info);
+                            setTimeout(function () {
+                                $.showPreloader();
+                                location.replace(data.url);
+                            }, 2000);
+                        }
+                    }
+                });
+            });
+        }
+    </script>
+{/block}
+{block private_css}
+    <style type="text/css">
+        .list-block{
+            margin:0;
+        }
+    </style>
+{/block}
+{block custom}
+    {if $isSuper=="true"}
+        <span class="create-actions" data-url="{url("mobileConsoles_standard_modify",array("id"=>$lists['s_id']))}">管理</span>
+    {/if}
+{/block}
+{block content}
+    <div class="list-block">
+        <ul>
+            <!-- Text inputs -->
+            <li>
+                <div class="item-content">
+                    <div class="item-media"><i class="icon icon-form-name"></i></div>
+                    <div class="item-inner">
+                        <div class="item-title label">名称</div>
+                        <div class="item-input">
+                            <input type="text" placeholder="标准名称" name="names" value="{$lists['s_names']}" disabled>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="item-content">
+                    <div class="item-media"><i class="icon icon-form-email"></i></div>
+                    <div class="item-inner">
+                        <div class="item-title label">类型</div>
+                        <div class="item-input">
+                            <select id="pid" name="pid" disabled>
+                                <option value="{$lists['sc_id']}">{$lists['sc_names']}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="item-content">
+                    <div class="item-media"><i class="icon icon-form-email"></i></div>
+                    <div class="item-inner">
+                        <div class="item-title label">积分</div>
+                        <div class="item-input">
+                            <p style="margin-left: 4px;"><a href="#" class="acorn-show">是否预设</a></p>
+                            <div id="acorn">
+                                <input type="text" placeholder="积分" name="acorn" style="width:80%;float:left" value="{$lists['s_acorn']}" disabled><i class="icon al-icon al-icon-influence" style="width:20%;line-height: 35px;"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            {if $lists['s_classify'] == 4 && $lists['s_acorn'] != 0}
+                <li>
+                    <div class="item-content">
+                        <div class="item-media"><i class="icon icon-form-name"></i></div>
+                        <div class="item-inner">
+                            <div class="item-title label">任务量</div>
+                            <div class="item-input">
+                                {if $workload[0] !=0}{$workload[0]}天{/if}
+                                {if $workload[1] !=0}{$workload[1]}小时{/if}
+                                {if $workload[2] !=0}{$workload[2]}分{/if}
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            {/if}
+            <li>
+                <div class="item-content">
+                    <div class="item-media"><i class="icon icon-form-name"></i></div>
+                    <div class="item-inner">
+                        <div class="item-title label">标准热度</div>
+                        <div class="item-input">
+                            <input type="text" placeholder="标准热度" name="hot" value="{$lists['s_hot']}" disabled>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li style="display:none;">
+                <div class="item-content">
+                    <div class="item-media"><i class="icon icon-form-email"></i></div>
+                    <div class="item-inner">
+                        <div class="item-title label">发放方式</div>
+                        <div class="item-input">
+                            <select id="methods" name="methods" disabled>
+                                {foreach $methods as $key=>$item}
+                                    <option value="{$key}" {if $lists['s_methods']==$key}selected{/if} >{$item}</option>
+                                {/foreach}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </li>
+
+            <li style="display:none;">
+                <div class="item-content">
+                    <div class="item-media"><i class="icon icon-form-email"></i></div>
+                    <div class="item-inner">
+                        <div class="item-title label">发放频率</div>
+                        <div class="item-input">
+                            <select id="cycle" name="cycle" disabled>
+                                {foreach $cycle as $k=>$values}
+                                    <option value="{$k}" {if $lists['s_cycle']==$k}selected{/if}>{$values}</option>
+                                {/foreach}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="item-content">
+                    <div class="item-media"><i class="icon icon-form-email"></i></div>
+                    <div class="item-inner">
+                        <div class="item-title label">标准说明</div>
+                        <div class="item-input">
+                            <textarea name="memo" data-toggle="rich" disabled>{$lists['s_memo']}</textarea>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="item-content">
+                    <div class="item-media"><i class="icon icon-form-email"></i></div>
+                    <div class="item-inner">
+                        <div class="item-title label">状态</div>
+                        <div class="item-input">
+                            <input name='status' type="radio" value='1' {if $lists['s_status']==1}checked{/if} >启用
+                            <input name='status' type="radio" value='0' {if $lists['s_status']==0}checked{/if} >停用
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+{/block}

@@ -1,0 +1,45 @@
+{layout '../Public/sideForm.latte'}
+{block title}修改员工{/block}
+{block private_css}
+{/block}
+{block private_js}
+    <script>
+        init.ready(function () {
+            var leaderSelect = 0;
+            $(".leaderSelects").click(function () {
+                leaderSelect = $("input[name='leaderSelect']:checked").val();
+                if (leaderSelect == 1) {
+                    $(".leaderShow").show();
+                } else {
+                    $(".leaderShow").hide();
+                }
+            });
+        })
+    </script>
+{/block}
+
+{block content}
+    <form id="formArticle" class="stdform mform" method="post" action="" onsubmit="return false">
+        <table cellpadding="0" cellspacing="0" border="0" id="frmtable" class="formtable">
+            <thead>
+            <tr>
+                <td><label>是否有直线经理</label></td>
+                <td>
+                    <div class="control-group leaderSelects">
+                        <input type="radio" value="1" name="leaderSelect" {if $companyMember['leader']>0||!$companyMember['leader']}checked{/if}>有
+                        <input type="radio" value="0" name="leaderSelect" {if $companyMember['leader']==-1}checked{/if}>无
+                    </div>
+                </td>
+            </tr>
+            <tr class="leaderShow" {if $companyMember['leader']==-1}style="display:none" {/if}>
+                <td><label>直线经理</label></td>
+                <td>
+                    <div class="control-group">
+                        {$executors1|noescape}
+                    </div>
+                </td>
+            </tr>
+            </thead>
+        </table>
+    </form>
+{/block}

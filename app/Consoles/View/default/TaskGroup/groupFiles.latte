@@ -1,0 +1,69 @@
+{layout '../Public/layoutList.latte'} {*继承layoutList模板*}
+{block title}项目文件{/block}
+{block actions}<a href="{url('consoles_taskGroup_uploadFiles',"gid={$gid}&fid=$pid")}" class="icon-adds" data-side-form>上传文件</a>{/block}
+{block actionstab}
+    {include "./detailTab.latte"}
+{/block}
+{block private_css}
+    <style>
+        .list-more-action{
+            display:none;
+        }
+    </style>
+{/block}
+
+{block content}
+    <table cellpadding="0" cellspacing="0" border="0" class="stdtable">
+        <thead>
+        <tr>
+            <th data-sort="t.code_no"><span class="table-head">文件名/文件夹名</span></th> {*在th加入 data-sort 可对数据库进行排序*}
+            <th><span class="table-head">文件类型</span></th>
+            <th><span class="table-head">说明</span></th>
+            <th data-sort="t.names"><span class="table-head">最近修改</span></th>
+            <th style="width:200px"><span class="table-head">操作</span></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td class="wid-auto">{$folder}</td>
+            <td class="wid-auto"></td>
+            <td class="wid-auto">{$memo}</td>
+            <td class="wid-auto">{$alterTime}</td>
+            <td class="wid-auto">
+                {if !$isRoot}
+                    <a href="{url("consoles_detail","con=taskGroup&id=$id&active=5&pid=0")}">根目录</a>
+                    <a href="{url("consoles_detail","con=taskGroup&id=$id&active=5&pid=$folderPid")}">上级</a>
+                    <a href="{url('consoles_taskGroup_modify_folder',"gid={$gid}&fid={$fid}&pid={$folderPid}")}" data-side-form>修改</a>
+                {/if}
+                <a href="{url('consoles_taskGroup_create_folder',"gid={$gid}&pid=$pid")}" data-side-form>创建子目录</a>
+            </td>
+        </tr>
+        {if $lists}
+            {foreach $lists as $k=>$item}
+                <tr>
+                    <td class="wid-auto">&nbsp;&nbsp;{$item["names"]}</td>
+                    <td class="wid-auto">{$item["typesMemo"]}</td>
+                    <td class="wid-auto">{$item["memo"]}</td>
+                    <td class="wid-auto">{$item["alterTime"]|totime}</td>
+                    <td>
+                        {if $item["types"]==0}<a href="{url("consoles_detail","con=taskGroup&id=$id&active=5&pid={$item["id"]}")}">查看</a>
+                        {else}
+                            <a href="{$cdnBase}{$item["filePath"]}" target="_blank">下载</a>
+                            <a href="{url('consoles_taskGroup_deleteFiles',array("id"=>$item["id"],"beforeUrl"=>$beforeUrl))}" data-confirm="确定删除文件吗？">删除</a>
+                        {/if}
+                    </td>
+                </tr>
+            {/foreach}
+        {else}
+            <tr>
+                <td colspan="5">
+                    <div style="position:relative; width:100%; line-height:50px; display:block; text-align:center;">
+                        <img src="{path('[MobileConsoles]/img/null.png')}" alt="" class="" style="margin:50px auto 0; width:300px; height:300px; display:block;">
+                        <div style="width:100%; color:#999; text-align:center; font-size:1.5rem;">查询为空</div>
+                    </div>
+                </td>
+            </tr>
+        {/if}
+        </tbody>
+    </table>
+{/block}

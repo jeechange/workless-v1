@@ -1,0 +1,62 @@
+<a href="{url("consoles_taskStatistics_quality","types=1")}" {if $active=="1"}class="selected"{/if}>个人</a>
+<a href="{url("consoles_taskStatistics_quality","types=2")}" {if $active=="2"}class="selected"{/if}>部门</a>
+<a href="{url("consoles_taskStatistics_quality","types=3")}" {if $active=="3"}class="selected"{/if}>个人分析</a>
+<a href="{url("consoles_taskStatistics_quality","types=4")}" {if $active=="4"}class="selected"{/if}>部门分析</a>
+<style type="text/css">
+    .ranking-box{
+        width:100%;
+        min-height:60px;
+        margin:10px;
+        float:left;
+        background:#f7f7f7;
+    }
+
+    .ranking-select{
+        width:90px;
+        padding:5px 10px;
+        float:left;
+        border:1px solid #ccc;
+        margin:20px 9px;
+        text-align:center;
+        background:white;
+    }
+
+    .ranking-select:hover{
+        border:1px solid #0087e1;
+        color:#0087e1;
+    }
+
+    .ativce{
+        border:1px solid #0087e1;
+        color:#0087e1;
+    }
+
+    .green{
+        background-color:#0087e1;
+        color:#ffffff;
+        height:30px;
+    }
+
+    .green:hover{
+        background-color:#0087e1;
+    }
+
+    input{
+        width:160px !important;
+        height:23px;
+    }
+
+    .ranking-ringRatio-green{
+        color:green;
+    }
+
+    .ranking-ringRatio-red{
+        color:red;
+    }
+
+    form input.laydate-icon{
+        height:26px;
+        line-height:26px;
+    }
+
+</style>

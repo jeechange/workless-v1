@@ -1,0 +1,78 @@
+{layout '../Public/sideForm.latte'}
+{block title}添加小组{/block}
+
+
+{block private_js}
+    <script>
+        init.ready(function () {
+
+        })
+
+    </script>
+{/block}
+
+
+{block content}
+    <form id="formArticle" class="stdform mform" method="post" action="">
+        {*<input type="hidden" name="id" value="{$curGroup['id']}" />*}
+        <table cellpadding="0" cellspacing="0" border="0" id="frmtable" class="formtable">
+            <thead>
+            <tr>
+                <td><label>小组名称</label></td>
+                <td>
+                    <div class="field control-group">
+                        <div class="input-group">
+                            <input type="text" id="frm_names" name="names" class="smallinput" value="{$curGroup['names']}"/>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td><label>口号</label></td>
+                <td>
+                    <div class="field control-group">
+                        <div class="input-group">
+                            <textarea name="subject" cols="30" rows="10">{$curGroup['subject']}</textarea>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td><label>组长</label></td>
+                <td>
+                    <div class="field control-group">
+                        {$leader|noescape}
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td><label>副组长</label></td>
+                <td>
+                    <div class="field control-group">
+                        {$helper|noescape}
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td><label>组员</label></td>
+                <td>
+                    <div class="field control-group">
+                        {$members|noescape}
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td><label>状态</label></td>
+                <td>
+                    <div class="field control-group">
+                        <div class="input-group">
+                            <label class='radio'><input name='status' type="radio" value='1' {if $curGroup['status']==1}checked{/if}>启用</label>
+                            <label class='radio'><input name='status' type="radio" value='0' {if $curGroup['status']==0}checked{/if}>停用</label>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            </thead>
+        </table>
+    </form>
+{/block}

@@ -1,0 +1,128 @@
+
+*{
+    margin:0;
+    padding:0;
+}
+li{
+    list-style:none;
+}
+img{
+    image-rendering: -moz-crisp-edges;         /* Firefox */
+    image-rendering:   -o-crisp-edges;         /* Opera */
+    image-rendering: -webkit-optimize-contrast;/* Webkit (non-standard naming) */
+    image-rendering: crisp-edges;
+}
+a{
+    text-decoration:none;
+}
+@media screen and (min-width:426px){
+    .download{
+        width:100%;
+        height:600px;
+        background:url("../img/dl.png");
+        background-position:center;
+        background-repeat:no-repeat;
+        overflow:hidden;
+        margin-top:31px;
+    }
+    .download_mb>p{
+        margin-top:47px;
+        font-size:18px;
+        font-family:Microsoft YaHei;
+        font-weight:400;
+        line-height:40px;
+        color:rgba(255,255,255,1);
+        opacity:1;
+        text-align:center;
+    }
+    .download ul{
+        overflow:hidden;
+        width:1200px;
+        margin:auto;
+        margin-top:105px;
+    }
+    .download ul li{
+        width:25%;
+        float:left;
+        cursor:pointer;
+    }
+    .download ul li .title{
+        width:180px;
+        height:71px;
+        border:2px solid rgba(255,255,255,1);
+        opacity:1;
+        margin:auto;
+    }
+    .download ul li.on .title,.download ul li:hover .title{
+        background:#28559c;
+        border-color:#28559c;
+    }
+    .download ul li p{
+        text-align:center;
+        font-size:18px;
+        font-family:Microsoft YaHei;
+        font-weight:400;
+        line-height:71px;
+        color:rgba(255,255,255,1);
+        opacity:1;
+    }
+    .download ul li img{
+        display:block;
+        margin:auto;
+    }
+    .download ul li .img{
+        display:none;
+        margin:auto;
+    }
+    .download ul li.on .img{
+        display:block;
+    }
+
+}
+@media screen and (max-width:425px){
+    .download{
+        overflow:hidden;
+        margin-top:20px;
+        background:url("../img/dl_bg.png");
+        /*background-repeat:no-repeat;*/
+        background-size:160%;
+        background-position:center;
+    }
+    .download_mb>p{
+        display:none;
+    }
+    .download ul{
+        width:80%;
+        margin:auto;
+        margin-top:40px;
+        margin-bottom:40px;
+    }
+    .download ul li{
+        margin-bottom:20px;
+    }
+    .download ul li p{
+        width:100px;
+        font-size:16px;
+        line-height:48px;
+        text-align:center;
+        margin:auto;
+        border:#FFF 1px solid;
+        color:#FFF;
+    }
+    .download ul li.on p{
+        border-color:#28559c;
+        background:#28559c;
+    }
+    .download ul li .img{
+        display:none;
+    }
+    .download ul li.on .img{
+        display:block;
+    }
+    .download ul li img{
+        display:block;
+        margin:auto;
+    }
+
+
+}

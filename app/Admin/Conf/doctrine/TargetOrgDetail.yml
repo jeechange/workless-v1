@@ -1,0 +1,77 @@
+Admin\Entity\TargetOrgDetail:
+  type: entity
+  table: target_org_detail
+  id:
+    id:
+      type: integer
+      nullable: false
+      unsigned: false
+      comment: ''
+      id: true
+      generator:
+        strategy: IDENTITY
+  fields:
+    toId:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: to_id
+    names:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    content:
+      type: text
+      nullable: true
+      length: null
+      fixed: false
+      comment: ''
+    types:
+      type: smallint
+      nullable: true
+      unsigned: false
+      comment: ''
+    addTime:
+      type: datetime
+      nullable: true
+      comment: ''
+      column: add_time
+    status:
+      type: smallint
+      nullable: true
+      unsigned: false
+      comment: ''
+    userId:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: user_id
+    year:
+      type: string
+      nullable: true
+      length: 20
+      fixed: false
+      comment: ''
+    month:
+      type: string
+      nullable: true
+      length: 20
+      fixed: false
+      comment: ''
+    quarter:
+      type: string
+      nullable: true
+      length: 20
+      fixed: false
+      comment: ''
+    halfYear:
+      type: smallint
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: half_year
+  lifecycleCallbacks: {  }

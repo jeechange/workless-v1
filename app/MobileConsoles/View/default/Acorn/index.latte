@@ -1,0 +1,91 @@
+{layout "../Layout/layoutBoth.latte"}
+
+{block tabs_content}
+    {include "./index_tabs.latte"}
+{/block}
+{block private_css}
+    <style>
+        .tabs_two{
+            background:#fff;
+            border-bottom:1px #faf9f9 solid;
+        }
+
+        .tabs_two a{
+            display:inline-block;
+            font-size:14px;
+            line-height:2.2rem;
+            color:#101010;
+            padding:0 2.25%;
+        }
+
+        .actives{
+            color:#0894ec !important;
+        }
+
+        .list-block{
+            margin:.5rem 0;
+        }
+    </style>
+{/block}
+{block private_js}
+    <script>
+        $(document).on("pageInit", function () {
+            $(document).on('refresh', '.pull-to-refresh-content', function (e) {
+                setTimeout(function () {
+
+                    $.pullToRefreshDone('.pull-to-refresh-content');
+                }, 2000);
+            });
+
+            $(document).on('infinite', '.infinite-scroll-bottom', function () {
+                $('.infinite-scroll-preloader').remove();
+                // $.refreshScroller(); //刷新滚动
+            });
+            $('.infinite-scroll-preloader').remove();
+        })
+
+    </script>
+{/block}
+
+{block content}
+    <div class="bar bar-header-secondary">
+        <div class="searchbar">
+            <a class="searchbar-cancel">取消</a>
+            <div class="search-input">
+                <label class="icon icon-search" for="search"></label>
+                <input type="search" id='search' placeholder='输入关键字...'/>
+            </div>
+        </div>
+    </div>
+    <div class="tabs_two" style="margin-top: 2.3rem;">
+        <a href="{url('mobileConsoles_acorn_index')}" {if $tabs_two == 'Standard'}class="actives"{/if}>热门</a>
+        <a href="{url('mobileConsoles_acorn_index','tabs_two=SocialIdentity')}" {if $tabs_two == 'SocialIdentity'}class="actives"{/if}>社会</a>
+        <a href="{url('mobileConsoles_acorn_index','tabs_two=Authority')}" {if $tabs_two == 'Authority'}class="actives"{/if}>内容</a>
+        <a href="{url('mobileConsoles_acorn_index','tabs_two=Rare')}" {if $tabs_two == 'Rare'}class="actives"{/if}>稀缺</a>
+        <a href="{url('mobileConsoles_acorn_index','tabs_two=CommitmentAndAgreement')}" {if $tabs_two == 'CommitmentAndAgreement'}class="actives"{/if}>任务</a>
+        <a href="{url('mobileConsoles_acorn_index','tabs_two=Reciprocity')}" {if $tabs_two == 'Reciprocity'}class="actives"{/if}>学习</a>
+        <a href="{url('mobileConsoles_acorn_index','tabs_two=GoodFeeling')}" {if $tabs_two == 'GoodFeeling'}class="actives"{/if}>好感</a>
+    </div>
+    {if $lists}
+        <div class="list-block">
+            <ul class="list">
+                {foreach $lists as $k=>$item}
+                    <li>
+                        <a class="item-content" href="{url('mobileConsoles_acorn_applyAdd',array('id'=>$item['s_id']))}">
+                            <div class="item-inner">
+                                <div class="item-name sui-ellipsis-1" style="line-height: 35px; {if $item['s_acorn']>=0}color:#3d4145;{else}color:red;{/if}">{$item['s_names']}</div>
+                                <div class="item-src" {if $item['s_acorn']>=0}style="color:#3d4145" {else}style="color:red"{/if}>{$item['s_acorn']}<i class="icon al-icon al-icon-influence sui-font-size-rem-0-8"></i></div>
+                                <div class="item-src">申请</div>
+                            </div>
+                        </a>
+                    </li>
+                {/foreach}
+            </ul>
+        </div>
+    {else}
+        <div style="margin-top:100px;text-align:center">
+            <i class="icon al-icon al-icon-influence sui-font-size-rem-7"></i>
+            <div>暂无内容</div>
+        </div>
+    {/if}
+{/block}

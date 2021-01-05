@@ -1,0 +1,81 @@
+#//Home route
+home_index_index:
+  pattern: /
+  callback: "Home:Index:index"
+  method: get
+  options:
+
+#价格
+home_index_price:
+  pattern: /price
+  callback: "Home:Index:price"
+  method: get
+  options:
+
+#帮助中心
+home_index_helps:
+  pattern: /helps
+  callback: "Home:Index:helps"
+  method: get
+  options:
+
+#帮助详情
+home_index_helps_detail:
+  pattern: /help/helps_detail/id/:id
+  callback: "Home:Index:helps_detail"
+  method: get
+  options:
+
+#日志
+home_index_logs:
+  pattern: /logs
+  callback: "Home:Index:logs"
+  method: get
+  options:
+
+#下载
+home_index_download:
+  pattern: /download
+  callback: "Home:Index:download"
+  method: get
+  options:
+
+#订单
+home_index_myOrder:
+  pattern: /myOrder
+  callback: "Home:Order:myOrder"
+  method: get
+  options:
+home_index_orderConfirm:
+  pattern: /orderConfirm
+  callback: "Home:Order:orderConfirm"
+  method: get
+  options:
+home_index_payOrder:
+  pattern: /payOrder
+  callback: "Home:Order:payOrder"
+  method: get
+  options:
+home_Notify_wxNotify:
+  pattern: /wxNotify
+  callback: "Home:Notify:wxNotify"
+  method: get|post
+  options:
+
+#技巧
+home_index_skill:
+  pattern: /skill
+  callback: "Home:Index:skill"
+  method: get|post
+  options:
+home_index_skill_detail:
+  pattern: /skill/detail/:id
+  callback: "Home:Index:skill_detail"
+  method: get
+  options:
+
+home_index_articleDetail:
+  pattern: /articleDetail/:id
+  callback: "Home:Index:articleDetail"
+  method: get
+  options:

@@ -1,0 +1,52 @@
+{layout '../Public/layoutList.latte'} {*继承layoutList模板*}
+{block title}价值维度{/block}
+{block actions}
+    <a href="{url("consoles_add","con=Standard&active=".$active)}" class="icon-adds" data-side-form>新增</a>
+{/block}
+{block actionstab}
+    {include "./actions.latte"}
+{/block}
+{*选中记录的操作按钮*}
+{block actions2}
+{/block}
+{block private_css}
+    {include './dimCss.latte'}
+{/block}
+{block content}
+    <div class="new-tips">请设置少数几个测量维度</div>
+    <div style="height: 10px;"></div>
+    <div>
+        {if $lists2}
+            <ul>
+                {foreach $lists2 as $key=>$item}
+                    <li class="value-xl-3">
+                        <div class="value-box-text-2">
+                            <div class="value-box-text-edi">
+                                <span style="padding: 0 15px;">
+                                 <a href="{url("consoles_mod","con=Standard&id=".$item['s_id'])}" data-side-form>编辑</a>
+                                </span>
+                                <span style="padding: 0 15px;">
+                                      <a href="{url('consoles_delete','con=Standard&id='.$item['s_id'].'&active='.$active.'&types=1')}" data-confirm="您确定要删除该标准吗?">删除</a>
+
+                                </span>
+                            </div>
+                            <div class="value-box-text-content">
+                                <p class="value-font-size-16 value-ellipsis-1">{$item['s_names']}</p>
+                                <p class="value-font-size-13 value-ellipsis-1">{$item['s_memo']}</p>
+                            </div>
+                        </div>
+                    </li>
+                {/foreach}
+            </ul>
+        {else}
+            <div style="position:relative; width:100%; line-height:50px; display:block; text-align:center;">
+                <img src="{path('[MobileConsoles]/img/null.png')}" alt="" class="" style="width:300px;height:100%; margin:50px auto 0; display:block;">
+                <div style="width:100%; color:#999; text-align:center; font-size:1.5rem;">暂时没有测量维度哦，快点去添加！</div>
+            </div>
+        {/if}
+    </div>
+{/block}
+
+
+
+

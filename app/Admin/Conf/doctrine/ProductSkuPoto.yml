@@ -1,0 +1,35 @@
+Admin\Entity\ProductSkuPoto:
+  type: entity
+  table: product_sku_poto
+  indexes:
+    product_id:
+      columns:
+        - product_id
+  id:
+    id:
+      type: integer
+      nullable: false
+      unsigned: false
+      comment: ''
+      id: true
+      generator:
+        strategy: IDENTITY
+  fields:
+    productId:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: product_id
+    thumb:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    sort:
+      type: smallint
+      nullable: true
+      unsigned: false
+      comment: ''
+  lifecycleCallbacks: {  }

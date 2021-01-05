@@ -1,0 +1,137 @@
+Admin\Entity\TaskAllot:
+  type: entity
+  table: task_allot
+  indexes:
+    tid:
+      columns:
+        - tid
+    user_id:
+      columns:
+        - user_id
+    recheck_id:
+      columns:
+        - recheck_id
+  id:
+    id:
+      type: integer
+      nullable: false
+      unsigned: false
+      comment: ''
+      id: true
+      generator:
+        strategy: IDENTITY
+  fields:
+    tid:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+    userId:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: user_id
+    types:
+      type: smallint
+      nullable: true
+      unsigned: false
+      comment: ''
+    fromId:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: from_id
+    nextUser:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+      column: next_user
+    addTime:
+      type: datetime
+      nullable: true
+      comment: ''
+      column: add_time
+    endTime:
+      type: datetime
+      nullable: true
+      comment: ''
+      column: end_time
+    status:
+      type: smallint
+      nullable: true
+      unsigned: false
+      comment: ''
+    doneTime:
+      type: datetime
+      nullable: true
+      comment: ''
+      column: done_time
+    acorn:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+    rating:
+      type: smallint
+      nullable: true
+      unsigned: false
+      comment: ''
+    medal:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+    learns:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    accept:
+      type: smallint
+      nullable: true
+      unsigned: false
+      comment: ''
+    acceptDay:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+      column: accept_day
+    acceptHard:
+      type: decimal
+      nullable: true
+      precision: 11
+      scale: 2
+      comment: ''
+      column: accept_hard
+    acceptQuality:
+      type: decimal
+      nullable: true
+      precision: 11
+      scale: 2
+      comment: ''
+      column: accept_quality
+    workload:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    recheckId:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: recheck_id
+    acceptTime:
+      type: datetime
+      nullable: true
+      comment: ''
+      column: accept_time
+  lifecycleCallbacks: {  }

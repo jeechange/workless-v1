@@ -1,0 +1,13 @@
+{block private_css}{/block}
+<div class="headNavT">{block title}{/block}</div>
+<div class="cbox cbox-list">
+    {block content}{/block}
+</div>
+<script type="text/javascript">
+    init.ready(function () {
+        init.suplyId = {$sid};
+        initList('{Q()->server->get("REQUEST_URI")|noescape}');
+        uploader.initPreview(".img-uploader-preview");
+    });
+</script>
+{block private_js}{/block}

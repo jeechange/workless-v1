@@ -1,0 +1,79 @@
+Admin\Entity\StockTrade:
+  type: entity
+  table: stock_trade
+  id:
+    id:
+      type: integer
+      nullable: false
+      unsigned: false
+      comment: ''
+      id: true
+      generator:
+        strategy: IDENTITY
+  fields:
+    sid:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+    userId:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: user_id
+    buyId:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: buy_id
+    sellId:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: sell_id
+    price:
+      type: decimal
+      nullable: true
+      precision: 10
+      scale: 2
+      comment: ''
+    stock:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+    money:
+      type: decimal
+      nullable: true
+      precision: 10
+      scale: 2
+      comment: ''
+    addTime:
+      type: datetime
+      nullable: true
+      comment: ''
+      column: add_time
+    tradeTime:
+      type: datetime
+      nullable: true
+      comment: ''
+      column: trade_time
+    finishTime:
+      type: datetime
+      nullable: true
+      comment: ''
+      column: finish_time
+    types:
+      type: smallint
+      nullable: true
+      unsigned: false
+      comment: ''
+    status:
+      type: smallint
+      nullable: true
+      unsigned: false
+      comment: ''
+  lifecycleCallbacks: {  }

@@ -1,0 +1,12 @@
+{layout '../Layout/layout.latte'}
+{block private_js}
+    <script>
+        $(".buttons-tab .tab-link a").on("click", function (e) {
+            e.stopPropagation();
+        })
+    </script>
+{/block}
+{block content}
+    {include "./tabs.latte"}
+    <div class="content-block-title" style="text-align: center;">你未加入企业或企业无认证信息</div>
+{/block}

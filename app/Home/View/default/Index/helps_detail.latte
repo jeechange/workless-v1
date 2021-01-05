@@ -1,0 +1,19 @@
+{layout '../Layout/layout.latte'}
+{block private_css}
+    <link type="text/css" rel="stylesheet" href="{path('[Home]/css/helps_detail.css')}">
+{/block}
+{block private_content}
+
+    {*设置*}
+    <div class="install">
+        <h4>{$data['q_issue']}</h4>
+        <p>来源：本站</p>
+    </div>
+
+    {*步骤*}
+    <div class="step">
+        {$data['q_answer']|noescape}
+    </div>
+
+{/block}
+{block private_js}{/block}

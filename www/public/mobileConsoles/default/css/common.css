@@ -1,0 +1,255 @@
+#footer-logo{
+    position:fixed;
+    z-index:11;
+    left:50%;
+    bottom:0;
+    height:44px;
+    width:44px;
+    border-radius:50%;
+    text-align:center;
+    transform:translateX(-50%);
+    line-height:44px;
+    color:#fff;
+    font-size:30px;
+    border:3px solid #fff;
+    box-sizing:content-box;
+    vertical-align:baseline;
+}
+
+.infinite-scroll-preloader{
+    margin-top:-20px;
+}
+
+.tabs{
+    height:3rem !important;
+    background:#fafafa;
+    position:fixed;
+    width:100%;
+    z-index:9999;
+}
+
+.tabs .tabs-link{
+    display:inline-block;
+    height:3rem;
+    line-height:3rem;
+    font-size:14px;
+    color:#101010;
+    padding:0 6px;
+    margin-right:6px;
+}
+
+.tabs .tabs-link.active{
+    color:#0087e2;
+}
+
+.tabs .tabs-link.tabs-link-settings, .tabs .tabs-link.tabs-link-plus{
+    width:1.6rem;
+    position:absolute;
+    top:0;
+    font-size:20px;
+    vertical-align:middle;
+    padding:0;
+    text-align:center;
+}
+
+.tabs .tabs-link.tabs-link-settings{
+    right:0.5rem;
+}
+
+.tabs .tabs-link.tabs-link-settings span{
+    display:inline-block;
+    width:1rem;
+    height:1rem;
+    line-height:1rem;
+    vertical-align:baseline;
+    font-size:1rem;
+    color:#095f99;
+}
+
+.tabs .tabs-link.tabs-link-plus{
+    right:2.1rem;
+}
+
+.tabs .tabs-link.tabs-link-plus span{
+    display:inline-block;
+    width:1rem;
+    height:1rem;
+    line-height:1rem;
+    color:#fff;
+    background:#ff4081;
+    border-radius:50%;
+    font-size:1rem;
+    text-align:center;
+}
+
+.bar-tab{
+    bottom:0;
+    width:100%;
+    height:44px;
+    padding:0;
+    table-layout:fixed;
+}
+
+.bar-tab .tab-item{
+    height:44px;
+}
+
+.bar-tab .tab-item .icon{
+    top:2px;
+    height:30px;
+    font-size:22px;
+    line-height:30px;
+    padding-top:0;
+    padding-bottom:0;
+}
+
+.bar-tab .tab-item .icon ~ .tab-label{
+    display:block;
+    font-size:10px;
+    position:relative;
+    top:0;
+}
+
+input, textarea{
+    -webkit-user-select:auto !important;
+    -khtml-user-select:auto !important;
+    -moz-user-select:auto !important;
+    -ms-user-select:auto !important;
+    -o-user-select:auto !important;
+    user-select:auto !important;
+}
+
+/*两行文字，超出自动省略*/
+.sui-ellipsis-2{
+    display:-webkit-box;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    word-wrap:break-word;
+    word-break:break-all;
+    white-space:normal !important;
+    -webkit-line-clamp:2;
+    -webkit-box-orient:vertical;
+}
+
+/*单行文字，超出自动省略*/
+.sui-ellipsis-1{
+    display:-webkit-box;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    word-wrap:break-word;
+    word-break:break-all;
+    white-space:normal !important;
+    -webkit-line-clamp:1;
+    -webkit-box-orient:vertical;
+}
+
+/*列表样式*/
+ul.list{
+    padding:0;
+    margin:0;
+}
+
+.list li{
+    display:flex;
+    width:100%;
+    min-height:3rem;
+    line-height:3rem;
+    padding:0 .5rem;
+    font-size:14px;
+}
+
+.list li a{
+    width:100%;
+}
+
+.list li a .item-inner:after{
+    display:none;
+}
+
+.list li:nth-child(2n){
+    background:#f9f9f9;
+}
+
+.list li .item-memo{
+    flex:1;
+    text-align:left;
+}
+
+.list li .item-src{
+    width:100px;
+    text-align:right;
+}
+
+.list li .item-name{
+    width:100px;
+    text-align:left;
+}
+
+/*字体大小样式*/
+.sui-font-size-rem-0-8{
+    font-size:0.8rem !important;
+}
+
+.sui-font-size-rem-7{
+    font-size:7rem !important;
+}
+
+.sui-font-size-rem-1-5{
+    font-size:1.5rem !important;
+}
+
+.create-actions{
+    position:fixed;
+    background:rgba(24, 28, 31, 0.5);
+    width:44px;
+    height:44px;
+    line-height:44px;
+    z-index:9999;
+    bottom:65px;
+    right:15px;
+    text-align:center;
+    color:#fff;
+    border-radius:50px;
+}
+
+.create-actions1{
+    bottom:115px;
+}
+
+.redDot:after{
+    content:'';
+    position:absolute;
+    top:10%;
+    right:25%;
+    width:8px;
+    height:8px;
+    border-radius:50%;
+    background:red;
+}
+
+.redDotTwo{
+    position:relative;
+}
+
+.redDotTwo:after{
+    content:'';
+    position:absolute;
+    top:10%;
+    right:-4px;
+    width:8px;
+    height:8px;
+    border-radius:50%;
+    background:red;
+}
+
+.redDotThree:after{
+    content:'';
+    position:absolute;
+    top:50%;
+    right:25%;
+    width:8px;
+    height:8px;
+    transform:translateY(-50%);
+    border-radius:50%;
+    background:red;
+}

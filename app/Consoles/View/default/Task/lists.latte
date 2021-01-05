@@ -1,0 +1,149 @@
+{layout '../Public/layoutList.latte'} {*继承layoutList模板*}
+{block title}悬赏任务{/block}
+{block actions}<a href="{url('consoles_add','con=task&types=reward')}" class="icon-adds" data-side-form>发布悬赏</a>{/block}
+
+{block actionstab}
+    {* {include "./actionstab.latte"}*}
+{/block}
+
+{block private_css}
+    <style>
+        .list-more-action{
+            display:none;
+        }
+        .task-item{
+            width:200px;
+            height:240px;
+            display:flex;
+            flex-direction:column;
+            background:#f2f2f2;
+            text-align:center;
+            margin:15px 15px 15px 0;
+            float:left;
+        }
+
+        .task-item dt{
+            height:40px;
+            line-height:40px;
+            background:#ff0000;
+            color:#fff;
+        }
+
+        .task-item dt a{
+            color:#fff;
+        }
+
+        .task-item.task-item-end dt{
+            background:#aeaeae;
+        }
+
+        .task-item-content{
+            flex:1;
+            padding:5px 20px;
+            text-align:left;
+        }
+
+        .task-item-reward{
+            font-size:20px;
+            color:#FF0000;
+        }
+
+        .task-item.task-item-end .task-item-reward{
+            visibility:hidden;
+        }
+
+        .task-item-action{
+            height:40px;
+            color:#FF0000;
+            background:#e4e4e4;
+            line-height:40px;
+            cursor:pointer;
+        }
+
+        .task-item.task-item-end .task-item-action{
+            background:none;
+            color:#AEAEAE;
+            cursor:default;
+        }
+    </style>
+{/block}
+
+{block private_js}
+    <script>
+        init.ready(function () {
+            if (typeof window.timerdeadlineList !== "undefined") {
+                clearInterval(window.timerdeadlineList);
+            }
+
+            window.timerdeadlineList = setInterval(function () {
+                $("[data-deadline]").each(function () {
+                    var endTimes = $(this).attr("data-deadline");
+                    var cTime = countDown(endTimes);
+                    if (cTime == '0秒') {
+                        var cTime = '已超时';
+                    }
+                    $(this).text("剩余：" + cTime);
+                });
+            }, 1000);
+
+            $(".task-item-action").unbind().bind("click", function () {
+
+                var hasAction = $(this).text();
+                if (hasAction !== "领取任务") return;
+                var toUrl = $(this).attr("data-url");
+                layer.confirm("您将领取此悬赏任务，确定吗？", function () {
+                    var msgIndex = layer.msg("正在处理", {
+                        offset: 't',
+                        time: 0,
+                        icon: 16
+                    });
+                    $.ajax({
+                        type: "GET",
+                        dataType: "json",
+                        url: toUrl,
+                        complete: function (request) {
+                            layer.close(msgIndex);
+                            try {
+                                var res = $.parseJSON(request.responseText);
+                                if (res.status === "n") {
+                                    layer.alert(res.info);
+                                } else {
+                                    layer.msg(res.info, {
+                                        time: 2000
+                                    }, function () {
+                                        getPage(res.url);
+                                    })
+                                }
+                            } catch (e) {
+                                layer.alert("未知错误");
+                            }
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+{/block}
+
+{block content}
+    {foreach $lists as $item}
+        <dl class="task-item {if $item["rewardMemo"][0]<=0 || $item["rewardMemo"][2]==1}task-item-end{/if}">
+            <dt>悬赏(剩{$item["rewardMemo"][0]}份) <a href="{url('consoles_task_details',array('con'=>'task','id'=>$item['t_id']))}">
+                    详情
+                </a></dt>
+            <dd class="task-item-content">#{$item['t_codeNo']} {$item["t_names"]}</dd>
+            <dd data-deadline="{$item["t_deadline"]|totime}">剩余：</dd>
+            {if $item["s_acorn"]==0}
+                <dd class="task-item-reward" style="font-size:12px">日基础分&times;难度系数&times;完成质量&times;任务量</dd>
+            {else}
+                <dd class="task-item-reward">{$item["s_acorn"]}</dd>
+            {/if}
+            <dd class="task-item-action" data-url="{url('consoles_task_receive',array("id"=>$item["t_id"]))}">{$item["rewardMemo"][1]}</dd>
+        </dl>
+    {/foreach}
+    <div class="clear"></div>
+{/block}
+
+
+
+

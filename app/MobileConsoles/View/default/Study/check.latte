@@ -1,0 +1,146 @@
+{layout "../Layout/layout.latte"}
+{block tabs_content}
+    {include "./tabs.latte"}
+{/block}
+
+{block private_css}
+    {include "../Task/addCss.latte"}
+    <style>
+        .input-rec .icon-star{
+            font-size:20px;
+            cursor:pointer;
+            margin-right:5px;
+        }
+
+        .input-rec .icon-star.start-on{
+            color:#FB855C;
+        }
+
+        .input-rec .icon-star.start-off{
+            color:#A1A1A1;
+        }
+
+        .contentRec > ul > li{
+            width:100%;
+            line-height:46px;
+            border-bottom:1px #f9f9f9 solid;
+            overflow:hidden
+        }
+
+        .contentRec > ul > li > span{
+            width:80%;
+            float:left;
+            padding-left:18px;
+            overflow:hidden;
+            white-space:nowrap;
+            text-overflow:ellipsis;
+        }
+
+        .contentRec > ul > li > a{
+            width:20%;
+            float:right;
+            padding-right:20px;
+        }
+
+        .actives{
+            color:#0894ec !important;
+        }
+
+        .tabs_two{
+            position:absolute;
+            top:0.9rem;
+            height:3.2rem;
+            width:100%;
+            display:flex;
+            justify-content:space-around;
+            z-index:16;
+            padding-top:.4rem;
+            background:#f2f2f2;
+        }
+
+        .tabs_two a{
+            display:block;border:1px solid #bbb;
+            height:2.2rem;
+            padding:0 1.8rem;
+            line-height:2.2rem;
+            color:#101010;
+            border-radius:5px;
+            background:#fff;
+        }
+
+        .tabs_two a.actives{
+            border-color:#0087E2;
+            color:#0087E2;
+        }
+
+        .matter{
+            display:block;
+            position:relative;
+            border-bottom:#e7e7e7 1px solid;
+        }
+    </style>
+{/block}
+{block custom}
+    {include "../Public/custom.latte" , title1=>"选择执行人", title2=>"选择审核人"}
+{/block}
+
+{block private_js}
+    {include "../Public/customJs.latte"}
+    {*{include "../Task/addJs.latte"}*}
+    <script type="text/javascript">
+        $(function () {
+            $(".submit-form").on("click", function () {
+                $.showPreloader('正在提交，请稍候...');
+                $.ajax({
+                    url: $(this).attr("data-url"),
+                    type: "POST",
+                    data: $("#my-form").serialize(),
+                    dataType: "json",
+                    success: function (res) {
+                        $.hidePreloader();
+                        if (res.status === "n") {
+                            $.toast(res.info);
+                            return;
+                        }
+                        $.toast("审核成功");
+                        setTimeout(function () {
+                            location.href = res.data;
+                        }, 1000)
+                    }
+                });
+            })
+        });
+    </script>
+{/block}
+{block content}
+    <div class="tabs_two" style="margin-top:2.3rem">
+        <a href="{url('mobileConsoles_study_study')}" {if $tabs_two == 'study'}class="actives"{/if}>我的TODO</a>
+        <a href="{url('mobileConsoles_study_release','tabs_two=release')}" {if $tabs_two == 'release'}class="actives"{/if}>我的发布</a>
+        <a href="{url('mobileConsoles_study_judgement','tabs_two=judgement')}" {if $tabs_two == 'judgement'}class="actives"{/if}>我的审核</a>
+    </div>
+    <div class="list-block" style="margin-top: 6.6rem;">
+        <form action="" id="my-form">
+            <div class="field-item">
+                <div class="field-item-title">
+                    学习内容 <span class="required">*</span>
+                </div>
+                <div class="field-item-body">
+                    <p class="matter">{$lists["s_names"]}</p>
+                </div>
+            </div>
+            <div class="field-item">
+                <div class="field-item-title">
+                    积分 <span class="required">*</span>
+                </div>
+                <div class="field-item-body">
+                    <input type="text" name="acorn" placeholder="请给予积分"/>
+                </div>
+            </div>
+            <div class="field-item-between"></div>
+        </form>
+        <div class="field-item-between"></div>
+        <div class="content-block">
+            <a href="#" data-url="{url("mobileConsoles_study_check",array("id"=>$id))}" class="button button-big button-fill button-success submit-form">审核</a>
+        </div>
+    </div>
+{/block}

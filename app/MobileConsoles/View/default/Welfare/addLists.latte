@@ -1,0 +1,188 @@
+{layout "../Layout/layout.latte"}
+{block tabs_content}
+    {include "./tabs.latte"}
+{/block}
+
+{block private_css}
+    {include "../Task/addCss.latte"}
+    <style>
+        .input-rec .icon-star{
+            font-size:20px;
+            cursor:pointer;
+            margin-right:5px;
+        }
+
+        .input-rec .icon-star.start-on{
+            color:#FB855C;
+        }
+
+        .input-rec .icon-star.start-off{
+            color:#A1A1A1;
+        }
+
+        .showcase{
+            width:120px;
+            height:33px;
+            line-height:33px;
+            display:inline-block;
+            border:2px solid #797979;
+            text-align:center;
+            margin-left:10px;
+            color:#fff;
+            background:#A1A1A1;
+        }
+
+        .showcase.selected{
+            background:#FB855C;
+            border-color:#FB855C;
+        }
+
+        .contentRec > ul > li{
+            width:100%;
+            line-height:46px;
+            border-bottom:1px #f9f9f9 solid;
+            overflow:hidden
+        }
+
+        .contentRec > ul > li > span{
+            width:80%;
+            float:left;
+            padding-left:18px;
+            overflow:hidden;
+            white-space:nowrap;
+            text-overflow:ellipsis;
+        }
+
+        .contentRec > ul > li > a{
+            width:20%;
+            float:right;
+            padding-right:20px;
+        }
+
+        .recContent{
+            line-height:46px;
+            font-size:16px;
+            text-align:center;
+        }
+
+        .addContent{
+            width:100%;
+            height:46px;
+            font-size:14px;
+            text-align:center;
+            position:relative;
+        }
+
+        .addContent > span{
+            position:absolute;
+            top:50%;
+            left:50%;
+            margin-top:-13.5px;
+            margin-left:-61px;
+            display:block;
+            width:122px;
+            height:27px;
+            line-height:25px;
+            border-radius:20px;
+            font-size:14px;
+            text-align:center;
+            border:1px solid rgba(187, 187, 187, 1);
+        }
+
+    </style>
+{/block}
+{block custom}
+    {include "../Public/custom.latte" , title1=>"选择奖励人", title2=>"选择审核人"}
+{/block}
+
+{block private_js}
+    {include "../Public/customJs.latte"}
+    {include "../Task/addJs.latte"}
+    {include "../Public/H5Upload.latte"}
+    <script>
+        $(function () {
+            var choice = "";
+            $('a.choice').click(function () {
+                choice = $(this).index();
+                $('a.choice').removeClass('active');
+                $(this).addClass('active');
+
+                if (choice == 0) {
+                    $('.food').css('display', 'block');
+                    $('.coupon').css('display', 'none');
+                    $('#if_types').attr('value',1);
+                } else {
+                    $('.coupon').css('display', 'block');
+                    $('.food').css('display', 'none');
+                    $('#if_types').attr('value',2);
+                }
+            });
+        })
+    </script>
+{/block}
+{block content}
+    <div class="list-block" style="margin-top: 3.2rem;">
+        <form action="" id="my-form">
+            <div class="field-item" style="padding-bottom:0;">
+                <div class="field-item-title">
+                    奖励类型选择 <span class="required">*</span>
+                </div>
+                <div class="field-item-body choice" style="padding-top:0">
+                    <div class="content-block" style="margin:0;">
+                        <p class="buttons-row">
+                            <a href="javascript:void(0)" class="choice button button-round active" style="height:32px;line-height:32px;">实物</a>
+                            <a href="javascript:void(0)" class="choice button button-round " style="height:32px;line-height:32px;">抵扣券</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="field-item food">
+                <div class="field-item-title">
+                    物资奖名称 <span class="required">*</span>
+                </div>
+                <div class="field-item-body">
+                    <input type="text" name="names" placeholder="请输入物资奖名称"/>
+                </div>
+            </div>
+            <div class="field-item coupon" style="display:none">
+                <div class="field-item-title">
+                    选择抵扣券 <span class="required">*</span>
+                </div>
+                <div class="field-item-body" style="overflow:hidden;">
+                    <select id="wvId" name="wvId" style="border:1px solid #f2f2f2;width:70%;float:left;">
+                        <option value="">请选择抵扣券</option>
+                        {foreach $voucher as $key=>$item}
+                            <option value="{$item['id']}">{$item['names']}</option>
+                        {/foreach}
+                    </select>
+                    <div style="width:25%;float:left;line-height:2.15rem;margin-left:10px;text-align:center;"><a href="{url("mobileConsoles_welfare_addVoucher")}">添加抵扣券</a></div>
+                </div>
+            </div>
+            <input type="text" value="1" style="display:none;" id="if_types" name="if_types"/>
+            <div class="field-item">
+                <div class="field-item-title">
+                    奖励人 <span class="required">*</span>
+                </div>
+                <div class="field-item-body">
+                    <div class="field-item-member-box">
+                        <span class="staff-add open-popup open-worker-added-box" data-popup=".staff-popup" id="executors">&plus;</span>
+                        <input type="hidden" name="userId">
+                    </div>
+                </div>
+            </div>
+            <div class="field-item-between"></div>
+            <div class="field-item">
+                <div class="field-item-title">
+                    奖励原因 <span class="required">*</span>
+                </div>
+                <div class="field-item-body">
+                    <textarea name="memo"></textarea>
+                </div>
+            </div>
+        </form>
+        <div class="field-item-between"></div>
+        <div class="content-block">
+            <a href="#" data-url="{url("mobileConsoles_welfare_add")}" class="button button-big button-fill button-success submit-form" style="background-color:#0087e2">提交</a>
+        </div>
+    </div>
+{/block}

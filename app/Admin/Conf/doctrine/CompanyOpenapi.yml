@@ -1,0 +1,55 @@
+Admin\Entity\CompanyOpenapi:
+  type: entity
+  table: company_openapi
+  id:
+    id:
+      type: integer
+      nullable: false
+      unsigned: false
+      comment: ''
+      id: true
+      generator:
+        strategy: IDENTITY
+  fields:
+    sid:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+    names:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    namesEn:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+      column: names_en
+    agentid:
+      type: string
+      nullable: true
+      length: 11
+      fixed: false
+      comment: ''
+    corpid:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    corpsecret:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    status:
+      type: smallint
+      nullable: true
+      unsigned: false
+      comment: ''
+  lifecycleCallbacks: {  }

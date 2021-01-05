@@ -1,0 +1,47 @@
+#//Jeechange route
+jeechange_index_index:
+  pattern: /
+  callback: "Jeechange:Index:index"
+  method: get
+  options:
+jeechange_crontab_cycleautocreate:
+  pattern: /crontab_cycleautocreate
+  callback: "Jeechange:Crontab:cycleAutoCreate"
+  method: get
+  options:
+jeechange_combine_cycle:
+  pattern: /combine_cycle
+  callback: "Jeechange:Combine:cycle"
+  method: get
+  options:
+
+jeechange_combine_updateTodo:
+  pattern: /combine_updateTodo
+  callback: "Jeechange:Combine:updateTodo"
+  method: get
+  options:
+jeechange_combine_updateTodoCodeNo:
+  pattern: /updateTodoCodeNo
+  callback: "Jeechange:Combine:updateTodoCodeNo"
+  method: get
+  options:
+jeechange_combine_taskTagsAndResolves:
+  pattern: /combine_taskTagsAndResolves
+  callback: "Jeechange:Combine:taskTagsAndResolves"
+  method: get
+  options:
+jeechange_combine_updateLastAcceptTime:
+  pattern: /combine_updateLastAcceptTime
+  callback: "Jeechange:Combine:updateLastAcceptTime"
+  method: get
+  options:
+jeechange_Crontab_creatTaskStatistics:
+  pattern: /creatTaskStatistics
+  callback: "Jeechange:Crontab:creatTaskStatistics"
+  method: get
+  options:
+jeechange_datas_delTask:
+  pattern: /datas_delTask
+  callback: "Jeechange:Datas:delTask"
+  method: get
+  options:

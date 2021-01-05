@@ -1,0 +1,214 @@
+<script>
+    function countDown(endTimes) {
+        if (!endTimes) return 0;
+        endTimes = endTimes.replace(/\-+/g, ":");
+        endTimes = endTimes.replace(/\s+/g, ":");
+        var endTimesArr = endTimes.split(/:/g);
+        var endTimeDate = new Date(endTimesArr[0], endTimesArr[1] - 1, endTimesArr[2], endTimesArr[3], endTimesArr[4], endTimesArr[5]);
+        var times = endTimeDate.getTime() - (new Date().getTime());
+        if (times <= 0) return 0;
+        var day = 0,
+                hour = 0,
+                minute = 0,
+                second = 0;//时间默认值
+        if (times > 0) {
+            day = Math.floor(times / 1000 / 60 / 60 / 24);
+            hour = Math.floor(times / 1000 / 60 / 60 % 24);
+            minute = Math.floor(times / 1000 / 60 % 60);
+            second = Math.floor(times / 1000 % 60);
+        }
+        if (day > 0) return day + "天" + hour + "小时";
+        if (hour > 0) return hour + "小时" + minute + "分";
+        if (minute > 0) return minute + "分";
+        return second + "秒";
+    }
+
+    var datas = {
+        offset: {$offset}, infinite: true, loading: false,
+        keywords: {$keywords}
+    };
+
+    $(document).on("pageInit", function () {
+        window.timerdeadlineList = setInterval(function () {
+            $("[data-deadline]").each(function () {
+                var endTimes = $(this).attr("data-deadline");
+                if (!endTimes) return;
+                var cTime = countDown(endTimes);
+                if (cTime === 0) {
+                    $(this).text("已超时");
+                } else {
+                    $(this).text("剩余:" + cTime);
+                }
+            });
+        }, 1000);
+
+        $(document).on('refresh', '.pull-to-refresh-content', function (e) {
+            if (datas.loading) return;
+            datas.offset = 0;
+            datas.loading = true;
+            $.ajax({
+                url: $(".listsItems").data("data-url"),
+                type: "GET",
+                data: datas,
+                headers: {
+                    onrefreshorinfinite: 1
+                },
+                dataType: "json",
+                success: function (res) {
+                    $.pullToRefreshDone('.pull-to-refresh-content');
+                    datas.loading = false;
+                    if (res.status === "n") {
+                        $.toast(res.info);
+                        return;
+                    }
+                    datas.offset = res.data.offset;
+                    datas.infinite = res.data.infinite;
+                    $(".listsItems").html(res.data.html);
+                    if (datas.infinite) {
+                        $('.infinite-scroll-preloader').show();
+                    } else {
+                        $('.infinite-scroll-preloader').hide();
+                    }
+                }
+            });
+        });
+
+        $(document).on('infinite', '.infinite-scroll-bottom', function () {
+            if (datas.loading || !datas.infinite) return;
+            datas.loading = true;
+            $.ajax({
+                url: $(".listsItems").data("data-url"),
+                type: "GET",
+                data: datas,
+                headers: {
+                    onrefreshorinfinite: 1
+                },
+                dataType: "json",
+                success: function (res) {
+                    $.pullToRefreshDone('.pull-to-refresh-content');
+                    datas.loading = false;
+                    if (res.status === "n") {
+                        $.toast(res.info);
+                        return;
+                    }
+                    datas.offset = res.data.offset;
+                    datas.infinite = res.data.infinite;
+                    $(".listsItems").append(res.data.html);
+                    if (datas.infinite) {
+                        $('.infinite-scroll-preloader').show();
+                    } else {
+                        $('.infinite-scroll-preloader').hide();
+                    }
+                }
+            });
+        });
+
+        if ({$infinite}) {
+            $('.infinite-scroll-preloader').show();
+        } else {
+            $('.infinite-scroll-preloader').hide();
+        }
+
+        $(".create-actions0").click(function () {
+            var buttons1 = [
+                {
+                    text: '发布任务',
+                    label: true
+                },
+
+                {
+                    text: '发布普通任务',
+                    onClick: function () {
+                        $.showPreloader('加载中...');
+                        window.location.href = {url("mobileConsoles_task_addtemp")};
+                    }
+                },
+                {
+                    text: '发布周期任务',
+                    onClick: function () {
+                        $.showPreloader('加载中...');
+                        window.location.href = {url("mobileConsoles_task_addcycle")};
+                    }
+                },
+                {
+                    text: '发布悬赏任务',
+                    onClick: function () {
+                        $.showPreloader('加载中...');
+                        window.location.href = {url("mobileConsoles_task_addreward")};
+                    }
+                },
+            ];
+            var buttons2 = [
+                {
+                    text: '取消',
+                    bg: 'danger'
+                }
+            ];
+            var groups = [buttons1, buttons2];
+            $.actions(groups);
+        });
+
+        $(".create-actions1").click(function () {
+            var buttons1 = [
+                {
+                    text: '请选择',
+                    label: true
+                },
+
+                {
+                    text: '管理普通任务',
+                    onClick: function () {
+                        $.showPreloader('加载中...');
+                        window.location.href = {url("mobileConsoles_task_changeTask")};
+                    }
+                },
+                {
+                    text: '管理周期任务',
+                    onClick: function () {
+                        $.showPreloader('加载中...');
+                        window.location.href = {url("mobileConsoles_taskcycle")};
+                    }
+                },
+                {
+                    text: '管理悬赏任务',
+                    onClick: function () {
+                        $.showPreloader('加载中...');
+                        window.location.href = {url("mobileConsoles_manageReward")};
+                    }
+                },
+                {
+                    text: '统计分析',
+                    onClick: function () {
+                        $.showPreloader('加载中...');
+                        window.location.href = {url('mobileConsoles_taskStatistics_lists')};
+                    }
+                },
+                {
+                    text: '项目',
+                    onClick: function () {
+                        $.showPreloader('加载中...');
+                        window.location.href = {url('mobileConsoles_task_taskGroupLists')};
+                    }
+                },
+                {
+                    text: '任务设置',
+                    onClick: function () {
+                        var toUrl = $(".create-actions").attr("data-url");
+                        $.showPreloader('加载中...');
+                        window.location.href = toUrl;
+                    }
+                },
+            ];
+            var buttons2 = [
+                {
+                    text: '取消',
+                    bg: 'danger'
+                }
+            ];
+            var groups = [buttons1, buttons2];
+            $.actions(groups);
+        });
+
+    })
+
+</script>

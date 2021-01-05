@@ -1,0 +1,152 @@
+{layout "../Layout/layoutBoth.latte"}
+
+{block tabs_content}
+    {include "./tabs.latte"}
+    {include "./tabs_lobby.latte", showSearch =>true}
+{/block}
+
+{block private_css}
+    <style>
+        .reward-item{
+            background:#E51C23;
+            height:170px;
+            margin:20px .5rem;
+            color:#fff;
+            position:relative;
+        }
+
+        .reward-bg{
+            width:63px;
+            height:63px;
+            font-size:41px;
+            line-height:63px;
+            text-align:center;
+            background:#E5601C;
+            border-radius:50%;
+            color:#E51C23;
+            position:absolute;
+            top:9px;
+            right:19px;
+        }
+
+        .item-name{
+            position:absolute;
+            top:19px;
+            left:19px;
+            font-size:16px;
+        }
+
+        .item-times{
+            position:absolute;
+            top:78px;
+            left:19px;
+        }
+
+        .item-acorn{
+            position:absolute;
+            left:19px;
+            bottom:22px;
+        }
+
+        .item-draw{
+            color:#E51C23;
+            background:#E6E4E4;
+            font-size:14px;
+            position:absolute;
+            bottom:17px;
+            right:19px;
+            width:108px;
+            height:37px;
+            text-align:center;
+            line-height:37px;
+        }
+
+        .reward-item.reward-draw{
+            background:#BBBBBB;
+        }
+
+        .reward-item.reward-draw .reward-bg{
+            background:#E6E4E4;
+            color:#5B5959;
+        }
+
+        .reward-item.reward-draw .item-draw{
+            color:#5B5959;
+            background:#E6E4E4;
+        }
+
+        .item-group-name{
+            border:1px solid #e7e7e7;
+            margin-right:5px;
+            padding:2px 5px;
+            font-size:12px;
+            border-radius:5px;
+        }
+
+    </style>
+{/block}
+
+{block private_js}
+    {include 'listsJs.latte'}
+    <script>
+        $(function () {
+            $(".listsItems").on("click", '[data-url]', function () {
+                var $this = $(this);
+                var url = $(this).attr("data-url");
+                $.showPreloader('正在提交，请稍候...');
+                $.ajax({
+                    url: url,
+                    type: "GET",
+                    data: $("#my-form").serialize(),
+                    dataType: "json",
+                    success: function (res) {
+                        $.hidePreloader();
+                        if (res.status === "n") {
+                            $.toast(res.info);
+                            return;
+                        }
+                        setTimeout(function () {
+                            $(".popup-data-title").text("“" + $this.siblings(".item-name").text() + "”");
+                            $(".popup-data-deadline").attr("data-deadline", $this.siblings(".item-times").children(".deadline").attr("data-deadline"));
+                            $(".popup-acorn").text($this.siblings(".item-acorn").text());
+                            $(".popup-confirm").attr("href", res.url);
+                            $.popup(".popup-reward-receive");
+                        }, 1000)
+                    }
+                });
+            });
+        })
+
+    </script>
+{/block}
+
+{block custom}
+    <div class="popup popup-reward-receive">
+        <div class="content-block" style="text-align: center;">
+            <div style="color:#259B24;line-height: 55px;"><span class="icon icon-check"></span> 您已成功领取悬赏，我的悬赏将在TODO中显示</div>
+            <div class="popup-data-title" style="line-height: 55px;font-size:16px;color:#5B5959;font-weight: bold;"></div>
+            <div class="popup-data-times" style="color:#5B5959;font-size:14px;">
+                <span class="al-icon al-icon-shengyushijian1"></span>
+                <span class="deadline popup-data-deadline" data-deadline=""></span>
+            </div>
+            <div style="line-height: 55px;">
+                按时完成任务后将获得
+                <span class="popup-acorn"></span>
+                <span class="al-icon al-icon-influence" style="margin-left: 10px;color:#0087E2"></span>
+            </div>
+            <div style="margin-top: 50px;padding:0 25%"><a href="#" class="button button-fill button-big popup-confirm">确定</a></div>
+        </div>
+    </div>
+    {if $isSuper}
+        <span class="create-actions create-actions1" data-url="{url('mobileConsoles_task_settings')}">管理</span>
+    {/if}
+    <span class="create-actions create-actions0" data-popup=".added-popup">发布</span>
+{/block}
+
+{block content}
+    <div class="list-block" style="margin-top:4.7rem;">
+        <div class="listsItems" data-url="{url('mobileConsoles_taskreward')}">
+            {include "listsRewardItems.latte"}
+        </div>
+    </div>
+{/block}

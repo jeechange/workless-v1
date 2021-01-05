@@ -1,0 +1,129 @@
+{layout "../Layout/layout.latte"}
+{block headTitle}工种详情{/block}
+{block tabs_content}
+    {*{include "./tabs.latte"}*}
+{/block}
+{block custom}
+    {include "../Public/custom.latte" , title1=>"选择执行人", title2=>"选择验收人"}
+{/block}
+{block private_js}
+    <script type="text/javascript">
+        $(function () {
+            $("#bnt").click(function () {
+                $.ajax({
+                    type: "post",
+                    url: $("#formArticle").attr("action"),
+                    data: $("#formArticle").serialize(),
+                    cache: false,
+                    dataType: "json",
+                    success: function (data) {
+                        console.log(data);
+                        $.toast(data.info);
+                        if (data.status == "n") {
+                            return false;
+                        } else {
+                            setTimeout(function () {
+                                location.replace(data.url);
+                            }, 1000);
+                        }
+                    }
+                });
+            })
+            $("#del").click(function () {
+                $.confirm('是否确认删除?', function () {
+                    $.ajax({
+                        type: "post",
+                        url: "/delWorktype",
+                        data: $("#formArticle").serialize(),
+                        cache: false,
+                        dataType: "json",
+                        success: function (data) {
+                            console.log(data);
+                            if (data.status == "y") {
+                                $.toast(data.info);
+                                setTimeout(function () {
+                                    location.replace(data.url);
+                                }, 1000);
+
+                            } else {
+                                $.toast(data.info);
+                                return false;
+                            }
+                        }
+                    });
+                });
+            })
+        });
+        function goback() {
+            location.replace({url("mobileConsoles_user_company")})
+        }
+    </script>
+    {include "../Public/customJs.latte"}
+{/block}
+{block private_css}
+    <style>
+        .item-title, input{ font-size:0.9rem !important; }
+    </style>
+{/block}
+{block content}
+    <form id="formArticle" class="stdform mform" method="post" action="{url("mobileConsoles_company_modifyWorktype")}" onsubmit="return false">
+        <input type="hidden" name="id" value="{$worktype['id']}">
+        <div class="list-block">
+            <ul>
+                <li>
+                    <div class="item-content">
+                        <div class="item-media"><i class="icon icon-form-name"></i></div>
+                        <div class="item-inner">
+                            <div class="item-title label">工种名称</div>
+                            <div class="item-input">
+                                <input type="text" placeholder="名称" name="names" value="{$worktype['names']}">
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="item-content">
+                        <div class="item-media"><i class="icon icon-form-name"></i></div>
+                        <div class="item-inner">
+                            <div class="item-title label">工种描述</div>
+                            <div class="item-input">
+                                <textarea name="memo">{$worktype['memo']}</textarea>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="item-content">
+                        <div class="item-media"><i class="icon icon-form-name"></i></div>
+                        <div class="item-inner">
+                            <div class="item-title label">状态</div>
+                            <div class="item-input">
+                                <label class="label-switch">
+                                    <input type="checkbox" name="status" {if $worktype['status']==1}checked{/if}>
+                                    <div class="checkbox"></div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </form>
+    {if $isSuper}
+        <div class="content-block">
+            <div class="col-95">
+                <div class="button button-big button-fill" id="bnt">提交</div>
+            </div>
+        </div>
+        <div class="content-block">
+            <div class="col-95">
+                <div class="button button-big button-fill button-danger" id="del">删除</div>
+            </div>
+        </div>
+    {/if}
+    <div class="content-block">
+        <div class="col-95">
+            <a onclick="goback()" style="text-align: center;display: block;">返回</a>
+        </div>
+    </div>
+{/block}

@@ -1,0 +1,148 @@
+Admin\Entity\Todo:
+  type: entity
+  table: todo
+  indexes:
+    group_id:
+      columns:
+        - group_id
+    tags:
+      columns:
+        - tags
+    user_id:
+      columns:
+        - user_id
+  id:
+    id:
+      type: integer
+      nullable: false
+      unsigned: false
+      comment: ''
+      id: true
+      generator:
+        strategy: IDENTITY
+  fields:
+    sid:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+    userId:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: user_id
+    issueId:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: issue_id
+    executorsId:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+      column: executors_id
+    acceptId:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: accept_id
+    issueTypes:
+      type: smallint
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: issue_types
+    codeNo:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: code_no
+    subCodeNo:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: sub_code_no
+    groupId:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: group_id
+    types:
+      type: smallint
+      nullable: true
+      unsigned: false
+      comment: ''
+    relateId:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: relate_id
+    priority:
+      type: smallint
+      nullable: true
+      unsigned: false
+      comment: ''
+    content:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    tags:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    resolves:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    informTypes:
+      type: smallint
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: inform_types
+    inform:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    informTime:
+      type: datetime
+      nullable: true
+      comment: ''
+      column: inform_time
+    addTime:
+      type: datetime
+      nullable: true
+      comment: ''
+      column: add_time
+    deadline:
+      type: datetime
+      nullable: true
+      comment: ''
+    doneTime:
+      type: datetime
+      nullable: true
+      comment: ''
+      column: done_time
+    status:
+      type: smallint
+      nullable: true
+      unsigned: false
+      comment: ''
+  lifecycleCallbacks: {  }

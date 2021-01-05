@@ -1,0 +1,117 @@
+{layout '../Public/sideForm.latte'}
+{block title}编辑外部联系人{/block}
+
+{block private_css}
+    <style>
+        .mform .control-group label{ margin:5px 15px 5px 0; }
+
+        .priority-label{
+            display:inline-block;
+            padding:0 8px;
+            height:35px;
+            line-height:35px;
+            text-align:center;
+            margin-right:20px;
+            color:#333 !important;
+            border:2px solid #eee;
+            background:#eee;
+        }
+
+        .priority-label span{
+            margin:auto !important;
+            display:block;
+            height:30px;
+            line-height:30px;
+            border-radius:50%;
+            cursor:pointer;
+            -webkit-user-select:none;
+            -moz-user-select:none;
+            -ms-user-select:none;
+            user-select:none;
+        }
+
+        .priority-label input{
+            display:none !important;
+        }
+
+        .priority-label.selected{
+            /*font-weight:900 !important;*/
+            border:2px solid #009DD9;
+            background:#eee;
+        }
+    </style>
+{/block}
+
+{block private_js}
+    <script>
+        init.ready(function () {
+            $(".priority-label").unbind().bind("click", function () {
+
+                var one = $(this).children(".jsSpan").children(".jsInput").attr("checked");
+                if (one !== 'checked') {
+                    $(this).removeClass("selected");
+                } else {
+                    $(this).addClass("selected");
+                }
+//                $(this).siblings(".selected").removeClass("selected");
+            });
+        });
+    </script>
+{/block}
+
+{block content}
+    <form id="formArticle" class="stdform mform" method="post" action="">
+        <table cellpadding="0" cellspacing="0" border="0" id="frmtable" class="formtable">
+            <thead>
+            <tr>
+                <td><label>手机号</label></td>
+                <td>
+                    <div class="field control-group">
+                        <div class="input-group">
+                            <input type="text" name="phone" class="smallinput" value="{$exEN['phone']}"/>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td><label>项目</label></td>
+                <td>
+                    <div class="field control-group">
+                        <div class="input-group">
+                            {foreach $TGLists as $k => $v}
+                                <label class="priority-label {if $exEN['tgId'][$v['id']]}selected{/if}">
+                                    <span class="jsSpan">
+                                        <input class="jsInput" type="checkbox" name="tgId[{$v['id']}]" value="{$v['id']}" {if $exEN['tgId'][$v['id']]}checked="checked"{/if}>
+                                        {$v['names']}
+                                    </span>
+                                </label>
+                            {/foreach}
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td><label>备注</label></td>
+                <td>
+                    <div class="field control-group">
+                        <div class="input-group">
+                            <textarea name="memo" class="smallinput">{$exEN['memo']}</textarea>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td><label>状态</label></td>
+                <td>
+                    <div class="field control-group">
+                        <div class="input-group">
+                            <label class='radio'><input name='status' {if $exEN['status'] == 1}checked{/if} type="radio" value='1'>启用</label>
+                            <label class='radio'><input name='status' {if $exEN['status'] != 1}checked{/if} type="radio" value='0'>禁用</label>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            </thead>
+        </table>
+    </form>
+{/block}

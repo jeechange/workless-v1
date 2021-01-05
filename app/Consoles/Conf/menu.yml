@@ -1,0 +1,54 @@
+###格式 id:[0:pid,1:names,2:route,3:params,4:sort,5:enable,6:show,7:iconn,8:access]
+#---
+
+
+1: [0,"","consoles_index_dashboard",{},0,1,1,"al-icon al-icon-zhuye-copy"]
+2: [0,"任务","consoles_lists",{con: Todo},0,1,1,"al-icon al-icon-renwu"]
+3: [0,"项目","consoles_lists",{con: taskGroup, active: 1,types: 2},0,1,1,"al-icon al-icon-neirong"]
+#4: [0,"汇报","consoles_acorn_apply",{types: apply},0,1,1,"al-icon al-icon-neirong"]
+5: [0,"积分","consoles_acorn_apply",{types: apply},0,1,1,"al-icon al-icon-influence icon-index"]
+6: [0,"管理","consoles_standard_allStandards",{active: Achievements},0,supers,1,"al-icon al-icon-sj-"]
+
+21: [2,"我的任务","consoles_lists",{con: Todo},0,1,1,"al-icon al-icon-putongrenwu"]
+#22: [2,"我的悬赏","consoles_lists",{con: task, types: reward},0,1,1,"al-icon al-icon-fabuxuanshang"]
+#23: [2,"我的周期","consoles_taskMe_cycles",{},0,1,1,"al-icon al-icon-mubiao"]
+
+211: [21,"TODO","consoles_lists",{con: Todo},0,1,1,"icon-menhu"]
+212: [21,"我发布的","consoles_taskMe_myIssue",{},0,1,1,"icon-menhu"]
+213: [21,"我验收的","consoles_taskMe_myAccept",{},0,1,1,"icon-menhu"]
+214: [21,"我执行的","consoles_taskMe_allotMe",{},0,1,1,"icon-menhu"]
+
+#221: [22,"我的悬赏","consoles_lists",{con: task, types: reward},0,1,1,"icon-menhu"]
+#222: [22,"所有悬赏","consoles_lists",{con: task, types: reward},0,1,1,"icon-menhu"]
+
+31: [3,"我参与的","consoles_lists",{con: taskGroup, active: 1,types: 2},0,1,1,"al-icon al-icon-neirong"]
+32: [3,"我创建的","consoles_lists",{con: taskGroup, active: 1,types: 1},0,1,1,"al-icon al-icon-neirong"]
+
+41: [4,"撰写汇报","consoles_acorn_apply",{types: apply},0,1,1,"al-icon al-icon-neirong"]
+42: [4,"我的汇报","consoles_acorn_applyLists",{types: my},0,1,1,"al-icon al-icon-neirong"]
+43: [4,"汇报审核","consoles_acorn_applyLists",{types: audit},0,1,1,"al-icon al-icon-neirong"]
+
+51: [5,"申请积分","consoles_acorn_apply",{active: Action},0,1,1,"al-icon al-icon-neirong"]
+52: [5,"积分审核","consoles_lists",{con: AcornAuditDetail,types: audit},0,1,1,"al-icon al-icon-neirong"]
+53: [5,"积分明细","consoles_lists",{con: acorn, types: Action},0,1,1,"al-icon al-icon-neirong"]
+54: [5,"积分排行","consoles_lists",{con: Ranking},0,1,1,"al-icon al-icon-neirong"]
+
+
+61: [6,"团队管理","consoles_lists",{con: Company},0,supers,1,"al-icon al-icon-bumen"]
+62: [6,"任务管理","consoles_lists",{con: task},0,supers,1,"al-icon al-icon-fabuneirong"]
+63: [6,"积分管理","consoles_acorn_allLists",{},0,supers,1,"al-icon al-icon-influence icon-index"]
+64: [6,"项目管理","consoles_lists",{con: taskGroup, active: 1,types: 0},0,1,1,"al-icon al-icon-neirong"]
+65: [6,"管理员","consoles_company_supers",{},0,supers,1,"al-icon al-icon-guanliyuan"]
+66: [6,"通知设置","consoles_openapi_dingwebhook",{},0,supers,1,"al-icon al-icon-influence icon-index"]
+
+621: [62,"任务大厅","consoles_lists",{con: task},0,1,1,"icon-menhu"]
+622: [62,"任务分析","consoles_lists",{con: taskStatistics},0,1,1,"icon-menhu"]
+623: [62,"任务设置","consoles_lists",{con: taskSetting},0,supers,1,"icon-menhu"]
+
+631: [63,"积分明细","consoles_acorn_allLists",{},0,1,1,"icon-menhu"]
+632: [63,"统计分析","consoles_index_dashboard",{},0,1,1,"icon-menhu"]
+633: [63,"积分设置","consoles_standard_allStandards",{active: Achievement},0,supers,1,"icon-menhu"]
+
+661: [66,"钉钉机器人","consoles_openapi_dingwebhook",{},0,1,1,"icon-menhu"]
+#662: [66,"邮件通知","consoles_openapi_email",{},0,1,1,"icon-menhu"]
+#663: [66,"短信通知","consoles_openapi_sms",{},0,1,1,"icon-menhu"]

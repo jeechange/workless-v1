@@ -1,0 +1,49 @@
+{layout '../Public/layoutDetail.latte'}
+{block title}切换企业{/block}
+{block actions}
+
+{/block}
+
+{block content}
+
+    <form id="form1" class="stdform mform" method="post" action="">
+
+        <table cellpadding="0" cellspacing="0" border="0" id="frmtable" class="formtable">
+            <thead>
+            <tr>
+                <td><label>企业名称</label></td>
+                <td>
+                    <div class="control-group ">
+                        <div class="field input-group">
+                            <input type="text" class="smallinput" value="{$company->getNames()}" readonly/>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td><label>站点简称</label></td>
+                <td>
+                    <div class="control-group ">
+                        <div class="field input-group">
+                            <input type="text" id="frm_names" name="names" class="smallinput" value="{$company->getShortNames()}" readonly/>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            </thead>
+        </table>
+    </form>
+    <table class='formtable btntable'>
+        <tfoot>
+        <tr>
+            <td colspan="2">
+                <div class="input-group">
+                    <a href="{url('consoles_company_toggle','id='.$company->getId())}" class="btn submit" data-confirm="是否切换到当前企业？" style="background-image: none;text-decoration: none;">
+                        切换到当前企业
+                    </a>
+                </div>
+            </td>
+        </tr>
+        </tfoot>
+    </table>
+{/block}

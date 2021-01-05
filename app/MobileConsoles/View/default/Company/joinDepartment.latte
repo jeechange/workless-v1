@@ -1,0 +1,220 @@
+{layout "../Layout/layout.latte"}
+{block tabs_content}
+    {*{include "./tabs.latte"}*}
+{/block}
+{block custom}
+    {include "../Public/custom.latte", title1=>"选择执行人", title2=>"选择验收人"}
+{/block}
+{block private_js}
+    <script type="text/javascript" src="//g.alicdn.com/msui/sm/0.6.2/js/sm-city-picker.min.js" charset="utf-8"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#bnt").click(function () {
+                $.ajax({
+                    type: "post",
+                    url: $("#formArticle").attr("action"),
+                    data: $("#formArticle").serialize(),
+                    cache: false,
+                    dataType: "json",
+                    success: function (data) {
+                        console.log(data);
+                        if (data.status == "y") {
+                            $.toast("添加成功");
+                            setTimeout(function () {
+                                location.replace(data.url);
+                            }, 1000);
+                        }else{
+                            $.toast(data.info);
+                        }
+                    }
+                });
+            });
+
+
+            // window.ids = new Array();
+            window.department = new Array();
+            // ids.push(0);
+            // department.push("作为顶级部门");
+
+            $.ajax({
+                type: "post",
+                url: "/ajaxDepartment",
+                data: $("#formArticle").serialize(),
+                cache: false,
+                dataType: "json",
+                async:false,
+                success: function (data) {
+                    console.log(data);
+                    // ids = ids.concat(data.idsArr);
+                    department = data.departmentArr;
+
+                }
+            });
+
+            $("#depSelector").picker({
+                toolbarTemplate: '<header class="bar bar-nav">\
+                <button class="button button-link pull-right close-picker">确定</button>\
+                <h1 class="title">部门</h1>\
+                </header>',
+                cols: [
+                    {
+                        textAlign: 'left',
+                        values: department
+                    }
+                ],
+                onClose:function(){
+                    // alert($("#depSelector").val())
+                    window.station = new Array();
+                    var department = $("#depSelector").val()
+                    var formData = new Object();
+                    formData.department = department;
+                    $.ajax({
+                        type: "post",
+                        url: "/ajaxStation",
+                        data: formData,
+                        cache: false,
+                        dataType: "json",
+                        async:false,
+                        success: function (data) {
+                            if(data.status=="n"){
+                                $.toast(data.info)
+                                return false;
+                            }else{
+                                if(!data.names){
+                                    $.toast("请先添加职位到此部门下")
+                                }
+
+                                station = data.names;
+                                console.log(station)
+
+
+                            }
+
+                        }
+                    });
+
+                    $("#stationSelector").picker({
+                        toolbarTemplate: '<header class="bar bar-nav">\
+                        <button class="button button-link pull-right close-picker">确定</button>\
+                        <h1 class="title">职位</h1>\
+                        </header>',
+                        cols: [
+                            {
+                                textAlign: 'left',
+                                values: station
+                            }
+                        ]
+                    });
+                }
+            });
+
+
+        });
+
+    </script>
+    {include "../Public/customJs.latte"}
+{/block}
+{block private_css}
+    <style>
+        .item-title, input {
+            font-size: 0.9rem !important;
+        }
+    </style>
+{/block}
+{block content}
+    <form id="formArticle" class="stdform mform" method="post" action="{url("mobileConsoles_company_joinDepartment")}" onsubmit="return false">
+        <div class="list-block">
+            <ul>
+                <li>
+                    <div class="item-content">
+                        <div class="item-media"><i class="icon icon-form-name"></i></div>
+                        <div class="item-inner">
+                            <div class="item-title label">加入的部门</div>
+                            <div class="item-input">
+                                <input type="text" id='depSelector' name="department" value="请选择部门"/>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="item-content">
+                        <div class="item-media"><i class="icon icon-form-name"></i></div>
+                        <div class="item-inner">
+                            <div class="item-title label">职位</div>
+                            <div class="item-input">
+                                <input type="text" id='stationSelector' name="station" value="请选择职位"/>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="item-content">
+                        <div class="item-media"><i class="icon icon-form-name"></i></div>
+                        <div class="item-inner">
+                            <div class="item-title label">被邀请人手机号</div>
+                            <div class="item-input">
+                                <input type="text" placeholder="手机号" name="phone">
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                {*<li>*}
+                {*<div class="item-content">*}
+                {*<div class="item-media"><i class="icon icon-form-name"></i></div>*}
+                {*<div class="item-inner">*}
+                {*<div class="item-title label">组长</div>*}
+                {*<div class="item-input">*}
+                {*<div class="field-item-body">*}
+                {*<div class="field-item-member-box">*}
+                {*<span class="staff-add open-popup open-worker-added-box"*}
+                {*data-popup=".acceptA-popup" id="acceptA">&plus;</span>*}
+                {*<input type="hidden" name="acceptA">*}
+                {*</div>*}
+                {*</div>*}
+                {*</div>*}
+                {*</div>*}
+                {*</div>*}
+                {*</li>*}
+                {*<li>*}
+                    {*<div class="item-content">*}
+                        {*<div class="item-media"><i class="icon icon-form-name"></i></div>*}
+                        {*<div class="item-inner">*}
+                            {*<div class="item-title label">副组长</div>*}
+                            {*<div class="item-input">*}
+                                {*<div class="field-item-body">*}
+                                    {*<div class="field-item-member-box">*}
+                                        {*<span class="staff-add open-popup open-worker-added-box"*}
+                                              {*data-popup=".acceptB-popup" id="acceptB">&plus;</span>*}
+                                        {*<input type="hidden" name="acceptB">*}
+                                    {*</div>*}
+                                {*</div>*}
+                            {*</div>*}
+                        {*</div>*}
+                    {*</div>*}
+                {*</li>*}
+                {*<li>*}
+                    {*<div class="item-content">*}
+                        {*<div class="item-media"><i class="icon icon-form-name"></i></div>*}
+                        {*<div class="item-inner">*}
+                            {*<div class="item-title label">组员</div>*}
+                            {*<div class="item-input">*}
+                                {*<div class="field-item-body">*}
+                                    {*<div class="field-item-member-box">*}
+                                        {*<span class="staff-add open-popup open-worker-added-box"*}
+                                              {*data-popup=".acceptC-popup" id="acceptC">&plus;</span>*}
+                                        {*<input type="hidden" name="acceptC">*}
+                                    {*</div>*}
+                                {*</div>*}
+                            {*</div>*}
+                        {*</div>*}
+                    {*</div>*}
+                {*</li>*}
+            </ul>
+        </div>
+    </form>
+    <div class="content-block">
+        <div class="col-95">
+            <div class="button button-big button-fill" id="bnt">邀请</div>
+        </div>
+    </div>
+{/block}

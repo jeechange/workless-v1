@@ -1,0 +1,150 @@
+{layout "../Layout/layout.latte"}
+{block headTitle}小吃柜{/block}
+{block tabs_content}
+    {include "./tabs.latte"}
+    {include "./tabs_lobby.latte"}
+{/block}
+{block private_css}
+    <style>
+        .content{
+            background:#FAFAFA;
+            font-size:14px;
+            color:#101010;
+        }
+
+        .tabs-lobby{
+            /*margin:auto;*/
+            width:100%;
+            text-align:center;
+            line-height:20px;
+            color:#fff;
+            background-color:#fe7470;
+            /*position:fixed;*/
+            /*z-index:9999;*/
+            margin-top:3rem;
+        }
+
+        .snack{
+            background-color:#fff;
+            padding:0;
+            margin:0;
+            /*margin-top:4.25rem;*/
+        }
+
+        .snack > li{
+            list-style:none;
+            overflow:hidden;
+            height:85px;
+        }
+
+        .fb{
+            background-color:#fff;
+            border-bottom:1px #eeeeee solid;
+        }
+
+        .left{
+            width:35%;
+            float:left;
+        }
+
+        .left > img{
+            margin-top:5%;
+            margin-left:20%;
+        }
+
+        .middle{
+            width:44%;
+            float:left;
+            margin-left:-5%;
+            position:relative;
+        }
+
+        .middle-title{
+            margin-top:7%;
+        }
+
+        .middle-acorn{
+            position:absolute;
+            bottom:-90%;
+        }
+
+        .right{
+            width:20%;
+            float:left;
+            position:relative;
+        }
+
+        .right-num{
+            margin-top:10%;
+            margin-left:-8%;
+            font-size:14px;
+            text-align:center;
+            line-height:24px;
+        }
+
+        .right-exchange{
+            width:64px;
+            line-height:26px;
+            color:#fff;
+            text-align:center;
+            /*border:1px #BBBBBB solid;*/
+            position:absolute;
+            bottom:-110%;
+            background-color:#009AE2;
+            border-radius:50px;
+            margin-left:5px;
+        }
+
+        .ff{
+            background-color:#FFFFFF;
+        }
+
+        .middle-num{
+            position:absolute;
+            bottom:-270%;
+        }
+
+        .bottom{
+            height:80px;
+            line-height:80px;
+            text-align:center;
+            color:#d9d9d9;
+        }
+    </style>
+{/block}
+
+{block private_js}
+    {include "../Welfare/snackJS.latte"}
+{/block}
+
+{block content}
+    {if $lists}
+        <div>
+            <ul class="snack">
+                {foreach $lists as $v}
+                    <li class="fb">
+                        <a href="{url("mobileConsoles_welfare_snackDetail",array("id"=>$v['id']))}" style="color:#101010">
+                            <div class="left"><img src="{$cdnThumb.$v['icon']}" style="width:60px;height:60px;border-radius:50px;border:1px #eee solid"></div>
+                            <div class="middle">
+                                <div class="middle-title">{$v["names"]}</div>
+                                {*<div class="middle-content sui-ellipsis-1">{$v['content']}</div>*}
+                                <div class="middle-acorn">{$v['acorn']}<i class="icon al-icon al-icon-influence sui-font-size-rem-0-8" style="line-height:14px;"></i> <em style="">*</em> {$v['everyNum']}{$v['unit']}/次</div>
+                                {*<div class="middle-num"></div>*}
+                            </div>
+                            <div class="right">
+                                <div class="right-num">库存*{$v['num']}{$v['unit']}</div>
+                                <div class="right-exchange">兑换</div>
+                            </div>
+                        </a>
+                    </li>
+                {/foreach}
+            </ul>
+        </div>
+        <div class="bottom">— 我是有底线的 —</div>
+    {else}
+        <div class="list" style="margin-top:100px;text-align:center">
+            <img src="{path('[MobileConsoles]/img/null.png')}" alt="" class="" style="width:60%; height:100%;margin:0 20%;display:block;">
+            <div>暂无小吃</div>
+        </div>
+    {/if}
+{/block}

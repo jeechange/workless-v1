@@ -1,0 +1,68 @@
+{layout '../Public/sideForm.latte'}
+{block title}申请详情{/block}
+{block private_css}
+{/block}
+{block private_js}
+    <script>
+        init.ready(function () {
+            $(".layer-photos").unbind().bind("click", function () {
+                var src = $(this).attr("layer-src");
+                var up = uploader.initPreview("", null);
+                up.imgShow(src);
+            });
+        })
+    </script>
+{/block}
+{block content}
+    <div style="margin: 20px;min-height: 150px; border-bottom: 1px dashed #999;    display: flex;">
+        <div style="width:20%;float:left;">
+            <div style="color:#0084d2;margin: 20px;">申请说明</div>
+        </div>
+        <div style="width:80%;float:left">
+            <div style="margin: 20px;">
+                {if $lists['memo']}
+                    {str_replace(array("\r\n","\n","\r"),"<br>",$lists['memo'])|noescape}
+                {else}
+                    无
+                {/if}
+            </div>
+        </div>
+
+    </div>
+    <div style="margin: 20px;min-height: 150px; border-bottom: 1px dashed #999;display: flex;">
+        <div style="width:20%;float:left;">
+            <div style="color:#0084d2;margin: 20px;">附件</div>
+        </div>
+        <div style="width:80%;float:left">
+            <div style="margin: 20px;">
+                {if !$thumbs}无
+                {else}
+                    {foreach $thumbs as $thumb}
+                        {if $thumb["type"]=="img"}
+                            <img class="layer-photos" layer-pid="" layer-src="{$thumb['src']}" style="max-width:150px;max-height:150px;cursor:pointer" src="{$cdnThumbBase}{$thumb['val']}" alt="{$thumb['name']}">
+                        {else}
+                            <a href="{$thumb['src']}" title="{$thumb['val']}" target="_blank">{$thumb['name']}</a>
+                        {/if}
+                    {/foreach}
+                {/if}
+            </div>
+        </div>
+
+    </div>
+    <div style="margin: 20px;min-height: 150px; border-bottom: 1px dashed #999;display: flex;">
+        <div style="width:20%;float:left;">
+            <div style="color:#0084d2;margin: 20px;">说明/评论</div>
+        </div>
+        <div style="width:80%;float:left">
+            <div style="margin: 20px;">
+                {if $lists['sysMemo']}
+                    {str_replace(array("\r\n","\n","\r"),"<br>",$lists['sysMemo'])|noescape}
+                {else}
+                    无
+                {/if}
+            </div>
+        </div>
+    </div>
+{/block}
+{block submits}
+{/block}

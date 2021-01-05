@@ -1,0 +1,1044 @@
+#//Consoles route
+consoles_index_index:
+  pattern: /
+  callback: "Consoles:Index:index"
+  method: get
+  options:
+consoles_index_dashboard:
+  pattern: /dashboard
+  callback: "Consoles:Index:dashboard"
+  method: get
+  options:
+consoles_index_share_ding_webhook:
+  pattern: /share_ding_webhook
+  callback: "Consoles:Index:shareDingWebHook"
+  method: post
+  options:
+
+consoles_index_waiting_for_development:
+  pattern: /waiting/for/development
+  callback: "Consoles:Index:waitingForDevelopment"
+  method: get
+  options:
+
+#########头部根据输入任务编号直达任务
+consoles_index_toTask:
+  pattern: /toTask
+  callback: "Consoles:Index:toTask"
+  method: post|get
+  options:
+
+consoles_login_login:
+  pattern: /login
+  callback: "Consoles:Login:login"
+  method: get|post
+  options:
+consoles_login_register:
+  pattern: /register
+  callback: "Consoles:Login:register"
+  method: get|post
+  options:
+consoles_register_registerajaxcheck:
+  pattern: /register_registerajaxcheck
+  callback: "Consoles:Login:registerAjaxCheck"
+  method: get|post
+  options:
+consoles_register_inputCode:
+  pattern: /register_inputCode
+  callback: "Consoles:Login:inputCode"
+  method: get|post
+  options:
+consoles_register_getverify:
+  pattern: /register_getverify
+  callback: "Consoles:Login:getVerify"
+  method: get
+  options:
+consoles_register_PhoneAjaxCheck:
+  pattern: /register_PhoneAjaxCheck
+  callback: "Consoles:Login:PhoneAjaxCheck"
+  method: get|post
+  options:
+consoles_login_findPwd:
+  pattern: /findPwd
+  callback: "Consoles:Login:findPwd"
+  method: get|post
+  options:
+consoles_login_logout:
+  pattern: /logout
+  callback: "Consoles:Login:logout"
+  method: get|post
+  options:
+
+consoles_login_verify:
+  pattern: /login_verify
+  callback: "Consoles:Login:verify"
+  method: get|post
+  options:
+consoles_login_send_verify:
+  pattern: /login_send_verify
+  callback: "Consoles:Login:sendVerify"
+  method: get|post
+  options:
+consoles_login_yzVcode:
+  pattern: /login_yzVcode
+  callback: "Consoles:Login:yzVcode"
+  method: get|post
+  options:
+consoles_login_guide:
+  pattern: /login_guide
+  callback: "Consoles:Login:guide"
+  method: get|post
+  options:
+
+consoles_lists:
+  pattern: /lists/:con/
+  callback: "Consoles:{con}:lists"
+  method: get
+  options: {require: {con: "[a-zA-Z_]+"}  }
+consoles_delete:
+  pattern: /delete/:con/:id
+  callback: "Consoles:{con}:delete"
+  method: get|delete
+  options: {require: {con: "[a-zA-Z_]+", id: \d+}  }
+consoles_detail:
+  pattern: /detail/:con/:id
+  callback: "Consoles:{con}:detail"
+  method: get|put
+  options: {require: {con: "[a-zA-Z_]+", id: \d+}  }
+consoles_add:
+  pattern: /add/:con
+  callback: "Consoles:{con}:add"
+  method: get|post
+  options:  {require: {con: "[a-zA-Z_]+"}}
+consoles_mod:
+  pattern: /mod/:con/:id
+  callback: "Consoles:{con}:modify"
+  method: get|post
+  options:  {require: {con: "[a-zA-Z_]+", id: \d+}}
+consoles_sort_mul:
+  pattern: /sort_mul/:con
+  callback: "Consoles:{con}:sortMul"
+  method: post
+  options: {require: {con: "[a-zA-Z_]+"}}
+consoles_delete_mul:
+  pattern: /del_mul/:con
+  callback: "Consoles:{con}:deleteMul"
+  method: post
+  options: {require: {con: "[a-zA-Z_]+"}}
+consoles_state_mul:
+  pattern: /state_mul/:con/:state
+  callback: "Consoles:{con}:stateMul"
+  method: post
+  options: {require: {con: "[a-zA-Z_]+",state: "[0-9]+"}}
+consoles_set_myuser:
+  pattern: /set_myuser
+  callback: "Consoles:MyUser:setMyUser"
+  method: get|post
+  options:
+consoles_set_password:
+  pattern: /set_password
+  callback: "Consoles:MyUser:setPassword"
+  method: get|post
+  options:
+consoles_myuser_verify:
+  pattern: /myuser_verify
+  callback: "Consoles:MyUser:verify"
+  method: get|post
+  options:
+consoles_myuser_sendVerify:
+  pattern: /myuser_sendVerify
+  callback: "Consoles:MyUser:sendVerify"
+  method: get|post
+  options:
+consoles_myuser_yzVcode:
+  pattern: /myuser_yzVcode
+  callback: "Consoles:MyUser:yzVcode"
+  method: get|post
+  options:
+
+consoles_uploads_pic:
+  pattern: /uploads/pic/:types
+  callback: "Consoles:Upload:picUpload"
+  method: any
+  options:
+consoles_uploads_pic_stock:
+  pattern: /uploads/pic_stock/:types
+  callback: "Consoles:Upload:picUploadStock"
+  method: get
+  options:
+
+consoles_company_addTeam:
+  pattern: /company_addTeam
+  callback: "Consoles:Company:addTeam"
+  method: get|post
+  options:
+consoles_company_addTeamSideForm:
+  pattern: /company_addTeamSideForm
+  callback: "Consoles:Company:addTeamSideForm"
+  method: get|post
+  options:
+consoles_company_memberLists:
+  pattern: /company_memberLists
+  callback: "Consoles:Company:memberLists"
+  method: get|post
+  options:
+consoles_company_authentication:
+  pattern: /company_authentication
+  callback: "Consoles:Company:authentication"
+  method: get|post
+  options:
+consoles_company_memberinvite:
+  pattern: /company_memberinvite
+  callback: "Consoles:Company:memberLists"
+  method: get|post
+  options:
+consoles_company_inviteMe:
+  pattern: /company_invite_me
+  callback: "Consoles:Company:inviteMe"
+  method: get|post
+  options:
+consoles_company_inviteagree:
+  pattern: /company_invite_agree/:id
+  callback: "Consoles:Company:inviteAgree"
+  method: get|post
+  options:
+consoles_company_invitereject:
+  pattern: /company_invite_reject/:id
+  callback: "Consoles:Company:inviteReject"
+  method: get|post
+  options:
+consoles_company_memberinvite_add:
+  pattern: /company_memberinvite_add
+  callback: "Consoles:Company:inviteAdd"
+  method: get|post
+  options:
+consoles_company_memberinvite_del:
+  pattern: /company_memberinvite_del/:id
+  callback: "Consoles:Company:inviteDel"
+  method: get
+  options:
+consoles_company_findusers:
+  pattern: /company_findusers
+  callback: "Consoles:Company:findUsers"
+  method: post
+  options:
+consoles_company_add:
+  pattern: /company_add
+  callback: "Consoles:Company:add"
+  method: get|post
+  options:
+consoles_company_modify:
+  pattern: /company_modify/:id
+  callback: "Consoles:Company:modify"
+  method: get|post
+  options:
+consoles_company_toggle:
+  pattern: /company_toggle/:id
+  callback: "Consoles:Company:toggle"
+  method: get|post
+  options:
+consoles_company_supers:
+  pattern: /company/supers
+  callback: "Consoles:Company:supers"
+  method: get|post
+  options:
+consoles_company_super_add:
+  pattern: /company/super_add
+  callback: "Consoles:Company:superAdd"
+  method: get|post
+  options:
+consoles_company_super_del:
+  pattern: /company/super_del/:id
+  callback: "Consoles:Company:superDel"
+  method: get
+  options:
+consoles_roles_states:
+  pattern: /roles/states/:id/:status
+  callback: "Consoles:Roles:states"
+  method: get|post
+  options:
+consoles_roles_rolesAccess:
+  pattern: /roles/access
+  callback: "Consoles:Roles:accessLists"
+  method: get
+  options:
+consoles_roles_accessModify:
+  pattern: /roles/accessModify
+  callback: "Consoles:Roles:accessModify"
+  method: post
+  options:
+consoles_study_findstudy:
+  pattern: /study/findstudy
+  callback: "Consoles:Study:findStudy"
+  method: post
+  options:
+consoles_staff_findusers:
+  pattern: /staff/findusers
+  callback: "Consoles:Staff:findUsers"
+  method: post
+  options:
+consoles_staff_buyworkless:
+  pattern: /staff/buyworkless
+  callback: "Consoles:Staff:buyWorkLess"
+  method: get|post
+  options:
+#我的直线下级
+consoles_staff_branchLists:
+  pattern: /staff/branchLists
+  callback: "Consoles:Staff:branchLists"
+  method: get|post
+  options:
+#==========价值维度===========
+consoles_standard_allStandards:
+  pattern: /standard/allStandards
+  callback: "Consoles:Standard:allStandards"
+  method: get|post
+  options:
+#添加价值维度
+consoles_standard_addStandards:
+  pattern: /standard/addStandards
+  callback: "Consoles:Standard:addStandards"
+  method: get|post
+  options:
+#修改价值维度
+consoles_standard_modifyStandards:
+  pattern: /standard/modifyStandards
+  callback: "Consoles:Standard:modifyStandards"
+  method: get|post
+  options:
+#个人价值指数
+consoles_index_valueIndex:
+  pattern: /index/valueIndex
+  callback: "Consoles:index:valueIndex"
+  method: get|post
+  options:
+
+#===========任务=============
+consoles_task_dynamic_reply:
+  pattern: /task/dynamic_reply/:id
+  callback: "Consoles:Task:dynamic_reply"
+  method: get|post
+  options:
+consoles_task_dynamic_comment:
+  pattern: /task/dynamic_comment/:id
+  callback: "Consoles:Task:dynamic_comment"
+  method: get|post
+  options:
+consoles_task_dynamic_action:
+  pattern: /task/dynamic_action/:id
+  callback: "Consoles:Task:dynamicAction"
+  method: get|post
+  options:
+consoles_task_receive:
+  pattern: /task/receive/:id
+  callback: "Consoles:Task:receive"
+  method: get|post
+  options:
+consoles_task_details:
+  pattern: /task/details/:id
+  callback: "Consoles:Task:details"
+  method: get|post
+  options:
+consoles_task_history:
+  pattern: /task/history/:id
+  callback: "Consoles:Task:history"
+  method: get
+  options:
+consoles_task_delete:
+  pattern: /task/delete/:id
+  callback: "Consoles:Task:delete"
+  method: get|post
+  options:
+consoles_task_group:
+  pattern: /task/group/:pid
+  callback: "Consoles:Task:group"
+  method: get|post
+  options:
+
+#==============任务组=============
+consoles_taskGroup_creatLists:
+  pattern: /taskGroup/creatLists/
+  callback: "Consoles:TaskGroup:creatLists"
+  method: get|post
+  options:
+consoles_taskGroup_details:
+  pattern: /taskGroup/details/:id
+  callback: "Consoles:TaskGroup:details"
+  method: get|post
+  options:
+consoles_taskGroup_create_doc:
+  pattern: /taskGroup/create_doc/:id
+  callback: "Consoles:TaskGroup:createDoc"
+  method: get|post
+  options:
+consoles_taskGroup_modify_doc:
+  pattern: /taskGroup/modify_doc/:id
+  callback: "Consoles:TaskGroup:modifyDoc"
+  method: get|post
+  options:
+consoles_taskGroup_delete_doc:
+  pattern: /taskGroup/delete_doc/:id
+  callback: "Consoles:TaskGroup:deleteDoc"
+  method: get|post
+  options:
+consoles_taskGroup_create_folder:
+  pattern: /taskGroup/create_folder/:gid/:pid
+  callback: "Consoles:TaskGroup:createFolder"
+  method: get|post
+  options:
+consoles_taskGroup_modify_folder:
+  pattern: /taskGroup/modify_folder/:gid/:fid/:pid
+  callback: "Consoles:TaskGroup:modifyFolder"
+  method: get|post
+  options:
+consoles_taskGroup_uploadFiles:
+  pattern: /taskGroup/uploadFiles/:gid/:fid
+  callback: "Consoles:TaskGroup:uploadFiles"
+  method: get|post
+  options:
+consoles_taskGroup_deleteFiles:
+  pattern: /taskGroup/deleteFiles/:id
+  callback: "Consoles:TaskGroup:deleteFiles"
+  method: get|post
+  options:
+consoles_taskGroup_groupDiscus:
+  pattern: /taskGroup/groupDiscuss/:id
+  callback: "Consoles:TaskGroup:groupDiscuss"
+  method: get|post
+  options:
+#发起讨论
+consoles_taskGroup_createDiscuss:
+  pattern: /taskGroup/createDiscuss/:id
+  callback: "Consoles:TaskGroup:createDiscuss"
+  method: get|post
+  options:
+#项目组讨论评价
+consoles_taskGroup_discuss_comment:
+  pattern: /taskGroup/discuss_comment/:id
+  callback: "Consoles:TaskGroup:discuss_comment"
+  method: get|post
+  options:
+#项目组讨论回复
+consoles_taskGroup_discuss_reply:
+  pattern: /taskGroup/discuss_reply/:id
+  callback: "Consoles:TaskGroup:discuss_reply"
+  method: get|post
+  options:
+#项目任务
+consoles_taskGroup_taskLists:
+  pattern: /taskGroup/taskLists/:id
+  callback: "Consoles:TaskGroup:taskLists"
+  method: get|post
+  options:
+#项目成员
+consoles_taskGroup_member:
+  pattern: /taskGroup/member/:id
+  callback: "Consoles:TaskGroup:member"
+  method: get|post
+  options:
+#项目设置
+consoles_taskGroup_setting:
+  pattern: /taskGroup/setting/:id
+  callback: "Consoles:TaskGroup:setting"
+  method: get|post
+  options:
+#=============学习=============
+consoles_study_receiveTask:
+  pattern: /study/receiveTask/:id
+  callback: "Consoles:Study:receiveTask"
+  method: get|post
+  options:
+#所有人领取的学习进度详情
+consoles_study_allDetail:
+  pattern: /study/allDetail/:id
+  callback: "Consoles:Study:allDetail"
+  method: get|post
+  options:
+#审核
+consoles_studyDetail_myAuditor:
+  pattern: /studyDetail/myAuditor
+  callback: "Consoles:StudyDetail:myAuditor"
+  method: get|post
+  options:
+#==========积分-我的===========
+#申请
+consoles_acorn_applyLists:
+  pattern: /acorn/applyLists
+  callback: "Consoles:Acorn:applyLists"
+  method: get
+  options:
+consoles_acorn_applyAdd:
+  pattern: /acorn/applyAdd
+  callback: "Consoles:Acorn:applyAdd"
+  method: get|post
+  options:
+consoles_acorn_cancel:
+  pattern: /acorn/cancel/:id
+  callback: "Consoles:Acorn:cancel"
+  method: get|post
+  options:
+consoles_acorn_submitApply:
+  pattern: /acorn/submitApply
+  callback: "Consoles:Acorn:submitApply"
+  method: get|post
+  options:
+consoles_acorn_apply:
+  pattern: /acorn/apply
+  callback: "Consoles:Acorn:apply"
+  method: get|post
+  options:
+#审核
+consoles_acorn_auditLists:
+  pattern: /acorn/auditLists
+  callback: "Consoles:Acorn:auditLists"
+  method: get
+  options:
+#审核
+consoles_acorn_audits:
+  pattern: /acorn/audits/:id
+  callback: "Consoles:Acorn:audits"
+  method: get|post
+  options:
+#分享
+consoles_acorn_acornShare:
+  pattern: /acorn/acornShare/:id
+  callback: "Consoles:Acorn:acornShare"
+  method: get|post
+  options:
+
+consoles_index_sharePage:
+  pattern: /indx/sharePage/
+  callback: "Consoles:Index:sharePage"
+  method: get|post
+  options:
+
+consoles_index_share:
+  pattern: /indx/share/
+  callback: "Consoles:Index:share"
+  method: get|post
+  options:
+
+consoles_share_sharePage:
+  pattern: /share/sharePage/
+  callback: "Consoles:Share:sharePage"
+  method: get|post
+  options:
+
+consoles_share_sharePageTask:
+  pattern: /share/sharePageTask/
+  callback: "Consoles:Share:sharePageTask"
+  method: get|post
+  options:
+consoles_share_shareDetail:
+  pattern: /share/shareDetail/
+  callback: "Consoles:Share:shareDetail"
+  method: get|post
+  options:
+
+#分析
+consoles_acorn_analysis:
+  pattern: /acorn/analysis
+  callback: "Consoles:Acorn:analysis"
+  method: get|post
+  options:
+#综合查询
+consoles_acorn_allLists:
+  pattern: /acorn/allLists
+  callback: "Consoles:Acorn:allLists"
+  method: get|post
+  options:
+#==============任务=============
+consoles_taskMe_myIssue:
+  pattern: /taskMe/myIssue
+  callback: "Consoles:TaskMe:myIssue"
+  method: get|post
+  options:
+consoles_taskMe_cycles:
+  pattern: /taskMe/cycles
+  callback: "Consoles:TaskMe:cycles"
+  method: get|post
+  options:
+consoles_taskMe_cycle_status:
+  pattern: /taskMe/cycle_status/:id/:status
+  callback: "Consoles:TaskMe:cycleStatus"
+  method: get|post
+  options:
+consoles_taskMe_cycle_delete:
+  pattern: /taskMe/cycle_delete/:id
+  callback: "Consoles:TaskMe:cycleDelete"
+  method: get|post
+  options:
+consoles_taskMe_myAccept:
+  pattern: /taskMe/myAccept
+  callback: "Consoles:TaskMe:myAccept"
+  method: get|post
+  options:
+consoles_taskMe_allotMe:
+  pattern: /taskMe/allotMe
+  callback: "Consoles:TaskMe:allotMe"
+  method: get|post
+  options:
+consoles_taskMe_accept:
+  pattern: /taskMe/accept/:id
+  callback: "Consoles:TaskMe:accept"
+  method: get|post
+  options:
+consoles_taskMe_accept_allot_up:
+  pattern: /taskMe/accept_allot_up/:id
+  callback: "Consoles:TaskMe:acceptAllotUp"
+  method: post
+  options:
+consoles_taskMe_accept_allot_up_submit:
+  pattern: /taskMe/accept_allot_up_submit
+  callback: "Consoles:TaskMe:acceptAllotUpSubmit"
+  method: post
+  options:
+consoles_taskMe_accept_allot:
+  pattern: /taskMe/accept_allot/:id
+  callback: "Consoles:TaskMe:acceptAllot"
+  method: post
+  options:
+consoles_taskMe_accept_allot_recheck:
+  pattern: /taskMe/accept_allot_recheck/:id
+  callback: "Consoles:TaskMe:acceptAllotRecheck"
+  method: post
+  options:
+consoles_taskMe_accept_allot_nopass:
+  pattern: /taskMe/accept_allot_nopass/:id
+  callback: "Consoles:TaskMe:acceptAllotNoPass"
+  method: post
+  options:
+consoles_taskMe_accept_allot_assign:
+  pattern: /taskMe/accept_allot_assign/:id
+  callback: "Consoles:TaskMe:acceptAllotAssign"
+  method: post
+  options:
+consoles_taskMe_confirmAcorn:
+  pattern: /taskMe/confirmAcorn
+  callback: "Consoles:TaskMe:confirmAcorn"
+  method: post
+  options:
+consoles_taskMe_rejectAcorn:
+  pattern: /taskMe/rejectAcorn
+  callback: "Consoles:TaskMe:rejectAcorn"
+  method: post
+  options:
+consoles_taskSetting_settings:
+  pattern: /tasksetting/settings
+  callback: "Consoles:TaskSetting:settings"
+  method: post
+  options:
+consoles_tasksetting_group_add:
+  pattern: /group_add
+  callback: "Consoles:TaskSetting:groupAdd"
+  method: post
+  options:
+#==============统计================
+#个人加分、扣分、得分统计
+consoles_ranking_personalPoints:
+  pattern: /ranking/personalPoints/
+  callback: "Consoles:Ranking:personalPoints"
+  method: get|post
+  options:
+#部分人员
+consoles_ranking_DAjaxLists:
+  pattern: /ranking/DAjaxLists/
+  callback: "Consoles:Ranking:DAjaxLists"
+  method: get|post
+  options:
+#部门加分、扣分、得分统计
+consoles_ranking_departmentPoints:
+  pattern: /ranking/departmentPoints/
+  callback: "Consoles:Ranking:departmentPoints"
+  method: get|post
+  options:
+#部门人均得分统计
+consoles_ranking_deAveragePoints:
+  pattern: /ranking/deAveragePoints/
+  callback: "Consoles:Ranking:deAveragePoints"
+  method: get|post
+  options:
+#分析
+consoles_ranking_analysis:
+  pattern: /ranking/analysis/
+  callback: "Consoles:Ranking:analysis"
+  method: get|post
+  options:
+#分析搜索
+consoles_ranking_searchPoints:
+  pattern: /ranking/searchPoints/
+  callback: "Consoles:Ranking:searchPoints"
+  method: get|post
+  options:
+
+
+consoles_welfare_bonus:
+  pattern: /welfare_bonus
+  callback: "Consoles:Welfare:bonus"
+  method: get|post
+  options:
+consoles_welfare_bonuslists:
+  pattern: /welfare_bonuslists
+  callback: "Consoles:Welfare:bonusLists"
+  method: get|post
+  options:
+consoles_openapi_dingtalk:
+  pattern: /openapi_dingtalk
+  callback: "Consoles:Openapi:dingtalk"
+  method: get|post
+  options:
+consoles_openapi_email:
+  pattern: /openapi_email
+  callback: "Consoles:Openapi:email"
+  method: get|post
+  options:
+consoles_openapi_sms:
+  pattern: /openapi_sms
+  callback: "Consoles:Openapi:sms"
+  method: get|post
+  options:
+consoles_openapi_smsBuy:
+  pattern: /openapi_sms_buy
+  callback: "Consoles:Openapi:smsBuy"
+  method: get|post
+  options:
+consoles_openapi_dingwebhook:
+  pattern: /openapi_dingwebhook
+  callback: "Consoles:Openapi:dingWebhook"
+  method: get|post
+  options:
+consoles_openapi_dingwebhook_add:
+  pattern: /openapi_dingwebhook_add
+  callback: "Consoles:Openapi:dingWebhookAdd"
+  method: get|post
+  options:
+consoles_openapi_dingwebhook_modify:
+  pattern: /openapi_dingwebhook_modify/:id
+  callback: "Consoles:Openapi:dingWebhookModify"
+  method: get|post
+  options:
+consoles_openapi_dingwebhook_delete:
+  pattern: /openapi_dingwebhook_delete/:id
+  callback: "Consoles:Openapi:dingWebhookDelete"
+  method: get
+  options:
+consoles_openapi_wxwork:
+  pattern: /openapi_wxwork
+  callback: "Consoles:Openapi:wxwork"
+  method: get|post
+  options:
+consoles_welfare_bonus_setting:
+  pattern: /welfare_bonus_setting
+  callback: "Consoles:Welfare:bonusSetting"
+  method: get|post
+  options:
+
+#=========物资奖=========
+consoles_welfare_material:
+  pattern: /welfare_material
+  callback: "Consoles:Welfare:material"
+  method: get|post
+  options:
+consoles_welfare_materialAdd:
+  pattern: /welfare/materialAdd
+  callback: "Consoles:Welfare:materialAdd"
+  method: get|post
+  options:
+#物资奖详情
+consoles_welfare_materialDetail:
+  pattern: /welfare/materialDetail/:id
+  callback: "Consoles:Welfare:materialDetail"
+  method: get|post
+  options:
+consoles_welfare_chat:
+  pattern: /welfare/chat/:id
+  callback: "Consoles:Welfare:chat"
+  method: get|post
+  options:
+consoles_welfare_comment:
+  pattern: /welfare/comment/:id
+  callback: "Consoles:Welfare:comment"
+  method: get|post
+  options:
+consoles_welfare_getGift:
+  pattern: /welfare/getGift/:id
+  callback: "Consoles:Welfare:getGift"
+  method: get|post
+  options:
+#我的发放
+consoles_welfare_myGrant:
+  pattern: /welfare_myGrant
+  callback: "Consoles:Welfare:myGrant"
+  method: get|post
+  options:
+consoles_welfare_revoke:
+  pattern: /welfare/revoke/:id
+  callback: "Consoles:Welfare:revoke"
+  method: get|post
+  options:
+#抵扣券管理
+consoles_welfare_voucher:
+  pattern: /welfare/voucher
+  callback: "Consoles:Welfare:voucher"
+  method: get|post
+  options:
+consoles_welfare_voucherAdd:
+  pattern: /welfare/voucherAdd
+  callback: "Consoles:Welfare:voucherAdd"
+  method: get|post
+  options:
+consoles_welfare_voucherModify:
+  pattern: /welfare/voucherModify/:id
+  callback: "Consoles:Welfare:voucherModify"
+  method: get|post
+  options:
+
+consoles_welfare_voucherDelete:
+  pattern: /welfare/voucherDelete/:id
+  callback: "Consoles:Welfare:voucherDelete"
+  method: get|post
+  options:
+
+consoles_welfare_bonusGetVerify:
+  pattern: /bonusGetVerify
+  callback: "Consoles:Welfare:bonusGetVerify"
+  method: get
+  options:
+consoles_welfare_setting_bonus:
+  pattern: /welfare_settingbonus
+  callback: "Consoles:Welfare:settingBonus"
+  method: get|post
+  options:
+
+
+###Anything
+consoles_anything_anythingAdd:
+  pattern: /anything_anythingAdd
+  callback: "Consoles:Anything:anythingAdd"
+  method: get|post
+  options:
+consoles_anything_anythingLists:
+  pattern: /anything_anythingLists
+  callback: "Consoles:Anything:anythingLists"
+  method: get|post
+  options:
+consoles_anything_anythingCheck:
+  pattern: /anything_anythingCheck/:id
+  callback: "Consoles:Anything:anythingCheck"
+  method: get|post
+  options:{require: {id: \d+}}
+consoles_anything_anythingRevoke:
+  pattern: /anything_anythingRevoke:id
+  callback: "Consoles:Anything:anythingRevoke"
+  method: get|post
+  options:{require: {id: \d+}}
+consoles_anything_anythingDelete:
+  pattern: /anything_anythingDelete:id
+  callback: "Consoles:Anything:anythingDelete"
+  method: get|post
+  options:{require: {id: \d+}}
+
+#小吃柜
+consoles_snack_exchange:
+  pattern: /snack/exchange/:id
+  callback: "Consoles:Snack:exchange"
+  method: get|post
+  options:
+#我的兑换
+consoles_snack_mySnack:
+  pattern: /snack/mySnack
+  callback: "Consoles:Snack:mySnack"
+  method: get|post
+  options:
+consoles_snack_myCancel:
+  pattern: /snack/myCancel/:id
+  callback: "Consoles:Snack:myCancel"
+  method: get|post
+  options:
+#管理小吃柜商品
+consoles_snack_waiter:
+  pattern: /snack/waiter
+  callback: "Consoles:Snack:waiter"
+  method: get|post
+  options:
+consoles_snack_rising:
+  pattern: /snack/rising/:id
+  callback: "Consoles:Snack:rising"
+  method: get|post
+  options:
+#核销兑换商品
+consoles_snack_check:
+  pattern: /snack/check
+  callback: "Consoles:Snack:check"
+  method: get|post
+  options:
+consoles_snack_adopt:
+  pattern: /snack/adopt/:id
+  callback: "Consoles:Snack:adopt"
+  method: get|post
+  options:
+consoles_snack_notAdopt:
+  pattern: /snack/notAdopt/:id
+  callback: "Consoles:Snack:notAdopt"
+  method: get|post
+  options:
+#============效率統計=============
+consoles_taskStatistics_efficiency:
+  pattern: /taskStatistics/efficiency/
+  callback: "Consoles:TaskStatistics:efficiency"
+  method: get|post
+  options:
+consoles_taskStatistics_quality:
+  pattern: /taskStatistics/quality/
+  callback: "Consoles:TaskStatistics:quality"
+  method: get|post
+  options:
+#======外部项目的评论发布==========
+consoles_task_external_relations:
+  pattern: /task/external_relations/:id
+  callback: "Consoles:ExternalRelations:dynamicAction"
+  method: get|post
+  options:
+#外部联系人
+consoles_company_listsWBLXR:
+  pattern: /lists/WBLXR
+  callback: "Consoles:Company:listsWBLXR"
+  method: get|post
+  options:
+consoles_company_addWBLXR:
+  pattern: /add/WBLXR
+  callback: "Consoles:Company:addWBLXR"
+  method: get|post
+  options:
+consoles_company_modifyWBLXR:
+  pattern: /modify/WBXLR/:id
+  callback: "Consoles:Company:modifyWBLXR"
+  method: get|post
+  options:
+consoles_company_deleteWBLXR:
+  pattern: /delete/WBLXR/:id
+  callback: "Consoles:Company:deleteWBLXR"
+  method: get|post
+  options:
+#============调查================
+#我参与的
+consoles_survey_myLists:
+  pattern: /survey/myLists
+  callback: "Consoles:Survey:myLists"
+  method: get|post
+  options:
+#============目标================
+#自评
+consoles_targetDetail_selfEvaluate:
+  pattern: /targetDetail/selfEvaluate/:id
+  callback: "Consoles:TargetDetail:selfEvaluate"
+  method: get|post
+  options:
+#发布目标
+consoles_target_release:
+  pattern: /target/release
+  callback: "Consoles:Target:release"
+  method: get|post
+  options:
+consoles_target_examine:
+  pattern: /target/examine/:id
+  callback: "Consoles:Target:examine"
+  method: get|post
+  options:
+consoles_target_examineSuccess:
+  pattern: /target/examine/success/
+  callback: "Consoles:Target:examineSuccess"
+  method: get|post
+  options:
+consoles_target_examineFail:
+  pattern: /target/examine/fail/
+  callback: "Consoles:Target:examineFail"
+  method: get|post
+  options:
+consoles_targetDetail_detail:
+  pattern: /targetDetail/detail/:id
+  callback: "Consoles:TargetDetail:detail"
+  method: get|post
+  options:
+consoles_target_evaluate:
+  pattern: /target/evaluate/:id
+  callback: "Consoles:Target:evaluate"
+  method: get|post
+  options:
+consoles_target_evaluateForm:
+  pattern: /target/evaluate/form
+  callback: "Consoles:Target:evaluateForm"
+  method: get|post
+  options:
+consoles_target_audit_confirm:
+  pattern: /target/audit/confirm/
+  callback: "Consoles:Target:auditConfirm"
+  method: get|post
+  options:
+#  使命&愿景
+consoles_targetOrganize_addVision:
+  pattern: /targetOrganize/addVision/
+  callback: "Consoles:TargetOrganize:addVision"
+  method: get|post
+  options:
+#  公司目标
+consoles_targetOrganize_addDepartment:
+  pattern: /targetOrganize/addDepartment/
+  callback: "Consoles:TargetOrganize:addDepartment"
+  method: get|post
+  options:
+consoles_targetOrganize_allLists:
+  pattern: /targetOrganize/allLists
+  callback: "Consoles:TargetOrganize:allLists"
+  method: get|post
+  options:
+consoles_targetOrganize_history:
+  pattern: /targetOrganize/history/:id
+  callback: "Consoles:TargetOrganize:history"
+  method: get|post
+  options:
+consoles_index_load_menu:
+  pattern: /index/:menu
+  callback: "Consoles:Index:indexMenu"
+  method: get
+  options:
+consoles_index_load_menu_setting:
+  pattern: /index_setting
+  callback: "Consoles:Index:indexSetting"
+  method: get|post
+  options:
+
+##员工列表
+consoles_staff_lists:
+  pattern: /staff/lists/:sid
+  callback: "Consoles:Staff:lists"
+  method: get|post
+  options:
+
+##部门列表
+consoles_department_lists:
+  pattern: /department/lists/:sid
+  callback: "Consoles:Department:lists"
+  method: get|post
+  options:
+
+##职位列表
+consoles_staffStation_lists:
+  pattern: /staff/station/lists/:sid
+  callback: "Consoles:StaffStation:lists"
+  method: get|post
+  options:
+
+##小组列表
+consoles_staffGroup_lists:
+  pattern: /staff/group/lists/:sid
+  callback: "Consoles:StaffGroup:lists"
+  method: get|post
+  options:
+
+##删除邀请员工
+consoles_CompanyMember_delete:
+  pattern: /company_member/delete/:id
+  callback: "Consoles:Staff:deleteCompanyMember"
+  method: get|post
+  options:

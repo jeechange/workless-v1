@@ -1,0 +1,102 @@
+Admin\Entity\TargetDetail:
+  type: entity
+  table: target_detail
+  id:
+    id:
+      type: integer
+      nullable: false
+      unsigned: false
+      comment: ''
+      id: true
+      generator:
+        strategy: IDENTITY
+  fields:
+    mId:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: m_id
+    scId:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: sc_id
+    names:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    percent:
+      type: decimal
+      nullable: true
+      precision: 10
+      scale: 0
+      comment: ''
+    selfEval:
+      type: decimal
+      nullable: true
+      precision: 10
+      scale: 2
+      comment: ''
+      column: self_eval
+    othersEval:
+      type: decimal
+      nullable: true
+      precision: 10
+      scale: 2
+      comment: ''
+      column: others_eval
+    addTime:
+      type: datetime
+      nullable: true
+      comment: ''
+      column: add_time
+    userId:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: user_id
+    process:
+      type: text
+      nullable: true
+      length: null
+      fixed: false
+      comment: ''
+    proportion:
+      type: decimal
+      nullable: true
+      precision: 10
+      scale: 2
+      comment: ''
+    selfContent:
+      type: text
+      nullable: true
+      length: null
+      fixed: false
+      comment: ''
+      column: self_content
+    standardTypes:
+      type: smallint
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: standard_types
+    standardSet:
+      type: text
+      nullable: true
+      length: null
+      fixed: false
+      comment: ''
+      column: standard_set
+    standardMemo:
+      type: text
+      nullable: true
+      length: null
+      fixed: false
+      comment: ''
+      column: standard_memo
+  lifecycleCallbacks: {  }

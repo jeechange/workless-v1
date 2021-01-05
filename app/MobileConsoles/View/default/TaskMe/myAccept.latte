@@ -1,0 +1,129 @@
+{layout "../Layout/layoutBoth.latte"}
+{block headTitle}{$titles}我的验收{/block}
+{block tabs_content}
+    {include "../Task/tabs.latte"}
+    <div class="bar bar-header-secondary" style="height:3rem; top:3rem; padding-top:0.4rem; z-index:999;">
+        <form action="">
+            <div class="searchbar">
+                <a class="searchbar-cancel">取消</a>
+                <div class="search-input">
+                    <label class="icon icon-search" for="search"></label>
+                    <input type="search" id='search' name="keywords" placeholder='任务名称/任务编号/姓名' value="{$keywords}"/>
+                </div>
+            </div>
+        </form>
+    </div>
+{/block}
+{block private_js}
+    {include '../Task/listsJs.latte'}
+{/block}
+{block custom}
+    {if $isSuper}
+        <span class="create-actions create-actions1" data-url="{url('mobileConsoles_task_settings')}">管理</span>
+    {/if}
+    <span class="create-actions create-actions0" data-popup=".added-popup">发布</span>
+{/block}
+{block private_css}
+    <style>
+        .tabs ~ .content{
+            top:0;
+        }
+
+        .item-content .item-media span, .item-content .types-memo{
+            color:#fff; border-radius:50%; width:40px; height:40px; text-align:center; display:block; line-height:40px;
+            font-size:24px;
+        }
+
+        .item-content .types-memo.types-memo-1{
+            background:#E51C23;
+        }
+
+        .item-content .types-memo.types-memo-3{
+            background:#259B24;
+        }
+
+        .item-content .item-media span.priority-1{
+            background:#FB855C;
+        }
+
+        .item-content .item-media span.priority-2{
+            background:#FFBA00;
+        }
+
+        .item-content .item-media span.priority-3{
+            background:#305AAE;
+        }
+
+        .item-content .item-media span.priority-4{
+            background:#5CABFB;
+        }
+
+        .item-content .item-inner{
+            display:block;
+        }
+
+        .item-content .item-inner:after{
+            display:none;
+        }
+
+        .item-content .item-inner .item-row{
+            display:flex; justify-content:space-between;
+            line-height:24px;
+        }
+
+        .item-content .item-inner .item-row .item-title.item-title-bold{
+            /*font-weight:bold;*/
+        }
+
+        .item-content .item-inner .item-row .item-title .item-tag{
+            color:#fff;
+            background:#0087E2;
+            padding:3px 5px;
+            font-size:12px;
+            margin-right:5px;
+        }
+
+        .item-content .item-inner .item-row .item-after{
+            margin-right:0.1rem;
+            font-size:10px;
+        }
+
+        .item-content .item-inner .item-row .item-after.deadline{
+            font-size:.7rem;
+        }
+
+        .item-content.item-link:after{
+            content:'';
+            position:absolute;
+            left:0;
+            bottom:0;
+            right:auto;
+            top:auto;
+            height:1px;
+            width:100%;
+            background-color:#e7e7e7;
+            display:block;
+            z-index:15;
+            -webkit-transform-origin:50% 100%;
+            transform-origin:50% 100%;
+        }
+
+        .item-group-name{
+            border:1px solid #e7e7e7;
+            margin-right:5px;
+            padding:2px 5px;
+            font-size:12px;
+            border-radius:5px;
+        }
+
+
+    </style>
+{/block}
+
+{block content}
+    <div class="list-block" style="margin-top: 3.7rem;">
+        <ul class="listsItems" data-url="{url("mobileConsoles_taskme_myaccept")}">
+            {include "myAcceptItems.latte"}
+        </ul>
+    </div>
+{/block}

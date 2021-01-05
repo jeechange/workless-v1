@@ -1,0 +1,58 @@
+Admin\Entity\AwardShopping:
+  type: entity
+  table: award_shopping
+  id:
+    id:
+      type: integer
+      nullable: false
+      unsigned: false
+      comment: ''
+      id: true
+      generator:
+        strategy: IDENTITY
+  fields:
+    sid:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+    userId:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: user_id
+    status:
+      type: smallint
+      nullable: true
+      unsigned: false
+      comment: ''
+    types:
+      type: smallint
+      nullable: true
+      unsigned: false
+      comment: ''
+    addTime:
+      type: datetime
+      nullable: true
+      comment: ''
+      column: add_time
+    money:
+      type: decimal
+      nullable: true
+      precision: 20
+      scale: 0
+      comment: ''
+    memo:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    sysmemo:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+  lifecycleCallbacks: {  }

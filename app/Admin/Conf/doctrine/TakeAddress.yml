@@ -1,0 +1,84 @@
+Admin\Entity\TakeAddress:
+  type: entity
+  table: take_address
+  indexes:
+    user_id:
+      columns:
+        - user_id
+  id:
+    id:
+      type: integer
+      nullable: false
+      unsigned: false
+      comment: ''
+      id: true
+      generator:
+        strategy: IDENTITY
+  fields:
+    userId:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: user_id
+    receiver:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    phone:
+      type: string
+      nullable: true
+      length: 15
+      fixed: false
+      comment: ''
+    postalCode:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+      column: postal_code
+    country:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    province:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    city:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    area:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    detail:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    isDefault:
+      type: smallint
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: is_default
+    sid:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+  lifecycleCallbacks: {  }

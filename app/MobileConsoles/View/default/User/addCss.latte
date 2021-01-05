@@ -1,0 +1,194 @@
+<style>
+    .content {
+        background: #fff;
+    }
+
+    .field-item {
+        /*margin:5px 10px;*/
+        /*padding-bottom:10px;*/
+
+        width: 100%;
+        padding: .4rem 0 .35rem;
+        margin-left: 1.5rem;
+        border-bottom: 1px solid #f2f2f2;
+
+    }
+
+    .field-item .field-item-title {
+        /*color:#101010;*/
+        /*font-size:14px;*/
+        /*vertical-align:bottom;*/
+
+        width: 31%;
+        float: left;
+        line-height: 3rem;
+
+    }
+
+    .field-item .field-item-title .required {
+        color: #e51c23;
+        font-weight: 400;
+    }
+
+    .field-item .field-item-body {
+        position: relative;
+        padding-top: 5px;
+    }
+
+    .field-item .field-item-body input[type=text] {
+        display: block;
+        position: relative;
+        border-bottom: #e7e7e7 1px solid;
+    }
+
+    .field-item .field-item-body .field-item-tag {
+        position: absolute;
+        right: 0.5rem;
+        background: #8BC34A;
+        padding: 3px 10px;
+        font-size: 12px;
+        margin-left: 5px;
+        top: 3px;
+        color: #fff;
+    }
+
+    .priority-input {
+        display: inline-block;
+        width: 35px;
+        height: 35px;
+        line-height: 35px;
+        text-align: center;
+        margin-right: 15px;
+        color: #fff !important;
+        border: 2px solid #fff;
+    }
+
+    .priority-input span {
+        margin: auto !important;
+        display: block;
+        width: 30px;
+        height: 30px;
+        line-height: 30px;
+        border-radius: 50%;
+        cursor: pointer;
+    }
+
+    .priority-input input {
+        display: none !important;
+    }
+
+    .priority-A span {
+        background: #FB855C;
+    }
+
+    .priority-B span {
+        background: #FFBA00;
+    }
+
+    .priority-C span {
+        background: #305AAE;
+    }
+
+    .priority-D span {
+        background: #5CABFB;
+    }
+
+    .priority-input.selected {
+        font-weight: 900 !important;
+        border: 2px solid #009DD9;
+        background: #d7d7d7;
+    }
+
+    .field-item-body textarea {
+        border: #e7e7e7 1px solid;
+    }
+
+    .field-item-body .field-item-member-box {
+        padding: 10px 0;
+        border-bottom: 2px solid #ddd;
+    }
+
+    .field-item-body .field-member {
+        display: inline-block;
+        border-radius: 15px;
+        padding: 3px 10px;
+        border: #e7e7e7 1px solid;
+    }
+
+    .field-item-body .field-item-score-box {
+        padding: 10px 0;
+    }
+
+    .field-item-body .field-score {
+        display: inline-block;
+        padding: 5px 15px;
+        border: #e7e7e7 1px solid;
+        margin-top: 5px;
+    }
+
+    .field-item-between {
+        background: rgba(170, 170, 170, 0.07);
+        height: 8px;
+    }
+
+    .medal-item {
+        border: 1px solid #ddd;
+        display: inline-block;
+        vertical-align: middle;
+        min-width: 80px;
+        padding: 3px 8px;
+        margin-right: 5px;
+        height: 35px;
+        line-height: 35px;
+        text-align: center;
+        cursor: pointer;
+        box-sizing: content-box;
+        margin-top: 5px;
+    }
+
+    .medal-item img {
+        width: 30px;
+        height: 30px;
+        vertical-align: middle;
+    }
+
+    .medal-item.medal-item-selected, .field-score.field-score-selected {
+        border: 1px solid #009DD9;
+    }
+
+    .pic-add {
+        display: inline-block;
+        width: 40px;
+        height: 40px;
+        background: #f6f6f6;
+        color: #aaa;
+        text-align: center;
+        line-height: 40px;
+        font-size: 36px;
+        position: relative;
+        margin-left: .25rem;
+        border-radius: 50%;
+    }
+
+    .pic-add input {
+        opacity: 0;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 40px;
+        height: 40px;
+
+    }
+
+    .pic-add img {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+    }
+
+    #deadline {
+        width: 120px;
+        display: inline-block;
+        height: auto;
+    }
+</style>

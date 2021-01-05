@@ -1,0 +1,55 @@
+{foreach $lists as $item}
+    <li style="padding:6px 0;">
+        <a class="item-content item-link" href="{url("mobileConsoles_task_details","id=".$item["t_id"])}">
+            <div class="item-media">
+                {if $item['t_types']==2}
+                    <span class="priority-{$item['t_priority']}">{$item['priorityMemo']}</span>
+                {else}
+                    <span class="types-memo types-memo-{$item['t_types']}">{$typesNames[$item['t_types']]}</span>
+                {/if}
+            </div>
+            <div class="item-inner">
+                <div class="item-row">
+                    <div class="item-title item-title-bold" style="font-size:1rem;">{$item['t_names']}</div>
+                    <div class="item-after">{$item['executorMemo']}</div>
+                </div>
+                <div class="item-row">
+                    <div class="item-title" style="font-size:10px;">
+                        <span style="font-size:12px; font-weight:bold;">#{$item['t_codeNo']}{if $item["t_types"]==3 && $item['t_cycleUse']>0}-{$item['t_cycleUse']}{/if}</span>
+                        {if $item["groupName"]}<span class="item-group-name">{$item["groupName"]}</span>{/if}
+                        {if $item['t_acorn']}{$item['t_acorn']}分{else}未预设积分{/if}
+                    </div>
+                    {if $item["t_status"]==0}
+                        <div class="item-after" data-deadline="{$item["t_deadline"]|totime}"></div>
+                    {else}
+                        <div class="item-after">{$item["statusMemo"]}</div>
+                    {/if}
+                </div>
+            </div>
+        </a>
+    </li>
+{/foreach}
+{*{foreach $lists as $item}*}
+{*<li style="padding:6px 0;">*}
+{*<a class="item-content item-link" href="{url("mobileConsoles_task_details","id=".$item["t_id"])}">*}
+{*<div class="item-media"><span class="priority-{$item['t_priority']}">{$item['priorityMemo']}</span></div>*}
+{*<div class="item-inner">*}
+{*<div class="item-row">*}
+{*<div class="item-title item-title-bold" style="font-size:1rem;">{$item['t_names']}</div>*}
+{*<div class="item-after">{$item['executorMemo']}</div>*}
+{*</div>*}
+{*<div class="item-row">*}
+{*<div class="item-title" style="font-size:10px;">*}
+{*<span style="font-size:12px; font-weight:bold;">#{$item['t_codeNo']}{if $item["t_types"]==3 && $item['t_cycleUse']>0}-{$item['t_cycleUse']}{/if}</span>*}
+{*{if $item["groupName"]}<span class="item-group-name">{$item["groupName"]}</span>{/if}*}
+{*{if $item['t_acorn']}{$item['t_acorn']}分{else}未预设积分{/if}</div>*}
+{*{if $item["t_status"]==0}*}
+{*<div class="item-after" data-deadline="{$item["t_deadline"]|totime}"></div>*}
+{*{else}*}
+{*<div class="item-after">{$item["statusMemo"]}</div>*}
+{*{/if}*}
+{*</div>*}
+{*</div>*}
+{*</a>*}
+{*</li>*}
+{*{/foreach}*}

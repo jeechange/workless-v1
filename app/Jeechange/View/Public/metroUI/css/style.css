@@ -1,0 +1,126 @@
+/*工单信息提醒*/
+.span{
+    position:relative;
+    padding:5px;
+}
+
+.tip{
+    display:block;
+    background:#f00;
+    border-radius:50%;
+    width:5px;
+    height:5px;
+    top:0px;
+    right:0px;
+    position:absolute;
+}
+
+/*工单信息回复*/
+.message-read, .message-reply{
+    border-bottom:1px dashed #e0e0e0;
+    margin: 5px;
+}
+
+.message-read .title, .message-reply .title{
+}
+
+.message-read .title .time{
+    margin-right:5px;
+    display:inline;
+    color:#999;
+}
+
+.message-read .title .message-title{
+    display:inline;
+    color:#666;
+}
+
+.message-read .message-source{
+    padding-top:20px;
+}
+
+.message-read .message-source div{
+    display:inline; margin-right:10px;
+    color:#999;
+}
+
+.message-content{
+    font-size:14px;
+    padding-top:10px;
+}
+
+.message-reply{
+    padding-right:15px;
+}
+
+.message-reply .title{
+    text-align:right;
+}
+
+.message-reply .title .time{
+    display:inline;
+    color:#999;
+}
+
+.message-reply .title .message-title{
+    margin-right:5px;
+    display:inline;
+    color:#666;
+}
+
+.message-reply .message-content{
+    text-align:right;
+    padding-bottom:30px;
+}
+
+.fs{
+    line-height:30px;
+    color:#999;
+    width:100%;
+}
+
+.fs-left-3{
+    width:33.33%; float:left
+}
+
+.table-viewer-header{
+    margin-top:10px;
+    margin-bottom:-1px;
+    height:40px;
+    background:#f5f6fa;
+    line-height:38px;
+    border:1px solid #e1e6eb;
+    position:relative;
+    border-left:4px solid #6d7781;
+}
+
+.table-viewer-header .table-viewer-topbar-title{
+    font-size:14px;
+    color:#333;
+    display:inline-block;
+    margin-left:16px;
+}
+
+.text-muted{
+    color:#999 !important;
+}
+.text-bold{
+    color:#333333;
+    font-weight:bold;
+}
+
+.user-icon{
+    position:relative;
+    padding:0;
+    width:40px;
+    height:40px;
+    border:2px #E7F2FA solid;
+    float:left;
+    border-radius:60px;
+    overflow:hidden;
+}
+
+.message-item .item-content{
+    margin-top:2px;
+    padding-left:60px;
+}

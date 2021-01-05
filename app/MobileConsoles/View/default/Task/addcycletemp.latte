@@ -1,0 +1,133 @@
+<style>
+    .cycleTimes-box{
+        display:flex;
+        justify-content:center;
+    }
+    .cycleTypes{
+        border:1px solid #e7e7e7;
+        padding:5px 0;
+        border-radius:15px;
+        background:#e7e7e7;
+        flex:1;
+        margin-left:5px;
+        text-align:center;
+    }
+
+    .cycleTypes.cycleTypes-selected{
+        border-color: #0a8acd;
+        color:#fff;
+        background:#0a8acd;
+    }
+    .cycleTime_item{
+        border:1px solid #ddd;
+        margin-top:2px;margin-right:1px;margin-left:2px;
+        padding:2px 5px;
+        min-width:28px;
+        text-align:center;
+        cursor:pointer;
+    }
+
+    .cycleTime_item.cycleTime_item_selected{
+        background:#4d91e4;
+        border-color:#4d91e4;
+        color:#fff;
+    }
+</style>
+<div class="popup cycle-popup cycle-box">
+    <header class="bar bar-nav">
+        <a class="button button-link button-nav pull-right close-popup">
+            关闭
+        </a>
+        <h1 class="title">选择周期执行时间</h1>
+    </header>
+    <div class="bar bar-standard bar-footer list-staff-block" style="background: #5CABFB;">
+        <div class="select-cycleTypes-confirm" style="text-align: center;height:2.2rem;line-height: 2.2rem;color:#fff;font-size:1.1rem;letter-spacing:0.3rem">确定</div>
+    </div>
+    <div class="content">
+        <div class="content-inner">
+            <div class="content-block">
+
+                <div class="list-block">
+                    <ul>
+
+                        <li>
+                            <div class="item-content">
+                                <div class="item-inner">
+                                    <div class="item-title label">周期频率</div>
+                                    <div class="item-input cycleTimes-box">
+                                        <input style="width:50px;text-align:center;margin-left:3px;padding-left:0;height:31px;vertical-align:middle" value="1" id="cycleTimes"/>
+                                        <span class="cycleTypes cycleTypes-selected" data-val="1" data-show="日">日</span>
+                                        <span class="cycleTypes" data-val="2" data-show="周">周</span>
+                                        <span class="cycleTypes" data-val="3" data-show="个月">月</span>
+                                        {*<input type="text" id="cycleTypes" placeholder="周期类型" class="" value="日">*}
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="cycleTypes-1">
+                            <div class="item-content">
+                                <div class="item-inner">
+                                    <div class="item-title label">开始时间</div>
+                                    <div class="item-input">
+                                        <input type="text" id="startTime1" placeholder="开始时间" class="">
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="cycleTypes-1">
+                            <div class="item-content">
+                                <div class="item-inner">
+                                    <div class="item-title label">结束时间</div>
+                                    <div class="item-input">
+                                        <input type="text" id="endTime1" placeholder="结束时间" class="">
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="cycleTypes-2">
+                            <div class="item-content">
+                                <div class="item-inner">
+                                    <div class="item-title label">开始时间</div>
+                                    <div class="item-input">
+                                        <input type="text" id="startTime2" placeholder="开始时间" class="">
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="cycleTypes-2">
+                            <div class="item-content">
+                                <div class="item-inner">
+                                    <div class="item-title label">结束时间</div>
+                                    <div class="item-input">
+                                        <input type="text" id="endTime2" placeholder="结束时间" class="">
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="cycleTypes-3">
+                            <div class="item-content">
+                                <div class="item-inner">
+                                    <div class="item-title label">开始时间</div>
+                                    <div class="item-input">
+                                        <input type="text" id="startTime3" placeholder="开始时间" class="">
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="cycleTypes-3">
+                            <div class="item-content">
+                                <div class="item-inner">
+                                    <div class="item-title label">结束时间</div>
+                                    <div class="item-input">
+                                        <input type="text" id="endTime3" placeholder="结束时间" class="">
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

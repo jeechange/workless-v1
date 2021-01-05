@@ -1,0 +1,316 @@
+{layout '../Layout/layout.latte'}
+{block private_css}
+    <link type="text/css" rel="stylesheet" href="{path('[Home]/css/myOrder.css')}">
+
+    {*<style>
+        *{
+            margin:0;
+            padding:0;
+        }
+        li{
+            list-style:none;
+        }
+        img{
+            image-rendering: -moz-crisp-edges;         /* Firefox */
+            image-rendering:   -o-crisp-edges;         /* Opera */
+            image-rendering: -webkit-optimize-contrast;/* Webkit (non-standard naming) */
+            image-rendering: crisp-edges;
+        }
+        a{
+            text-decoration:none;
+        }
+        
+        /*myOrder导航*/
+        .my_order{
+            width:100%;
+            margin:auto;
+            overflow:hidden;
+            margin-top:44px;
+        }
+        .my_order .my_order_nav{
+            width:50%;
+            margin:auto;
+            overflow:hidden;
+        }
+        .my_order .my_order_nav>ul{
+            display:flex;
+            justify-content:space-between;
+        }
+        .my_order .my_order_nav>ul>li>a{
+            font-size:24px;
+            font-family:Microsoft YaHei;
+            font-weight:bold;
+            line-height:40px;
+            color:rgba(38,38,38,1);
+        }
+        .my_order .my_order_nav>ul>li>a:hover,.my_order .my_order_nav>ul>li .center{
+            color:rgba(40,85,156,1);
+            border-bottom:3px solid #28559C;
+        }
+        /*订单*/
+        .order{
+            width:95%;
+            margin:auto;
+            margin-top:44px;
+            margin-bottom:391px;
+        }
+        .order>ul{
+            width:100%;
+            border-bottom:1px dashed rgba(162,160,160,1);
+        }
+        .order>ul>li{
+            border-top:1px dashed #A2A0A0;
+        }
+
+        .order>ul>li>ol{
+            display:flex;
+            justify-content:center;
+            line-height:30px;
+        }
+        .order>ul>li>ol>li{
+            width:18%;
+            font-size:16px;
+            font-family:Microsoft YaHei;
+            font-weight:400;
+            line-height:50px;
+            color:rgba(38,38,38,1);
+            text-align:center;
+        }
+        .order>ul>li>ol>li:hover{
+            color:rgba(230,9,9,1);
+        }
+        .order>ul>li>ol>li>button{
+            outline:none;
+            border-radius:16px;
+            text-align:center;
+            width:86px;
+            height:32px;
+            background:rgba(255,255,255,1);
+            border:1px solid rgba(112,112,112,1);
+            font-size:16px;
+            font-family:Microsoft YaHei;
+            font-weight:400;
+            line-height:32px;
+            color:rgba(38,38,38,1);
+            float:left;
+            margin-left:8px;
+            margin-top:9px;
+        }
+        .order>ul>li>ol>li>button:hover{
+            background:rgba(230,9,9,1);
+            color:rgba(255,255,255,1);
+            border:none;
+        }
+        .order>ul>li>ol>li:first-child{
+
+        }
+        .order .btn{
+            width:9.5%;
+            margin:auto;
+            margin-top:91px;
+        }
+        .order .btn>button{
+           text-align:center;
+            outline:none;
+            width:154px;
+            height:43px;
+            background:rgba(255,255,255,1);
+            border:1px solid rgba(112,112,112,1);
+            opacity:1;
+            border-radius:22px;
+            font-size:16px;
+            font-family:Microsoft YaHei;
+            font-weight:400;
+            line-height:40px;
+            color:rgba(38,38,38,1);
+        }
+        .order .btn>button:hover{
+            background:rgba(230,9,9,1);
+            color:rgba(255,255,255,1);
+            border:none;
+        }
+
+
+    </style>*}
+    <style>
+        .order{
+            width:95%;
+            margin:auto;
+            margin-top:44px;
+            margin-bottom:391px;
+        }
+        .order>ul{
+            border-bottom:2px dashed #eee;
+        }
+        .order>ul>li{
+            border-top:2px dashed #eee;
+        }
+        .order>ul>li .order_list{
+            width:70%;
+            margin:auto;
+            display:flex;
+            justify-content:space-between;
+        }
+        .order>ul>li .order_list>p{
+            width:257px;
+            font-size:16px;
+            font-family:Microsoft YaHei;
+            font-weight:400;
+            line-height:60px;
+            color:rgba(38,38,38,1);
+        }
+        .order>ul>li .order_list>ul{
+            width:274px;
+            display:flex;
+            justify-content:space-between;
+            margin-top: 14px;
+        }
+        .order>ul>li .order_list>ul>li{
+            text-align:center;
+            width:86px;
+            height:32px;
+            background:rgba(255,255,255,1);
+            border:1px solid rgba(112,112,112,1);
+            font-size:16px;
+            font-family:Microsoft YaHei;
+            font-weight:400;
+            line-height:32px;
+            color:rgba(38,38,38,1);
+            border-radius:27px;
+        }
+
+        .order>ul>li .order_list .due{
+            font-size:16px;
+            font-family:Microsoft YaHei;
+            font-weight:400;
+            line-height:40px;
+            color:rgba(230,9,9,1);
+        }
+        .order .btn{
+            width:154px;
+            height:43px;
+            margin:auto;
+            margin-top:107px;
+
+        }
+        .order .btn>button{
+            width:154px;
+            height:43px;
+            background:rgba(255,255,255,1);
+            border:1px solid rgba(112,112,112,1);
+            outline:none;
+            font-size:16px;
+            font-family:Microsoft YaHei;
+            font-weight:400;
+            line-height:40px;
+            color:rgba(38,38,38,1);
+            border-radius:37px;
+
+        }
+        @media screen and (max-width:425px){
+            /*myOrder导航*/
+            .my_order{
+                width:90%;
+                margin-top:31px;
+            }
+            .my_order .my_order_nav{
+                width:80%;
+                margin:auto;
+                overflow:hidden;
+            }
+            .my_order .my_order_nav>ul>li>a{
+                font-size:12px;
+                font-family:Microsoft YaHei;
+                font-weight:bold;
+                line-height:40px;
+                color:rgba(38,38,38,1);
+            }
+            .my_order .my_order_nav>ul>li>a:hover,.my_order .my_order_nav>ul>li .center{
+                color:rgba(40,85,156,1);
+                border:none
+            }
+
+        }
+
+
+    </style>
+    
+{/block}
+{block private_content}
+    
+    {*myOrder导航*}
+    <div class="my_order">
+        <div class="my_order_nav">
+            <ul>
+                <li><a href="{url('home_index_myOrder')}" class="center">我 的 订 单</a></li>
+                <li><a href="{url('home_index_orderConfirm')}">订 单 确 认</a></li>
+                <li><a href="{url('home_index_payOrder')}">订 单 付 款</a></li>
+            </ul>
+        </div>
+    </div>
+
+    {*订单*}
+    <div class="order">
+        <ul>
+            <li>
+                <div class="order_list">
+                    <p>WorkLess团队版</p>
+                    <p>15人</p>
+                    <p>价格：￥109</p>
+                    <p></p>
+                    <ul>
+                        <li> 付款</li>
+
+                    </ul>
+                </div>
+            </li>
+            <li>
+                <div class="order_list">
+                    <p>WorkLess团队版</p>
+                    <p>15人</p>
+                    <p>购买：2018年12月23日</p>
+                    <p>到期：2019年12月23日</p>
+                    <ul>
+                        <li>续费</li>
+                        <li>扩容</li>
+                        <li>升级</li>
+                    </ul>
+                </div>
+
+            </li>
+            <li>
+                <div class="order_list">
+                    <p>短信费</p>
+                    <p>15人</p>
+                    <p>购买：2018年12月23日</p>
+                    <p>剩余：1000条</p>
+                    <ul>
+                        <li> 付款</li>
+                    </ul>
+                </div>
+
+            </li>
+            <li>
+                <div class="order_list">
+                    <p>WorkLess团队版</p>
+                    <p>15人</p>
+                    <p>购买：2018年12月23日</p>
+                    <p class="due">到期：2019年4月23日</p>
+                    <ul>
+                        <li> 付款</li>
+                        <li></li>
+                        <li></li>
+                    </ul>
+                </div>
+
+            </li>
+
+        </ul>
+        <div class="btn">
+            <button type="submit">发票/合同</button>
+        </div>
+
+    </div>
+    
+{/block}
+{block private_js}{/block}

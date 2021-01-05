@@ -1,0 +1,47 @@
+{layout '../Layout/layout.latte'}
+{block private_css}
+    <link type="text/css" rel="stylesheet" href="{path('[Home]/css/helps.css')}">
+    <link type="text/css" rel="stylesheet" href="{path('[Home]/css/logs_public.css')}">
+{/block}
+{block private_content}
+
+
+    {*myOrder导航*}
+    <div class="my_order">
+        <div class="my_order_nav">
+            <ul>
+                <li class="on"><a href="{url('home_index_helps')}">帮助中心</a></li>
+                <li><a href="{url('home_index_logs')}">产品日志</a></li>
+                {*<li><a href="{url('home_index_download')}">下载客户端</a></li>*}
+                <li><a href="{url('home_index_skill')}">协作技巧</a></li>
+            </ul>
+        </div>
+    </div>
+    {*常见问题*}
+    <div class="problem">
+        {*<h2>常见问题：</h2>*}
+        <div class="problem_list">
+            <ul>
+                {foreach $lists as $key=>$val}
+                    <li>
+                        <a href="{url('home_index_articleDetail',array('id'=>$val['a_id']))}">
+                            <img src="https://cdn.itmakes.com/uploads{$val['a_thumb']}" alt="">
+                            <div class="conts">
+                                <h5>{$val['c_title']}</h5>
+                                <p>{$val['s_description']}</p>
+                                <p>点击量：{$val['a_hits']}</p>
+                            </div>
+                        </a>
+                    </li>
+                {/foreach}
+                {$pageBar["p"]|noescape}
+            </ul>
+        </div>
+    </div>
+
+    </div>
+
+{/block}
+{block private_js}
+
+{/block}

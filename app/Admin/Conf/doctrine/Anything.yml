@@ -1,0 +1,70 @@
+Admin\Entity\Anything:
+  type: entity
+  table: anything
+  id:
+    id:
+      type: integer
+      nullable: false
+      unsigned: false
+      comment: ''
+      id: true
+      generator:
+        strategy: IDENTITY
+  fields:
+    userId:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: user_id
+    content:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    certainTime:
+      type: datetime
+      nullable: true
+      comment: ''
+      column: certain_time
+    createTime:
+      type: datetime
+      nullable: true
+      comment: ''
+      column: create_time
+    types:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    status:
+      type: smallint
+      nullable: true
+      unsigned: false
+      comment: ''
+    completeTime:
+      type: datetime
+      nullable: true
+      comment: ''
+      column: complete_time
+    tgId:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: tg_id
+    tgNames:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+      column: tg_names
+    sid:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+  lifecycleCallbacks: {  }

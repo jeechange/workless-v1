@@ -1,0 +1,231 @@
+{layout '../Layout/layout.latte'}
+{block private_css}
+    <link type="text/css" rel="stylesheet" href="{path('[Home]/css/.css')}">
+    <style>
+        *{
+            margin:0;
+            padding:0;
+        }
+
+        li{
+            list-style:none;
+        }
+
+        img{
+            image-rendering:-moz-crisp-edges; /* Firefox */
+            image-rendering:-o-crisp-edges; /* Opera */
+            image-rendering:-webkit-optimize-contrast; /* Webkit (non-standard naming) */
+            image-rendering:crisp-edges;
+        }
+
+        a{
+            text-decoration:none;
+        }
+
+        /*myOrder导航*/
+        .my_order{
+            width:90%;
+            margin:auto;
+            overflow:hidden;
+            margin-top:44px;
+            padding-bottom:45px;
+            border-bottom:2px dashed #707070;
+        }
+
+        .my_order .my_order_nav{
+            width:50%;
+            margin:auto;
+            overflow:hidden;
+        }
+
+        .my_order .my_order_nav > ul{
+            display:flex;
+            justify-content:space-between;
+        }
+
+        .my_order .my_order_nav > ul > li > a{
+            font-size:24px;
+            font-family:Microsoft YaHei;
+            font-weight:bold;
+            line-height:40px;
+            color:rgba(38, 38, 38, 1);
+        }
+
+        .my_order .my_order_nav > ul > li > a:hover, .my_order .my_order_nav > ul > li .center{
+            color:rgba(40, 85, 156, 1);
+            border-bottom:3px solid #28559C;
+        }
+
+        /*订单确认*/
+        .confirm{
+            width:30%;
+            margin:auto;
+            margin-top:81px;
+            background:rgba(196, 210, 239, 1);
+            border-radius:27px;
+        }
+
+        .confirm .confirm_team{
+            width:100%;
+        }
+
+        .confirm .confirm_team > p{
+            font-size:20px;
+            font-family:Microsoft YaHei;
+            font-weight:bold;
+            line-height:40px;
+            color:rgba(38, 38, 38, 1);
+            text-align:center;
+            padding-top:30px;
+        }
+
+        .confirm .confirm_team > p:last-child{
+            padding-bottom:28px;
+        }
+
+        .payoff{
+            width:10%;
+            margin:auto;
+            margin-top:111px;
+            margin-bottom:561px;
+        }
+
+        .payoff > button{
+            width:168px;
+            height:45px;
+            outline:none;
+            border-radius:23px;
+            background:rgba(255, 255, 255, 1);
+            border:1px solid rgba(112, 112, 112, 1);
+            font-size:15px;
+            font-family:Microsoft YaHei;
+            font-weight:400;
+            line-height:38px;
+        }
+
+        .payoff > button:hover{
+            background:rgba(230, 9, 9, 1);
+            border:none;
+            color:rgba(255, 255, 255, 1);
+        }
+
+        @media screen and (max-width:425px){
+            /*myOrder导航*/
+            .my_order{
+                width:90%;
+                margin-top:31px;
+                padding-bottom:0;
+                border-bottom:none;
+            }
+
+            .my_order .my_order_nav{
+                width:80%;
+                margin:auto;
+                overflow:hidden;
+            }
+
+            .my_order .my_order_nav > ul > li > a{
+                font-size:14px;
+                font-family:Microsoft YaHei;
+                font-weight:bold;
+                line-height:40px;
+                color:rgba(38, 38, 38, 1);
+            }
+
+            .my_order .my_order_nav > ul > li > a:hover, .my_order .my_order_nav > ul > li .center{
+                color:rgba(40, 85, 156, 1);
+            }
+
+            /*订单确认*/
+            .confirm{
+                width:80%;
+                margin:auto;
+                margin-top:50px;
+                background:rgba(196, 210, 239, 1);
+                border-radius:27px;
+            }
+
+            .confirm .confirm_team{
+                width:100%;
+            }
+
+            .confirm .confirm_team > p{
+                font-size:20px;
+                font-family:Microsoft YaHei;
+                font-weight:bold;
+                line-height:40px;
+                color:rgba(38, 38, 38, 1);
+                text-align:center;
+                padding-top:30px;
+            }
+
+            .confirm .confirm_team > p:last-child{
+                padding-bottom:28px;
+            }
+
+            .payoff{
+                width:56px;
+                height:20px;
+                margin:auto;
+                margin-top:40px;
+                margin-bottom:60px;
+            }
+
+            .payoff > button{
+                width:56px;
+                height:20px;
+                outline:none;
+                border-radius:23px;
+                background:rgba(255, 255, 255, 1);
+                border:1px solid rgba(112, 112, 112, 1);
+                font-size:12px;
+                font-family:Microsoft YaHei;
+                font-weight:400;
+                line-height:19px;
+                color:rgba(255, 255, 255, 1);
+            }
+
+            .payoff > button:hover{
+                background:rgba(230, 9, 9, 1);
+                border:none;
+                color:rgba(255, 255, 255, 1);
+            }
+        }
+    </style>
+{/block}
+{block private_content}
+
+    {*myOrder导航*}
+    <div class="my_order">
+        <div class="my_order_nav">
+            <ul>
+                <li><a href="{url("home_index_myOrder")}">我 的 订 单</a></li>
+                <li><a href="" class="center">订 单 确 认</a></li>
+                <li><a href="">订 单 付 款</a></li>
+            </ul>
+        </div>
+    </div>
+    {*订单确认*}
+
+    {if $message}
+        <div class="confirm" style="margin-bottom:30px">
+            <div class="confirm_team">
+                <p>{$message}</p>
+            </div>
+        </div>
+    {else}
+        <div class="confirm">
+            <div class="confirm_team">
+                <p>{$service->getNames()}（{$typesMemo[$order->getTypes()]}{$order->getNums()}{$unit}）</p>
+                <p>￥{$order->getMoney()|coin}</p>
+            </div>
+        </div>
+        <form action="{url('home_index_payOrder')}">
+            <div class="payoff">
+                <input type="hidden" name="id" value="{$id}">
+                <button type="submit">付 款</button>
+            </div>
+        </form>
+    {/if}
+{/block}
+{block private_js}{/block}

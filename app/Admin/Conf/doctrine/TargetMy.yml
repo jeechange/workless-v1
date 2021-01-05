@@ -1,0 +1,60 @@
+Admin\Entity\TargetMy:
+  type: entity
+  table: target_my
+  id:
+    id:
+      type: integer
+      nullable: false
+      unsigned: false
+      comment: ''
+      id: true
+      generator:
+        strategy: IDENTITY
+  fields:
+    userId:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: user_id
+    tId:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: t_id
+    status:
+      type: smallint
+      nullable: true
+      unsigned: false
+      comment: ''
+    types:
+      type: smallint
+      nullable: true
+      unsigned: false
+      comment: ''
+    userName:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+      column: user_name
+    sid:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+    memo:
+      type: text
+      nullable: true
+      length: null
+      fixed: false
+      comment: ''
+    aId:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: a_id
+  lifecycleCallbacks: {  }

@@ -1,0 +1,218 @@
+{layout "../Layout/layout.latte"}
+{block headTitle}用户信息设置{/block}
+{block tabs_content}
+    {*{include "./tabs.latte"}*}
+{/block}
+{block private_js}
+    {include "addJs.latte"}
+    {include "H5Upload.latte"}
+    <script type="text/javascript" src="//g.alicdn.com/msui/sm/0.6.2/js/sm-city-picker.min.js" charset="utf-8"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#bnt").click(function () {
+                var sid ={$sid};
+                $.ajax({
+                    type: "post",
+                    url: $("#formArticle").attr("action"),
+                    data: $("#formArticle").serialize(),
+                    cache: false,
+                    dataType: "json",
+                    success: function (res) {
+                        if (res.status == "n") {
+                            $.toast(res['info']);
+                        } else if (res.status == "y") {
+                            $.toast("修改成功！");
+                            setTimeout(function () {
+                                if (sid == 0) {
+                                    location.replace({url("mobileConsoles_externalRelations_lists","different=yes")});
+                                } else {
+                                    location.replace(res.url);
+                                }
+                            }, 2000);
+                        }
+                    }
+                });
+            });
+
+            var tips = {$tips};
+            if (tips) {
+                console.log(tips);
+                $.toast(tips);
+            }
+
+            $("#city-picker").cityPicker({
+                toolbarTemplate: '<header class="bar bar-nav">\
+                <button class="button button-link pull-right close-picker">确定</button>\
+                <h1 class="title">选择地区</h1>\
+                </header>'
+            });
+
+            $("#sex-picker").picker({
+                toolbarTemplate: '<header class="bar bar-nav">\
+                <button class="button button-link pull-right close-picker">确定</button>\
+                <h1 class="title">请选择性别</h1>\
+                </header>',
+                cols: [
+                    {
+                        textAlign: 'center',
+                        values: ['请选择', '男', '女']
+                    }
+                ]
+            });
+            var defaultDate = $("#date-picker").val();
+            defaultDate = defaultDate.toString()
+            $("#date-picker").calendar({
+                value: [defaultDate]
+            });
+        });
+    </script>
+{/block}
+{block private_css}
+    {include "addCss.latte"}
+    <style>
+        .item-title, input{
+            font-size:0.9rem !important;
+        }
+    </style>
+{/block}
+{block content}
+    <form id="formArticle" class="stdform mform" method="post" action="{$url}" onsubmit="return false">
+        <div class="list-block" style="line-height: 2rem;">
+            <ul>
+                <!-- Text inputs -->
+                <li>
+                    {*<div class="field-item">*}
+                    {*<div class="field-item-title">*}
+                    {*头像*}
+                    {*</div>*}
+                    {*<div class="field-item-body">*}
+                    {*{if $photo}*}
+                    {*<span class="pic-add">*}
+                    {*<img src="{$prefix.$photo}" />*}
+                    {*<input type="file" id="pics" name="pics" accept="image/*" onchange="handleInputChange(this)"/>*}
+                    {*</span>*}
+                    {*<input type="hidden" class="pics-added-save" name="photo" value="{$photo}">*}
+                    {*{else}*}
+                    {*<span class="pic-add">&plus;<input type="file" id="pics" name="pics" accept="image/*" onchange="handleInputChange(this)"/></span>*}
+                    {*<input type="hidden" class="pics-added-save" name="photo">*}
+                    {*{/if}*}
+                    {*<div class="head-pic" style="background:#0087e2; text-align:center; line-height:60px; color:white; font-size:22px;display: block;margin: 0 auto;width: 60px;height: 60px;border-radius: 50%;">{$fullName}</div>*}
+                    {*</div>*}
+                    {*</div>*}
+                    <div class="item-content">
+                        <div class="item-media"><i class="icon icon-form-name"></i></div>
+                        <div class="item-inner">
+                            <div class="item-title label">头像</div>
+                            <div class="item-input" style="margin: 10px 0;">
+                                <div class="head-pic" style="background:#0087e2; text-align:center; line-height:60px; color:white; font-size:22px;display: block;width: 60px;height: 60px;border-radius: 50%;">{$fullName}</div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="item-content">
+                        <div class="item-media"><i class="icon icon-form-name"></i></div>
+                        <div class="item-inner">
+                            <div class="item-title label">昵称</div>
+                            <div class="item-input">
+                                <input type="text" placeholder="昵称" name="nickName" value="{$nickName}">
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="item-content">
+                        <div class="item-media"><i class="icon icon-form-name"></i></div>
+                        <div class="item-inner">
+                            <div class="item-title label">QQ</div>
+                            <div class="item-input">
+                                <input type="text" placeholder="QQ" name="qq" value="{if $qq!=0}{$qq}{/if}">
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="item-content">
+                        <div class="item-media"><i class="icon icon-form-name"></i></div>
+                        <div class="item-inner">
+                            <div class="item-title label">邮箱</div>
+                            <div class="item-input">
+                                <input type="text" placeholder="邮箱" name="email" value="{$email}">
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                {*<li>*}
+                {*<div class="item-content">*}
+                {*<div class="item-media"><i class="icon icon-form-name"></i></div>*}
+                {*<div class="item-inner">*}
+                {*<div class="item-title label">姓名</div>*}
+                {*<div class="item-input">*}
+                {*<input type="text" placeholder="姓名" name="fullName" value="{$fullName}">*}
+                {*</div>*}
+                {*</div>*}
+                {*</div>*}
+                {*</li>*}
+                {*<li>*}
+                {*<div class="item-content">*}
+                {*<div class="item-media"><i class="icon icon-form-name"></i></div>*}
+                {*<div class="item-inner">*}
+                {*<div class="item-title label">电话</div>*}
+                {*<div class="item-input">*}
+                {*<input type="text" placeholder="电话" name="phone" value="{$phone}">*}
+                {*</div>*}
+                {*</div>*}
+                {*</div>*}
+                {*</li>*}
+                <li>
+                    <div class="item-content">
+                        <div class="item-media"><i class="icon icon-form-gender"></i></div>
+                        <div class="item-inner">
+                            <div class="item-title label">性别</div>
+                            <div class="item-input">
+                                <input type="text" name="sex" id='sex-picker' value="{$sex}">
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="item-content">
+                        <div class="item-media"><i class="icon icon-form-name"></i></div>
+                        <div class="item-inner">
+                            <div class="item-title label">生日</div>
+                            <div class="item-input">
+                                <input type="text" placeholder="birthday" name="birthday" id="date-picker" value="{$birthday}">
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="item-content">
+                        <div class="item-media"><i class="icon icon-form-name"></i></div>
+                        <div class="item-inner">
+                            <div class="item-title label">地区</div>
+                            <div class="item-input">
+                                <input type="text" value="{$area}" name="area" id='city-picker'>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </form>
+    <div class="content-block">
+        <div class="col-95">
+            <div class="button button-big button-fill" id="bnt">提交</div>
+        </div>
+    </div>
+    {*<div class="content-block" style="font-size:0.7rem; text-align: center; color:#0087e2; text-decoration:underline;">*}
+
+    {*<a id="skip" href="{url('mobileConsoles_user_me')}">跳过此步骤</a>*}
+
+    {*</div>*}
+{/block}
+{block footer}
+    {if $sid!=0}
+        {control MobileConsoles:Layout:footer}
+    {/if}
+{/block}

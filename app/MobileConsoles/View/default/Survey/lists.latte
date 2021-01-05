@@ -1,0 +1,91 @@
+{layout "../Layout/layoutBoth.latte"}
+{block headTitle}我参与的{/block}
+{block tabs_content}
+    {include "./tabs.latte"}
+{/block}
+{block custom}
+{/block}
+{block private_js}
+    <script type="text/javascript">
+        $(document).on("pageInit", function () {
+            $(document).on('refresh', '.pull-to-refresh-content', function (e) {
+                setTimeout(function () {
+
+                    $.pullToRefreshDone('.pull-to-refresh-content');
+                }, 2000);
+            });
+
+            $(document).on('infinite', '.infinite-scroll-bottom', function () {
+                $('.infinite-scroll-preloader').remove();
+                // $.refreshScroller(); //刷新滚动
+            });
+            $('.infinite-scroll-preloader').remove();
+        });
+        function findStandard() {
+            var val = $(this).val().toString().replace(/^\s+|\s+$/gm, '');
+            var lists = $(".list-block").find("li[data-names-keyword]");
+            if (!val) {
+                $(".list-block").find("li").css("display", "flex");
+                for (var i = 0; i < lists.length; i++) {
+                    var text = $(lists[i]).find(".item-memo").text();
+                    $(lists[i]).find(".item-memo").html(text);
+                }
+                return true;
+            }
+            for (var i = 0; i < lists.length; i++) {
+                var text = $(lists[i]).attr("data-names-keyword");
+                var values = $(lists[i]).attr("data-values");
+                var indexOf = text.indexOf(val);
+                if (indexOf === -1) {
+                    $(lists[i]).find(".item-memo").html(text);
+                    $(lists[i]).css("display", "none");
+                    continue;
+                }
+                var newHtml = "";
+                if (indexOf === 0) {
+                    newHtml = '<span class="highlight">' + val + '<\/span>' + text.substring(val.length);
+                }
+                if (indexOf > 0) {
+                    newHtml = text.substring(0, indexOf) + '<span class="highlight">' + val + '<\/span>' + text.substring(val.length + indexOf);
+                }
+                $(lists[i]).find(".item-memo").html(newHtml);
+                $(lists[i]).css("display", "flex");
+            }
+        }
+
+    </script>
+{/block}
+{block private_css}
+    {include  './surveyCss.latte'}
+{/block}
+{block content}
+    <div class="list-block" style="margin-top: 0.9rem !important;">
+        {if $lists}
+            <div style="color:red;text-align:center;background:white;height: 40px;line-height: 40px;">
+                <span>通过调查评分，各项总分100分</span>
+            </div>
+            <ul class="list">
+                {foreach $lists as $k=>$item}
+                    <li data-names-keyword="{$item['s_names']}">
+                        <a class="item-content item-link" href="{url('mobileConsoles_Survey_modify',array('id'=>$item['s_id'],"active"=>$active))}">
+                            <div class="item-inner {if $item['s_status']==0}sui-text-font{/if}">
+                                <div class="item-name sui-ellipsis-1" style="line-height: 18px;">{$item['s_standName']}</div>
+                                <div class="item-memo sui-ellipsis-1 types{$item['s_type']}" style="text-align: center;">{$item['typeMemo']}</div>
+                                <div class="item-src"><span>{$item['statusMemo']}{if $item['result']}/{$item['result']}{/if}</span></div>
+                            </div>
+                        </a>
+                    </li>
+                {/foreach}
+            </ul>
+        {else}
+            <div style="margin-top:100px;text-align:center">
+                <img src="{path('[MobileConsoles]/img/null.png')}" alt="" class="" style="width:60%; height:100%; margin: 0 20%; display:block;">
+                <div style="color:#999;">暂无我参与的调查</div>
+            </div>
+        {/if}
+    </div>
+{/block}
+
+
+
+

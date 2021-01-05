@@ -1,0 +1,156 @@
+{layout '../Public/sideForm.latte'}
+{block title}添加员工({$company->getNames()}){/block}
+{block private_css}
+    <style>
+        .delBtn, #addBtn{
+            display:block;
+        }
+
+        .delBtn{
+            float:left;
+            margin-left:10px;
+        }
+
+        .delBtn:hover, #addBtn a:hover{
+            cursor:pointer;
+            text-decoration:none;
+        }
+
+        .depAndSta{
+            clear:both;
+            float:left;
+            overflow:hidden;
+            font-size:12px;
+            line-height:35px;
+            border:1px solid #ddd;
+            padding:0 10px;
+            border-radius:20px;
+            margin-top:5px;
+        }
+
+        .combindText{
+            float:left;
+            margin:0 !important;
+        }
+    </style>
+{/block}
+{block private_js}
+    <script>
+        init.ready(function () {
+            {*var stations = {$stations};*}
+            {*$("#department").live("change", function () {*}
+            {*$(this).next().html("");*}
+            {*var department = $(this).val();*}
+            {*if (department) {*}
+            {*var html = "";*}
+            {*for (var i in stations) {*}
+            {*if (stations[i]["department"] == department) {*}
+            {*html += "<option value=\"" + stations[i]["id"] + "\">" + stations[i]["names"] + "<\/option>";*}
+            {*}*}
+            {*$(this).next().html(html);*}
+            {*}*}
+            {*}*}
+            {*}).trigger("change");*}
+
+            $("#addBtn").live("click", function () {
+                var department = $("#department option:selected").val();
+                var station = $("#station option:selected").val();
+                var departmentText = $("#department option:selected").text();
+                var stationText = $("#station option:selected").text();
+                if (!department) {
+                    department = 0;
+                    departmentText = "暂无部门";
+                }
+                if (!station) {
+                    station = 0;
+                    stationText = "暂无职位";
+                }
+                var combind = departmentText + "->" + stationText;
+
+                var count = 0;
+                $(".combindText").each(function (k) {
+                    if ($(this).text() == combind) {
+                        count++;
+                    }
+                });
+                if (count > 0) {
+                    return false;
+                }
+
+                var str = "<p class='depAndSta'><span class='combindText'>" + combind + "</span><a class='delBtn'>x</a><input type='hidden' name='department[]' value='" + department + "' /><input type='hidden' name='station[]' value='" + station + "' /></p>";
+
+                $(this).after(str);
+            });
+
+            $('.delBtn').live("click", function () {
+                $(this).parent().remove();
+            })
+
+        });
+    </script>
+{/block}
+
+{block content}
+    <form id="formArticle" class="stdform mform" method="post" action="" onsubmit="return false">
+        <table cellpadding="0" cellspacing="0" border="0" id="frmtable" class="formtable">
+            <thead>
+            <tr>
+                <td><label>姓名</label></td>
+                <td>
+                    <div class="field control-group">
+                        <div class="input-group">
+                            <input type="text" name="full_name" class="smallinput" placeholder="输入姓名" autocomplete="off"/>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td><label>手机号</label></td>
+                <td>
+                    <div class="field control-group">
+                        <div class="input-group">
+                            <input type="text" name="phone" class="smallinput" placeholder="输入手机号" autocomplete="off"/>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td><label>部门与职位</label></td>
+                <td style="float: left;">
+                    <div class="control-group ">
+                        <div class="field input-group">
+                            <div style="overflow: hidden;">
+                                <select id="department" name="department" style="float: left;">
+                                    {$options|noescape}
+                                </select>
+                                <select id="station" name="station" style="float: left;margin-right: 10px;margin-left:10px">
+                                    {foreach $stations as $v}
+                                        <option value="{$v['id']}">{$v['names']}</option>
+                                    {/foreach}
+                                </select>
+                                {*<p id="addBtn" style="float: left;width: 35px;height: 35px;line-height: 35px;text-align: center;">*}
+                                {*<a>添加</a>*}
+                                {*</p>*}
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td style="vertical-align:top;padding-top:10px"><label>邀请信息</label></td>
+                <td>
+                    <div class="field control-group">
+                        <div class="input-group">
+                            <textarea name="inviteInfo" class="smallinput" style="padding:15px;height:100px">{$inviteInfo}</textarea>
+                        </div>
+                        <span style="color:red">请将邀请信息复制给对方<br/><br/></span>
+                    </div>
+                </td>
+            </tr>
+
+            </thead>
+        </table>
+    </form>
+
+
+{/block}

@@ -1,0 +1,103 @@
+{layout '../Public/layoutList.latte'}
+{block title}管理员{/block}
+{block private_css}
+    <style>
+        .bottom-div{
+            margin:0 10px 10px 0;
+            padding:0 15px;
+            display:inline-block;
+            height:27px;
+            line-height:27px;
+            text-decoration:none;
+            border-radius:1px;
+            font-size:16px;
+            color:#fff;
+            background:#0087e1;
+            border:1px solid #0084dd;
+        }
+
+        .noCopy{
+            -webkit-touch-callout:none; /* iOS Safari */
+            -webkit-user-select:none; /* Chrome/Safari/Opera */
+            -khtml-user-select:none; /* Konqueror */
+            -moz-user-select:none; /* Firefox */
+            -ms-user-select:none; /* Internet Explorer/Edge */
+            user-select:none; /* Non-prefixed version, currently not supported by any browser */
+        }
+    </style>
+{/block}
+{block private_js}
+    <script>
+        $(".bottom-div").click(function () {
+            var url = $(".currencyForm").attr("action");
+            var data = $(".currencyForm").serialize();
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                dataType: "json",
+                data: data,
+                cache: false,
+                success: function (data) {
+                    alert(data.info);
+                    return true;
+                }, error: function (data) {
+                    alert(data.info);
+                    return false;
+                }
+            });
+        })
+    </script>
+{/block}
+
+{block actions}
+    {*<div class="bottom-div" style="cursor:pointer;">修改最高审核分</div>*}
+    <a href="{url('consoles_company_super_add')}" class="icon-adds" data-side-form="900px">添加子管理员</a>
+{/block}
+
+{block content}
+    <table cellpadding="0" cellspacing="0" border="0" class="stdtable">
+        <thead>
+        <tr>
+            <th><span class="table-head">姓名</span></th>
+            <th><span class="table-head">类型</span></th>
+            <th><span class="table-head">手机号码</span></th>
+            {*<th><span class="table-head">最高审核分</span></th>*}
+            {*<th><span class="table-head">微信号</span></th>*}
+            <th><span class="table-head">QQ号</span></th>
+            <th><span class="table-head">邮箱</span></th>
+            <th><span class="table-head">操作</span></th>
+        </tr>
+        </thead>
+        <tbody>
+        {if $companyUser}
+            <tr>
+                <td>{$companyUser->getFullName()}</td>
+                <td>主管理员</td>
+                <td>{$companyUser->getPhone()}</td>
+                {*<td>无上限</td>*}
+                {*<td></td>*}
+                <td>{$companyUser->getQq()>0?$companyUser->getQq():"--"}</td>
+                <td>{$companyUser->getEmail()}</td>
+                <td class="center">--</td>
+            </tr>
+        {/if}
+
+        {foreach $subUsers as $k=>$item}
+            <tr>
+                <td>{$item["fullName"]}</td>
+                <td>子管理员</td>
+                <td>{$item["phone"]}</td>
+                {*<td>*}
+                {*<input name="maxScore[{$item['id']}]" value="{$company["maxScore"][$item['id']][0]}" style="width:60px;"/>*}
+                {*<label onclick="acornShow({$item['id']})"><input type="checkbox" {if $company["maxScore"][$item['id']][1] == 1}checked="checked"{/if} name="limitAcorn[{$item['id']}]"/><span class="noCopy">不设限制</span></label>*}
+                {*</td>*}
+                {*<td>{$item["wx"]}</td>*}
+                <td>{$item["qq"]>0?$item["qq"]:"--"}</td>
+                <td>{$item["email"]}</td>
+                <td class="center"><a href="{url('consoles_company_super_del',"id=".$item['id'])}" data-confirm="是否确认删除子管理员?">删除子管理员</a></td>
+            </tr>
+        {/foreach}
+        </tbody>
+    </table>
+{/block}

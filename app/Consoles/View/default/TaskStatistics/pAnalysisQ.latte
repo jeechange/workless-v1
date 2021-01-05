@@ -1,0 +1,79 @@
+{layout '../Public/layoutList.latte'} {*继承layoutList模板*}
+{block title}统计分析{/block}
+{block actions}
+{/block}
+{block actionstab}
+    {include "./actionstab2.latte"}
+{/block}
+{block checkbox}{/block}
+{block private_css}
+{/block}
+{block private_js}
+    <script type="text/javascript" n:syntax="double">
+        var myChart = echarts.init(document.getElementById('main'));
+        option = {
+            title: {
+                text: '个人分析TOP13'
+            },
+            tooltip: {
+                trigger: 'axis'
+            },
+            legend: {
+                data: ['平均质量']
+            },
+            grid: {
+                left: '3%',
+                right: '4%',
+                bottom: '3%',
+                containLabel: true
+            },
+            toolbox: {
+                feature: {
+                    saveAsImage: { }
+                }
+            },
+            xAxis: {
+                type: 'category',
+                boundaryGap: false,
+                data:  {{$names}}
+            },
+            yAxis: {
+                type: 'value'
+            },
+            series: [
+                {
+                    name: '平均质量',
+                    type: 'line',
+                    stack: '总量',
+                    data: {{$qualityVlues}}
+                }
+            ]
+        };
+        myChart.setOption(option);
+    </script>
+{/block}
+{block selectButton}
+    <div class="ranking-box">
+        <a href="{url("consoles_taskStatistics_quality","types={$active}&bTypes=1")}">
+            <div class="ranking-select {if $bTypes==1}ativce{/if}">昨日</div>
+        </a>
+        <a href="{url("consoles_taskStatistics_quality","types={$active}&bTypes=2")}">
+            <div class="ranking-select {if $bTypes==2}ativce{/if}">7日内</div>
+        </a>
+        <a href="{url("consoles_taskStatistics_quality","types={$active}&bTypes=3")}">
+            <div class="ranking-select {if $bTypes==3}ativce{/if}">30日内</div>
+        </a>
+    </div>
+{/block}
+{block content}
+{/block}
+{block sub_content}
+    <div style="height: 80px;"></div>
+    <div style="width:100%;float:left;">
+        <!-- 为 echarts 准备一个具备大小（宽高）的Dom。 -->
+        <div id="main" style="width:100%;height:400px;margin:0 auto"></div>
+    </div>
+{/block}
+
+
+

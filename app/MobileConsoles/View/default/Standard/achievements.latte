@@ -1,0 +1,138 @@
+{layout "../Layout/layoutBoth.latte"}
+{block headTitle}维度{/block}
+{block tabs_content}
+    {include "./tabs.latte"}
+{/block}
+{block custom}
+{/block}
+{block private_js}
+    <script type="text/javascript">
+        $(document).on("pageInit", function () {
+            $(document).on('refresh', '.pull-to-refresh-content', function (e) {
+                setTimeout(function () {
+
+                    $.pullToRefreshDone('.pull-to-refresh-content');
+                }, 2000);
+            });
+
+            $(document).on('infinite', '.infinite-scroll-bottom', function () {
+                $('.infinite-scroll-preloader').remove();
+                // $.refreshScroller(); //刷新滚动
+            });
+            $('.infinite-scroll-preloader').remove();
+        });
+    </script>
+{/block}
+{block private_css}
+    <style type="text/css">
+        .bar{
+            background-color:#efeff4
+        }
+
+        .bar .searchbar{
+            background:rgb(255, 255, 255);
+            border:1px solid #ddd;
+            border-radius:25px;
+        }
+
+        .tabs{
+            height:3rem !important;
+        }
+
+        .tabs .tabs-link{
+            height:3rem;
+            line-height:3rem;
+        }
+
+        .create-actions{
+            position:fixed;
+            background:rgba(24, 28, 31, 0.6);
+            width:44px;
+            height:44px;
+            line-height:44px;
+            z-index:9999;
+            bottom:65px;
+            right:15px;
+            text-align:center;
+            color:#fff;
+            border-radius:50px;
+        }
+
+        .list-block{
+            margin:0.75rem 0;
+        }
+
+        .list-block .item-inner{
+            min-height:3rem;
+        }
+
+        a{
+            color:#3d4145
+        }
+    </style>
+{/block}
+{block content}
+    <div class="list-block">
+        <div class="card-header" style="background:#20a4fb;color: white;">业绩
+            {if $isSuper}
+                <a class="item-after" href="{url('mobileConsoles_standard_add',"active=Achievement")}" style="color: white">添加</a>
+            {/if}
+        </div>
+        {foreach $lists1 as $key=>$item}
+            <a href="{url('mobileConsoles_standard_detail',array('id'=>$item['s_id']))}">
+                <ul>
+                    <li class="item-content">
+                        <div class="item-inner">
+                            <div class="item-title">{$item['s_names']}{$item['s_memo']}</div>
+                            <div class="item-after"><span class="icon icon-right"></span></div>
+                        </div>
+                    </li>
+                </ul>
+            </a>
+        {/foreach}
+    </div>
+    <div class="list-block">
+        <div class="card-header" style="background:#20a4fb;color: white;">任务
+            {if $isSuper}
+                <a class="item-after" href="{url("mobileConsoles_task_settings")}" style="color: white">设置</a>
+            {/if}
+        </div>
+        <ul>
+            <li class="item-content">
+                <div class="item-inner">
+                    <div class="item-title">计时任务模型 (日基础分 * 任务量 * 难度 * 完成质量)</div>
+                    <div class="item-after"></div>
+                </div>
+            </li>
+            <li class="item-content">
+                <div class="item-inner">
+                    <div class="item-title">计时任务模型 (日基础分 * 任务量 * 难度 * 完成质量)</div>
+                    <div class="item-after"></div>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div class="list-block">
+        <div class="card-header" style="background:#20a4fb;color: white;">汇报
+            {if $isSuper}
+                <a class="item-after" href="{url('mobileConsoles_standard_add',"active=Report")}" style="color: white">添加</a>
+            {/if}
+        </div>
+        {foreach $lists2 as $key=>$item}
+            <a href="{url('mobileConsoles_standard_detail',array('id'=>$item['s_id']))}">
+                <ul>
+                    <li class="item-content">
+                        <div class="item-inner">
+                            <div class="item-title">{$item['s_names']}{$item['s_memo']}</div>
+                            <div class="item-after"><span class="icon icon-right"></span></div>
+                        </div>
+                    </li>
+                </ul>
+            </a>
+        {/foreach}
+    </div>
+{/block}
+
+
+
+

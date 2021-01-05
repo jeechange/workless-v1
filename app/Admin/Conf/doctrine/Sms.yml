@@ -1,0 +1,79 @@
+Admin\Entity\Sms:
+  type: entity
+  table: sms
+  indexes:
+    user_id:
+      columns:
+        - user_id
+  id:
+    id:
+      type: integer
+      nullable: false
+      unsigned: false
+      comment: ''
+      id: true
+      generator:
+        strategy: IDENTITY
+  fields:
+    sid:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+    userId:
+      type: integer
+      nullable: false
+      unsigned: false
+      comment: ''
+      column: user_id
+    code:
+      type: string
+      nullable: false
+      length: 11
+      fixed: false
+      comment: ''
+    tel:
+      type: string
+      nullable: false
+      length: 11
+      fixed: false
+      comment: ''
+    content:
+      type: string
+      nullable: false
+      length: 255
+      fixed: false
+      comment: ''
+    sendTime:
+      type: datetime
+      nullable: true
+      comment: ''
+      column: send_time
+    mobileids:
+      type: string
+      nullable: false
+      length: 50
+      fixed: false
+      comment: ''
+    stat:
+      type: integer
+      nullable: false
+      unsigned: false
+      comment: ''
+    status:
+      type: integer
+      nullable: false
+      unsigned: false
+      comment: ''
+    addTime:
+      type: datetime
+      nullable: false
+      comment: ''
+      column: add_time
+    template:
+      type: string
+      nullable: true
+      length: 50
+      fixed: false
+      comment: ''
+  lifecycleCallbacks: {  }

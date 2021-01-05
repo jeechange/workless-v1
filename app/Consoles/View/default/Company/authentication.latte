@@ -1,0 +1,43 @@
+{layout '../Public/layoutList.latte'}
+{block title}我的企业{/block}
+{block actions}
+    {if $canAdd}
+        <a href="{url('consoles_add','con=Company')}" class="icon-adds" data-side-form>申请企业认证</a>
+    {/if}
+{/block}
+{block actionstab}
+    {include "./actionstab.latte"}
+{/block}
+{block content}
+    <table cellpadding="0" cellspacing="0" border="0" class="stdtable">
+        <thead>
+        <tr>
+            <th><span class="table-head">企业名称</span></th>
+            <th><span class="table-head">法人</span></th>
+            <th><span class="table-head">行业</span></th>
+            <th><span class="table-head">规模</span></th>
+            <th><span class="table-head">地址</span></th>
+            <th><span class="table-head">状态</span></th>
+            <th><span class="table-head">操作</span></th>
+        </tr>
+        </thead>
+        <tbody>
+
+        {foreach $lists as $k=>$item}
+            <tr>
+                <td>{$item['a_names']}</td>
+                <td>{$item['a_legal']}</td>
+                <td>{$item['i_names']}</td>
+                <td>{$item['scalesMemo']}</td>
+                <td>{$item['a_province']}{$item['a_city']}{$item['a_area']}{$item['a_address']}</td>
+                <td class="center">{$item['statusMemo']}</td>
+                <td>
+                    {if $item['a_names']!=1}
+                        <a href="{url('consoles_mod',"con=Company&id=".$item['a_id'])}" data-side-form>更改</a>
+                    {/if}
+                </td>
+            </tr>
+        {/foreach}
+        </tbody>
+    </table>
+{/block}

@@ -1,0 +1,103 @@
+{layout "../Layout/layout.latte"}
+{block headTitle}统计详情{/block}
+{block private_js}
+    <script type="text/javascript">
+        $(document).on("pageInit", function () {
+            $(document).on('refresh', '.pull-to-refresh-content', function (e) {
+                setTimeout(function () {
+
+                    $.pullToRefreshDone('.pull-to-refresh-content');
+                }, 2000);
+            });
+
+            $(document).on('infinite', '.infinite-scroll-bottom', function () {
+                $('.infinite-scroll-preloader').remove();
+                // $.refreshScroller(); //刷新滚动
+            });
+            $('.infinite-scroll-preloader').remove();
+        })
+        function aconShow() {
+            var id = $(this).attr('data-id');
+            $(".acon-show-" + id).toggle();
+        }
+    </script>
+{/block}
+{block private_css}
+    <style>
+        .details{
+            min-height:100%;
+            padding:10px .5rem;
+            background:#fff;
+        }
+
+        .details-body ul{
+            padding:0;
+            margin:0;
+        }
+
+        .details-body li{
+            display:flex;
+            width:100%;
+            min-height:3rem;
+            line-height:3rem;
+            padding:0 1rem;
+        }
+
+        .details-body li:nth-child(2n){
+            background:#f9f9f9;
+        }
+
+        .details-body li .item-memo{
+            width:35%;
+            text-align:left;
+            float:left;
+        }
+
+        .details-body li .item-task{
+            width:45%;
+            text-align:left;
+            float:left;
+        }
+
+        .details-body li .item-last{
+            width:20%;
+            text-align:right;
+            float:left;
+        }
+    </style>
+{/block}
+
+{block content}
+    <div style="width: 100%;overflow: hidden;">
+        <a href="javascript:void(0)" onclick="history.go(-1)" style="line-height:  3rem;margin-left: 1rem;">返回</a>
+    </div>
+    <div class="details">
+        {if $lists}
+            <div class="details-body" style="margin: 0 -0.5rem;">
+                <ul>
+                    {foreach $lists as  $k=>$v}
+                        <li data-id="{$v['id']}" onclick="aconShow.call(this)">
+                            <div style="width:100%">
+                                <div class="item-memo">{$v['fullName']} {if $v['acorn'] > 0}+{/if}{$v['acorn']} <i class="icon al-icon al-icon-influence sui-font-size-rem-0-8"></i></div>
+                                <div class="item-task sui-ellipsis-1">{$v['standName']}</div>
+                                <div class="item-last sui-ellipsis-1">{$v['addTime']}</div>
+                                <div style="display:none;background: aliceblue;width: 100%;
+    float: left;line-height: 2.2rem; " class="acon-show-{$v['id']}">
+                                    <div style="margin: 20px;">
+                                        <div>内容：{$v['standName']}</div>
+                                        <div>详情：{$v['memo']?$v['memo']:"-"}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    {/foreach}
+                </ul>
+            </div>
+        {else}
+            <div style="margin-top:50px;margin-bottom:30px;text-align:center">
+                <img src="{path('[MobileConsoles]/img/null.png')}" alt="" class="" style="width:60%; height:100%; margin: 0 20%; display:block;">
+                <div style="color:#999;">暂无动态</div>
+            </div>
+        {/if}
+    </div>
+{/block}

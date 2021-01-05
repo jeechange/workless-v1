@@ -1,0 +1,94 @@
+Admin\Entity\Standard:
+  type: entity
+  table: standard
+  indexes:
+    classify:
+      columns:
+        - classify
+  id:
+    id:
+      type: integer
+      nullable: false
+      unsigned: false
+      comment: ''
+      id: true
+      generator:
+        strategy: IDENTITY
+  fields:
+    names:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    classify:
+      type: smallint
+      nullable: true
+      unsigned: false
+      comment: ''
+    subClassify:
+      type: smallint
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: sub_classify
+    acorn:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+    methods:
+      type: smallint
+      nullable: true
+      unsigned: false
+      comment: ''
+    cycle:
+      type: smallint
+      nullable: true
+      unsigned: false
+      comment: ''
+    status:
+      type: smallint
+      nullable: true
+      unsigned: false
+      comment: ''
+    memo:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    addTime:
+      type: datetime
+      nullable: true
+      comment: ''
+      column: add_time
+    sid:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+    sNo:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+      column: s_no
+    hot:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+    workload:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    types:
+      type: smallint
+      nullable: true
+      unsigned: false
+      comment: ''
+  lifecycleCallbacks: {  }

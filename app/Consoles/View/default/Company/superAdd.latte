@@ -1,0 +1,66 @@
+{layout '../Public/sideForm.latte'}
+{block title}添加子管理员{/block}
+{block private_js}
+    <script type="text/javascript">
+        function acornShow(limitAcorn) {
+            if (limitAcorn == 0) {
+                $("#maxScore").attr("readonly", true);
+                $("#maxScore").css("background", "#ccc");
+            } else {
+                $("#maxScore").attr("readonly", false);
+                $("#maxScore").css("background", "#fff");
+            }
+        }
+    </script>
+{/block}
+{block private_css}
+    <style>
+        .noCopy{
+            -webkit-touch-callout:none; /* iOS Safari */
+            -webkit-user-select:none; /* Chrome/Safari/Opera */
+            -khtml-user-select:none; /* Konqueror */
+            -moz-user-select:none; /* Firefox */
+            -ms-user-select:none; /* Internet Explorer/Edge */
+            user-select:none; /* Non-prefixed version, currently not supported by any browser */
+        }
+    </style>
+{/block}
+{block content}
+    <form id="formArticle" class="stdform mform" method="post" action="">
+        <table cellpadding="0" cellspacing="0" border="0" id="frmtable" class="formtable">
+            <thead>
+            <tr>
+                <td><label>选择人员</label></td>
+                <td>
+                    <div class="field control-group">
+                        <div class="field control-group">
+                            {$executors|noescape}
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td><label>是否限制</label></td>
+                <td>
+                    <div class="control-group ">
+                        <div class="field input-group reserve">
+                            <label><input type="radio" value="1" name="limitAcorn" checked onclick="acornShow(1)"><span class="noCopy">限制</span></label>
+                            <label><input type="radio" value="0" name="limitAcorn" onclick="acornShow(0)"><span class="noCopy">不限制</span></label>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr class="rise-acorn">
+                <td><label>设置最高分</label></td>
+                <td>
+                    <div class="field control-group">
+                        <div class="input-group">
+                            <input type="text" id="maxScore" name="maxScore" class="smallinput" value="0"/>&nbsp;<span>注：必须为整数！</span>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            </thead>
+        </table>
+    </form>
+{/block}

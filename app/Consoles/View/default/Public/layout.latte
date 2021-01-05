@@ -1,0 +1,32 @@
+{includeblock 'header.latte'}
+
+<body class="index-body">
+{control Jeechange:Layout:top}
+{control Jeechange:Layout:menu}
+<div id='contentdiv' class="content">
+    {block content}{/block}
+</div>
+{control Jeechange:Layout:footer}
+<script src="{path('[Jeechange]/js/jquery-1.8.3.min.js') }"></script>
+<script src="{path('[Jeechange]/js/jquery.cookie.js') }"></script>
+<script src="{path('[Jeechange]/js/jquery.spinner.js') }"></script>
+<script type="text/javascript" src="{path('[Consoles]/js/echarts.js')}"></script>
+
+<script type="text/javascript" src="{path('[Jeechange]/js/workless.config.js')}"></script>
+<script type="text/javascript" src="{path('[Jeechange]/js/widget/check-all.js')}"></script>
+<script type="text/javascript" src="{path('[Core]/layer/layer.js')}"></script><!-- 弹出层 -->
+
+<script type="text/javascript" src="{path('[Core]/laydate/laydate.js')}"></script>
+<script type="text/javascript" src="{path('[Jeechange]/js/common.js')}"></script>
+
+<script type="text/javascript">$.uploadJson = "{url('supply_uploads_pic',"types=rich")|noescape}";
+    $.fileManagerJson = "{url('supply_uploads_pic_stock',"types=rich")|noescape}"</script>
+<script type="text/javascript" src="{path('[Supply]/js/upload/common.js')}"></script>
+<script type="text/javascript" src="{path('[Supply]/js/upload/upload.js')}"></script>
+<link href="{path('[Supply]/css/upload/upload.css') }" rel="stylesheet" type="text/css"/>
+<link href="{path('[Supply]/css/content.css') }" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="{path('[Jeechange]/al-font/iconfont.js')}"></script>
+
+{block private_js}{/block}
+</body>
+</html>

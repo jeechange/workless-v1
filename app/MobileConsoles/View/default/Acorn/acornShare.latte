@@ -1,0 +1,145 @@
+{layout "../Layout/layout.latte"}
+
+{block tabs_content}
+    {include "./index_tabs.latte"}
+{/block}
+{block private_css}
+    <style>
+        .content{
+            background:#fff;
+        }
+
+        .con{
+            width:100%;
+            margin:auto;
+            margin-top:3.2rem;
+            text-align:center;
+            line-height:26px;
+            font-size:16px;
+        }
+
+        .alert-text{
+            margin-top:5px;
+        }
+    </style>
+{/block}
+{block private_js}
+    <script type="text/javascript">
+        function copy(message) {
+            var input = document.createElement("input");
+            input.value = message;
+            document.body.appendChild(input);
+            input.select();
+            input.setSelectionRange(0, input.value.length), document.execCommand('Copy');
+            document.body.removeChild(input);
+            $.alert('复制成功');
+        }
+
+        function shareWX(content, url) {
+            wx.ready(function () {
+                var shareConfig = {
+                    title: "申请积分",
+                    desc: content,
+                    link: url,
+                    imgUrl: "https://m.console.xiangshuyun.com/public/mobileConsoles/default/img/share-logo.png",
+                    success: function (a) {
+                        alert("123456")
+                    }, cancel: function (a) {
+                        alert("123564")
+                    }, fail: function (a) {
+                        alert(JSON.stringify(a))
+                    }
+                };
+                wx.invoke("shareAppMessage", shareConfig, function (a) {
+                    alert(a.err_msg)
+                });
+            })
+        }
+
+        function shareDing(content, url) {
+            var that = this;
+            dd.biz.chat.pickConversation({
+                corpId: {$corpId}, //企业id
+                isConfirm: false, //是否弹出确认窗口，默认为true
+                onSuccess: function (res) {
+                    dd.runtime.permission.requestAuthCode({
+                        corpId: {$corpId},
+                        onSuccess: function (result) {
+                            $.showPreloader('正在分享，请稍候...');
+                            $.ajax({
+                                url: $(that).attr("data-url"),
+                                type: "POST",
+                                data: {
+                                    url: url,
+                                    cid: res.cid,
+                                    title: "申请积分",
+                                    content: content,
+                                    code: result.code,
+                                },
+                                dataType: "json",
+                                success: function (res) {
+                                    $.hidePreloader();
+                                    if (res.status === "n") {
+                                        $.toast(res.info);
+                                        return;
+                                    }
+                                    $.toast("分享成功");
+                                }, error: function (xhr) {
+                                    alert(xhr.responseText)
+                                }
+                            });
+                        },
+                        onFail: function (err) {
+                            //$.alert(err.errorMessage);
+                            $(".show-message").text(err.errorMessage).css("color", "red");
+                        }
+                    });
+                },
+                onFail: function (err) {
+                    $.alert(err.errorMessage);
+                }
+            });
+        }
+    </script>
+{/block}
+{block content}
+    <div class="con">
+        <div style="color:#009688;margin-top:150px;font-size: 18px;">
+            成功申请!
+        </div>
+        <div>请耐心等待审核</div>
+        <div style="font-size:14px;color:#BBBBBB;padding:0 20px;">分享您申请的积分事项，可赚取积分哦~</div>
+    </div>
+    {if $sdk_types=="dingtalk"}
+        <a class="dynamic-receive alert-text" href="javascript:;" onclick="shareDing.call(this,{$content},{$url});" data-url="{url("mobileConsoles_share_acornShare_ding")}">
+            <div class="content-block" style="width:100%;font-size:14px;">
+                <div class="col-95">
+                    <div class="button button-big button-fill" id="bnts" style="background-color:#3f96f2;height:48px;line-height:48px">分享到钉钉</div>
+                </div>
+            </div>
+        </a>
+    {/if}
+    {if $sdk_types=="wxwork"}
+        <div class="dynamic-receive alert-text" href="javascript:;" onclick="shareWX.call(this,{$content},{$url});" data-url="{url("mobileConsoles_share_acornShare_ding")}">
+            <div class="content-block" style="width:100%;font-size:14px;">
+                <div class="col-95">
+                    <div class="button button-big button-fill" id="bnts" style="background-color:#3f96f2;height:48px;line-height:48px">分享到微信</div>
+                </div>
+            </div>
+        </div>
+    {/if}
+    <a class="dynamic-receive alert-text" href="javascript:;" onclick="copy({$url_host});">
+        <div class="content-block" style="width:100%;font-size:14px;">
+            <div class="col-95">
+                <div class="button button-big button-fill" id="bnts" style="background-color:#FFBA00;height:48px;line-height:48px">复制链接</div>
+            </div>
+        </div>
+    </a>
+    <a class="dynamic-receive" href="{url("mobileConsoles_acorn_applyLists", "types=my")}">
+        <div class="content-block" style="width:100%;font-size:14px;">
+            <div class="col-95">
+                <div class="button button-big button-fill" id="bnts" style="height:48px;line-height:48px;color:#333;background: #fff;">返回</div>
+            </div>
+        </div>
+    </a>
+{/block}

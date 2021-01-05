@@ -1,0 +1,137 @@
+Admin\Entity\TaskStatistics:
+  type: entity
+  table: task_statistics
+  indexes:
+    user_id:
+      columns:
+        - user_id
+    task_id:
+      columns:
+        - task_id
+  id:
+    id:
+      type: integer
+      nullable: false
+      unsigned: false
+      comment: ''
+      id: true
+      generator:
+        strategy: IDENTITY
+  fields:
+    sid:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+    userId:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: user_id
+    issueCount:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: issue_count
+    acceptCount:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: accept_count
+    allotCount:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: allot_count
+    execute:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+    accept:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+    realWl:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+      column: real_wl
+    totalWl:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+      column: total_wl
+    addTime:
+      type: datetime
+      nullable: true
+      comment: ''
+      column: add_time
+    day:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    week:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+    month:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+    year:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+    memo:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    types:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    taskId:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: task_id
+    coefficient:
+      type: decimal
+      nullable: true
+      precision: 10
+      scale: 2
+      comment: ''
+    quality:
+      type: decimal
+      nullable: true
+      precision: 10
+      scale: 2
+      comment: ''
+    acceptDay:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+      column: accept_day
+  lifecycleCallbacks: {  }

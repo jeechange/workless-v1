@@ -1,0 +1,58 @@
+Admin\Entity\StudyDetail:
+  type: entity
+  table: study_detail
+  id:
+    id:
+      type: integer
+      nullable: false
+      unsigned: false
+      comment: ''
+      id: true
+      generator:
+        strategy: IDENTITY
+  fields:
+    sid:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+    stuId:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: stu_id
+    userId:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: user_id
+    taskCount:
+      type: smallint
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: task_count
+    totalCount:
+      type: smallint
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: total_count
+    addTime:
+      type: datetime
+      nullable: true
+      comment: ''
+      column: add_time
+    doneTime:
+      type: datetime
+      nullable: true
+      comment: ''
+      column: done_time
+    status:
+      type: smallint
+      nullable: true
+      unsigned: false
+      comment: ''
+  lifecycleCallbacks: {  }

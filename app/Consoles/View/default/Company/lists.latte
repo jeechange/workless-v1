@@ -1,0 +1,54 @@
+{layout '../Public/layoutList.latte'}
+{block title}我的企业{/block}
+{block actions}
+
+{/block}
+{block actionstab}
+    {include "./actionstab.latte"}
+{/block}
+{block content}
+    <table cellpadding="0" cellspacing="0" border="0" class="stdtable">
+        <thead>
+        <tr>
+            <th data-sort="c.names"><span class="table-head">企业名称</span></th>
+            <th><span class="table-head">管理员姓名/手机</span></th>
+            <th><span class="table-head">行业</span></th>
+            <th><span class="table-head">规模</span></th>
+            <th><span class="table-head">地址</span></th>
+            <th><span class="table-head">操作</span></th>
+        </tr>
+        </thead>
+        <tbody>
+        {foreach $lists as $k=>$item}
+            <tr>
+                <td><a href="{url('consoles_staff_lists',"sid=".$item['c_id'])}">{$item['c_names']}</a>
+                    {if $item['sort']==1}
+                        <span style="color: #007ed6;display:block; clear:both">(主企业)</span>
+                    {/if}
+                </td>
+                <td>{$item['fullName']}/{$item['phone']}</td>
+                <td>{$item['industryMemo']}</td>
+                <td>{$item['scalesMemo']}</td>
+                <td>{$item['c_province'].$item['c_city'].$item['c_area'].$item['c_address']}</td>
+                <td>
+                    {if $item['sort']==1}{else}
+                        <a href="{url('consoles_company_toggle',"id=".$item['c_id'])}" style="color:#007ed6;" data-confirm="是否确认切换为主企业?">设为主企业</a>
+                        <br>
+                    {/if}
+                    {if $item['superId'] > 0}
+                        <a href="{url('consoles_staff_lists',"sid=".$item['c_id'])}" class="icon-adds" style="color: #007ed6;">组织架构</a><br>
+                        <a style="color:#007ed6;" href="{url('consoles_mod',"con=Company&id=".$item['c_id'])}" data-side-form>详情</a>
+                        {*{if $item['authStatusMemo']=="未认证" || !$item['authStatusMemo']}*}
+                            {*<a style="color:#007ed6;" href="{url('consoles_mod',"con=Company&id=".$item['c_id'])}" class="icon-adds" style="color: red;" data-side-form>企业认证</a>*}
+                        {*{else}*}
+                            {*<a style="color:#007ed6;" href="{url('consoles_mod',"con=Company&id=".$item['c_id'])}" data-side-form>{if $item['authStatusMemo']=="已认证"}详情{else}更改认证{/if}</a>*}
+                        {*{/if}*}
+                    {else}
+                        非管理员
+                    {/if}
+                </td>
+            </tr>
+        {/foreach}
+        </tbody>
+    </table>
+{/block}

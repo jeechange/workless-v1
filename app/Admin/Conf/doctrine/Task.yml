@@ -1,0 +1,239 @@
+Admin\Entity\Task:
+  type: entity
+  table: task
+  indexes:
+    pid:
+      columns:
+        - pid
+    issue_id:
+      columns:
+        - issue_id
+    accept_id:
+      columns:
+        - accept_id
+    standard_id:
+      columns:
+        - standard_id
+    executors:
+      columns:
+        - executors
+    tags:
+      columns:
+        - tags
+    rechecks:
+      columns:
+        - rechecks
+  id:
+    id:
+      type: integer
+      nullable: false
+      unsigned: false
+      comment: ''
+      id: true
+      generator:
+        strategy: IDENTITY
+  fields:
+    pid:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+    issueId:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: issue_id
+    types:
+      type: smallint
+      nullable: true
+      unsigned: false
+      comment: ''
+    names:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    priority:
+      type: smallint
+      nullable: true
+      unsigned: false
+      comment: ''
+    executor:
+      type: smallint
+      nullable: true
+      unsigned: false
+      comment: ''
+    nums:
+      type: smallint
+      nullable: true
+      unsigned: false
+      comment: ''
+    cycleTypes:
+      type: smallint
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: cycle_types
+    deadline:
+      type: datetime
+      nullable: true
+      comment: ''
+    acorn:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    medal:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+    learns:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    content:
+      type: text
+      nullable: true
+      length: null
+      fixed: false
+      comment: ''
+    addTime:
+      type: datetime
+      nullable: true
+      comment: ''
+      column: add_time
+    endTime:
+      type: datetime
+      nullable: true
+      comment: ''
+      column: end_time
+    status:
+      type: smallint
+      nullable: true
+      unsigned: false
+      comment: ''
+    sid:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+    cycleUse:
+      type: smallint
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: cycle_use
+    executors:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    cycleStart:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+      column: cycle_start
+    cycleEnd:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+      column: cycle_end
+    acceptId:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: accept_id
+    thumbs:
+      type: string
+      nullable: true
+      length: 2048
+      fixed: false
+      comment: ''
+    standardId:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: standard_id
+    excluders:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    codeNo:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: code_no
+    astatus:
+      type: smallint
+      nullable: true
+      unsigned: false
+      comment: ''
+    workload:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    cycleTimes:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: cycle_times
+    cycleNext:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: cycle_next
+    visibility:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+    standardTypes:
+      type: smallint
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: standard_types
+    rechecks:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    tags:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    resolves:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    acceptTime:
+      type: datetime
+      nullable: true
+      comment: ''
+      column: accept_time
+  lifecycleCallbacks: {  }

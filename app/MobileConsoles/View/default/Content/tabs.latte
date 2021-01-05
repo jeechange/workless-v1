@@ -1,0 +1,8 @@
+<div class="tabs">
+    <a href="{url("mobileConsoles_content_lists","types=rec")}" class="tabs-link{if $active=='rec'} active{/if}" style="margin-left: 6px;">推荐</a>
+    {foreach $category as $v}
+        <a href="{url("mobileConsoles_content_lists","types=".$v['thumb'])}" class="tabs-link{if $active== $v['thumb']} active{/if}">{$v['names']}</a>
+    {/foreach}
+    <a href="{url("mobileConsoles_content_lists","types=my")}" class="tabs-link{if $active=='my'} active{/if}">我的</a>
+    {*<a href="" class="tabs-link{if $active=='audit'} active{/if}">我的审核</a>*}
+</div>

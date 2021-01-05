@@ -1,0 +1,19 @@
+{layout '../Layout/layout.latte'}
+{block private_css}
+    <link type="text/css" rel="stylesheet" href="{path('[Home]/css/article.css')}">
+{/block}
+{block private_content}
+
+
+    {*步骤*}
+    <div class="contents">
+        <div class="titles">
+            <h4>{$data['s_title']}</h4>
+            <p>来源：{$data['a_source']}</p>
+        </div>
+        <div class="conts">
+            {$data['c_content']|noescape}
+        </div>
+    </div>
+{/block}
+{block private_js}{/block}

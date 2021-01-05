@@ -1,0 +1,83 @@
+{layout '../Public/layoutForm.latte'}
+{block return_actions}{/block}
+{block title}钉钉对接{/block}
+
+{block private_js}
+{/block}
+
+{block private_css}
+    <style>
+        #formArticle .smallinput{
+            width:500px;
+        }
+    </style>
+{/block}
+
+{block content}
+    <form id="formArticle" class="stdform mform" method="post" action="" onsubmit="return false">
+        <table cellpadding="0" cellspacing="0" border="0" id="frmtable" class="formtable">
+            <thead>
+            <tr>
+                <td><label>名称</label></td>
+                <td>
+                    <div class="field control-group">
+                        <div class="input-group">
+                            <input type="text" disabled class="smallinput" value="钉钉"/>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td><label>PC版URL</label></td>
+                <td>
+                    <div class="field control-group">
+                        <div class="input-group">
+                            <input type="text" readonly class="smallinput" value="{url("~consoles_index_index",array("company"=>$codeNo,"user"=>"root"))}"/>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td><label>移动版URL</label></td>
+                <td>
+                    <div class="field control-group">
+                        <div class="input-group">
+                            <input type="text" readonly class="smallinput" value="{url("~mobileConsoles_index_index",array("company"=>$codeNo,"user"=>"root"))}"/>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td><label>agentId</label></td>
+                <td>
+                    <div class="field control-group">
+                        <div class="input-group">
+                            <input type="text" name="agentid" class="smallinput" value="{$api["agentid"]}"/>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td><label>corpId</label></td>
+                <td>
+                    <div class="field control-group">
+                        <div class="input-group">
+                            <input type="text" name="corpid" class="smallinput" value="{$api["corpid"]}"/>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td><label>corpSecret</label></td>
+                <td>
+                    <div class="field control-group">
+                        <div class="input-group">
+                            <textarea type="text" name="corpsecret" class="smallinput">{$api["corpsecret"]}</textarea>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            </thead>
+        </table>
+    </form>
+{/block}

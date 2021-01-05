@@ -1,0 +1,148 @@
+{layout "../Layout/layout.latte"}
+
+{block private_css}
+    <style>
+        #cover{
+            width:100%;
+            height:100%;
+            background:#000;
+            opacity:0.5;
+            position:absolute;
+            top:0;
+            left:0;
+            z-index:99;
+        }
+
+        #guideBox{
+            width:90%;
+            height:55%;
+            background:#fff;
+            position:absolute;
+            top:50%;
+            left:50%;
+            transform:translate(-50%, -50%);
+            border-radius:0.625rem;
+            z-index:99;
+        }
+
+        #guideIcon{
+            width:13rem;
+            height:13rem;
+            margin:-30% auto 1.375rem;
+        }
+
+        .guideBtn{
+            width:55%;
+            margin:0 auto;
+            background:#009AE2;
+            color:#fff;
+            border-radius:0.375rem;
+        }
+
+        .guideText{
+            text-align:center;
+            font-size:0.75rem;
+            color:#666;
+        }
+
+        #forCancel{
+            width:100%;
+            height:100%;
+            position:absolute;
+            top:0;
+            left:0;
+        }
+
+        #cancelBtn{
+            position:absolute;
+            top:0.5rem;
+            right:0.55rem;
+            margin:0;
+            font-size:0.75rem;
+            color:#666;
+        }
+
+        .externalRelations{
+            position:relative;
+            text-align:center;
+            display:block;
+        }
+    </style>
+{/block}
+
+{block private_js}
+    <script type="text/javascript">
+        $(function () {
+            $('#joinTeam').on("click", function () {
+                $.ajax({
+                    type: "post",
+                    url: $(this).attr("href"),
+                    cache: false,
+                    dataType: "json",
+                    success: function (res) {
+                        console.log(res)
+                        $.toast(res.info);
+                        if (res.status == "y") {
+                            setTimeout(function () {
+                                location.replace(res.url);
+                            }, 1000);
+                        } else if (res.status == "n") {
+                            if (res.info == "尚未收到邀请") {
+                                $("#joinTeam").siblings("p:nth-of-type(1)").css("color", "red");
+                                $("#joinTeam").text("重新检验是否已收到邀请")
+                                $("#joinTeam").css("background", "red")
+                                $("#joinTeam").css("border", "1px solid red")
+                                $("#joinTeam").siblings("p:nth-of-type(1)").text('尚未收到邀请,请提醒同事发出邀请')
+
+                            } else if (res.info == "审核未通过") {
+                                $("#joinTeam").siblings("p:nth-of-type(1)").css("color", "red");
+                                $("#joinTeam").text("重新检验是否已收到邀请")
+                                $("#joinTeam").css("background", "red")
+                                $("#joinTeam").css("border", "1px solid red")
+                                $("#joinTeam").siblings("p:nth-of-type(1)").text('您的审核未通过...请稍后再试')
+                            } else if (res.info == "正在审核中...") {
+                                $("#joinTeam").siblings("p:nth-of-type(1)").css("color", "red");
+                                $("#joinTeam").text("重新检验是否已收到邀请")
+                                $("#joinTeam").css("background", "red")
+                                $("#joinTeam").css("border", "1px solid red")
+                                $("#joinTeam").siblings("p:nth-of-type(1)").text('正在审核您的资料中...')
+                            }
+                        }
+                    }
+                });
+                return false;
+            })
+//
+//            $('#guideBox *').not($("#guideBox a:nth-of-type(1)")).click(function () {
+//                $("#guideBox").children("p:nth-of-type(1)").text('接受团队成员的邀请即可加入')
+//                $("#guideBox").children("p:nth-of-type(1)").css("color", "#666")
+//                $("#guideBox a:nth-of-type(1)").css("background", "#009AE2")
+//                $("#guideBox a:nth-of-type(1)").css("border", "1px solid #009AE2")
+//                $("#guideBox a:nth-of-type(1)").text("加入团队/企业")
+//            })
+
+            // $('#newTeam').click(function(){
+            //     $.toast("暂无此功能")
+            // })
+
+        })
+    </script>
+{/block}
+
+{block content}
+    <div id="cover"></div>
+    <div id="guideBox">
+        <div id="forCancel"></div>
+        <div id="guideIcon"><img src="{path('[MobileConsoles]/img/guideIcon.png')}" style="display: block;width:100%;height: 100%;"/></div>
+        <a href="{url('~mobileConsoles_user_guide')}" id="joinTeam" class="button button-big guideBtn">加入团队/企业</a>
+        <p class="guideText">接受团队成员的邀请即可加入</p>
+        <div style="width: 100%;height:1.5625rem;"></div>
+        <a href="{url("mobileConsoles_company_addTeam",array("different"=>'yes'))}" id="newTeam" class="button button-big guideBtn">创建团队/企业</a>
+        <p class="guideText">一分钟创建团队，开启全新体验</p>
+        {if $different=="yes"}
+            <a class="externalRelations" href="{url("~mobileConsoles_externalRelations_lists",array("different"=>'yes'))}" style="white-space: nowrap;
+    position: relative;">外部联系入口</a>
+        {/if}
+        <a id="cancelBtn" href="{url("~mobileConsoles_login_logout",array("different"=>'yes'))}">返回登录</a>
+    </div>
+{/block}

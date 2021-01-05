@@ -1,0 +1,109 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
+    <title>九程软件-菜单分配</title>
+    <meta name="keywords" content="九程软件-菜单分配"/>
+    <meta name="description" content="九程软件-菜单分配"/>
+    <link href="{path('[Node]/css/layout.css') }" rel="stylesheet" type="text/css"/>
+    <link href="{path('[Node]/css/content.css')}" rel="stylesheet" type="text/css"/>
+
+    <style>
+        #formSite th, #formSite td{
+            border:1px solid #f2f2f2;
+        }
+
+        #formSite table{
+            padding:0;
+        }
+
+        .node-item, .menu-item{
+            display:inline-block;
+            border:1px solid #eee;
+            padding:2px 5px;
+            margin-top:5px;
+        }
+
+        #formSite th, #formSite td{
+            border:1px solid #f2f2f2;
+        }
+
+        #formSite table{
+            padding:0;
+        }
+    </style>
+
+    <script src="{path('[Jeechange]/js/jquery-1.8.3.min.js') }"></script>
+    <script type="text/javascript" src="{path('[Core]/layer/layer.js')}"></script><!-- 弹出层 -->
+    <script src="{path('[Core]/niceue/validator/jquery.validator.js') }"></script>
+    <script type="text/javascript" src="{path('[Core]/niceue/validator/local/zh_CN.js')}"></script>
+    <script src="{path('[Node]/sideForm.js')}"></script>
+    <script>
+        $(function () {
+            $(".more-action>.arrows").bind("click", function (e) {
+                var $parentObj = $(this).parent();
+                $parentObj.toggleClass("open");
+                var parentObj = $parentObj[0];
+                var moreActions = $(".more-action");
+                for (var i = 0; i < moreActions.length; i++) {
+                    if (moreActions[i] === parentObj) continue;
+                    $(moreActions[i]).removeClass("open");
+                }
+                e.stopPropagation();
+            });
+        })
+
+    </script>
+
+
+</head>
+<body class="index-body">
+
+<div id="contentedits">
+    <div id="contenteditsloding" style="position: absolute;left:0;right:0;top:0;height: 3px;z-index:999999">
+        <div id="contenteditslodingpercentage" style="width: 10%;height: 3px; background: #4d91e4;"></div>
+    </div>
+    <div id="contenteditsdiv"></div>
+    <div id="contenteditsdivRes" style="display: none;"></div>
+    <div class="contenteditsSubmit">提交</div>
+</div>
+
+<div class="box index-main">
+    <div id='contentdiv' class="content" style="position:absolute;left:0px;right:0;overflow-y:scroll;bottom:0;top:60px;padding: 0 20px 20px 20px;">
+        <div class="tableoptions searchForm">
+            <form>
+                SID: <input type="text" name="sid" value="{$defaultSid}">
+                选择MODULE: <select id="module" name="module" style="min-width: 300px;min-height:30px;">
+                    {foreach $mods as $vo}
+                        <option {if $defaultMod == $vo}selected{/if}>{$vo}</option>
+                    {/foreach}
+                </select>
+                <input type="submit" class="btn green" value="切 换"/>
+                <a type="button" id="newMenu" href="{$newMenuUrl}" class="btn green" data-side-form="800px">新建菜单</a>
+                <a type="button" href="{url('node_index_index')}" class="btn green">回首页</a>
+            </form>
+        </div>
+
+        <form id="loginform" method="post" action="" class="mform">
+            <table cellpadding="0" cellspacing="0" border="0" class="stdtable">
+                <thead>
+                <tr>
+                    <th><span class="table-head"><input class="col-2" value="排序" type="submit" style="background: #35aa47;border: none;color: #fff;height: 25px"></span></th>
+                    <th><span class="table-head">菜单名称</span></th>
+                    <th style="width: 300px;"><span class="table-head">包含节点</span></th>
+                    <th style="width: 300px;"><span class="table-head">包含菜单</span></th>
+                    <th style="width: 60px;"><span class="table-head">可见性</span></th>
+                    <th style="width: 60px;"><span class="table-head">默认状态</span></th>
+                    <th style="width: 60px;"><span class="table-head">启用</span></th>
+                    <th style="width: 80px;"><span class="table-head">操作</span></th>
+                </tr>
+                </thead>
+                <tbody>
+                {$menuStr["menu_str"]|noescape}
+                </tbody>
+            </table>
+        </form>
+    </div>
+</div>
+</body>
+</html>

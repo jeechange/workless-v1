@@ -1,0 +1,201 @@
+{layout "../Layout/layout.latte"}
+
+{block tabs_content}
+    {include "./tabs.latte"}
+{/block}
+{block private_css}
+    <style>
+        .content{
+            background:#FAFAFA;
+            font-size:14px;
+            color:#101010;
+        }
+
+        .snack{
+            padding:0;
+            margin:0;
+            margin-top:3.2rem;
+        }
+
+        .snack > li{
+            list-style:none;
+            overflow:hidden;
+            height:120px;
+        }
+
+        .fb{
+            background-color:#fff;
+            border-bottom:1px #eeeeee solid;
+        }
+
+        .left{
+            width:40%;
+            float:left;
+        }
+
+        .left > img{
+            margin-top:10%;
+            margin-left:20%;
+        }
+
+        .middle{
+            width:34%;
+            float:left;
+            margin-left:1%;
+            position:relative;
+        }
+
+        .middle-title{
+            margin-top:5%;
+        }
+
+        .middle-acorn{
+            position:absolute;
+            bottom:-110%;
+        }
+
+        .middle-num{
+            position:absolute;
+            bottom:-50%;
+        }
+
+        .right{
+            width:20%;
+            float:left;
+            position:relative;
+            margin-top:2%;
+        }
+
+        .right-num{
+            margin-top:5%;
+            font-size:14px;
+            text-align:center;
+            line-height:24px;
+        }
+
+        .right-exchange{
+            width:64px;
+            line-height:26px;
+            text-align:center;
+            color:#fff;
+            /*border:1px #BBBBBB solid;*/
+            background-color:#ef6e10;
+            margin-bottom:10px;
+            border-radius:50px;
+            margin-left:5px;
+        }
+
+        .ff{
+            background-color:#FFFFFF;
+        }
+
+        .bottom{
+            height:80px;
+            line-height:80px;
+            text-align:center;
+            color:#d9d9d9;
+        }
+    </style>
+{/block}
+
+{block private_js}
+    {include "../Welfare/snackJS.latte"}
+    <script>
+        $(document).on('click', '.acorn-cancel', function () {
+            var url = $(this).attr("data-url");
+
+            $.confirm('你确定要删除该小吃吗?', function () {
+                // $.alert('');
+                var data = {
+                    id: {$lists[0]['id']}
+                };
+                getPages(url, data);
+            });
+        });
+
+        $(document).on('click', '.acorn-snackSwitch', function () {
+            var url = $(this).attr("data-url");
+
+            $.confirm('你确定要进行该操作吗?', function () {
+                var data = {
+                    id: {$lists[0]['id']}
+                };
+                getPages(url, data);
+            });
+        });
+
+        function getPages(toUrl, data) {
+            $.showPreloader('正在进行操作中，请稍候...');
+            $.ajax({
+                type: "GET",
+                dataType: "json",
+                url: toUrl,
+                data: data,
+                success: function (res) {
+                    $.hidePreloader();
+                    try {
+                        if (res.status === "y") {
+                            $.toast(res.info);
+                            setTimeout(function () {
+                                location = (res.url);
+                            }, 2000)
+                        } else {
+                            $.toast(res.info);
+                        }
+                    } catch (e) {
+                        $.toast(e.message);
+                    }
+                }
+            });
+        }
+    </script>
+{/block}
+
+{block content}
+    <div>
+        {if $lists}
+            <ul class="snack">
+                {foreach $lists as $v}
+                    <li class="fb">
+                        <div class="left"><img src="{$cdnThumb.$v['icon']}" style="width:80px;height:80px;border-radius:50px;border:1px #eee solid"></div>
+                        <div class="middle">
+                            <div class="middle-title sui-ellipsis-1">{$v["names"]}</div>
+                            <div class="middle-content sui-ellipsis-1">库存{$v['num']}{$v['unit']}</div>
+                            {if $v['num'] <= 0}
+                                <div class="middle-num" style="color:#c61313;">[库存不足]</div>
+                            {elseif $v['num'] <= 2&&$v['num'] >= 2}
+                                <div class="middle-num" style="color:#ef6e10;">[库存需要补充]</div>
+                            {else}
+                                <div class="middle-num" style="color:#2f8a20;">[库存充足]</div>
+                            {/if}
+                            <div class="middle-acorn">{$v['acorn']}<i class="icon al-icon al-icon-influence sui-font-size-rem-0-8" style="line-height:14px;"></i>*{$v['everyNum']}{$v['unit']}/次</div>
+                        </div>
+                        <div class="right">
+                            <a href="{url("mobileConsoles_welfare_snackModify",array("id"=>$v['id']))}">
+                                <div class="right-exchange">编辑</div>
+                            </a>
+                            {if $v['status'] == 1}
+                                <a data-url="{url("mobileConsoles_welfare_snackSwitch",array("id"=>$v['id']))}" class="acorn-snackSwitch">
+                                    <div class="right-exchange" style="background-color:#2f8a20;">下架</div>
+                                </a>
+                            {else}
+                                <a data-url="{url("mobileConsoles_welfare_snackSwitch",array("id"=>$v['id']))}" class="acorn-snackSwitch">
+                                    <div class="right-exchange">上架</div>
+                                </a>
+                            {/if}
+                            <a data-url="{url("mobileConsoles_welfare_snackDelete",array("id"=>$v['id']))}" class="acorn-cancel">
+                                <div class="right-exchange" style="background-color:#c61313;">删除</div>
+                            </a>
+                        </div>
+                    </li>
+                {/foreach}
+            </ul>
+        {else}
+            <div class="list" style="margin-top:100px;text-align:center">
+                <img src="{path('[MobileConsoles]/img/null.png')}" alt="" class="" style="width:60%; height:100%;margin:0 20%;display:block;">
+                <div>暂无内容</div>
+            </div>
+        {/if}
+    </div>
+    <div class="bottom">— 我是有底线的 —</div>
+{/block}

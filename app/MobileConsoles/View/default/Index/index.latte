@@ -1,0 +1,772 @@
+{layout "../Layout/layout.latte"}
+{block private_css}
+    <style>
+        .head-box{
+            background:#40b2ec;
+            color:#fff;
+            padding-top:5px;
+        }
+
+        .head-box .bar:after{
+            display:none;
+        }
+
+        .head-box .bar{
+            height:2.6rem;
+        }
+
+        .head-box .bar .searchbar{
+            background:#40b2ec;
+            height:2.6rem;
+        }
+
+        .bar .searchbar .searchbar-cancel{
+            color:#fff;
+            height:1.8rem;
+            line-height:1.8rem;
+        }
+
+        .searchbar .search-input input{
+            background:#399bcc;
+            height:1.8rem;
+        }
+
+        .signature{
+            padding:0 1rem 0.5rem .5rem;
+            display:flex;
+            justify-content:space-between;
+            margin:8px 0;
+        }
+
+        .sections{
+            margin:0 .5rem -90px .5rem;
+            background:#fff;
+            border-radius:10px;
+            padding:20px 40px 0;
+            z-index:15;
+            position:relative;
+        }
+
+        .sections .sections-row{
+            justify-content:space-between;
+            display:flex;
+        }
+
+        .sections .sections-row .sections-item{
+            color:#101010;
+            text-align:center;
+            font-size:.75rem;
+        }
+
+        .sections .sections-row .sections-item .icon{
+            display:block;
+            font-size:2.2rem;
+            margin-bottom:.1rem;
+        }
+
+        .sections .apply{
+            margin:0 auto 0 auto;
+            width:220px;
+            background:#40b2ec;
+            height:40px;
+            line-height:40px;
+            text-align:center;
+            border-radius:30px;
+            position:relative;
+            top:20px;
+            color:#fff;
+        }
+
+        .details{
+            padding:10px .5rem;
+            background:#fff;
+        }
+
+        .details-head{
+            position:relative;
+            height:40px;
+            line-height:40px;
+            display:flex;
+            justify-content:space-between;
+        }
+
+        .details-head:after{
+            content:'';
+            position:absolute;
+            left:0;
+            bottom:0;
+            right:auto;
+            top:auto;
+            height:1px;
+            width:100%;
+            background-color:#e7e7e7;
+            display:block;
+            z-index:15;
+            -webkit-transform-origin:50% 100%;
+            transform-origin:50% 100%;
+        }
+
+        .details-head-title{
+            margin-top:8px;
+            position:relative;
+            padding-left:15px;
+            height:20px;
+            line-height:20px;
+            vertical-align:bottom;
+        }
+
+        .details-head-title:before{
+            content:'';
+            position:absolute;
+            left:0;
+            top:0;
+            height:100%;
+            width:3px;
+            background-color:#40b3eb;
+            display:block;
+            z-index:16;
+            -webkit-transform-origin:50% 100%;
+            transform-origin:50% 100%;
+        }
+
+        .details-head-more{
+            color:#a6a6a6;
+        }
+
+        .details-body ul{
+            padding:0;
+            margin:0;
+        }
+
+        .details-body li{
+            display:flex;
+            width:100%;
+            min-height:3rem;
+            line-height:3rem;
+            padding:0 1rem;
+        }
+
+        .details-body li:nth-child(2n){
+            background:#f9f9f9;
+        }
+
+        .details-body li .item-memo{
+            width:35%;
+            float:left;
+            text-align:left;
+        }
+
+        .details-body li .item-task{
+            width:45%;
+            float:left;
+            text-align:left;
+        }
+
+        .details-body li .item-last{
+            width:20%;
+            float:left;
+            text-align:right;
+        }
+
+        .bar .searchbar .search-input input{
+            border-radius:50px;
+        }
+
+        /*弹出*/
+        .field-item{
+            margin:5px 10px;
+            padding-bottom:10px;
+        }
+
+        .field-item .field-item-title{
+            color:#101010;
+            font-size:14px;
+            vertical-align:bottom;
+        }
+
+        .field-item .field-item-body{
+            position:relative;
+            padding-top:5px;
+            /*border-bottom:#e7e7e7 1px solid;*/
+        }
+
+        .field-item-body .field-item-member-box{
+            padding:10px 0;
+            border-bottom:2px solid #ddd;
+        }
+
+        .field-item-between{
+            background:rgba(170, 170, 170, 0.07);
+            height:2px;
+        }
+
+        .field-item-body > .one{
+            display:block;
+            line-height:26px;
+        }
+
+        .chat > ul{
+            margin:0;
+            padding:0;
+            list-style:none;
+            font-size:14px;
+        }
+
+        .chat li{
+            overflow:hidden;
+        }
+
+        .chat-left > div{
+            margin-left:12px;
+        }
+
+        .chat-right > div{
+            margin-right:12px;
+        }
+
+        .chat-left > .chat-names{
+            line-height:28px;
+        }
+
+        .chat-right > .chat-names{
+            line-height:28px;
+            width:100%;
+            text-align:right;
+            float:right;
+        }
+
+        .chat-left > .chat-content{
+            margin:3px 10px;
+            padding:8px 10px 8px 15px;
+            display:block;
+            float:left;
+            background-color:#5CABFB;
+            border:1px;
+            border-radius:25px;
+            -moz-border-radius:25px;
+            color:#fff;
+        }
+
+        .chat-right > .chat-content{
+            margin:3px 10px;
+            padding:8px 10px 8px 15px;
+            display:block;
+            float:right;
+            background-color:#8BDF8B;
+            border:1px;
+            border-radius:25px;
+            -moz-border-radius:25px;
+            color:#fff;
+        }
+
+        .dynamic-popup{
+            height:30%;
+            top:70%
+        }
+
+        .tabs ~ .content{
+            top:0;
+        }
+
+        .list-block li:nth-child(even){
+            background:#fafafa;
+        }
+
+        .item-content .item-media span, .item-content .types-memo{
+            margin-right:10px;
+            color:#fff;
+            border-radius:50%;
+            width:40px;
+            height:40px;
+            text-align:center;
+            display:block;
+            line-height:40px;
+            font-size:24px;
+        }
+
+        .item-content .types-memo.types-memo-1{
+            background:#E51C23;
+        }
+
+        .item-content .types-memo.types-memo-3{
+            background:#259B24;
+        }
+
+        .item-content .item-media span.priority-1{
+            background:#FB855C;
+        }
+
+        .item-content .item-media span.priority-2{
+            background:#FFBA00;
+        }
+
+        .item-content .item-media span.priority-3{
+            background:#305AAE;
+        }
+
+        .item-content .item-media span.priority-4{
+            background:#5CABFB;
+        }
+
+        .item-content .item-inner{
+            display:block;
+        }
+
+        .item-content .item-inner:after{
+            display:none;
+        }
+
+        .item-content .item-inner .item-row{
+            display:flex;
+            justify-content:space-between;
+            line-height:24px;
+        }
+
+        .item-content .item-inner .item-row .item-title.item-title-bold{
+            /*font-weight:bold;*/
+        }
+
+        .item-content .item-inner .item-row .item-title .item-tag{
+            color:#fff;
+            background:#0087E2;
+            padding:3px 5px;
+            font-size:12px;
+            margin-right:5px;
+        }
+
+        .item-content .item-inner .item-row .item-after{
+            margin-right:0.1rem;
+            font-size:10px;
+        }
+
+        .item-content .item-inner .item-row .item-after.deadline{
+            font-size:.7rem;
+        }
+
+        .item-group-name{
+            border:1px solid #e7e7e7;
+            margin-right:5px;
+            padding:2px 5px;
+            font-size:12px;
+            border-radius:5px;
+        }
+
+        .bar:after{
+            content:"";
+            height:0 !important;
+        }
+    </style>
+{/block}
+{block custom}
+    <div class="popup dynamic-popup" data-relate-id="info">
+        <header class="bar bar-nav">
+            <a class="button button-link button-nav pull-right close-popup">
+                关闭
+            </a>
+            <h1 class="title">签名</h1>
+        </header>
+        <div data-url="{url('mobileConsoles_index_hfSignature')}" class="bar bar-standard bar-footer list-study-block dynamic-submit" style="background:#0087E2;color:#fff;line-height:2.2rem;font-size:16px;text-align:center">
+            提 交
+        </div>
+        <div class="content">
+            <div class="content-inner">
+                <div class="content-block" style="margin:0;">
+                    <div class="list-block" style="margin:0;margin-top: 1.3rem;">
+                        <div class="field-item">
+                            <div class="field-item-body">
+                                {*style="border:1px solid rgba(187, 187, 187, 1)">*}
+                                <textarea class="dynamic-chat" name="hfSignature" style="height:4rem;">员工价值管理</textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{/block}
+{block private_js}
+    {include '../Task/listsJs.latte'}
+    <script type="text/javascript">
+        function aconShow() {
+            var id = $(this).attr('data-id');
+            $(".acon-show-" + id).toggle();
+        }
+
+        $(function () {
+            $(".dynamic-submit").on("click", function () {
+                var data = {
+                    chat: $(".dynamic-chat").val()
+                };
+                postPages($(this).attr("data-url"), data);
+            });
+        });
+
+        $('.ass').click(function () {
+            var is = $('textarea').text();
+            $('textarea').text('');
+            $('textarea').attr('autofocus', 'autofocus').text(is);
+        });
+
+        function postPages(toUrl, data) {
+            $.showPreloader('正在提交，请稍候...');
+            $.ajax({
+                type: "POST",
+                dataType: "json",
+                url: toUrl,
+                data: data,
+                success: function (res) {
+                    $.hidePreloader();
+                    try {
+                        if (res.status === "y") {
+                            $.toast(res.info);
+                            setTimeout(function () {
+                                location.reload(true);
+                            }, 2000)
+                        } else {
+                            $.toast(res.info);
+                        }
+                    } catch (e) {
+                        $.toast(e.message);
+                    }
+                }
+            });
+            $.hidePreloader();
+        }
+
+        var datas = {
+            page: $(this).attr("data-page"),
+            infinite: true,
+            loading: false,
+            keywords: {$keywords}
+        };
+
+        var countSNNN = true;
+        var countNum = 0;
+
+        function transLi(data, typesNames, count, page) {
+            var content = '';
+            var lists = data;
+            var l = data.length;
+
+            if (count > page * 50 + l) {
+                window.countSNNN = false;
+                $('.infinite-scroll-preloader').show();
+            } else {
+                window.countSNNN = true;
+                $('.infinite-scroll-preloader').hide();
+            }
+
+            for (var i = 0; i < l; i++) {
+                var TDurl = {url("mobileConsoles_task_details","id=0")};
+                var newUrl = TDurl.replace(0, lists[i]['t_id']);
+                content += '<li class="newLi" style="padding:6px 0;"><a class="item-content item-link" href="' + newUrl + '">';
+
+                content += '<div class="item-media">';
+                if (lists[i]['t_types'] == 2) {
+                    content += '<span class="priority-' + lists[i]['t_priority'] + '">' + lists[i]['priorityMemo'] + '</span>';
+                } else {
+                    content += '<span class="types-memo types-memo-' + lists[i]['t_types'] + '">' + typesNames[lists[i]['t_types']] + '</span>';
+                }
+                content += '</div>';
+
+                content += '<div class="item-inner">';
+                content += '<div class="item-row"><div class="item-title item-title-bold" style="font-size:1rem;">' + lists[i]['t_names'] + '</div><div class="item-after">' + lists[i]['executorsMemo'] + '</div></div>';
+
+                if (lists[i]['t_types'] == 3 && lists[i]['t_cycleUse'] > 0) {
+                    var Excerpt = '-' + lists[i]['t_cycleUse'];
+                } else {
+                    var Excerpt = '';
+                }
+
+                var t_codeNo = lists[i]['t_codeNo'] != null ? lists[i]['t_codeNo'] : '';
+                content += '<div class="item-row"><div class="item-title" style="font-size:10px;"><span style="font-size:12px; font-weight:bold;">#' + t_codeNo + Excerpt + '</span>';
+
+                if (lists[i]['groupName']) {
+                    content += '<span class="item-group-name">' + lists[i]['groupName'] + '</span>';
+                }
+
+                if (lists[i]['t_acorn']) {
+                    content += '<span class="item-group-name">' + lists[i]['t_acorn'] + '分</span>';
+                } else {
+                    content += '未预设积分';
+                }
+
+                content += '</div>';
+
+                if (lists[i]['t_status'] = 0) {
+                    var deadline = 'data-deadline="' + lists[i]["t_deadline"] + '"';
+                } else {
+                    var deadline = '';
+                }
+
+                content += '<div class="item-after" ' + deadline + '>' + lists[i]["statusMemo"] + '</div></div>';
+                content += '</div>';//class="item-inner"
+                content += '</a></li>';
+            }
+
+            if (page == 0) {
+                $("#listsItems").html(content);
+            } else {
+                $("#listsItems").append(content);
+            }
+        }
+
+        function searchNNN() {
+            $.showPreloader('正在提交，请稍候...');
+            $("#listsItems").html('');
+
+            var value = $("#search").attr("value");
+            var toUrl = $("#search").attr("data-url");
+            var data = {
+                keyword: value,
+                zero: 1,
+                page: 0
+            };
+
+            $.ajax({
+                type: "POST",
+                dataType: "json",
+                url: toUrl,
+                data: data,
+                success: function (res) {
+                    $.hidePreloader();
+
+                    try {
+                        if (res.status === "y") {
+                            if (res.data) {
+                                var typesNames = res.typesNames;
+                                window.countNum = res.count;
+                                transLi(res.data, typesNames, res.count, 0);
+                            }
+                            $("#search").attr("data-page", 1);
+                        } else {
+                            $.toast(res.info);
+                        }
+                    } catch (e) {
+                        $.toast(res.info);
+                    }
+
+                    if (res.info == '查询为空') {
+                        window.countSNNN = true;
+                        $('.infinite-scroll-preloader').hide();
+                    }
+
+                    $.hidePreloader();
+                }
+            });
+
+            $.hidePreloader();
+
+            return true;
+        }
+
+        function onClearInput() {
+            var value = $("#search").attr("value");
+
+            if (value != '') {
+                $(".headerBar").attr("style", "position:fixed; top:0; left:0; width:100%; height:2.6rem; display:block; background:#40b2ec;");
+                $(".head-box").css("display", "none");
+                $(".details").css("display", "none");
+                $(".searchNNN").css("display", "block");
+            } else {
+                $(".headerBar").attr("style", "position: relative; width:100%; height:2.6rem; display:block; background:#40b2ec;");
+                $(".head-box").css("display", "block");
+                $(".details").css("display", "block");
+                $(".searchNNN").css("display", "none");
+            }
+        }
+
+        function onEnter() {
+            if (event.keyCode == 13) {
+                var v = $(this).attr("value");
+                if (v) {
+                    searchNNN();
+                }
+            }
+        }
+
+        //文档高度
+        function getDocumentTop() {
+            var scrollTop = 0, bodyScrollTop = 0, documentScrollTop = 0;
+
+            if (document.body) {
+                bodyScrollTop = document.body.scrollTop;
+            }
+
+            if (document.documentElement) {
+                documentScrollTop = document.documentElement.scrollTop;
+            }
+
+            scrollTop = (bodyScrollTop - documentScrollTop > 0) ? bodyScrollTop : documentScrollTop;
+
+            return scrollTop;
+        }
+
+        //可视窗口高度
+        function getWindowHeight() {
+            var windowHeight = 0;
+
+            if (document.compatMode == "CSS1Compat") {
+                windowHeight = document.documentElement.clientHeight;
+            } else {
+                windowHeight = document.body.clientHeight;
+            }
+
+            return windowHeight;
+        }
+
+        //滚动条滚动高度
+        function getScrollHeight() {
+            var scrollHeight = 0, bodyScrollHeight = 0, documentScrollHeight = 0;
+            if (document.body) {
+                bodyScrollHeight = document.body.scrollHeight;
+            }
+            if (document.documentElement) {
+                documentScrollHeight = document.documentElement.scrollHeight;
+            }
+            scrollHeight = (bodyScrollHeight - documentScrollHeight > 0) ? bodyScrollHeight : documentScrollHeight;
+
+            return scrollHeight;
+        }
+
+        var is_running = true;
+
+        function gundong() {
+            if (countSNNN) return true;
+
+            if (is_running && getScrollHeight() == getWindowHeight() + getDocumentTop()) {
+                is_running = false;
+                queryMore();
+            }
+        }
+
+        function queryMore() {
+            var value = $("#search").attr("value");
+            var toUrl = $("#search").attr("data-url");
+            var page = $("#search").attr("data-page");
+            var data = {
+                keyword: value,
+                zero: 0,
+                page: page
+            };
+
+            $.ajax({
+                type: "POST",
+                dataType: "json",
+                url: toUrl,
+                data: data,
+                success: function (res) {
+                    try {
+                        if (res.status === "y") {
+                            if (res.data) {
+                                var typesNames = res.typesNames;
+                                transLi(res.data, typesNames, countNum, page);
+                            }
+                            var p = $("#search").attr("data-page");
+                            $("#search").attr("data-page", Number(p) + Number(1));
+                        } else {
+                            $.toast(res.info);
+                        }
+                    } catch (e) {
+                        $.toast(res.info);
+                    }
+                    if (res.info == '查询为空') {
+                        window.countSNNN = true;
+                        $('.infinite-scroll-preloader').hide();
+                    }
+                }, error: function (res) {
+                    if (res.info == '查询为空') {
+                        window.countSNNN = true;
+                        $('.infinite-scroll-preloader').hide();
+                    }
+                    $.toast(res.info);
+                }
+            });
+
+            setTimeout(function () {
+                is_running = true;
+            }, 1000)
+        }
+    </script>
+{/block}
+
+{block content}
+    <div id="box" style="width:100%; height:1px; background:#01a0e4;"></div>
+    <div class="bar headerBar" style="position: relative; height:2.6rem; z-index:999999; background:#40b2ec; overflow:hidden;">
+        <div class="searchbar" style="height:2.6rem; background:none;">
+            <a class="searchbar-cancel" onclick="searchNNN()">搜索</a>
+            <div class="search-input">
+                <label class="icon icon-search" for="search"></label>
+                <input type="search" id='search' data-page="0" data-url="{url("mobileConsoles_index_query")}" placeholder='任务名称/任务编号/姓名' oninput="onClearInput.call(this)" onkeyup="onEnter.call(this)"/>
+            </div>
+        </div>
+    </div>
+    {*任务名称task-name/任务编号task-number/姓名user-name*}
+    <div class="searchNNN" style="margin-top:0; display:none;">
+        <div style="width:100%; height:2.6rem; display:block;"></div>
+        <div class="list-block" id="listsBOX" onscroll="gundong()" style="box-sizing:border-box; margin:0; padding:0; width:100%; min-height:480px; max-height:700px; display:inline-block; overflow:scroll;">
+            <ul id="listsItems" class="listsItems" data-url="{url("mobileConsoles_index_query",array("query"=>"searchNNN"))}">
+            </ul>
+            <!-- 加载提示符 -->
+            <div class="infinite-scroll-preloader" style="margin-top:20px;">
+                <div class="preloader"></div>
+            </div>
+        </div>
+    </div>
+    <div class="head-box">
+        <div class="sections">
+            <div class="sections-row" style="margin-bottom: 1.5rem;">
+                <a href="{url("mobileConsoles_standard_lists")}" class="sections-item">
+                    <span class="icon al-icon al-icon-tiaochawenjuan" style="color: #9d629a"></span>
+                    积分标准
+                </a>
+
+                <a class="sections-item" href="{url("mobileConsoles_acorn_apply","tabs_two=Action")}">
+                    <span class="icon al-icon al-icon-jifen" style="color:#966d52"></span>
+                    申请积分
+                </a>
+                <a class="sections-item" href="{url('mobileConsoles_sort_lists',array("types"=>"statics"))}">
+                    <span class="icon al-icon al-icon-xiangshuyun_tongjichaxun" style="color:#ab93fb"></span>
+                    积分统计
+                </a>
+            </div>
+            <a href="{url('mobileConsoles_todo_lists')}">
+                <div class="apply">我的TODO</div>
+            </a>
+        </div>
+        <div style="background: #efeff4;height: 130px;position: relative;z-index:1"></div>
+    </div>
+    <div class="details">
+        <div class="details-head">
+            <span class="details-head-title">动态</span>
+            <a class="details-head-more" href="{url("mobileConsoles_sort_findAcorn",array("types"=>"find"))}">更多</a>
+        </div>
+        {if $lists}
+            <div class="details-body" style="margin: 0 -0.5rem;">
+                <ul>
+                    {foreach $lists as  $k=>$v}
+                        <li data-id="{$v['a_id']}" onclick="aconShow.call(this)">
+                            <div style="width:100%">
+                                <div class="item-memo">{$v['fullName']} {if $v['a_acorn'] > 0}+{/if}{$v['a_acorn']} <i class="icon al-icon al-icon-influence sui-font-size-rem-0-8"></i></div>
+                                <div class="item-task sui-ellipsis-1">{$v['sNames']}{if preg_match('/^\d+$/',$v['a_sysMemo'])}<span style="color:red">[#{$v['a_sysMemo']}]</span>{/if}</div>
+                                <div class="item-last sui-ellipsis-1">{$v['addTimes']}</div>
+                                <div style="display:none;background: aliceblue;width: 100%;
+    float: left;line-height: 2.2rem; " class="acon-show-{$v['a_id']}">
+                                    <div style="margin: 20px;">
+                                        <div>内容：{$v['sNames']}</div>
+                                        <div>详情：{$v['a_sysMemo']?$v['a_sysMemo']:"-"}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    {/foreach}
+                </ul>
+            </div>
+        {else}
+            <div style="margin-top:50px;margin-bottom:30px;text-align:center">
+                <img src="{path('[MobileConsoles]/img/null.png')}" alt="" class="" style="width:60%; height:100%; margin: 0 20%; display:block;">
+                <div style="color:#999;">暂无动态</div>
+            </div>
+        {/if}
+    </div>
+{/block}

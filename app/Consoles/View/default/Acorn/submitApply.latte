@@ -1,0 +1,231 @@
+{layout '../Public/layoutList.latte'} {*继承layoutList模板*}
+{block private_css}
+    {*<link rel="stylesheet" href="{path('[MobileConsoles]/al-font/iconfont.css')}">*}
+    {*<link rel="stylesheet" href="{path('[MobileConsoles]/ff-font/iconfont.css')}">*}
+    <style>
+        .content{
+            overflow:hidden;
+            list-style-type:none;
+        }
+
+        .sidebar{
+            width:15%;
+            margin-top:10px;
+            padding-bottom:45px;
+            border-top:3px solid #4D5B69;
+            float:left;
+        }
+
+        .sidebar-title{
+            line-height:46px;
+            background-color:#f2f2f2;
+        }
+
+        .sidebar-title > h3{
+            text-align:center;
+            font-size:16px;
+        }
+
+        .menu-content{
+            margin:auto;
+            text-align:center;
+        }
+
+        .menu-content > li:first-child{
+        }
+
+        .menu-content > li{
+            margin-top:2px;
+        }
+
+        .menu-content > li > span{
+            display:block;
+            width:80%;
+            margin:auto;
+            font-size:14px;
+            line-height:46px;
+            background-color:#f2f2f2;
+        }
+
+        .menu-content > li > a{
+            display:block;
+            margin:auto;
+            font-size:14px;
+            line-height:46px;
+            background-color:#f2f2f2;
+        }
+
+        .sub_menu-content > li{
+            list-style-type:none;
+            margin:auto;
+            font-size:14px;
+            line-height:26px;
+            text-align:left;
+        }
+
+        .sub_menu-content > li > a{
+            padding-left:7em;
+        }
+
+        .right-lists{
+            width:80%;
+            margin-left:10px;
+            float:left;
+        }
+
+        .spread{
+            display:block;
+            width:25%;
+            margin:auto;
+            text-align:center;
+            font-size:14px;
+            line-height:14px;
+            border:1px solid #333333;
+        }
+
+        .applyAdd{
+            display:block;
+            width:110px;
+            background:#40b2ec;
+            height:28px;
+            line-height:28px;
+            text-align:center;
+            border-radius:30px;
+            color:#fff;
+            margin:auto;
+        }
+
+        .applyAdd:hover{
+            color:#fff;
+            text-decoration:none;
+        }
+
+        .tishi{
+            display:inline-block;
+            color:#f00b0d;
+        }
+
+    </style>
+{/block}
+
+{block private_js}
+    <script type="text/javascript">
+        $(function () {
+            $(".sub_menu-content > li").hide();
+            $('.inshow').show();
+            $(".menu-content > li span").click(function () {
+                $(this).parent().parent().find('.sub_menu-content>li').removeClass('us');
+                $(this).parent().find('.sub_menu-content>li').addClass('us');
+                $(this).parent().parent().find('.sub_menu-content>li.us').slideToggle();
+            });
+        });
+
+        $(function () {
+            $(".spread ").click(function () {
+                var is = $(this).parent().parent().index();
+                is++;
+                if (!$('tbody tr').eq(is).attr('id')) {
+                    $('tbody tr').eq(is).attr('id', 'show');
+                    $('tbody tr').eq(is).removeAttr('hidden');
+                    is--;
+                    $('tbody tr').eq(is).find('span.spread').text('-');
+                }
+                else {
+                    $('tbody tr').eq(is).removeAttr('id');
+                    $('tbody tr').eq(is).attr('hidden', 'hidden');
+                    is--;
+                    $('tbody tr').eq(is).find('span.spread').text('+');
+                }
+            });
+
+            $('.tableoptions.searchForm').append("<p class='tishi'>申请积分可以通过快捷键(Alt+1)快速进入</p>");
+        })
+    </script>
+{/block}
+
+{block title}我的申请{/block}
+{block actionstab}
+    {include "./actionstab.latte"}
+{/block}
+
+{*{block actions}*}
+{*<a href="{url('consoles_acorn_applyAdd')}" class="icon-adds" data-side-form>申请</a>*}
+{*{/block}*}
+{block content}
+    <div class="content">
+        <div class="sidebar">
+            <div class="sidebar-title">
+                <h3>标准</h3>
+            </div>
+            <div class="menu_s">
+                <ul class="menu-content">
+                    <li class="menu_li">
+                        <a href="{url('consoles_acorn_submitApply',array("types"=>$active))}" {if !$menuId}style="color:#40b2ec" {/if}>热门</a>
+                    </li>
+                    {foreach $menu as $item}
+                        <li class="menu_li">
+                            {if $item["sub"]}
+                                <span>{$item['names']}</span>
+                            {else}
+                                <a href="{url('consoles_acorn_submitApply',array("types"=>$active,"menuId"=>$item['id']))}" {if $menuId == $item['id']}style="color:#40b2ec" {/if}>{$item['names']}</a>
+                            {/if}
+                            <ul class="sub_menu-content">
+                                {foreach $item["sub"] as $sub}
+                                    <li {if $sub['pid'] == $mid} class="inshow"{/if}>
+                                        <a class="menu-a" href="{url('consoles_acorn_submitApply',array("types"=>$active,"menuId"=>$item['id'],"subId"=>$sub["id"]))}">├ {$sub["names"]}</a>
+                                    </li>
+                                {/foreach}
+
+                            </ul>
+
+                        </li>
+                    {/foreach}
+                </ul>
+            </div>
+        </div>
+        <div class="right-lists">
+            <table cellpadding="0" cellspacing="0" border="0" class="stdtable">
+                <thead>
+                <tr>
+                    <th></th>
+                    <th><span class="table-head">名称</span></th> {*在th加入 data-sort 可对数据库进行排序*}
+                    <th data-sort="s.id"><span class="table-head">积分</span></th>
+                    <th><span class="table-head">操作</span></th>
+                </tr>
+                </thead>
+                <tbody>
+                {foreach $lists as $k=>$item}
+                    <tr class="title_s">
+                        {if $item['s_memo']}
+                            <td style="width: 60px;">
+                                <span class="spread">+</span>
+                            </td>
+                        {else}
+                            <td style="width: 60px;">
+                            </td>
+                        {/if}
+                        <td class="wid-auto">{$item['s_names']}</td>
+                        {if $item['s_acorn'] < 0}
+                            <td class="wid-auto" style="text-align:center;color:#c61313">{$item['s_acorn']}<i class="icon al-icon al-icon-influence"></i></td>
+                        {elseif $item['s_acorn'] == 0}
+                            <td class="wid-auto" style="text-align:center;">不预设</td>
+                        {else}
+                            <td class="wid-auto" style="text-align:center;color:#0087e1">{$item['s_acorn']}<i class="icon al-icon al-icon-influence"></i></td>
+                        {/if}
+                        <td class="wid-auto" style="text-align:center;">
+                            <a href="{url('consoles_acorn_applyAdd',array("id"=>$item['s_id']))}" class="icon-adds applyAdd" data-side-form>申请积分</a>
+                        </td>
+                    </tr>
+                    <tr class="memo" hidden>
+                        <td colspan="4" width="100%">{$item['s_memo']|noescape}</td>
+                    </tr>
+                {/foreach}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{/block}
+
+
+
+

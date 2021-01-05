@@ -1,0 +1,19 @@
+{block private_css}
+    <style>
+        .buttons-tab .button{
+            height: 3rem;
+            line-height: 3rem;
+        }
+    </style>
+{/block}
+<div class="buttons-tab">
+    <div class="tab-link external button{if $active=="index"} active{/if}">
+        <a href="{url("mobileConsoles_company")}" style="display: block;">主企业</a>
+    </div>
+    <div class="tab-link external button{if $active=="cut"} active{/if}">
+        <a href="{url("mobileConsoles_company_lists")}" style="display: block;">企业切换</a>
+    </div>
+    <div class="tab-link external button{if $active=="joined"} active{/if}">
+        <a href="{url("mobileConsoles_company_joined")}" style="display: block;">待加入</a>
+    </div>
+</div>

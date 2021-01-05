@@ -1,0 +1,37 @@
+Admin\Entity\TargetProcess:
+  type: entity
+  table: target_process
+  id:
+    id:
+      type: integer
+      nullable: false
+      unsigned: false
+      comment: ''
+      id: true
+      generator:
+        strategy: IDENTITY
+  fields:
+    tdId:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: td_id
+    addTime:
+      type: datetime
+      nullable: true
+      comment: ''
+      column: add_time
+    process:
+      type: text
+      nullable: true
+      length: null
+      fixed: false
+      comment: ''
+    proportion:
+      type: decimal
+      nullable: true
+      precision: 10
+      scale: 2
+      comment: ''
+  lifecycleCallbacks: {  }

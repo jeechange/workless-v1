@@ -1,0 +1,88 @@
+{layout "../Layout/layoutBoth.latte"}
+
+{block tabs_content}
+    {include "./tabs.latte"}
+{/block}
+{block private_css}
+    <style>
+        .actives{
+            color:#0894ec !important;
+        }
+
+        .list-block{
+            margin-top:0.02rem;
+        }
+
+        .tabs_two{
+            position:absolute;
+            top:3rem;
+            height:3.2rem;
+            width:100%;
+            display:flex;
+            justify-content:space-around;
+            z-index:16;
+            padding-top:.4rem;
+            background:#f2f2f2;
+        }
+
+        .tabs_two a{
+            display:block;border:1px solid #bbb;
+            height:2.2rem;
+            padding:0 1.8rem;
+            line-height:2.2rem;
+            color:#101010;
+            border-radius:5px;
+            background:#fff;
+        }
+
+        .tabs_two a.actives{
+            border-color:#0087E2;
+            color:#0087E2;
+        }
+        .list li{
+            line-height:3.6rem;
+            height:3.6rem;
+        }
+    </style>
+{/block}
+{block private_js}
+    <script>
+        $(document).on("pageInit", function () {
+            $(document).on('refresh', '.pull-to-refresh-content', function (e) {
+                setTimeout(function () {
+
+                    $.pullToRefreshDone('.pull-to-refresh-content');
+                }, 2000);
+            });
+
+            $(document).on('infinite', '.infinite-scroll-bottom', function () {
+                $('.infinite-scroll-preloader').remove();
+                // $.refreshScroller(); //刷新滚动
+            });
+            $('.infinite-scroll-preloader').remove();
+        })
+
+    </script>
+{/block}
+
+{block content}
+    <div class="tabs_two">
+        <a href="{url('mobileConsoles_study_study')}" {if $tabs_two == 'study'}class="actives"{/if}>我的TODO</a>
+        <a href="{url('mobileConsoles_study_release','tabs_two=release')}" {if $tabs_two == 'release'}class="actives"{/if}>我的发布</a>
+        <a href="{url('mobileConsoles_study_judgement','tabs_two=judgement')}" {if $tabs_two == 'judgement'}class="actives"{/if}>我的审核</a>
+    </div>
+    <div style="line-height:36px;background-color:#fff;margin-top:4.2rem">已领取任务情况:</div>
+    <div class="list-block">
+        <ul class="list">
+            {foreach $lists as $k=>$v}
+                <li>
+                    <div class="item-inner" {if $v['sd_status'] == 0}style="color:#c61313" {else}style="color:#2f8a20"{/if}>
+                        <div class="item-name">{$v['studyName']}</div>
+                        <div class="item-memo">{$v['sd_addTime']|totime}</div>
+                        <div class="item-src">{$v['statusMemo']}</div>
+                    </div>
+                </li>
+            {/foreach}
+        </ul>
+    </div>
+{/block}

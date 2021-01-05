@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    {*<title>{block headTitle}{seo()->getMobileTitle()}{/block}</title>*}
+    <title>WorkLess</title>
+
+    <meta name="keywords" content="{seo()->getKeywords()}"/>
+    <meta name="description" content="{seo()->getDescription()}"/>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta content="telephone=no" name=format-detection>
+    <link rel="stylesheet" href="{path('[MobileConsoles]/css/sm.min.css')}">
+    <link rel="stylesheet" href="{path('[MobileConsoles]/css/sm-extend.min.css')}">
+    <link rel="stylesheet" href="{path('[MobileConsoles]/css/common.css')}">
+    <link rel="stylesheet" href="{path('[Jeechange]/al-font/iconfont.css')}">
+    <style>
+        input, textarea{
+            -webkit-user- select:auto !important;
+            -khtml-user-select:auto !important;
+            -moz-user-select:auto !important;
+            -ms-user-select:auto !important;
+            -o-user-select:auto !important;
+            user-select:auto !important;
+        }
+    </style>
+    {block private_css}{/block}
+
+</head>
+<body>
+<div class="page-group">
+    <div class="page">
+        {if $showPageTitle}
+            <header class="bar bar-nav">
+                {block pageTitle}<h1 class="title">WorkLess</h1>{/block}
+            </header>
+        {/if}
+        {block footer}{control MobileConsoles:Layout:footer}{/block}
+        {block tabs_content}{/block}
+        <div class="content infinite-scroll infinite-scroll-bottom" data-distance="100">
+            {block content}{/block}
+            <!-- 加载提示符 -->
+            <div class="infinite-scroll-preloader">
+                <div class="preloader"></div>
+            </div>
+        </div>
+    </div>
+</div>
+{include './added.latte'}
+{block custom}{/block}
+<script src="{path('[MobileConsoles]/js/zepto.js') }"></script>
+<script>
+    $.config = {
+        router: false
+    };
+    $(function () {
+        $(".added-popup-item").on("click", function () {
+            $.showPreloader('加载中...');
+        });
+    });
+    $('input[type="text"],textarea').on('click', function () {
+
+        var target = this;
+
+        setTimeout(function(){
+
+            target.scrollIntoViewIfNeeded();
+
+        },100);
+
+    });
+</script>
+{include './open.latte'}
+<script type='text/javascript' src='{path('[MobileConsoles]/js/sm.min.js')}'></script>
+<script type='text/javascript' src='{path('[MobileConsoles]/js/sm-extend.min.js')}'></script>
+<script type='text/javascript' src='{path('[MobileConsoles]/al-font/iconfont.js')}'></script>
+{block private_js}{/block}
+<script>$.init();</script>
+
+</body>
+</html>

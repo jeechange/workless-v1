@@ -1,0 +1,369 @@
+{layout "../Layout/layout.latte"}
+
+{block tabs_content}
+    {include "../Sort/tabs.latte"}
+{/block}
+
+{block private_css}
+    <style>
+        .content{
+            background:#fff;
+        }
+
+        .field-item{
+            margin:5px 10px;
+            padding-bottom:10px;
+            border-bottom:1px #e5e5e5 solid;
+        }
+
+        .field-item .field-item-title{
+            color:#101010;
+            font-size:14px;
+            vertical-align:bottom;
+        }
+
+        .field-item .field-item-title .required{
+            color:#e51c23;
+            font-weight:400;
+        }
+
+        .field-item .field-item-body{
+            position:relative;
+            padding-top:5px;
+        }
+
+        .matter{
+            display:block;
+            position:relative;
+            border-bottom:#e7e7e7 1px solid;
+        }
+
+        .field-item .field-item-body .field-item-tag{
+            position:absolute;
+            right:0.5rem;
+            background:#8BC34A;
+            padding:3px 10px;
+            font-size:12px;
+            margin-left:5px;
+            top:3px;
+            color:#fff;
+        }
+
+        .priority-input{
+            display:inline-block;
+            width:35px;
+            height:35px;
+            line-height:35px;
+            text-align:center;
+            margin-right:15px;
+            color:#fff !important;
+            border:2px solid #fff;
+        }
+
+        .priority-input span{
+            margin:auto !important;
+            display:block;
+            width:30px;
+            height:30px;
+            line-height:30px;
+            border-radius:50%;
+            cursor:pointer;
+        }
+
+        .priority-input input{
+            display:none !important;
+        }
+
+        .priority-input.selected{
+            font-weight:900 !important;
+            border:2px solid #009DD9;
+            background:#d7d7d7;
+        }
+
+        .field-item-body textarea{
+            border:#e7e7e7 1px solid;
+        }
+
+        .field-item-body .field-item-member-box{
+            padding:10px 0;
+            border-bottom:2px solid #ddd;
+        }
+
+        .field-item-body .field-member{
+            display:inline-block;
+            border-radius:15px;
+            padding:3px 10px;
+            border:#e7e7e7 1px solid;
+        }
+
+        .field-item-body .field-item-score-box{
+            padding:10px 0;
+        }
+
+        .field-item-body .field-score{
+            display:inline-block;
+            padding:5px 15px;
+            border:#e7e7e7 1px solid;
+            margin-top:5px;
+        }
+
+        .field-item-between{
+            background:rgba(170, 170, 170, 0.07);
+            height:8px;
+        }
+
+        .medal-item{
+            border:1px solid #ddd;
+            display:inline-block;
+            vertical-align:middle;
+            min-width:80px;
+            padding:3px 8px;
+            margin-right:5px;
+            height:35px;
+            line-height:35px;
+            text-align:center;
+            cursor:pointer;
+            box-sizing:content-box;
+            margin-top:5px;
+        }
+
+        .medal-item img{
+            width:30px;
+            height:30px;
+            vertical-align:middle;
+        }
+
+        .medal-item.medal-item-selected, .field-score.field-score-selected{
+            border:1px solid #009DD9;
+        }
+
+        .main-pattern{
+            overflow:hidden !important;
+            min-height:55px;
+        }
+
+        .left-title{
+            padding-left:5px;
+            width:25% !important;
+            font-size:14px;
+            line-height:55px;
+            color:#999999 !important;
+            float:left;
+        }
+
+        .right-body{
+            margin-top:19px;
+            padding-top:0 !important;
+            padding-right:5px;
+            width:75% !important;
+            text-align:right;
+            font-size:14px;
+            color:#101010;
+            float:left;
+        }
+
+        .content-bottom{
+            height:80px;
+            line-height:80px;
+            text-align:center;
+            color:#d9d9d9;
+        }
+    </style>
+{/block}
+
+{block content}
+    <div class="list-block" style="margin-top: 3.2rem;">
+        <div class="field-item main-pattern">
+            <div class="field-item-title left-title">
+                积分事项
+            </div>
+            <div class="field-item-body right-body">
+                {$lists[0]['sNames']}
+            </div>
+        </div>
+        {if $lists[0]['aa_status'] == 0}
+            {if $lists[0]['aa_acorn'] == 0}
+                <div class="field-item main-pattern">
+                    <div class="field-item-title left-title">
+                        积分分数:
+                    </div>
+                    <div class="field-item-body right-body">
+                        不预设
+                    </div>
+                </div>
+            {else}
+                <div class="field-item main-pattern">
+                    <div class="field-item-title left-title">
+                        积分分数:
+                    </div>
+                    <div class="field-item-body right-body">
+                        {$lists[0]['aa_acorn']}分
+                    </div>
+                </div>
+            {/if}
+        {elseif $lists[0]['aa_status'] == 1}
+            <div class="field-item main-pattern">
+                <div class="field-item-title left-title">
+                    积分分数:
+                </div>
+                <div class="field-item-body right-body">
+                    {$lists[0]['aa_types']}分
+                </div>
+            </div>
+        {elseif $lists[0]['aa_status'] == 2}
+            <div class="field-item main-pattern">
+                <div class="field-item-title left-title">
+                    积分分数:
+                </div>
+                <div class="field-item-body right-body">
+                    {$lists[0]['aa_acorn']}分
+                </div>
+            </div>
+        {/if}
+        <div class="field-item main-pattern">
+            <div class="field-item-title left-title">
+                奖扣对象
+            </div>
+            <div class="field-item-body right-body">
+                {$lists[0]['toUser']}
+            </div>
+        </div>
+        <div class="field-item main-pattern">
+            <div class="field-item-title left-title">
+                @审核人
+            </div>
+            <div class="field-item-body right-body">
+                {$lists[0]['fullNames']}
+            </div>
+        </div>
+        <div class="field-item main-pattern">
+            <div class="field-item-title left-title">
+                @抄送人
+            </div>
+            <div class="field-item-body right-body">
+                {$lists[0]['cPerson']}
+            </div>
+        </div>
+        <div class="field-item main-pattern">
+            <div class="field-item-title left-title">
+                申请时间
+            </div>
+            <div class="field-item-body right-body">
+                {*<div class="field-item-member-box">*}
+                {$lists[0]['aa_addTime']|totime}
+                {*</div>*}
+            </div>
+        </div>
+        {if $lists[0]['aa_auditTime']}
+            <div class="field-item main-pattern">
+                <div class="field-item-title left-title">
+                    审核时间
+                </div>
+                <div class="field-item-body right-body">
+                    {$lists[0]['aa_auditTime']|totime}
+                </div>
+            </div>
+        {/if}
+        <div class="field-item main-pattern" style="height:100%">
+            <div class="field-item-title left-title">
+                申请说明
+            </div>
+            <div class="field-item-body right-body" style="text-align:left !important;">
+                {if $lists[0]['aa_memo']}
+                    {str_replace(array("\r\n","\n","\r"),"<br>",$lists[0]['aa_memo'])|noescape}
+                {else}
+                    暂无内容
+                {/if}
+            </div>
+        </div>
+        <div class="field-item main-pattern">
+            <div class="field-item-title left-title">
+                图片
+            </div>
+            <div class="field-item-body right-body">
+                {if  $thumbs}
+                    {foreach $thumbs as $thumb}
+                        {if $thumb["type"]=="img"}
+                            <img class="layer-photos" layer-pid="" onclick="uploadPhotoBrowser.call(this,{$thumb['src']})" style="max-width:150px;max-height:150px;cursor:pointer" src="{$cdnThumbBase}{$thumb['val']}" alt="{$thumb['name']}">
+                        {else}
+                            <a href="{$thumb['src']}" title="{$thumb['val']}" target="_blank">{$thumb['name']}</a>
+                        {/if}
+                    {/foreach}
+                {else}
+                    暂无图片
+                {/if}
+            </div>
+        </div>
+        <a href="{url("mobileConsoles_index_sharePage", array("share" => $shareId))}" class="acorn-cancel">
+            <div class="content-block">
+                <div class="col-95" style="width:85%;margin:auto;">
+                    <div class="button button-big button-fill" id="bnt" style="background-color:#FFFFFF;border-radius:50px;color:#0087e1;border:1px #0087e1 solid;">分享</div>
+                </div>
+            </div>
+        </a>
+        {if $lists[0]['aa_status'] == 0}
+            <a data-url="{url('mobileConsoles_acorn_cancel',array('id'=>$lists[0]['aa_id']))}" class="acorn-cancel">
+                <div class="content-block">
+                    <div class="col-95" style="width:85%;margin:auto;">
+                        <div class="button button-big button-fill" id="bnt" style="background-color:#FFFFFF;border-radius:50px;color:#E51C23;border:1px #E51C23 solid;">取消</div>
+                    </div>
+                </div>
+            </a>
+        {elseif $lists[0]['aa_status'] == 2}
+            <a data-url="{url('mobileConsoles_acorn_cancel',array('id'=>$lists[0]['aa_id']))}" class="acorn-cancel">
+                <div class="content-block">
+                    <div class="col-95" style="width:85%;margin:auto;">
+                        <div class="button button-big button-fill" id="bnt" style="background-color:#FFFFFF;border-radius:50px;color:#E51C23;border:1px #E51C23 solid;">删除</div>
+                    </div>
+                </div>
+            </a>
+        {/if}
+    </div>
+    <div class="content-bottom">— 我是有底线的 —</div>
+{/block}
+
+{block private_js}
+    <script>
+        $(function () {
+            $(".acorn-cancel").on("click", function () {
+                var data = {
+                    id: {$lists[0]['aa_id']}
+                };
+                getPages($(this).attr("data-url"), data);
+            });
+        });
+
+        function getPages(toUrl, data) {
+            $.showPreloader('正在进行操作中，请稍候...');
+            $.ajax({
+                type: "GET",
+                dataType: "json",
+                url: toUrl,
+                data: data,
+                success: function (res) {
+                    $.hidePreloader();
+                    try {
+                        if (res.status === "y") {
+                            $.toast(res.info);
+                            setTimeout(function () {
+                                location = (res.url);
+                            }, 2000)
+                        } else {
+                            $.toast(res.info);
+                        }
+                    } catch (e) {
+                        $.toast(e.message);
+                    }
+                }
+            });
+        }
+        function uploadPhotoBrowser(val) {
+            if (!this.PhotoBrowser) {
+                this.PhotoBrowser = $.photoBrowser({
+                    photos: [val]
+                });
+            }
+            this.PhotoBrowser.open();
+        }
+    </script>
+{/block}

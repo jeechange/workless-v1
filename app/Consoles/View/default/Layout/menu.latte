@@ -1,0 +1,277 @@
+<style>
+    #contentdiv{
+        left:180px;
+    }
+
+    #contentloding{
+        left:180px;
+    }
+
+    #contentdiv.contentdiv-2, #contentloding.contentloding-2{
+        left:50px;
+    }
+
+    .index-header-2 .logo{
+        width:50px;
+    }
+
+    .index-header-2 .menu-open-close{
+        height:50px;
+        text-align:left;
+        line-height:50px;
+        position:absolute;
+        left:50px;
+        z-index:1;
+        top:0;
+        background:#f2f2f2;
+        padding:0 10px;
+    }
+
+    .index-header-2 .menu-open-close span{
+        font-size:20px;
+        color:#666;
+    }
+
+    .index-header-2 .logo .al-icon-workless{
+        width:50px;
+        display:none !important;
+    }
+
+    .index-header-2 .logo .al-icon-qidongtubiao1{
+        width:50px;
+    }
+
+    #menudiv.menu > ul > li > a.icon-first .icon-index{
+        margin-left:80px; font-size:20px;
+    }
+
+    #menudiv.menu-2{
+        width:50px;
+    }
+
+    #menudiv.menu-2 > ul > li > a{
+        height:50px;
+        padding-top:12px;
+        color:#999;
+    }
+
+    #menudiv.menu_2_item.current .menu_2_a .icon-menhu{
+        color:#4d91e4;
+    }
+
+    #menudiv.menu-2.menu > ul > li > a.icon-first .menu_main:after{
+        content:"首页";
+    }
+
+    #menudiv.menu-2.menu > ul > li > a.icon-first .icon-index{
+        margin-left:0;
+    }
+
+    #menudiv.menu-2 > ul > li > a .icon-index{
+        margin-left:0;
+        display:block;
+        text-align:center;
+        line-height:20px;
+        font-size:20px;
+        color:#ccc;
+    }
+
+    #menudiv.menu-2.menu > ul > li > a > span{
+        display:block;
+        text-align:center;
+        line-height:20px;
+        margin-left:0;
+        color:#ccc;
+    }
+
+    #menudiv.menu-2.menu > ul > li > a > span.arrows{
+        display:none;
+    }
+
+    #menudiv.menu-2.menu > ul > li > a > .redDot:after{
+        top:-20px;
+        right:5px;
+    }
+
+    #menudiv .menu-open-close{
+        height:20px;
+        line-height:20px;
+        padding:0;
+        text-align:center;
+        cursor:pointer;
+        border-bottom:solid 1px #536372;
+    }
+
+    #menudiv .menu-open-close .icon{
+        font-size:10px;
+        color:#888;
+        vertical-align:middle;
+    }
+
+    .main-menu-li{
+        position:relative;
+    }
+
+    #menudiv.menu-2 .sub-menu-2{
+        background:#f3f3f5;
+        position:fixed;
+        top:50px;
+        left:50px;
+        bottom:0px;
+        width:130px;
+        display:block;
+        padding-bottom:15px;
+        padding-top:15px;
+    }
+
+    #menudiv.menu-2.menu > ul > li > ul > li > a .icon-index{
+        margin-left:0px;
+        color:#4d5b69;
+    }
+
+    #menudiv.menu-2.menu > ul > li > ul > li{
+        height:auto;
+        width:130px;
+        position:relative;
+    }
+
+    #menudiv.menu-2 .sub_menu_3_4{
+        position:static;
+        border:none;
+        width:130px;
+    }
+
+    #menudiv.menu-2.menu .menu_2_item .menu_2_a{
+        color:#4d5b69;
+        font-style:normal;
+        text-align:left;
+        font-weight:500;
+        margin-left:0;
+        background:none;
+        padding-left:15px;
+    }
+
+    #menudiv.menu-2.menu .menu_2_item .menu_2_a .menu_second, #menudiv.menu-2.menu .menu_2_item .menu_2_a .icon-menhu{
+        color:#4d5b69;
+        padding-left:0;
+        margin-left:0;
+    }
+
+    #menudiv.menu-2.menu .menu_2_item.current .menu_2_a .menu_second, #menudiv.menu-2.menu .menu_2_item.current .menu_2_a .icon-menhu,#menudiv.menu-2.menu > ul > li > ul > li.current > a .icon-index{
+        color:#4d91e4;
+        font-weight:700;
+    }
+
+    #menudiv.menu-2.menu .sub_menu_3_4 > span{
+        display:none;
+    }
+
+    #menudiv.menu-2.menu .menu_third{
+        color:#999;
+    }
+
+    #menudiv.menu-2.menu .sub_menu_3_4 > ul > li.current{
+        background:#fff;
+    }
+
+    #menudiv.menu-2.menu .sub_menu_3_4 > ul > li.current .menu_third{
+        color:#4d91e4;
+    }
+
+    .contentdiv-2.content_show_3_4{
+        left:180px !important;
+    }
+
+    #menudiv.menu-2.menu .sub_menu_3_4 > ul > li{
+        height:30px;
+        line-height:30px;
+        text-align:left;
+        padding-left:35px;
+    }
+
+    .left-menu-2.left-menu{
+        left:60px;
+    }
+
+    .sub_menu_3_4.hide{
+        display:none;
+    }
+
+    #menudiv.menu-2.menu .sub_menu_3_4.hide{
+        display:block;
+    }
+
+    #menudiv .sub_menu_3_4 .al-icon{
+        font-size:12px;
+    }
+</style>
+
+
+<div id='menudiv' class="menu menu-2" style="height:100%;z-index:9999">
+    <div class="menu-open-close"><span class="icon icon-th"></span></div>
+    <ul>
+        {foreach $menus["menus"] as $menu}
+            {*{dump($sub_menu)}*}
+            <li class="main-menu-li">
+                <a href="{$menu['nav']['url']}" class="menu_main_a  {if $menu['nav']['menu_id']==1} icon-first{/if}" data-menu-id="{$menu['nav']['menu_id']}" {if $menu['nav'][8]}target="{$menu['nav'][8]}"{/if}>
+                    {if $menu['nav']['menu_id']==1}
+                        {if $sid==0}
+                            <i class="{$menu['nav'][7]} icon-index" style="font-size: 20px;"></i>
+                        {else}
+                            <i class="{$menu['nav'][7]} icon-index"></i>
+                        {/if}
+                    {else}
+                        <i class="{$menu['nav'][7]} icon-index"></i>
+                    {/if}
+                    <span class="menu_main {if $redDot[$menu["nav"][1]]['count'] > 0}redDot{/if}"> {$menu["nav"][1]}</span>
+                    {if $menu['sub_nav']}<span class="arrows"></span>{/if}
+                </a>
+
+                {if $menu['sub_nav']}
+                    <ul class="sub-menu-2">
+                        {foreach $menu['sub_nav'] as $sub_menu}
+                            <li class="menu_2_item">
+                                <a href="{$sub_menu['nav']['url']}" class="menu_2_a" data-menu-id="{$sub_menu['nav']['menu_id']}" {if $sub_menu['nav'][8]}target="{$sub_menu['nav'][8]}"{/if}>
+                                    <i class="{$sub_menu['nav'][7]} icon-index"></i>
+                                    <span class="menu_second {if $redDot[$menu["nav"][1]]['count'] > 0 and $redDot[$menu['nav'][1]]['two'] == $sub_menu['nav'][1]}redDot{/if}">
+                                        {$sub_menu['nav'][1]}
+                                    </span>
+                                </a>
+                                {if $sub_menu['sub_nav']}
+                                    <div class="sub_menu_3_4">
+                                        <span class="{$sub_menu['nav'][7]}">
+                                            {$sub_menu['nav'][1]}
+                                        </span>
+                                        <ul>
+                                            {foreach $sub_menu['sub_nav'] as $sub_menu_3}
+                                                <li>
+                                                    <a class="menu_3_a {if $redDot[$menu["nav"][1]]['count'] > 0 and $redDot[$menu['nav'][1]]['three'] == $sub_menu_3['nav'][1]}redDot{/if}" data-menu-id="{$sub_menu_3['nav']['menu_id']}" href="{$sub_menu_3['nav']['url']}" {if $sub_menu_3['nav'][8]}target="{$sub_menu_3['nav'][8]}"{/if}>
+                                                        <span class="menu_third {$sub_menu_3['nav'][7]}">{$sub_menu_3['nav'][1]}</span>
+                                                    </a>
+                                                    {if $sub_menu_3['sub_nav']}
+                                                        <ul class="menu-4">
+                                                            {foreach $sub_menu_3['sub_nav'] as $sub_menu_4}
+                                                                <li>
+                                                                    <a data-menu-id="{$sub_menu_4['nav']['menu_id']}" class="menu_4_a" href="{$sub_menu_4['nav']['url']}" {if $sub_menu_4['nav'][8]}target="{$sub_menu_4['nav'][8]}"{/if}>
+                                                                        <span class="menu_4 {$sub_menu_4['nav'][7]}">{$sub_menu_4['nav'][1]}</span>
+                                                                    </a>
+                                                                </li>
+                                                            {/foreach}
+                                                        </ul>
+                                                    {/if}
+                                                </li>
+                                            {/foreach}
+                                        </ul>
+                                    </div>
+                                {/if}
+                            </li>
+                        {/foreach}
+                    </ul>
+                {/if}
+            </li>
+        {/foreach}
+    </ul>
+</div>
+
+
+

@@ -1,0 +1,63 @@
+{layout '../Public/layoutList.latte'} {*继承layoutList模板*}
+{block private_css}
+    <style>
+        div.list-more-action{
+           display: none !important; 
+        }
+        .tableoptions select{ font-size:14px !important; }
+    </style>
+{/block}
+{block actionstab}
+    {include "../Department/actionstab.latte"}
+{/block}
+{block title}
+    <span><a style="color: #0087e1;margin-right: 10px;font-size: 16px;" href="{url('consoles_lists',"con=Company")}">返回</a></span>
+    组织架构-{$company->getNames()}{/block}
+
+{block actions}<a href="{url('consoles_add','con=StaffStation&sid='.$sid)}" class="icon-adds" data-side-form>添加职位</a>{/block}
+
+{*选中记录的操作按钮*}
+{block actions2}
+    <div class="list-more-action-item" data-url="{url('consoles_delete_mul','con=StaffStation')}">删除职位</div>
+{/block}
+
+{block content}
+    <table cellpadding="0" cellspacing="0" border="0" class="stdtable">
+        <thead>
+        <tr>
+{*            <th></th>*}
+            <th data-sort="s.sort"><span class="table-head">排序</span></th>
+            <th data-sort="s.names"><span class="table-head">职位名称</span></th> {*在th加入 data-sort 可对数据库进行排序*}
+            {*            <th data-sort="s.num"><span class="table-head">职位人数</span></th> *}{*在th加入 data-sort 可对数据库进行排序*}
+            <th data-sort="s.id"><span class="table-head">最高审核分数</span></th>
+            <th><span class="table-head">说明</span></th>
+            <th data-sort="s.status"><span class="table-head">状态</span></th>
+            <th><span class="table-head">操作</span></th>
+        </tr>
+        </thead>
+        <tbody>
+        {foreach $lists as $k=>$item}
+            <tr>
+{*                <td style="width: 60px;"><input type="checkbox" name='ids[]' class="checkall_1 checkall-item" value="{$item['s_id']}"/></td>*}
+                <td class="wid-auto">{$item['s_sort']}</td>
+                <td class="wid-auto">{$item['s_names']}</td>
+                {*                <td class="wid-auto">{$item['s_num']>0?$item['s_num']:'不限'}</td>*}
+                {if $item['s_limitAcorn'] == 1}
+                    <td class="wid-auto">{$item['s_riseAcorn']}</td>
+                {else}
+                    <td class="wid-auto">不限制</td>
+                {/if}
+                <td class="wid-auto">{$item['s_memo']}</td>
+                <td class="center">{$item["statusMemo"]}</td>
+                <td>
+                    <a href="{url('consoles_mod','con=StaffStation&id='.$item['s_id'])}" data-side-form>编辑</a>
+                </td>
+            </tr>
+        {/foreach}
+        </tbody>
+    </table>
+{/block}
+
+
+
+

@@ -1,0 +1,321 @@
+{layout '../Public/sideForm.latte'}
+{block title}购买员工容量{/block}
+
+{block submits}
+    <div class="contenteditsSubmits">
+        <div class="contenteditsSubmit1" style="background:#0087e1">确认购买</div>
+    </div>
+{/block}
+
+
+{block private_js}
+    <script>
+
+        var serviceId = {$serviceId};
+        var serviceTotal = {$total};
+        init.ready(function () {
+            $(".spec-nums").unbind().bind("keyup", function () {
+                var val = $(this).val();
+                if (!/^[1-9][0-9]*$/.test(val)) {
+                    $(this).val(val.substring(0, val.length - 1));
+                    return false;
+                }
+                var total = val * $(this).attr("data-price");
+                $(this).parent().next().find("input").val(total);
+            });
+
+            $("#service-renew").unbind().bind("click", function () {
+                var holdSubmit = $(this).data("holdSubmit") || false;
+                if (holdSubmit) return;
+                var $this = $(this);
+                layer.confirm("您将续费一年，确定吗", function () {
+                    $this.data("holdSubmit", true);
+                    var msgIndex = layer.msg("正在提交", {
+                        offset: 't',
+                        time: 0,
+                        icon: 16
+                    });
+                    var url = {url("consoles_staff_buyworkless")};
+
+                    $.ajax({
+                        type: "post",
+                        dataType: "json",
+                        url: url,
+                        headers: {
+                            ajaxExtraMethod: "SideForm"
+                        },
+                        data: {
+                            buyId: 0,
+                            num: 0,
+                            renew: 1,
+                        },
+                        success: function (result) {
+                            $this.data("holdSubmit", false);
+                            layer.close(msgIndex);
+                            if (result.status === "n") {
+                                layer.alert(result.info);
+                            } else {
+                                layer.msg(result.info, {
+                                    offset: 't',
+                                    time: 3000,
+                                    icon: 1
+                                });
+                                window.open(result.nextUrl, '_blank');
+                            }
+                        }
+                    });
+                });
+            });
+
+            $(".contenteditsSubmit1").unbind().bind("click", function () {
+
+
+                var val = $("[name='buyWorkless']:checked").val();
+
+                var types = $("[name='buyWorkless']:checked").attr("data-types");
+
+                if (!val) {
+                    layer.alert("请选择购买的套餐");
+                    return false;
+                }
+
+                var num = $("#spec-nums-" + val).val();
+
+                if (!num) {
+                    layer.alert("请填写人数");
+                    return false;
+                }
+
+                if (num % 5 !== 0) {
+                    layer.alert("人数必须为5的整倍数");
+                    return false;
+                }
+
+
+                var holdSubmit = $(this).data("holdSubmit") || false;
+                if (holdSubmit) return;
+
+                var $this = $(this);
+
+
+                var title = "";
+                if (!serviceId && types !== "99") {
+                    if (num < 10) {
+                        layer.alert("您是第一次购买，人数至少为10人");
+                        return false;
+                    }
+                    title = "您目前的版本为免费版，确认升级吗？"
+                }
+                if (types === "99") {
+                    title = "您将购买定制版，付款后我们客服将在一到三个工作日内联系您部署，确定吗？";
+                } else if (serviceId) {
+                    if (serviceId > val) {
+                        layer.alert("您已经购买了更高的版本，只能扩容或升级，不能购买比当前版本低的套餐");
+                        return false;
+                    }
+                    if (serviceId == val) {
+                        title = "您将扩容" + num + "人，确定吗？";
+                    } else {
+                        if (serviceTotal > num) {
+                            layer.alert("升级版本人数必须大于等于" + serviceTotal);
+                            return false;
+                        }
+                        title = "您将升级套餐，确定吗？";
+                    }
+                }
+
+                layer.confirm(title, function () {
+                    $this.data("holdSubmit", true);
+                    var msgIndex = layer.msg("正在提交", {
+                        offset: 't',
+                        time: 0,
+                        icon: 16
+                    });
+                    var url = {url("consoles_staff_buyworkless")};
+
+                    $.ajax({
+                        type: "post",
+                        dataType: "json",
+                        url: url,
+                        headers: {
+                            ajaxExtraMethod: "SideForm"
+                        },
+                        data: {
+                            buyId: val,
+                            num: num,
+                        },
+                        success: function (result) {
+                            $this.data("holdSubmit", false);
+                            layer.close(msgIndex);
+                            if (result.status === "n") {
+                                layer.alert(result.info);
+                            } else {
+                                layer.msg(result.info, {
+                                    offset: 't',
+                                    time: 3000,
+                                    icon: 1
+                                });
+                                window.open(result.nextUrl, '_blank');
+                            }
+                        }
+                    });
+
+                })
+            });
+
+        })
+    </script>
+{/block}
+
+{block private_css}
+    <style>
+        .spec-nums, .total-money{
+            width:60px;
+            height:28px;
+            line-height:28px;
+            text-align:center;
+            margin-right:3px;
+        }
+
+        .total-money, .spec-nums-readonly{
+            background:#ddd;
+            border:0;
+        }
+
+        #service-renew{
+            color:#11a2ff;
+        }
+
+        #service-renew:hover{
+            cursor:pointer;
+            color:#00c4ff;
+            text-decoration:underline;
+        }
+
+        #service-info{
+            padding-left:5px;
+            padding-top:12px;
+        }
+
+        #service-info > div, #service-info > div span{
+            font-size:14px;
+        }
+
+        #service-info .service-detail{
+            font-weight:700;
+        }
+    </style>
+{/block}
+
+{block content}
+    <div id="service-info">
+        <div style="font-weight:700;font-size:18px">您目前的套餐信息</div>
+        <div>版本：<span class="service-detail">{$serviceName}</span></div>
+        <div>员工总容量：<span class="service-detail">{$serviceTotals}人</span></div>
+        <div>已用总容量：<span class="service-detail">{$serviceUseTotals}人</span></div>
+        <div>到期时间：<span class="service-detail">{if $serviceId}{$serviceExpireTime} <span id="service-renew">续期</span> {else}长期有效{/if}</span></div>
+    </div>
+    <form id="formArticle1" class="stdform mform" method="post" action="">
+
+        {if !$serviceId}
+            <table cellpadding="0" cellspacing="0" border="0" class="stdtable">
+                <thead>
+                <tr>
+                    <th><span class="table-head">编号</span></th> {*在th加入 data-sort 可对数据库进行排序*}
+                    <th><span class="table-head">费用/人/年</span></th> {*在th加入 data-sort 可对数据库进行排序*}
+                    <th><span class="table-head">人数</span></th> {*在th加入 data-sort 可对数据库进行排序*}
+                    <th><span class="table-head">总费用</span></th> {*在th加入 data-sort 可对数据库进行排序*}
+                    <th><span class="table-head">说明</span></th>
+                    <th><span class="table-head">选择</span></th>
+                </tr>
+                </thead>
+                <tbody>
+                {foreach $lists as $item}
+                    <tr>
+                        <td class="wid-auto">#{$item["sCode"]}</td>
+                        <td class="wid-auto">￥{$item["money"]|coin}</td>
+                        <td class="wid-auto"><input class="spec-nums" id="spec-nums-{$item["id"]}" name="nums[{$item["id"]}]" value="10" data-price="{$item["money"]}"></td>
+                        <td class="wid-auto"><input class="total-money" readonly value="{$item["money"]*10}"></td>
+                        <td class="wid-auto">{$item["content"]}</td>
+                        <td class="wid-auto">
+                            <label>
+                                <input type="radio" name="buyWorkless" data-types="{$item["types"]}" value="{$item["id"]}">
+                                {if $item["types"]==3}升级{else}定制{/if}
+                            </label>
+                        </td>
+                    </tr>
+                {/foreach}
+                </tbody>
+            </table>
+        {else}
+            <table cellpadding="0" cellspacing="0" border="0" class="stdtable">
+                <thead>
+                <tr>
+                    <th><span class="table-head">编号</span></th> {*在th加入 data-sort 可对数据库进行排序*}
+                    <th><span class="table-head">费用/人/年</span></th> {*在th加入 data-sort 可对数据库进行排序*}
+                    <th style="width:130px"><span class="table-head">（升级/扩容）差额</span></th> {*在th加入 data-sort 可对数据库进行排序*}
+                    <th><span class="table-head">人数</span></th> {*在th加入 data-sort 可对数据库进行排序*}
+                    <th><span class="table-head">总费用</span></th> {*在th加入 data-sort 可对数据库进行排序*}
+                    <th><span class="table-head">说明</span></th>
+                    <th><span class="table-head">选择</span></th>
+                </tr>
+                </thead>
+                <tbody>
+                {foreach $lists as $item}
+                    <tr {if $item["id"]<$serviceId}class="disabled"{/if}>
+                        <td class="wid-auto">#{$item["sCode"]}</td>
+                        <td class="wid-auto">￥{$item["money"]|coin}</td>
+                        <td class="wid-auto">
+                            {if $item["types"]==3}
+                                {if $item["id"]>$serviceId}
+                                    {var $money= $serviceExpireDay*($item["money"]-$serviceMoney)/365}
+                                    ￥{$money|coin}
+                                {elseif $item["id"]==$serviceId}
+                                    {var $money= $serviceExpireDay*$item["money"]/365}
+                                    ￥{$money|coin}
+                                {else}
+                                    ￥0.00
+                                {/if}
+                            {else}
+                                ￥{$item["money"]|coin}
+                            {/if}
+                        </td>
+                        <td class="wid-auto">
+                            {if $item["id"]>$serviceId && $item["types"]==3}
+                                <input class="spec-nums spec-nums-readonly" readonly id="spec-nums-{$item["id"]}" name="nums[{$item["id"]}]" value="{$serviceTotals}" data-price="{$money}">
+                            {elseif $item["types"]==3}
+                                <input class="spec-nums" {if $item["id"]<$serviceId}disabled{/if} id="spec-nums-{$item["id"]}" name="nums[{$item["id"]}]" value="5" data-price="{$money}">
+                            {else}
+                                <input class="spec-nums" id="spec-nums-{$item["id"]}" name="nums[{$item["id"]}]" value="10" data-price="{$item["money"]}">
+                            {/if}
+                        </td>
+                        <td class="wid-auto">
+                            {if $item["id"]>$serviceId && $item["types"]==3}
+                                <input class="total-money" readonly value="{$money*$serviceTotals|coin}">
+                            {elseif $item["types"]==3}
+                                <input class="total-money" readonly value="{$money*5|coin}">
+                            {else}
+                                <input class="total-money" readonly value="{$item["money"]*10|coin}">
+                            {/if}
+                        </td>
+                        <td class="wid-auto">{$item["content"]}</td>
+                        <td class="wid-auto">
+                            <label>
+                                {if $item["id"]>=$serviceId}
+                                    <input type="radio" name="buyWorkless" data-types="{$item["types"]}" value="{$item["id"]}">
+                                {/if}
+                                {if $item["types"]==3}
+                                    {if $item["id"]==$serviceId}扩容{elseif $item["id"]>$serviceId }升级{/if}
+                                {else}定制{/if}
+                            </label>
+                        </td>
+                    </tr>
+                {/foreach}
+                </tbody>
+            </table>
+        {/if}
+
+        <a href="{url('home_index_price')}" target="_blank" style="margin-top:10px;margin-left:5px">查看每个版本的的差别</a>
+
+    </form>
+{/block}

@@ -1,0 +1,279 @@
+{layout '../Layout/layout.latte'}
+{block headTitle}{seo()->getTitle()." - ".seo()->getSubTitle()}{/block}
+{block pageTitle}<h1 class="title">用户登录</h1>{/block}
+
+{block private_js}
+    <script n:syntax="double">
+        var Countdown;
+        var CountdownTime = 0;
+        $(function () {
+            $("#mform").on("submit", function () {
+                var url = $(this).attr("action");
+                var postData = $(this).serialize();
+//                $("input").attr("disabled", "disabled");
+                $.ajax({
+                    url: url,
+                    type: "POST",
+                    data: postData,
+                    dataType: "json",
+                    success: function (res) {
+                        if (res.status == "n") {
+                            $("input").attr("disabled", null);
+                            $.toast(res.info);
+                            if (res.info == '您尚未注册，请设置真实姓名完成注册！') {
+                                $("#NewsPassword").css("display", "block");
+                                $("#NewsPasswordConfirm").css("display", "block");
+                                $("#NewsFullName").css("display", "block");
+                                $("#NewUser").val(2);
+                            }
+                            return;
+                        }
+                        $.showPreloader('登录成功，正在跳转...');
+                        setTimeout(function () {
+                            location.replace(res.data);
+                        }, 1000)
+                    }
+                });
+                return false;
+            });
+
+            $(".get-verify").on("click", function () {
+                var vcode = document.getElementById("vcode").value;
+                var Vurl = document.getElementById("Vurl").value;
+                var Curl = document.getElementById("Curl").value;
+                var Gurl = document.getElementById("Gurl").value;
+
+                $.ajax({
+                    url: Vurl,
+                    type: "GET",
+                    data: {
+                        vcode: vcode
+                    },
+                    dataType: "json",
+                    success: function (resss) {
+                        if (resss.status == "n") {
+                            $.toast(resss.info);
+                            return false;
+                        }
+
+                        if (CountdownTime > 0) return;
+                        var userName = $("input[name='userName']").val();
+                        if (!/^1[3-9][0-9]{9}$/.test(userName)) {
+                            $.toast("请输入正确手机号码");
+                            return;
+                        }
+                        var url = Curl;
+                        clearInterval(Countdown);
+                        $.ajax({
+                            url: url,
+                            type: "POST",
+                            data: {
+                                phone: userName
+                            },
+                            dataType: "json",
+                            success: function (res) {
+                                console.log(res);
+                                if (res.status == "n") {
+                                    $.toast(res.info);
+                                    return;
+                                }
+                                getVerify(Gurl);
+                                $.toast(res.data);
+                                CountdownTime = 59;
+                                Countdown = setInterval(function () {
+                                    if (CountdownTime <= 0) {
+                                        $(".get-verify").text("获取验证码");
+                                        clearInterval(Countdown);
+                                    } else {
+                                        $(".get-verify").text(CountdownTime + "秒重新获取");
+                                        CountdownTime--;
+                                    }
+                                }, 1000)
+                            }
+                        });
+                    }
+                });
+            });
+        });
+
+        function ChangeTypes() {
+            var logintypes = document.getElementById("LoginTypes").value;
+            var NewUser = document.getElementById("NewUser").value;
+
+            //logintypes == 1   使用验证码登录  反之账号密码
+            if (logintypes == 1) {
+                $("#TypesPwd").css("display", "none");
+                $("#TypesCode").css("display", "block");
+                $("#TypesCodeTwo").css("display", "block");
+                $("#LoginTypes").attr("value", 0);
+                $("#TipsOne").text("使用密码登录");
+                $("#BLogin").val("登录 / 注册");
+                if (NewUser == 2) {
+                    $("#NewsPassword").css("display", "block");
+                    $("#NewsPasswordConfirm").css("display", "block");
+                    $("#NewsFullName").css("display", "block");
+                }else{
+                    $("#NewsPassword").css("display", "block");
+                    $("#NewsPasswordConfirm").css("display", "block");
+                }
+            } else {
+                $("#TypesPwd").css("display", 'block');
+                $("#TypesCode").css("display", 'none');
+                $("#TypesCodeTwo").css("display", 'none');
+                $("#LoginTypes").attr("value", 1);
+                $("#TipsOne").text("未注册或忘记密码请用验证码登录");
+                $("#BLogin").val("登录");
+                if (NewUser == 2) {
+                    $("#NewsPassword").css("display", "none");
+                    $("#NewsPasswordConfirm").css("display", "none");
+                    $("#NewsFullName").css("display", "none");
+                }else{
+                    $("#NewsPassword").css("display", "none");
+                    $("#NewsPasswordConfirm").css("display", "none");
+                }
+            }
+        }
+
+        function getVerify(url) {
+            var url = url + "?r=";
+            var src = url + Math.random();
+            $("#imgVerify").attr("src", src);
+        }
+    </script>
+{/block}
+{block private_css}
+    <style>
+        .content{
+            background:#fff;
+        }
+
+        .list-block ul:before, .list-block ul:after{
+            display:none;
+        }
+
+        .list-block .item-content{
+            margin:0 2.2rem;
+            padding-left:0;
+            padding-top:1.2rem;
+        }
+
+        .list-block .item-inner{
+            padding-right:0;
+        }
+
+        .list-block .item-inner:after{
+            display:block !important;
+        }
+
+        input[type=submit].button{
+            background:#3fadf0;
+            width:65%;
+            margin:40px auto;
+        }
+
+        .get-verify,.get-Imgverify{
+            position:absolute;
+            right:0.5rem;
+            z-index:16;
+            color:#3fadf0;
+            top:.5rem;
+        }
+
+    </style>
+{/block}
+{block content}
+    <div style="margin: auto;min-height: 100px;background:white;max-width: 700px;">
+        {*<img src="{path('[MobileConsoles]/img/logo.png')}" style="width:150px;height: 60px;margin: 120px auto 30px auto; display: block;">*}
+        <div style="width:150px;height: 70px;margin: 120px auto 30px auto; display: block;">
+            <svg class="icon" aria-hidden="true" style="width:100%">
+                <use xlink:href="#al-icon-workless"></use>
+            </svg>
+        </div>
+        <form action="{url('mobileConsoles_login')}" method="post" id="mform">
+            <input type="hidden" name="company" value="{$company}" style="display:none;"/>
+            <input type="hidden" name="recEN" value="{$recEN}" style="display:none;"/>
+            <div class="list-block">
+                <ul>
+                    <li>
+                        <div class="item-content">
+                            <div class="item-inner">
+                                <div class="item-input">
+                                    <input type="tel" name="userName" placeholder="请输入手机号码">
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li id="TypesPwd" style="display:block;">
+                        <div class="item-content">
+                            <div class="item-inner">
+                                <div class="item-input">
+                                    <input type="password" name="pwd" placeholder="请输入登录密码">
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li id="TypesCodeTwo" style="display:none;">
+                        <div class="item-content">
+                            <div class="item-inner">
+                                <div class="item-input">
+                                    <input type="text" id="vcode" name="verify" placeholder="请输入右图验证码"/>
+                                    <img class="get-Imgverify" src="{url('mobileConsoles_login_verify')}" onclick="getVerify({url('mobileConsoles_login_verify')})" title="看不清，换一张" id="imgVerify" style="top:0; height:2.15rem;"/>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li id="TypesCode" style="display:none;">
+                        <div class="item-content">
+                            <div class="item-inner">
+                                <div class="item-input">
+                                    <input type="number" name="code" placeholder="请输入验证码">
+                                    <span class="get-verify" data-url="{url('mobileConsoles_login_send_verify')}">获取验证码</span>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li id="NewsPassword" style="display:none;">
+                        <div class="item-content">
+                            <div class="item-inner">
+                                <div class="item-input">
+                                    <input type="password" name="password" placeholder="请输入登录密码">
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li id="NewsPasswordConfirm" style="display:none;">
+                        <div class="item-content">
+                            <div class="item-inner">
+                                <div class="item-input">
+                                    <input type="password" name="password_confirm" placeholder="请确认登录密码">
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li id="NewsFullName" style="display:none;">
+                        <div class="item-content">
+                            <div class="item-inner">
+                                <div class="item-input">
+                                    <input type="text" name="fullName" placeholder="请输入姓名">
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                <div class="content-block" style="margin: 0 30px; padding: 0 0.5rem;">
+                    <input type="submit" id="BLogin" class="button button-big button-fill button-success" value="登录" style="width:100%; display:block;">
+                </div>
+                <div class="content-block" style="font-size:0.7rem; margin: 0 30px; color:#0087e2; text-decoration:underline;">
+                    <input type="hidden" id="NewUser" name="NewUser" value="1">
+                    <input type="hidden" id="LoginTypes" name="types" value="1">
+                    <div class="item-input" id="TipsOne" onclick="ChangeTypes()" style="display:inline;">
+                        未注册或忘记密码请用验证码登录
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <input id="Vurl" type="hidden" style="display:none;" value="{url("mobileConsoles_login_YZvcode")}"/>
+    <input id="Curl" type="hidden" style="display:none;" value="{url('mobileConsoles_login_send_verify')}"/>
+    <input id="Gurl" type="hidden" style="display:none;" value="{url('mobileConsoles_login_verify')}"/>
+{/block}

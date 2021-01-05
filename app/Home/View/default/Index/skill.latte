@@ -1,0 +1,173 @@
+{layout '../Layout/layout.latte'}
+{block private_css}
+    <link type="text/css" rel="stylesheet" href="{path('[Home]/css/skill.css')}">
+  {*  <style>
+     /*   @media screen and (min-width:436px){
+
+            .skillList{
+                width:1000px;
+                margin:auto;
+                overflow:hidden;
+            }
+
+            .skillList ul{
+                width:100%;
+                overflow:hidden;
+                margin-top:70px;
+                margin-bottom:60px;
+            }
+
+            .skillList ul li{
+                overflow:hidden;
+                margin-bottom:40px;
+            }
+
+            .skillList ul li a{
+                display:block;
+            }
+
+            .skillList ul li img{
+                display:block;
+                float:left;
+                width:162px;
+                height:125px;
+            }
+
+            .skillList ul li .skillText{
+                width:79.75%;
+                float:right;
+                margin-left:40px;
+            }
+
+            .skillList a{
+                color:#000;
+            }
+
+            a .skillText h5{
+                line-height:33px;
+                font-size:23px;
+                font-weight:100;
+                margin-bottom:13px;
+                color:rgba(16, 16, 16, 1);
+            }
+
+            .skillText p{
+                font-size:14px;
+                line-height:20px;
+                color:rgba(16, 16, 16, 1);
+                overflow:hidden;
+                height:60px;
+            }
+
+            .skillText p:last-child{
+                height:unset;
+            }
+            .page-bar{
+                width:211px;
+                overflow:hidden;
+                text-align:center;
+                margin-bottom:40px;
+                margin-top:62px;
+            }
+            .page-bar>div{
+                display:inline-block;
+                padding:5px 10px;
+                border:#28559c 1px solid;
+                color:#28559c;
+                margin-right:20px;
+                cursor:pointer;
+            }
+            .page-bar>div.page-current{
+                background:#28559c;
+                color:#FFF;
+            }
+            .page-describe,.page-size{
+                display:none !important;
+            }
+
+        }
+        @media screen and (max-width:425px){
+            .skillList{
+                width:90%;
+                margin-left:5%;
+                overflow:hidden;
+            }
+            .skillList ul{
+                margin-top:40px;
+                overflow:hidden;
+            }
+            .skillList ul li{
+                margin-bottom:20px;
+            }
+            .skillList ul li a{
+                display:block;
+                overflow:hidden;
+            }
+            .skillList ul li a img{
+                width:30%;
+                float:left;
+            }
+            .skillList ul li a .skillText{
+                width:65%;
+                float:right;
+            }
+            .skillText h5{
+                font-size:18px;
+                color:#000;
+            }
+            .skillText p{
+                margin-top:10px;
+                line-height:22px;
+                font-size:14px;
+                color:#000;
+                height:3rem;
+                overflow:hidden;
+            }
+            .skillText p:last-child{
+                margin-top:0;
+                line-height:22px;
+                font-size:12px;
+                height:unset;
+                color:#999;
+            }
+
+        }*/
+    </style>*}
+{/block}
+{block private_content}
+    {*myOrder导航*}
+    <div class="my_order">
+        <div class="my_order_nav">
+            <ul>
+                <li><a href="{url('home_index_helps')}">帮助中心</a></li>
+                <li><a href="{url('home_index_logs')}">产品日志</a></li>
+                {*<li><a href="{url('home_index_download')}">下载客户端</a></li>*}
+                <li class="on"><a href="{url('home_index_skill')}">协作技巧</a></li>
+
+            </ul>
+        </div>
+    </div>
+    {*列表*}
+    <div class="skillList">
+        <ul>
+            {foreach $lists as $key=>$val}
+                <li>
+                    <a href="{url('home_index_articleDetail',array('id'=>$val['a_id']))}">
+                        <img src="https://cdn.itmakes.com/uploads{$val['a_thumb']}" alt="">
+                        <div class="skillText">
+                            <h5>{$val['s_title']}</h5>
+                            <p>{$val['s_description']}</p>
+                            <p>关键词：{$val['s_keywords']}</p>
+                        </div>
+                    </a>
+                </li>
+            {/foreach}
+            {$pageBar["p"]|noescape}
+        </ul>
+    </div>
+
+    </div>
+{/block}
+{block private_js}
+
+{/block}

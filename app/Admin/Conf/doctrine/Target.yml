@@ -1,0 +1,114 @@
+Admin\Entity\Target:
+  type: entity
+  table: target
+  id:
+    id:
+      type: integer
+      nullable: false
+      unsigned: false
+      comment: ''
+      id: true
+      generator:
+        strategy: IDENTITY
+  fields:
+    sid:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+    userId:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: user_id
+    names:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    addTime:
+      type: datetime
+      nullable: true
+      comment: ''
+      column: add_time
+    startTime:
+      type: datetime
+      nullable: true
+      comment: ''
+      column: start_time
+    endTime:
+      type: datetime
+      nullable: true
+      comment: ''
+      column: end_time
+    remind:
+      type: text
+      nullable: true
+      length: null
+      fixed: false
+      comment: ''
+    auditor:
+      type: string
+      nullable: true
+      length: 20
+      fixed: false
+      comment: ''
+    member:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    othersStaff:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+      column: others_staff
+    types:
+      type: smallint
+      nullable: true
+      unsigned: false
+      comment: ''
+    times:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    status:
+      type: smallint
+      nullable: true
+      unsigned: false
+      comment: ''
+    mNames:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+      column: m_names
+    oNames:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+      column: o_names
+    aNames:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+      column: a_names
+    aId:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: a_id
+  lifecycleCallbacks: {  }

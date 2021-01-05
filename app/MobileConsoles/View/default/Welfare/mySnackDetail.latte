@@ -1,0 +1,263 @@
+{layout "../Layout/layout.latte"}
+{block tabs_content}
+    {include "./tabs.latte"}
+{/block}
+{block private_js}
+    {include "../Welfare/snackJS.latte"}
+    <script>
+        $(document).on('click', '.acorn-cancel', function () {
+            var url = $(this).attr("data-url");
+
+            $.confirm('你确定要取消兑换该小吃吗?', function () {
+                // $.alert('');
+                var data = {
+                    id: {$lists['id']}
+                };
+                getPages(url, data);
+            });
+        });
+
+        function getPages(toUrl, data) {
+            $.showPreloader('正在进行操作中，请稍候...');
+            $.ajax({
+                type: "GET",
+                dataType: "json",
+                url: toUrl,
+                data: data,
+                success: function (res) {
+                    $.hidePreloader();
+                    try {
+                        if (res.status === "y") {
+                            $.toast(res.info);
+                            setTimeout(function () {
+                                location = (res.url);
+                            }, 2000)
+                        } else {
+                            $.toast(res.info);
+                        }
+                    } catch (e) {
+                        $.toast(e.message);
+                    }
+                }
+            });
+        }
+    </script>
+{/block}
+
+{block content}
+    <div class="list-block" style="margin-top: 3.2rem;">
+        <div class="field-item" style="border:none;line-height:normal;">
+            <div class="field-item-body">
+                <img src="{$cdnThumb.$snack['icon']}" style="width:100%;height:200px;border-radius:3px;">
+            </div>
+        </div>
+        <div class="field-item">
+            <div class="field-item-title">
+                <div class="field-item-member-box" style="color:#101010;font-size:18px;">
+                    {$snack['names']}
+                </div>
+            </div>
+        </div>
+        <div class="field-item">
+            <div class="field-item-title content-left">
+                小吃价格
+            </div>
+            <div class="field-item-title content-right">
+                <div class="field-item-member-box">
+                    {$lists['acorn']}<i class="icon al-icon al-icon-influence sui-font-size-rem-0-8"></i></div>
+            </div>
+        </div>
+        <div class="field-item">
+            <div class="field-item-title content-left">
+                兑换数量
+            </div>
+            <div class="field-item-title content-right">
+                {$lists['everyNum']}{$snack['unit']}/次
+            </div>
+        </div>
+        <div class="field-item" style="border-bottom:none;">
+            <div class="field-item-title content-left">
+                小吃详情
+            </div>
+            {if $snack['content']}
+                <div class="field-item-title content-right" style="width:80%;line-height:24px;padding-top:24px;text-align:right;">
+                    {$snack['content']|noescape}
+                </div>
+            {else}
+                <div class="field-item-title content-right">
+                    暂无详情
+                </div>
+            {/if}
+        </div>
+        {if $lists['status'] == 0}
+            <a data-url="{url("mobileConsoles_welfare_snackCancel",array("id"=>$lists['id']))}" class="acorn-cancel">
+                <div class="content-block">
+                    <div class="col-95" style="width:60%;margin:auto;">
+                        <div class="button button-big button-fill" id="bnt" style="background-color:#0894ec;height:48px;line-height:48px;border-radius:50px;">取消兑换</div>
+                    </div>
+                </div>
+            </a>
+        {/if}
+    </div>
+    <div class="content-bottom">— 我是有底线的 —</div>
+{/block}
+
+{block private_css}
+    <style>
+        .list-block{
+            margin:0;
+        }
+
+        .content-left{
+            float:left;
+            color:#666666 !important;
+        }
+
+        .content-right{
+            float:right;
+        }
+
+        .content-bottom{
+            height:80px;
+            line-height:80px;
+            text-align:center;
+            color:#d9d9d9;
+        }
+
+        .content{
+            background:#fff;
+        }
+
+        .field-item{
+            margin:5px 20px;
+            overflow:hidden;
+            line-height:70px;
+            border-bottom:1px #e5e5e5 solid;
+        }
+
+        .field-item .field-item-title{
+            color:#101010;
+            font-size:14px;
+            vertical-align:bottom;
+        }
+
+        .field-item .field-item-title .required{
+            color:#e51c23;
+            font-weight:400;
+        }
+
+        .field-item .field-item-body{
+            position:relative;
+            padding-top:5px;
+        }
+
+        .matter{
+            display:block;
+            position:relative;
+            border-bottom:#e7e7e7 1px solid;
+        }
+
+        .field-item .field-item-body .field-item-tag{
+            position:absolute;
+            right:0.5rem;
+            background:#8BC34A;
+            padding:3px 10px;
+            font-size:12px;
+            margin-left:5px;
+            top:3px;
+            color:#fff;
+        }
+
+        .priority-input{
+            display:inline-block;
+            width:35px;
+            height:35px;
+            line-height:35px;
+            text-align:center;
+            margin-right:15px;
+            color:#fff !important;
+            border:2px solid #fff;
+        }
+
+        .priority-input span{
+            margin:auto !important;
+            display:block;
+            width:30px;
+            height:30px;
+            line-height:30px;
+            border-radius:50%;
+            cursor:pointer;
+        }
+
+        .priority-input input{
+            display:none !important;
+        }
+
+        .priority-input.selected{
+            font-weight:900 !important;
+            border:2px solid #009DD9;
+            background:#d7d7d7;
+        }
+
+        .field-item-body textarea{
+            border:#e7e7e7 1px solid;
+        }
+
+        .field-item-body .field-item-member-box{
+            padding:10px 0;
+            border-bottom:1px solid #ddd;
+        }
+
+        .field-item-body .field-member{
+            display:inline-block;
+            border-radius:15px;
+            padding:3px 10px;
+            border:#e7e7e7 1px solid;
+        }
+
+        .field-item-body .field-item-score-box{
+            padding:10px 0;
+        }
+
+        .field-item-body .field-score{
+            display:inline-block;
+            padding:5px 15px;
+            border:#e7e7e7 1px solid;
+            margin-top:5px;
+        }
+
+        .field-item-between{
+            background:rgba(170, 170, 170, 0.07);
+            height:8px;
+        }
+
+        .medal-item{
+            border:1px solid #ddd;
+            display:inline-block;
+            vertical-align:middle;
+            min-width:80px;
+            padding:3px 8px;
+            margin-right:5px;
+            height:35px;
+            line-height:35px;
+            text-align:center;
+            cursor:pointer;
+            box-sizing:content-box;
+            margin-top:5px;
+        }
+
+        .medal-item img{
+            width:30px;
+            height:30px;
+            vertical-align:middle;
+        }
+
+        .medal-item.medal-item-selected, .field-score.field-score-selected{
+            border:1px solid #009DD9;
+        }
+
+        .list-block{
+            margin:0;
+        }
+    </style>
+{/block}

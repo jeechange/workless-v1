@@ -1,0 +1,29 @@
+config_path: %core.main getAppRoot%/config/
+#imports:
+#    - %#config_path%parameters.yml
+database: @%#config_path%database.yml
+asset:
+  prefix: "asset/"
+route:
+  #1普通(NORMAL) 2 PATHINFO  4 REWRITE
+  url_mode: 4
+  var_name: r
+  encrypt: Encryption
+  key: "workless"
+  secure: null
+session:
+  session_auto_start: false
+  cookie_domain:
+  session_path: %core.main getRuntime%/sessions/
+  session_timeout:  86400
+seo:
+  title: WorkLess - 可量化的任务协作软件,团队协作系统源码,任务协作系统源码
+  subTitle:
+  keywords: 任务协作系统源码,团队协作系统源码,团队协作软件,任务协作软件,敏捷开发,项目管理,项目协作
+  description: WorkLess是一款可量化的任务协作软件，通过积分来衡量每个任务的任务量、难度和完成质量，最终合理量化每个协作创造的价值是WorkLess的核心思想，诠释了精准协作创造价值的理念。
+view:
+  extension: ['Jeechange\Latte\Filter']
+template:
+  fail: "Public:fail"
+APPLET_VERSION: 1.0.1
+wechat: @%#config_path%wechat.yml

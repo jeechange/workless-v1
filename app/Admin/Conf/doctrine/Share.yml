@@ -1,0 +1,105 @@
+Admin\Entity\Share:
+  type: entity
+  table: share
+  id:
+    id:
+      type: integer
+      nullable: false
+      unsigned: false
+      comment: ''
+      id: true
+      generator:
+        strategy: IDENTITY
+  fields:
+    content1:
+      type: text
+      nullable: true
+      length: null
+      fixed: false
+      comment: ''
+    content2:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    content3:
+      type: text
+      nullable: true
+      length: null
+      fixed: false
+      comment: ''
+    userId:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: user_id
+    toUser:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+      column: to_user
+    gobackUrl:
+      type: text
+      nullable: true
+      length: null
+      fixed: false
+      comment: ''
+      column: goback_url
+    shareUrl:
+      type: text
+      nullable: true
+      length: null
+      fixed: false
+      comment: ''
+      column: share_url
+    operate:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    template:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    templateName:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+      column: template_name
+    eventId:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: event_id
+    sid:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+    acornAdded:
+      type: smallint
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: acorn_added
+    createTime:
+      type: datetime
+      nullable: true
+      comment: ''
+      column: create_time
+    status:
+      type: smallint
+      nullable: true
+      unsigned: false
+      comment: ''
+  lifecycleCallbacks: {  }

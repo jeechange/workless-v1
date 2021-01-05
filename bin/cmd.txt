@@ -1,0 +1,13 @@
+
+php ./app/console --ansi Asset:install --filter=home
+php ./app/console --ansi orm:schema-tool:update --dump-sql
+php ./app/console --ansi orm:schema-tool:update --force
+
+php ./app/console --ansi orm:convert-mapping --force --from-database yml --filter=User
+
+php ./app/console --ansi orm:generate-entities --filter=User
+php ./app/console --ansi DModel:generate
+
+php ./app/console --ansi Core:compile
+
+php ./app/console --ansi DModel:generate

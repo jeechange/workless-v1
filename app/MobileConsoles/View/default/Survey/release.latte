@@ -1,0 +1,39 @@
+{layout "../Layout/layout.latte"}
+{block headTitle}发布调查{/block}
+{block tabs_content}
+    {include "./tabs.latte"}
+{/block}
+{block custom}
+{/block}
+{block private_js}
+    <script type="text/javascript">
+        $(document).on("pageInit", function () {
+            $(document).on('refresh', '.pull-to-refresh-content', function (e) {
+                setTimeout(function () {
+
+                    $.pullToRefreshDone('.pull-to-refresh-content');
+                }, 2000);
+            });
+
+            $(document).on('infinite', '.infinite-scroll-bottom', function () {
+                $('.infinite-scroll-preloader').remove();
+                // $.refreshScroller(); //刷新滚动
+            });
+            $('.infinite-scroll-preloader').remove();
+        });
+    </script>
+{/block}
+{block private_css}
+{/block}
+{block content}
+    <div class="list-block" style="margin-top: 3.7rem;">
+        <div style="margin-top:100px;text-align:center">
+            <img src="{path('[MobileConsoles]/img/null.png')}" alt="" class="" style="width:60%; height:100%; margin: 0 20%; display:block;">
+            <div style="color:red;">发布调查请前往PC端</div>
+        </div>
+    </div>
+{/block}
+
+
+
+

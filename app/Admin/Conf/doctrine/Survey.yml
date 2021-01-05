@@ -1,0 +1,118 @@
+Admin\Entity\Survey:
+  type: entity
+  table: survey
+  indexes:
+    sid:
+      columns:
+        - sid
+    sc_id:
+      columns:
+        - sc_id
+    issue:
+      columns:
+        - issue
+    stand_id:
+      columns:
+        - stand_id
+  id:
+    id:
+      type: integer
+      nullable: false
+      unsigned: false
+      comment: ''
+      id: true
+      generator:
+        strategy: IDENTITY
+  fields:
+    sid:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+    code:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    scId:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: sc_id
+    standId:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: stand_id
+    surveyObject:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+      column: survey_object
+    surveyTeam:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: survey_team
+    addTime:
+      type: datetime
+      nullable: true
+      comment: ''
+      column: add_time
+    startTime:
+      type: datetime
+      nullable: true
+      comment: ''
+      column: start_time
+    endTime:
+      type: datetime
+      nullable: true
+      comment: ''
+      column: end_time
+    issue:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+    type:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    status:
+      type: smallint
+      nullable: true
+      unsigned: false
+      comment: ''
+    totalScore:
+      type: smallint
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: total_score
+    anonymity:
+      type: smallint
+      nullable: true
+      unsigned: false
+      comment: ''
+    userScore:
+      type: text
+      nullable: true
+      length: null
+      fixed: false
+      comment: ''
+      column: user_score
+    tags:
+      type: text
+      nullable: true
+      length: null
+      fixed: false
+      comment: ''
+  lifecycleCallbacks: {  }

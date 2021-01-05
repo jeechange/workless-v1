@@ -1,0 +1,91 @@
+Admin\Entity\GoodsSku:
+  type: entity
+  table: goods_sku
+  id:
+    id:
+      type: integer
+      nullable: false
+      unsigned: false
+      comment: ''
+      id: true
+      generator:
+        strategy: IDENTITY
+  fields:
+    productId:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: product_id
+    spec1:
+      type: string
+      nullable: true
+      length: 50
+      fixed: false
+      comment: ''
+    spec2:
+      type: string
+      nullable: true
+      length: 50
+      fixed: false
+      comment: ''
+    spec3:
+      type: string
+      nullable: true
+      length: 50
+      fixed: false
+      comment: ''
+    spec4:
+      type: string
+      nullable: true
+      length: 50
+      fixed: false
+      comment: ''
+    spec5:
+      type: string
+      nullable: true
+      length: 50
+      fixed: false
+      comment: ''
+    skuCode:
+      type: string
+      nullable: true
+      length: 50
+      fixed: false
+      comment: ''
+      column: sku_code
+    barCode:
+      type: string
+      nullable: true
+      length: 50
+      fixed: false
+      comment: ''
+      column: bar_code
+    num:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+    warning:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+    thumbs:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    status:
+      type: smallint
+      nullable: true
+      unsigned: false
+      comment: ''
+    skuStatus:
+      type: smallint
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: sku_status
+  lifecycleCallbacks: {  }

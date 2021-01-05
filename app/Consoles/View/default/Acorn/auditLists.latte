@@ -1,0 +1,112 @@
+{layout '../Public/layoutList.latte'} {*继承layoutList模板*}
+{block title}积分审核{/block}
+{block actionstab}
+    {include "./auditsTab.latte"}
+{/block}
+{block content}
+    <table cellpadding="0" cellspacing="0" border="0" class="stdtable">
+        <thead>
+        <tr>
+            <th></th>
+            <th data-sort="s.names"><span class="table-head">申请人</span></th> {*在th加入 data-sort 可对数据库进行排序*}
+            <th data-sort="s.id"><span class="table-head">被申请人</span></th>
+            <th><span class="table-head">标准</span></th>
+            <th data-sort="s.acorn"><span class="table-head">积分<i class="icon al-icon al-icon-influence" style="color:#0087e1"></i></span></th>
+            <th data-sort="s.status"><span class="table-head">审核人</span></th>
+            <th><span class="table-head">申请时间</span></th>
+            <th><span class="table-head">审核时间</span></th>
+            <th><span class="table-head">状态</span></th>
+            <th><span class="table-head">操作</span></th>
+        </tr>
+        </thead>
+        <tbody>
+        {foreach $lists as $k=>$item}
+            <tr>
+                {if $item['aa_memo']}
+                    <td style="width: 60px;">
+                        <span class="spread">+</span>
+                    </td>
+                {else}
+                    <td style="width: 60px;">
+                    </td>
+                {/if}
+                <td class="wid-auto">{$item['fullName']}</td>
+                <td class="wid-auto">{$item['toUser']}</td>
+                <td class="wid-auto">[{$item['names']}]{$item['sNames']}{if preg_match('/^\d+$/',$item['aa_sysMemo'])}<span style="color:red">[#{$item['aa_sysMemo']}]</span>{/if}</td>
+                {if $item['aa_acorn'] == 0}
+                    <td class="wid-auto">不预设</td>
+                {else}
+                    <td class="wid-auto">{$item['aa_acorn']}</td>
+                {/if}
+                <td class="center">{$item["fullNames"]}</td>
+                <td class="wid-auto">{$item["aa_addTime"]|totime}</td>
+                <td class="wid-auto">{$item["aa_auditTime"]?$item["aa_auditTime"]:'--'|totime}</td>
+                <td class="center">{$item["statusMemo"]}</td>
+                <td>
+                    <a href="{url("consoles_detail","con=Acorn&&id=".$item['ad_id'])}" data-side-form>详情</a>
+                    {if $item['aa_status'] == 0}
+                        <a href="{url('consoles_acorn_audits',array('id'=>$item['ad_id']))}" data-side-form style="color:#0087E1">审核</a>
+                    {/if}
+                </td>
+            </tr>
+            <tr class="memo" hidden>
+                <td colspan="11" width="100%">说明：{$item['aa_memo']|noescape}</td>
+            </tr>
+        {/foreach}
+        </tbody>
+    </table>
+{/block}
+{block private_js}
+    <script type="text/javascript">
+        $(function () {
+            $(".spread ").click(function () {
+                var is = $(this).parent().parent().index();
+                is++;
+                if (!$('tbody tr').eq(is).attr('id')) {
+                    $('tbody tr').eq(is).attr('id', 'show');
+                    $('tbody tr').eq(is).removeAttr('hidden');
+                    is--;
+                    $('tbody tr').eq(is).find('span.spread').text('-');
+                }
+                else {
+                    $('tbody tr').eq(is).removeAttr('id');
+                    $('tbody tr').eq(is).attr('hidden', 'hidden');
+                    is--;
+                    $('tbody tr').eq(is).find('span.spread').text('+');
+                }
+            });
+
+        });
+    </script>
+{/block}
+{block private_css}
+    <style>
+        .list-more-action{
+            display:none;
+        }
+
+        .spread{
+            display:block;
+            width:25%;
+            margin:auto;
+            text-align:center;
+            font-size:14px;
+            line-height:14px;
+            border:1px solid #333333;
+        }
+
+        .memo > td{
+            text-align:center;
+            line-height:32px;
+        }
+
+        tr#show > td{
+            text-align:left;
+            color:#ccc;
+            padding-left:45px;
+        }
+    </style>
+{/block}
+
+
+

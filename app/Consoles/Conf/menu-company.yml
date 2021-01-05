@@ -1,0 +1,4 @@
+##格式 id:[0:pid,1:names,2:route,3:params,4:sort,5:enable,6:show,7:iconn,8:access]
+---
+
+1: [0,"企业","consoles_lists",{con: Company},2,1,1,"al-icon al-icon-renwu"]

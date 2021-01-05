@@ -1,0 +1,232 @@
+{layout '../Public/layoutList.latte'} {*继承layoutList模板*}
+{block title}{$title}{/block}
+{block actions}
+{/block}
+{block actionstab}
+    {include "./taskTabs.latte"}
+{/block}
+{block private_css}
+    <style type="text/css">
+        .box-flex{
+            width:100%;
+            display:flex;
+            flex-wrap:wrap;
+        }
+
+        .box-block{
+            position:relative;
+            width:25%;
+        }
+
+        .box-border-solid{
+            border: 1px solid #eee;
+            margin: 10px;
+            height: 170px;
+            border-radius: 15px;
+            padding: 15px;
+        }
+
+        .box-border-dashed{
+            border: 1px solid #eee;
+            margin: 10px;
+            height: 170px;
+            border-radius: 15px;
+            padding: 15px;
+        }
+
+        .box-title-icon{
+            height:18px;
+            width:18px;
+            border:1px solid;
+            border-radius:50px;
+            text-align:center;
+            line-height:18px;
+            padding:10px;
+            background:#4d91e4;
+            color:white
+        }
+
+        .box-rate-progress{
+            border:4px solid #666666;
+            border-radius:50px;
+            line-height:85px;
+            width:85px;
+            text-align:center;
+            font-size:12px;
+            height:85px;
+            margin-left:20%;
+        }
+
+        .box-block-20{
+            width:20%;
+            float:left;
+        }
+
+        .box-block-75{
+            width:75%;
+            float:left
+        }
+
+        .box-block-60{
+            width:60%;
+            float:left
+        }
+
+        .box-block-80{
+            width:80%;
+            float:left
+        }
+
+        .box-block-70{
+            width:70%;
+            float:left
+        }
+
+        .box-block-10{
+            width:10%;
+            float:left
+        }
+
+        .box-block-5{
+            width:5%;
+            float:left
+        }
+
+        .box-block-50{
+            width:50%; float:left;
+        }
+
+        .box-title{
+            font-weight:bold; font-size:14px;
+        }
+
+        a:hover{
+            text-decoration:none
+        }
+
+        .circleChart_text{
+            position: absolute;
+            line-height: 95px;
+            height: 95px;
+            top: 0px;
+            width: 95px;
+            margin: 0px;
+            padding: 0px;
+            text-align: center;
+            font-size: 12px;
+            font-weight: normal;
+        }
+
+        .circleChart{
+            margin-left:20%;
+        }
+
+        .list-more-action{
+            display:none;
+        }
+
+        .box-ellipsis-1{
+            overflow:hidden;
+            text-overflow:ellipsis;
+            white-space:nowrap;
+            -webkit-line-clamp:1;
+        }
+
+
+    </style>
+{/block}
+{block private_js}
+    <script type="text/javascript" src="{path('[Consoles]/js/circleChart.min.js')}"></script>
+    <script type="text/javascript">
+        $(function () {
+            $(".circleChart").each(function () {
+                var circleChartId = ".circleChart#" + $(this).attr("data-id");
+                $(circleChartId).circleChart({
+                    size: 300,
+                    color: "#00cc00",
+                    backgroundColor: "#666666",
+                    background: true,
+                    speed: 2000,
+                    widthRatio: 0.1,
+                    unit: 'percent',
+                    counterclockwise: false,
+                    startAngle: 0,
+                    animate: true,
+                    backgroundFix: true,
+                    lineCap: "round",
+                    animation: "easeInOutCubic",
+                    text: false,
+                    redraw: false,
+                    cAngle: 0,
+                    textCenter: true,
+                    textSize: false,
+                    textWeight: 'normal',
+                    textFamily: 'sans-serif',
+                    autoCss: true,
+                    onDraw: false
+                });
+            });
+        });
+
+    </script>
+{/block}
+{block content}
+    <div class="box-flex">
+        <div class="box-block">
+            <div class="box-border-dashed">
+                <div style="margin-top: 45px;text-align: center;color: #999999;">
+                    <a href="{url('consoles_add',"con=taskGroup")}" class="icon-adds" data-side-form>
+                        <div><i class="icon al-icon al-icon-tianjia" style="font-size: 40px;"></i>
+                            <p>创建项目</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+        {foreach $lists as $k=>$item}
+            <div class="box-block">
+                <div class="box-border-solid">
+                    <div style="height: 40px;line-height: 40px;">
+                        <div class="box-block-20">
+                            <div class="box-title-icon"><i class="al-icon al-icon-renwu" style="color:white"></i></div>
+                        </div>
+                        <div class="box-block-70">
+                            <div class="box-title box-ellipsis-1">{$item['g_names']}</div>
+                        </div>
+                        <div class="box-block-10">
+                            {if $types==0||$types==1}
+                                <a href="{url("consoles_mod","con=taskGroup&id=".$item['g_id'])}" class="icon-adds" data-side-form>
+                                    <i class="al-icon al-icon-shezhi" style="color:#999999;text-align:right"></i>
+                                </a>
+                            {/if}
+                        </div>
+                    </div>
+                    <div class="box-block-50" style="margin-bottom: 10px;margin-left: 20%;">
+                        <p style="color:#999999"> 负责人：{$item['g_responsible']?$item['g_responsible']:"--"}<p>
+                    </div>
+                    <div class="box-block-50">
+                        <a href="{url("consoles_detail","con=taskGroup&id=".$item['g_id'])}">
+                            {if $item['g_progress']>0}
+                                <div class="circleChart" id="{$item['g_id']}" data-id="{$item['g_id']}" data-value="{$item['g_progress']}">
+                                    <canvas class="circleChart_canvas" width="300" height="300" style="width: 93px;"></canvas>
+                                    <p class="circleChart_text" style="">{$item['statusMemo']}{$item['g_progress']}%</p>
+                                </div>
+                            {else}
+                                <div class="box-rate-progress">
+                                    {$item['statusMemo']}0%
+                                </div>
+                            {/if}
+                        </a>
+                    </div>
+                    <div class="box-block-50">
+                        <div style="line-height: 30px;margin-left: 30%;">
+                            <p style="">任务数：{$item['total']}</p>
+                            <p style="color:#339966">完成数：{$item['finish']}</p>
+                            <p style="color:#CC3300;">逾期任务：{$item['overdue']}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {/foreach}
+    </div>
+{/block}

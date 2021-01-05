@@ -1,0 +1,84 @@
+#main_content{
+    border:none;
+    background:none;
+}
+
+.rich-search{
+    display:block;
+    width:100%;
+}
+
+.rich-search .rich-search-element{
+    margin-bottom:10px;
+    display:block;
+    zoom:1;
+    overflow:hidden;
+}
+
+.rich-search .input-hide{
+    display:none;
+}
+
+.rich-search .element-label{
+    /*float:left;*/
+}
+
+.rich-search .element-label{
+    width:120px; vertical-align:top;
+    text-align:left;
+}
+
+.rich-search .element-label em{
+    padding-right:3px;
+    margin-right:10px;
+    color:#999;
+}
+
+.rich-search .element-label .all{
+    display:inline-block;
+    margin-bottom:2px;
+    padding:0 8px;
+    height:24px;
+    line-height:24px;
+    border:1px solid transparent;
+    cursor:pointer;
+}
+
+.rich-search .element-label .all.selected{
+    color:#2980b9;
+    border:1px solid #2980b9;
+}
+
+.rich-search .element-items{
+    padding-left:3px;
+    vertical-align:top;
+    text-align:left;
+}
+
+.rich-search .element-label .all:hover, .rich-search .element-items .element-item:hover{
+    color:#2980b9;
+}
+
+.rich-search .element-items .element-item{
+    display:inline-block;
+    margin-right:2px;
+    margin-bottom:3px;
+    padding-right:14px;
+    padding-left:3px;
+    height:24px;
+    line-height:24px;
+    cursor:pointer;
+    border:1px solid transparent;
+}
+
+.rich-search .element-items .element-item.selected{
+    background:url(icon.png) right 3px no-repeat;
+    border:1px solid #2980b9;
+    color:#2980b9;
+}
+.rich-search .overflow-hide .element-overflow{
+    display:none;
+}
+.rich-search .element-items .more{
+    color:#2980b9;
+}

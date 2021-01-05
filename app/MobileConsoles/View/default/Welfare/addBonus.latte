@@ -1,0 +1,165 @@
+{layout "../Layout/layout.latte"}
+{block tabs_content}
+    {include "./tabs.latte"}
+{/block}
+
+{block private_css}
+    {include "../Task/addCss.latte"}
+    <style>
+        .input-rec .icon-star{
+            font-size:20px;
+            cursor:pointer;
+            margin-right:5px;
+        }
+
+        .input-rec .icon-star.start-on{
+            color:#FB855C;
+        }
+
+        .input-rec .icon-star.start-off{
+            color:#A1A1A1;
+        }
+
+        .showcase{
+            width:120px;
+            height:33px;
+            line-height:33px;
+            display:inline-block;
+            border:2px solid #797979;
+            text-align:center;
+            margin-left:10px;
+            color:#fff;
+            background:#A1A1A1;
+        }
+
+        .showcase.selected{
+            background:#FB855C;
+            border-color:#FB855C;
+        }
+
+        .contentRec > ul > li{
+            width:100%;
+            line-height:46px;
+            border-bottom:1px #f9f9f9 solid;
+            overflow:hidden
+        }
+
+        .contentRec > ul > li > span{
+            width:80%;
+            float:left;
+            padding-left:18px;
+            overflow:hidden;
+            white-space:nowrap;
+            text-overflow:ellipsis;
+        }
+
+        .contentRec > ul > li > a{
+            width:20%;
+            float:right;
+            padding-right:20px;
+        }
+
+        .recContent{
+            line-height:46px;
+            font-size:16px;
+            text-align:center;
+        }
+
+        .addContent{
+            width:100%;
+            height:46px;
+            font-size:14px;
+            text-align:center;
+            position:relative;
+        }
+
+        .addContent > span{
+            position:absolute;
+            top:50%;
+            left:50%;
+            margin-top:-13.5px;
+            margin-left:-61px;
+            display:block;
+            width:122px;
+            height:27px;
+            line-height:25px;
+            border-radius:20px;
+            font-size:14px;
+            text-align:center;
+            border:1px solid rgba(187, 187, 187, 1);
+        }
+
+    </style>
+{/block}
+{block custom}
+    {include "../Public/custom.latte" , title1=>"选择奖励人", title2=>"选择审核人"}
+{/block}
+
+
+{block private_js}
+    {include "../Public/customJs.latte"}
+    <script>
+        $(function () {
+            $(".submit-form").on("click", function () {
+                $.showPreloader('正在提交，请稍候...');
+                $.ajax({
+                    url: $(this).attr("data-url"),
+                    type: "POST",
+                    data: $("#my-form").serialize(),
+                    dataType: "json",
+                    success: function (res) {
+                        $.hidePreloader();
+                        if (res.status === "n") {
+                            $.toast(res.info);
+                            return;
+                        }
+                        $.toast("发放成功");
+                        setTimeout(function () {
+                            location.replace(res.data);
+                        }, 1000)
+                    }
+                });
+            })
+        })
+    </script>
+{/block}
+{block content}
+    <div class="list-block" style="margin-top: 3.2rem;">
+        <form action="" id="my-form">
+            <div class="field-item">
+                <div class="field-item-title">
+                    分红股数量 <span class="required">*</span>
+                </div>
+                <div class="field-item-body">
+                    <input type="text" name="bonus" placeholder="请输入分红股数量"/>
+                </div>
+            </div>
+            <div class="field-item-between"></div>
+            <div class="field-item">
+                <div class="field-item-title">
+                    奖励人 <span class="required">*</span>
+                </div>
+                <div class="field-item-body">
+                    <div class="field-item-member-box">
+                        <span class="staff-add open-popup open-worker-added-box" data-popup=".staff-popup" id="executors">&plus;</span>
+                        <input type="hidden" name="userId">
+                    </div>
+                </div>
+            </div>
+            <div class="field-item-between"></div>
+            <div class="field-item">
+                <div class="field-item-title">
+                    发放原因 <span class="required">*</span>
+                </div>
+                <div class="field-item-body">
+                    <textarea name="memo"></textarea>
+                </div>
+            </div>
+            <div class="field-item-between"></div>
+        </form>
+        <div class="field-item-between"></div>
+        <div class="content-block">
+            <a href="#" data-url="{url("mobileConsoles_welfare_add_bonus")}" class="button button-big button-fill button-success submit-form">提交</a>
+        </div>
+    </div>
+{/block}

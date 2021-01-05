@@ -1,0 +1,483 @@
+*{
+    margin:0;
+    padding:0;
+}
+
+li{
+    list-style:none;
+}
+
+img{
+    image-rendering:-moz-crisp-edges; /* Firefox */
+    image-rendering:-o-crisp-edges; /* Opera */
+    image-rendering:-webkit-optimize-contrast; /* Webkit (non-standard naming) */
+    image-rendering:crisp-edges;
+}
+
+a{
+    text-decoration:none;
+}
+
+body{
+    background:#FFF;
+}
+
+/*头部导航*/
+@media screen and (min-width:426px){
+
+    /*头部*/
+    .menu{
+        display:none;
+    }
+    .nav{
+        width:100%;
+        overflow:hidden;
+        height:700px;
+        background:url("../img/bg.png");
+    }
+    .navphone{
+        display:none;
+    }
+    .inter img{
+        display:none;
+    }
+    .nav_navigation{
+        overflow:hidden;
+        width:100%;
+        padding:25px 0;
+        position:relative;
+        /*margin-top:25px;*/
+    }
+    .nav_navigation>a{
+        width:32.5%;
+        float:left;
+        display:block;
+    }
+    .inter{
+        width: 34.3%;
+        float: left;
+        margin-left: 8px;
+    }
+    .log{
+        width:30.7%;
+        float:left;
+    }
+    .nav_navigation>a>img{
+        display:block;
+        margin-left:40px;
+        width:155px;
+    }
+    .inter ul{
+        width:100%;
+        overflow:hidden;
+    }
+    .inter ul li{
+        width:33.3%;
+        float:left;
+    }
+    .inter ul li a{
+        display:block;
+        width:100%;
+        font-size:18px;
+        font-family:Microsoft YaHei;
+        font-weight:400;
+        line-height:24px;
+        color:rgba(255,255,255,1);
+        opacity:1;
+        text-align:center;
+    }
+    .inter ul li:first-child a{
+        text-align:right;
+    }
+    .inter ul li:last-child a{
+        text-align:left;
+    }
+    .log ul{
+        overflow:hidden;
+        width:100%;
+    }
+    .log ul li{
+        float:right;
+        /*margin-right:38px;*/
+    }
+    .log ul li:last-child{
+        margin-right:10px;
+    }
+    .log a{
+        font-size:14px;
+        font-family:Microsoft YaHei;
+        font-weight:400;
+        line-height:19px;
+        color:rgba(255,255,255,1);
+        opacity:1;
+    }
+
+
+    /*底部*/
+    .footer{
+        background:#28559c;
+        width:100%;
+        height:360px;
+        overflow:hidden;
+    }
+    .bottom{
+        width:1000px;
+        margin:auto;
+        overflow:hidden;
+        padding-top:108px;
+    }
+    .bottom ul{
+        float:left;
+    }
+    .bottom ol{
+        float:right;
+    }
+    .bottom ul li{
+        font-size:14px;
+        font-family:Microsoft YaHei;
+        font-weight:400;
+        line-height:19px;
+        color: rgb(112, 145, 197);
+        opacity:1;
+        margin-bottom:19px;
+    }
+    .bottom ul li:last-child{
+        margin-bottom:0;
+    }
+    .bottom ol li{
+        float:left;
+        margin-left:30px;
+    }
+    .footer>p,.footer>p a{
+        width:1400px;
+        margin:auto;
+        margin-top:34px;
+        font-size:12px;
+        font-family:Segoe UI;
+        font-weight:400;
+        line-height:16px;
+        color: rgb(112, 145, 197);
+        opacity:1;
+    }
+
+
+
+    /*二级导航PC样式*/
+    .my_order{
+        width:700px;
+        margin:auto;
+        overflow:hidden;
+    }
+    .my_order_nav{
+        width:100%;
+        overflow:hidden;
+    }
+    .my_order_nav ul{
+        width:100%;
+        overflow:hidden;
+    }
+    .my_order_nav ul li{
+        float:left;
+        width:33.3%;
+        /*width:50%;*/
+        padding-top:33px;
+    }
+    .my_order_nav ul li a{
+        font-size:24px;
+        font-family:Microsoft YaHei;
+        font-weight:bold;
+        line-height:50px;
+        color:rgba(38,38,38,1);
+        opacity:1;
+        text-align:center;
+        display:block;
+        width:145px;
+        margin:auto;
+        border-bottom:#FFF 3px solid;
+    }
+    .my_order_nav ul li:hover a,.my_order_nav ul li.on a{
+        border-color:#28559C;
+        color:#28559C;
+    }
+
+    .navs{
+        display:none;
+    }
+
+}
+
+@media screen and (max-width:425px){
+    /*手机版公共头部*/
+    .nav{
+        width:100%;
+        overflow: hidden;
+        background: url(../img/bg-phone.png);
+        width: 100%;
+        height: 210px;
+        background-repeat: no-repeat;
+        background-size: 120%;
+        position:relative;
+    }
+    .nav_navigation{
+        overflow:hidden;
+        height:63px;
+        position:fixed;
+        left:0;
+        top:0;
+        width:100%;
+        z-index:30;
+    }
+
+    .nav_navigation.hasBg{
+        background:#28559c;
+        opacity:0.9;
+    }
+
+    .nav_navigation>a{
+        display: block;
+        width: 93px;
+        margin-top: 22px;
+        margin-left: 10px;
+    }
+    .nav_navigation>a img{
+        width: 100%;
+    }
+    .menu{
+        position: fixed;
+        right: 10px;
+        top: 21px;
+        width: 20px;
+        height: 20px;
+        z-index:5;
+    }
+    .menu img{
+        width:100%;
+    }
+    .log{
+        display:none;
+    }
+    .inter{
+        position: fixed;
+        right: -60vw;
+        /*right: 0vw;*/
+        top: 0;
+        width: 60vw;
+        height: 100vh;
+        background: #000;
+        opacity: 0.8;
+        z-index: 10;
+        padding-top: 80px;
+    }
+    p.navphone{
+        position: fixed;
+        right: -60vw;
+        /*right: 0vw;*/
+        top: 0;
+        width: 60vw;
+        background: #000;
+        z-index: 20;
+        opacity: 1;
+        font-size: 14px;
+        font-family: Segoe UI;
+        font-weight: 400;
+        color: rgba(255,255,255,1);
+        text-align: center;
+        height: 63px;
+        line-height: 63px;
+    }
+    .inter ul li{
+        overflow: hidden;
+        margin-bottom: 30px;
+    }
+    .inter ul li a{
+        display: block;
+        font-size: 16px;
+        font-family: Segoe UI;
+        font-weight: 400;
+        line-height: 18px;
+        color: rgba(255,255,255,1);
+        letter-spacing: 0.4rem;
+        opacity: 1;
+        margin: auto;
+        width: 72px;
+    }
+    .inter ul li img{
+        width: 16px;
+        display:inline-block;
+    }
+
+    /*手机版二级导航*/
+    .my_order_nav ul{
+        overflow:hidden;
+        width:80%;
+        margin:auto;
+        margin-top:20px;
+    }
+    .my_order_nav ul li{
+        float:left;
+        width:33.3%;
+        text-align:center;
+    }
+
+    .my_order_nav ul li a{
+        font-size:14px;
+        font-family:Microsoft YaHei;
+        font-weight:bold;
+        line-height:40px;
+        color:#000;
+        opacity:1;
+        border-bottom:#FFF 2px solid;
+    }
+
+    .my_order_nav ul li.on a{
+        color:#28559c;
+        border-bottom:#28559c 2px solid;
+    }
+
+
+
+
+
+
+
+    /*手机版公共底部*/
+    .bottom{
+        width: 90%;
+        padding: 0 5%;
+        overflow: hidden;
+        /*margin-top: 40px;*/
+        background: #28559c;
+        border-bottom: #efefef 1px solid;
+    }
+    .bottom ul{
+        margin-top:38px;
+        overflow:hidden;
+    }
+    .bottom ul li{
+        margin-bottom: 12px;
+        font-size: 12px;
+        font-family: Segoe UI;
+        font-weight: 400;
+        line-height: 16px;
+        color: rgb(112, 145, 197);
+        opacity: 1;
+    }
+    .bottom ol{
+        overflow: hidden;
+        margin-bottom: 21px;
+        margin-top: 30px
+    }
+    .bottom ol li{
+        display: block;
+        float: left;
+        margin-right: 24px;
+    }
+    .footer>p{
+        font-size: 12px;
+        font-family: Segoe UI;
+        font-weight: 400;
+        line-height: 18px;
+        color: rgb(112, 145, 197);
+        opacity: 1;
+        padding: 5%;
+        background: #28559c;
+    }
+    .footer>p a{
+        font-size: 12px;
+        font-family: Segoe UI;
+        font-weight: 400;
+        line-height: 18px;
+        color: rgba(255, 255, 255, 1);
+        background: #28559c;
+    }
+
+
+    .navs{
+        display:block;
+        width:60vw;
+        height:100vh;
+        position:fixed;
+        right:-60vw;
+        top:0;
+        z-index:50;
+    }
+    .navs>p{
+        background:#000;
+        opacity:1;
+        height:63px;
+        color:#FFF;
+        text-align:center;
+        line-height:63px;
+    }
+    .navs>ul{
+        background:#000;
+        opacity:0.6;
+        height:100vh;
+        padding-top:10px;
+    }
+    .navs ul li{
+        overflow:hidden;
+        margin-bottom:10px;
+    }
+    .navs ul li a{
+        display:block;
+        text-align:center;
+        font-size:14px;
+        font-family:Segoe UI;
+        font-weight:400;
+        line-height:18px;
+        color:rgba(255,255,255,1);
+        opacity:1;
+        padding:10px 0;
+        overflow:hidden;
+    }
+    .navs ul li img{
+        /*float:left;*/
+        /*margin-left:20vw;*/
+        display:inline;
+        width:14px;
+        line-height:20px;
+    }
+    .navs ul li a span{
+        color:#FFF;
+        line-height:12px;
+        margin-top:5px;
+        /*float:left;*/
+        margin-left:5px;
+    }
+
+    .copyRight{
+        background: #28559c;
+    }
+
+    .copyRight p{
+        font-size: 2.5vw;
+        font-family: Segoe UI;
+        font-weight: 400;
+        line-height: 18px;
+        color: rgb(112, 145, 197);
+        opacity: 1;
+        padding: 5%;
+        -webkit-text-size-adjust: none;
+    }
+
+    .copyRight a{
+        font-size: 2.5vw;
+        font-family: Segoe UI;
+        font-weight: 400;
+        line-height: 18px;
+        color: rgb(112, 145, 197);
+        opacity: 1;
+        -webkit-text-size-adjust: none;
+        display: block;
+    }
+
+
+
+}
+
+
+
+
+
+

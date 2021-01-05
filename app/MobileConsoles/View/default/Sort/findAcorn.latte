@@ -1,0 +1,176 @@
+{layout "../Layout/layoutBoth.latte"}
+{block headTitle}积分明细{/block}
+{block tabs_content}
+    {include "./tabs.latte"}
+{/block}
+{block private_js}
+    <script type="text/javascript">
+        $(document).on("pageInit", function () {
+            $(document).on('refresh', '.pull-to-refresh-content', function (e) {
+                setTimeout(function () {
+
+                    $.pullToRefreshDone('.pull-to-refresh-content');
+                }, 2000);
+            });
+
+            $(document).on('infinite', '.infinite-scroll-bottom', function () {
+                $('.infinite-scroll-preloader').remove();
+                // $.refreshScroller(); //刷新滚动
+            });
+            $('.infinite-scroll-preloader').remove();
+        })
+        function findACorn() {
+            var val = $(this).val().toString().replace(/^\s+|\s+$/gm, '');
+            var lists = $(".details-body").find("li[data-names-keyword]");
+            if (!val) {
+                $(".details-body").find("li").css("display", "flex");
+                for (var i = 0; i < lists.length; i++) {
+                    var text = $(lists[i]).find(".item-memo").text();
+                    $(lists[i]).find(".item-memo").html(text + '<i class="icon al-icon al-icon-influence sui-font-size-rem-0-8">');
+                }
+                return true;
+            }
+            for (var i = 0; i < lists.length; i++) {
+                var text = $(lists[i]).attr("data-names-keyword");
+                var values = $(lists[i]).attr("data-values");
+                var indexOf = text.indexOf(val);
+                var JJ = '';
+                if (values > 0) {
+                    var JJ = '+';
+                }
+                if (indexOf === -1) {
+                    $(lists[i]).find(".item-memo").html(text + ' ' + JJ + values + ' ' + '<i class="icon al-icon al-icon-influence sui-font-size-rem-0-8">');
+                    $(lists[i]).css("display", "none");
+                    continue;
+                }
+                var newHtml = "";
+                if (indexOf === 0) {
+                    newHtml = '<span class="highlight">' + val + '<\/span>' + text.substring(val.length);
+                }
+                if (indexOf > 0) {
+                    newHtml = text.substring(0, indexOf) + '<span class="highlight">' + val + '<\/span>' + text.substring(val.length + indexOf);
+                }
+                $(lists[i]).find(".item-memo").html(newHtml + ' ' + JJ + values + ' ' + '<i class="icon al-icon al-icon-influence sui-font-size-rem-0-8">');
+                $(lists[i]).css("display", "flex");
+            }
+        }
+
+        function aconShow() {
+            var id = $(this).attr('data-id');
+            $(".acon-show-" + id).toggle();
+        }
+    </script>
+{/block}
+{block private_css}
+    <style>
+        .details{
+            min-height:100%;
+            padding:10px .5rem;
+            background:#fff;
+        }
+
+        .details-body ul{
+            padding:0;
+            margin:0;
+        }
+
+        .details-body li{
+            display:flex;
+            width:100%;
+            min-height:3rem;
+            line-height:3rem;
+            padding:0 1rem;
+        }
+
+        .details-body li:nth-child(2n){
+            background:#f9f9f9;
+        }
+
+        .details-body li .item-memo{
+            width:35%;
+            text-align:left;
+            float:left;
+        }
+
+        .details-body li .item-task{
+            width:45%;
+            text-align:left;
+            float:left;
+        }
+
+        .details-body li .item-last{
+            width:20%;
+            text-align:right;
+            float:left;
+        }
+
+        .bar{
+            background-color:#efeff4
+        }
+
+        .bar .searchbar{
+            background:rgb(255, 255, 255);
+            border:1px solid #ddd;
+            border-radius:25px;
+        }
+
+        .tabs{
+            height:3rem !important;
+        }
+
+        .tabs .tabs-link{
+            height:3rem;
+            line-height:3rem;
+        }
+
+        .highlight{
+            color:#ff4a2b;
+            margin:0;
+            font-weight:700;
+        }
+    </style>
+{/block}
+
+{block content}
+    <div class="bar bar-header-secondary" style="margin-top:1.1rem">
+        <div class="searchbar">
+            <form action="" method="get">
+                <a class="searchbar-cancel">取消</a>
+                <div class="search-input">
+                    <label class="icon icon-search" for="search"></label>
+                    <input type="search" id='search' oninput="findACorn.call(this)" placeholder='输入关键字...'/>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="details" style="margin-top: 3.6rem;">
+        {if $lists}
+            <div class="details-body" style="margin: 0 -0.5rem;">
+                <ul>
+                    {foreach $lists as  $k=>$v}
+                        <li data-names-keyword="{$v['fullName']}" data-values="{$v['a_acorn']}" data-id="{$v['a_id']}" onclick="aconShow.call(this)">
+                            <div style="width:100%">
+                                <div class="item-memo sui-ellipsis-1">{$v['fullName']} {if $v['a_acorn'] > 0}+{/if}{$v['a_acorn']}
+                                    <i class="icon al-icon al-icon-influence sui-font-size-rem-0-8"></i></div>
+                                <div class="item-task sui-ellipsis-1">{$v['sNames']}{if preg_match('/^\d+$/',$v['a_sysMemo'])}<span style="color:red">[#{$v['a_sysMemo']}]</span>{/if}</div>
+                                <div class="item-last sui-ellipsis-1">{$v['addTimes']}</div>
+                                <div style="display:none;background: aliceblue;width: 100%;
+    float: left;line-height: 2.2rem;" class="acon-show-{$v['a_id']}">
+                                    <div style="margin: 20px;">
+                                        <div>内容：{$v['sNames']}</div>
+                                        <div>详情：{$v['a_sysMemo']?$v['a_sysMemo']:"-"}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    {/foreach}
+                </ul>
+            </div>
+        {else}
+            <div style="margin-top:50px;margin-bottom:30px;text-align:center">
+                <img src="{path('[MobileConsoles]/img/null.png')}" alt="" class="" style="width:60%; height:100%; margin: 0 20%; display:block;">
+                <div style="color:#999;">暂无数据</div>
+            </div>
+        {/if}
+    </div>
+{/block}

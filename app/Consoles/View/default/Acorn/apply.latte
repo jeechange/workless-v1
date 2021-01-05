@@ -1,0 +1,162 @@
+{layout '../Public/layoutForm.latte'}
+{block return_actions}
+    <div class="headNavMark"></div>
+    <a style="margin-right: 10px;"></a>
+{/block}
+{block title}申请积分(Alt+1){/block}
+{block private_css}
+    <style type="text/css">
+        .btn-submit{
+            background:#0087e1;
+            height:35px;
+            line-height:35px;
+            width:10rem;
+            text-align:center;
+            color:white;
+            border:1px solid;
+        }
+    </style>
+{/block}
+{block actionstab}
+    {include "./applyTab.latte"}
+{/block}
+{block private_js}
+    <script type="text/javascript">
+        var acorn ={$acorn};
+        function acornStandard(obj) {
+            var id = $(obj).val();
+            var str = acorn[id]['acorn'];
+            var memo = acorn[id]['memo'];
+            if (str != 0) {
+                $("#frm_acorn").val(str);
+            } else {
+                $("#frm_acorn").val("不预设");
+            }
+            if (!memo) {
+                $("#memo").html("暂无说明");
+            } else {
+                $("#memo").html(memo);
+            }
+        }
+        init.ready(function () {
+            var id = $('#names option:selected').val();
+            var str = acorn[id]['acorn'];
+            var memo = acorn[id]['memo'];
+            if (str != 0) {
+                $("#frm_acorn").val(str);
+            } else {
+                $("#frm_acorn").val("不预设");
+            }
+            if (!memo) {
+                $("#memo").html("暂无说明");
+            } else {
+                $("#memo").html(memo);
+            }
+            uploader.initFile(".img-uploader-file", {
+                apply: "xiangshuyun",
+                sid: {$sid},
+                file_base_url: "https://cdn.itmakes.com/uploads",
+            });
+        });
+    </script>
+{/block}
+{block content}
+    <div style="height:50px"></div>
+    <form id="formArticle" class="stdform mform" method="post" action={$url}>
+        <table cellpadding="0" cellspacing="0" border="0" id="frmtable" class="formtable">
+            <thead>
+            <tr>
+                <td><label>积分标准<span style="color:red">*</span>：</label></td>
+                <td>
+                    <div class="field control-group">
+                        <div class="input-group">
+                            {if $lists}
+                                <select name="names" id="names" onchange="acornStandard(this)" style="width: 100%;height: 39px;border: 1px solid #ccc;color: #555;">
+                                    {foreach $lists as $key=>$item}
+                                        <option value="{$item['id']}">{$item['names']}</option>
+                                    {/foreach}
+                                </select>
+                            {else}
+                                <a href="{url("consoles_standard_allStandards","active=Achievements")}">请去填写相应维度</a>
+                            {/if}
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td><label>维度说明：</label></td>
+                <td>
+                    <div class="field control-group">
+                        <div class="input-group">
+                            <div id="memo" style="height: 35px;line-height: 35px;"></div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td><label>分数：</label></td>
+                <td>
+                    <div class="field control-group">
+                        <input type="text" id="frm_acorn" name="acorn" class="smallinput" value="{$lists[0]['acorn']}" readonly="readonly" style="height: 35px;line-height: 35px;border: 1px solid #ccc;padding-left: 5px;"/>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td><label>奖扣对象<span style="color:red">*</span>：</label></td>
+                <td>
+                    <div class="field control-group" style="width: 52%;">
+                        {$executors|noescape}
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td><label>@审核人<span style="color:red">*</span>：</label></td>
+                <td>
+                    <div class="field control-group" style="width: 52%;">
+                        {$executors2|noescape}
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td><label>@抄送人：</label></td>
+                <td>
+                    <div class="field control-group" style="width: 52%;">
+                        {$executors3|noescape}
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td><label>内容<span style="color:red">*</span>：</label></td>
+                <td>
+                    <div class="field control-group">
+                        <div class="input-group">
+                            <textarea id="frm_memo" name="memo" style="width: 600px; height: 250px"></textarea>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td><label>图片/附件</label></td>
+                <td>
+                    <div class="field control-group">
+                        <div class="img-uploader-file" data-name="thumbs" data-options="other"></div>
+                    </div>
+                </td>
+            </tr>
+            </thead>
+        </table>
+    </form>
+{/block}
+{block formtable}
+    <table class='formtable btntable'>
+        <tfoot>
+        <tr>
+            <td colspan="2">
+                <div class="input-group">
+                    <input type="button" class="btn submit submit-mform" value="申 请"/>
+                </div>
+            </td>
+        </tr>
+        </tfoot>
+    </table>
+{/block}

@@ -1,0 +1,120 @@
+{layout '../Public/layoutList.latte'} {*继承layoutList模板*}
+{block title}价值维度{/block}
+{block actions}
+{/block}
+{block actionstab}
+    {include "./actions.latte"}
+{/block}
+{*选中记录的操作按钮*}
+{block actions2}
+{/block}
+{block private_css}
+    {include './dimCss.latte'}
+{/block}
+
+{block content}
+    <div class="new-tips">请设置少数几个测量维度</div>
+    <div class="value-xl-3">
+        <div class="value-bg-box-white">
+            <ul>
+                <li class="value-model-box">
+                    <span class="value-title">业绩</span>
+                    <a href="{url("consoles_add","con=Standard&active=Achievement")}" class="value-add-bnt" data-side-form>+</a>
+                </li>
+            </ul>
+            <ul class="value-box-overflow">
+                {if $lists}
+                    {foreach $lists as $key=>$item}
+                        <li class="value-box-text">
+                            <div class="value-box-text-edi">
+                            <span style="padding: 0 15px;">
+                                <a href="{url("consoles_mod","con=Standard&id=".$item['s_id'])}" data-side-form>编辑</a>
+                            </span>
+                                <span style="padding: 0 15px;">
+                                <a href="{url('consoles_delete','con=Standard&id='.$item['s_id'].'&active=Achievements&types=1')}" data-confirm="您确定要删除该标准吗?">删除</a>
+                            </span>
+                            </div>
+                            <div class="value-box-text-content">
+                                <p class="value-font-size-16 value-ellipsis-1">{$item['s_names']}</p>
+                                <p class="value-font-size-13 value-ellipsis-1">{$item['s_memo']}</p>
+                            </div>
+                        </li>
+                    {/foreach}
+                {else}
+                    <div style="position:relative; width:100%; line-height:50px; display:block; text-align:center;">
+                        <img src="{path('[MobileConsoles]/img/null.png')}" alt="" class="" style="width:300px; margin:50px auto 0; display:block;">
+                        <div style="width:100%; color:#999; text-align:center; font-size:1.5rem;">暂时没有测量维度哦，快点去添加！</div>
+                    </div>
+                {/if}
+            </ul>
+        </div>
+    </div>
+    <div class="value-xl-3">
+        <div class="value-bg-box-white">
+            <ul>
+                <li class="value-model-box">
+                    <span class="value-title">任务</span>
+                </li>
+            </ul>
+            <ul class="value-box-overflow">
+                <li class="value-box-text">
+                    <div class="value-box-text-edi">
+                        <a href="{url("consoles_lists","con=taskSetting")}" style="padding: 0 15px;">计时基础分设置</a>
+                    </div>
+                    <div class="value-box-text-content">
+                        <p class="value-font-size-16 value-ellipsis-1">计时任务模型</p>
+                        <p class="value-font-size-13 value-ellipsis-1"> (积分=日基础分 * 任务量 * 难度 * 完成质量)</p>
+                    </div>
+                </li>
+                <li class="value-box-text">
+                    <div class="value-box-text-edi">
+                        <a href="{url("consoles_lists","con=taskSetting")}" style="padding: 0 15px;">计件基础分设置</a>
+                    </div>
+                    <div class="value-box-text-content">
+                        <p class="value-font-size-16 value-ellipsis-1">计件任务模型</p>
+                        <p class="value-font-size-13 value-ellipsis-1"> (积分= 计件基础分 * 件数 * 完成质量)</p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="value-xl-3">
+        <div class="value-bg-box-white">
+            <ul>
+                <li class="value-model-box">
+                    <span class="value-title">汇报</span>
+                    <a href="{url("consoles_add","con=Standard&active=Report")}" class="value-add-bnt" data-side-form>+</a>
+                </li>
+            </ul>
+            <ul class="value-box-overflow">
+                {if $lists1}
+                    {foreach $lists1 as $key=>$item}
+                        <li class="value-box-text">
+                            <div class="value-box-text-edi">
+                            <span style="padding: 0 15px;">
+                                 <a href="{url("consoles_mod","con=Standard&id=".$item['s_id'])}" data-side-form>编辑</a>
+                            </span>
+                                <span style="padding: 0 15px;">
+                                <a href="{url('consoles_delete','con=Standard&id='.$item['s_id'].'&active=Achievements&types=1')}" data-confirm="您确定要删除该标准吗?">删除</a>
+                            </span>
+                            </div>
+                            <div class="value-box-text-content">
+                                <p class="value-font-size-16 value-ellipsis-1">{$item['s_names']}</p>
+                                <p class="value-font-size-13 value-ellipsis-1">{$item['s_memo']}</p>
+                            </div>
+                        </li>
+                    {/foreach}
+                {else}
+                    <div style="position:relative; width:100%; line-height:50px; display:block; text-align:center;">
+                        <img src="{path('[MobileConsoles]/img/null.png')}" alt="" class="" style="width:300px; margin:50px auto 0; display:block;">
+                        <div style="width:100%; color:#999; text-align:center; font-size:1.5rem;">暂时没有测量维度哦，快点去添加！</div>
+                    </div>
+                {/if}
+            </ul>
+        </div>
+    </div>
+{/block}
+
+
+
+

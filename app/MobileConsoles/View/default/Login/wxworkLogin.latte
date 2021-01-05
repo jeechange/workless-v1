@@ -1,0 +1,80 @@
+{layout '../Layout/layout.latte'}
+{block headTitle}用户登录{/block}
+{block pageTitle}<h1 class="title">用户登录</h1>{/block}
+{block private_js}
+    <script>
+        $(function () {
+            var postData = $("#mform").serialize();
+            $.showPreloader('正在登录，请稍候...');
+            $.ajax({
+                url: $("#mform").attr("action"),
+                type: "POST",
+                data: postData,
+                dataType: "json",
+                success: function (res) {
+                    if (res.status == "n") {
+                        $.toast(res.info);
+                        $(".show-message").text(res.info).css("color", "red");
+                        return;
+                    }
+                    $.showPreloader('登录成功，正在跳转...');
+                    setTimeout(function () {
+                        location.replace(res.data);
+                    }, 500)
+                }
+            });
+        })
+    </script>
+{/block}
+{block private_css}
+    <style>
+        .content{
+            background:#fff;
+        }
+
+        .list-block ul:before, .list-block ul:after{
+            display:none;
+        }
+
+        .list-block .item-content{
+            margin:0 2.2rem;
+            padding-left:0;
+            padding-top:1.2rem;
+        }
+
+        .list-block .item-inner{
+            padding-right:0;
+        }
+
+        .list-block .item-inner:after{
+            display:block !important;
+        }
+
+        input[type=submit].button{
+            background:#3fadf0;
+            width:65%;
+            margin:40px auto;
+        }
+
+        .get-verify{
+            position:absolute;
+            right:0.5rem;
+            z-index:16;
+            color:#3fadf0;
+            top:.5rem;
+        }
+
+    </style>
+{/block}
+{block content}
+    <div style="margin: auto;min-height: 100px;background:white;max-width: 700px;">
+        <img src="{path('[MobileConsoles]/img/logo.png')}" style="width:150px;height: 60px;margin: 120px auto 30px auto; display: block;">
+        <form action="{url('mobileConsoles_login')}" method="post" id="mform">
+            <input type="hidden" name="code" value="{$code}" style="display:none;"/>
+            <input type="hidden" name="company" value="{$company}" style="display:none;"/>
+            <input type="hidden" name="recEN" value="{$recEN}" style="display:none;"/>
+            <div style="text-align: center;" class="show-message"> 自动登录中，请稍候..</div>
+
+        </form>
+    </div>
+{/block}

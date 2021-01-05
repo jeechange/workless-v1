@@ -1,0 +1,67 @@
+Admin\Entity\TaskGroupDiscuss:
+  type: entity
+  table: task_group_discuss
+  id:
+    id:
+      type: integer
+      nullable: false
+      unsigned: false
+      comment: ''
+      id: true
+      generator:
+        strategy: IDENTITY
+  fields:
+    tgId:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: tg_id
+    title:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    content:
+      type: string
+      nullable: true
+      length: 2048
+      fixed: false
+      comment: ''
+    addTime:
+      type: datetime
+      nullable: true
+      comment: ''
+      column: add_time
+    readIds:
+      type: string
+      nullable: true
+      length: 2048
+      fixed: false
+      comment: ''
+      column: read_ids
+    userId:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: user_id
+    ruserId:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: ruser_id
+    types:
+      type: smallint
+      nullable: true
+      unsigned: false
+      comment: ''
+    thumbs:
+      type: string
+      nullable: true
+      length: 2048
+      fixed: false
+      comment: ''
+  lifecycleCallbacks: {  }

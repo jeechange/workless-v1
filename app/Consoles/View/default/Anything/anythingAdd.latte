@@ -1,0 +1,220 @@
+{layout '../Public/sideForm.latte'}
+{block title}添加备忘{/block}
+
+{block private_css}
+    <style>
+        td{
+            line-height:30px !important;
+        }
+
+        .selectIcon{
+            float:left;
+            width:18px;
+            height:18px;
+            margin:6px 0 6px 5px;
+            display:block;
+        }
+
+        #todayBox, #tomorrowBox, #somedayBox, #certaindayBox{
+            overflow:hidden;
+            margin-bottom:5px;
+            margin-right:15px;
+            float:left;
+        }
+
+        #todayBox:hover, #tomorrowBox:hover, #somedayBox:hover, #certaindayBox:hover{
+            cursor:pointer;
+        }
+    </style>
+{/block}
+
+{block private_js}
+    <script>
+        $(function () {
+            $("#todayBox").click(function () {
+
+                $("#tomorrowBox").attr("data-status", "unselected");
+                $("#tomorrowBox").children("img").attr("src",{path('[Consoles]/images/unselected.png')});
+                $("#somedayBox").attr("data-status", "unselected");
+                $("#somedayBox").children("img").attr("src",{path('[Consoles]/images/unselected.png')});
+                $("#certaindayBox").attr("data-status", "unselected");
+                $("#certaindayBox").children("img").attr("src",{path('[Consoles]/images/unselected.png')});
+                $("#dateInput").css("display", "none");
+
+                var status = $(this).attr("data-status");
+                if (status == "unselected") {
+                    $(this).children("img").attr("src",{path('[Consoles]/images/selected.png')});
+                    $(this).attr("data-status", "selected");
+                    $("#types").val("today");
+                } else {
+                    $(this).children("img").attr("src",{path('[Consoles]/images/unselected.png')});
+                    $(this).attr("data-status", "unselected");
+                    $("#types").val("");
+                }
+            })
+
+            $("#tomorrowBox").click(function () {
+
+                $("#todayBox").attr("data-status", "unselected");
+                $("#todayBox").children("img").attr("src",{path('[Consoles]/images/unselected.png')});
+                $("#somedayBox").attr("data-status", "unselected");
+                $("#somedayBox").children("img").attr("src",{path('[Consoles]/images/unselected.png')});
+                $("#certaindayBox").attr("data-status", "unselected");
+                $("#certaindayBox").children("img").attr("src",{path('[Consoles]/images/unselected.png')});
+                $("#dateInput").css("display", "none");
+
+                var status = $(this).attr("data-status");
+                if (status == "unselected") {
+                    $(this).children("img").attr("src",{path('[Consoles]/images/selected.png')});
+                    $(this).attr("data-status", "selected");
+                    $("#types").val("tomorrow");
+                } else {
+                    $(this).children("img").attr("src",{path('[Consoles]/images/unselected.png')});
+                    $(this).attr("data-status", "unselected");
+                    $("#types").val("");
+                }
+            })
+
+            $("#somedayBox").click(function () {
+
+                $("#tomorrowBox").attr("data-status", "unselected");
+                $("#tomorrowBox").children("img").attr("src",{path('[Consoles]/images/unselected.png')});
+                $("#todayBox").attr("data-status", "unselected");
+                $("#todayBox").children("img").attr("src",{path('[Consoles]/images/unselected.png')});
+                $("#certaindayBox").attr("data-status", "unselected");
+                $("#certaindayBox").children("img").attr("src",{path('[Consoles]/images/unselected.png')});
+                $("#dateInput").css("display", "none");
+
+                var status = $(this).attr("data-status");
+                if (status == "unselected") {
+                    $(this).children("img").attr("src",{path('[Consoles]/images/selected.png')});
+                    $(this).attr("data-status", "selected");
+                    $("#types").val("someday");
+                } else {
+                    $(this).children("img").attr("src",{path('[Consoles]/images/unselected.png')});
+                    $(this).attr("data-status", "unselected");
+                    $("#types").val("");
+                }
+            })
+
+            $("#certaindayBox").click(function () {
+                $("#tomorrowBox").attr("data-status", "unselected");
+                $("#tomorrowBox").children("img").attr("src",{path('[Consoles]/images/unselected.png')});
+                $("#todayBox").attr("data-status", "unselected");
+                $("#todayBox").children("img").attr("src",{path('[Consoles]/images/unselected.png')});
+                $("#somedayBox").attr("data-status", "unselected");
+                $("#somedayBox").children("img").attr("src",{path('[Consoles]/images/unselected.png')});
+                var status = $(this).attr("data-status");
+                if (status == "unselected") {
+                    $(this).children("img").attr("src",{path('[Consoles]/images/selected.png')});
+                    $(this).attr("data-status", "selected");
+                    $("#dateInput").css("display", "block");
+                    $("#types").val("certainday");
+                } else {
+                    $(this).children("img").attr("src",{path('[Consoles]/images/unselected.png')});
+                    $(this).attr("data-status", "unselected");
+                    $("#dateInput").css("display", "none");
+                    $("#types").val("");
+                }
+            })
+
+            $(".selectgTypes").click(function () {
+                var gTypes = $("input[name='gTypes']:checked").val();
+                if (gTypes == 1) {
+                    $(".gTypes_show").show();
+                } else {
+                    $(".gTypes_show").hide();
+                }
+            });
+        })
+    </script>
+{/block}
+
+{block content}
+    <form id="formArticle" class="stdform mform" method="post" action="" onsubmit="return false">
+        <table cellpadding="0" cellspacing="0" border="0" id="frmtable" class="formtable">
+            <thead>
+            {if $lists}
+                <tr>
+                    <td><label>是否关联项目</label></td>
+                    <td>
+                        <div class="control-group ">
+                            <div class="field input-group selectgTypes">
+                                <input type="radio" name="gTypes" value="0" checked>否
+                                <input type="radio" name="gTypes" value="1">是
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="gTypes_show" style="display:none">
+                    <td><label>项目</label></td>
+                    <td>
+                        <div class="control-group ">
+                            <div class="field input-group">
+                                <select name="tgId" id="tgId">
+                                    <option value="0">请选择项目</option>
+                                    {foreach $lists as $key=>$item}
+                                        <option value="{$item['id']}">{$item['names']}</option>
+                                    {/foreach}
+                                </select>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            {/if}
+            <tr>
+                <td><label>内容</label></td>
+                <td>
+                    <div class="control-group ">
+                        <div class="field input-group">
+                            {*<input type="text" id="frm_names" class="smallinput" name="content"/>*}
+                            <textarea name="content"></textarea>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td><label>完成时间</label></td>
+                <td>
+                    <div class="control-group ">
+                        <div class="field input-group">
+                            <div id="todayBox" data-status="selected">
+                                <p style="float: left;">今天</p>
+                                <img class="selectIcon" src="{path('[Consoles]/images/selected.png')}"/>
+                            </div>
+                            <div id="tomorrowBox" data-status="unselected">
+                                <p style="float: left;">明天</p>
+                                <img class="selectIcon" src="{path('[Consoles]/images/unselected.png')}"/>
+                            </div>
+                            <div id="somedayBox" data-status="unselected">
+                                <p style="float: left;">某天</p>
+                                <img class="selectIcon" src="{path('[Consoles]/images/unselected.png')}"/>
+                            </div>
+                            <div id="certaindayBox" data-status="unselected">
+                                <p style="float: left;">具体日期</p>
+                                <img class="selectIcon" src="{path('[Consoles]/images/unselected.png')}"/>
+                            </div>
+                            <input id="types" type="hidden" name="types" value="today">
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td><label></label></td>
+                <td>
+                    <div class="control-group ">
+                        <div class="field input-group">
+                            <div id="dateInput" style="display: none;">
+                                <input type="text" class="laydate" id="certainTime" name="certainTime" style="width: 180px;">
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+
+
+            </thead>
+        </table>
+        <div style="margin-bottom: 40px;"></div>
+    </form>
+{/block}

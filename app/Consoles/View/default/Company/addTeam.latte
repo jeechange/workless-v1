@@ -1,0 +1,258 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
+    <title>{seo()->getTitle()}</title>
+    <meta name="keywords" content="{seo()->getKeywords()}"/>
+    <meta name="description" content="{seo()->getDescription()}"/>
+    <link type="text/css" rel="stylesheet" href="{path('[Jeechange]/metroUI/css/layout.css')}"/>
+    <link href="{path('[Jeechange]/metroUI/css/content.css') }" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" type="text/css" href="{path('[Home]/fonts/iconfont.css')}"/>
+    <!--[if lte IE 8]>
+    <link rel="stylesheet" type="text/css" href="{path('[Admin]/css/ie8.css')}"/>
+    <![endif]-->
+    <script type="text/javascript" src="{path('[Jeechange]/js/jquery-1.8.3.min.js')}"></script>
+    <script type="text/javascript" src="{path('[Jeechange]/plugins/address.js')}"></script>
+    <script type="text/javascript" src="{path('[Core]/layer/layer.js')}"></script><!-- 弹出层 -->
+    <style type="text/css">
+        td{
+            line-height:40px !important;
+        }
+
+        #submitBtn, .btns{
+            width:80px;
+            background:#4f91e4;
+            margin:50px 50px 50px 0;
+            border:none;
+            color:#fff;
+            height:50px;
+            line-height:50px;
+            text-align:center;
+            float:left;
+        }
+
+        #submitBtn:hover, .btns:hover{
+            cursor:pointer;
+            color:#fff;
+            text-decoration:none;
+        }
+
+        .contentMain{
+            margin:0 auto;
+            padding:0 20px;
+            width:1000px;
+            background:#fff;
+            display:block;
+        }
+    </style>
+</head>
+
+<body class="index-body" style="overflow-y:scroll;">
+<div class="contentMain">
+    <div class="headNavT" style="overflow: hidden;height: unset;">
+        <div class="headNavMark"></div>
+        <span class="alicon icon-xiangshuyun"
+              style="font-size:48px;color:#0087e1;display:block;height:48px;margin:10px 0;float: left;"></span>
+        <span class="headNavT-title" style="float: left;line-height: 48px;margin:10px 0 10px 20px;font-size: 16px;">创建团队/企业</span>
+        {*<div class="head-action-tab">*}
+        {*<a href="{url('consoles_lists','con=Company')}" {if $active=="toggle"}class="selected"{/if}>所有团队/企业</a>*}
+        {*<a href="{url('consoles_company_inviteMe')}" {if $active=="inviteMe"}class="selected"{/if}>邀请我加入的企业</a>*}
+        {*</div>*}
+    </div>
+    <form id="formArticle" class="stdform mform" method="post" action="{url("consoles_company_addTeam")}"
+          onsubmit="return false">
+        <table cellpadding="0" cellspacing="0" border="0" id="frmtable" class="formtable">
+            <thead>
+            {*<tr>*}
+                {*<td colspan="2">*}
+                    {*<div class="split-line" style="border-bottom: unset;margin-bottom: unset;">基础信息</div>*}
+                {*</td>*}
+            {*</tr>*}
+            <tr>
+                <td><label>企业名称</label></td>
+                <td>
+                    <div class="control-group ">
+                        <div class="field input-group">
+                            <input type="text" id="frm_names" class="smallinput" name="names"/>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            {*<tr>*}
+                {*<td><label>企业法人</label></td>*}
+                {*<td>*}
+                    {*<div class="control-group ">*}
+                        {*<div class="field input-group">*}
+                            {*<input type="text" id="frm_legal" class="smallinput" name="legal"/>*}
+                        {*</div>*}
+                    {*</div>*}
+                {*</td>*}
+            {*</tr>*}
+            <tr>
+                <td><label>行业</label></td>
+                <td>
+                    <div class="control-group ">
+                        <div class="field input-group">
+                            <select id="industry" name="industry">
+                                <option value="0">==请选择==</option>
+                                {$industry|noescape}
+                            </select>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td><label>企业规模</label></td>
+                <td>
+                    <div class="field control-group">
+                        <div class="input-group">
+                            <select name="scales">
+                                <option value="-1">==请选择==</option>
+                                {foreach $scales as $scale=>$scalesMemo}
+                                    <option value="{$scale}">{$scalesMemo}</option>
+                                {/foreach}
+                            </select>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            {*<tr>*}
+                {*<td colspan="2">*}
+                    {*<div class="split-line" style="border-bottom: unset;margin-bottom: unset;">联系人信息</div>*}
+                {*</td>*}
+            {*</tr>*}
+            {*<tr>*}
+                {*<td><label>联系人姓名</label></td>*}
+                {*<td>*}
+                    {*<div class="control-group ">*}
+                        {*<div class="field input-group">*}
+                            {*<input type="text" id="frm_contact" class="smallinput" name="contact"/>*}
+                        {*</div>*}
+                    {*</div>*}
+                {*</td>*}
+            {*</tr>*}
+            {*<tr>*}
+                {*<td><label>联系人手机</label></td>*}
+                {*<td>*}
+                    {*<div class="control-group ">*}
+                        {*<div class="field input-group">*}
+                            {*<input type="text" id="frm_contactPhone" class="smallinput" name="contactPhone"/>*}
+                        {*</div>*}
+                    {*</div>*}
+                {*</td>*}
+            {*</tr>*}
+            <tr>
+                <td><label>联系人邮箱</label></td>
+                <td>
+                    <div class="control-group ">
+                        <div class="field input-group">
+                            <input type="text" id="frm_email" class="smallinput" name="email"/>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            {*<tr>*}
+                {*<td colspan="2">*}
+                    {*<div class="split-line" style="border-bottom: unset;margin-bottom: unset;">其他信息</div>*}
+                {*</td>*}
+            {*</tr>*}
+            {*<tr>*}
+                {*<td><label>地区</label></td>*}
+                {*<td>*}
+                    {*<div class="control-group ">*}
+                        {*<div class="field input-group">*}
+                            {*<select name="province" id="province"></select>&nbsp;*}
+                            {*<select name="city" id="city"></select>&nbsp;*}
+                            {*<select name="area" id="area"></select>*}
+                        {*</div>*}
+                    {*</div>*}
+                {*</td>*}
+            {*</tr>*}
+            {*<tr>*}
+                {*<td><label>详细地址</label></td>*}
+                {*<td>*}
+                    {*<div class="control-group ">*}
+                        {*<div class="field input-group">*}
+                            {*<input type="text" id="frm_address" class="smallinput" name="address"*}
+                                   {*style="width: 435px;"/>*}
+                        {*</div>*}
+                    {*</div>*}
+                {*</td>*}
+            {*</tr>*}
+            <tr>
+                <td><label>通过何种途径了解到我们</label></td>
+                <td>
+                    <div class="control-group ">
+                        <div class="field input-group">
+                            <select id="source" name="source">
+                                <option value="0">==请选择==</option>
+                                {foreach $source as $k=>$sourceMemo}
+                                    <option value="{$k}">{$sourceMemo}</option>
+                                {/foreach}
+                            </select>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            {*<tr>*}
+                {*<td><label>标准模板</label></td>*}
+                {*<td>*}
+                    {*<div class="control-group ">*}
+                        {*<div class="field input-group">*}
+                            {*<select id="template" name="template">*}
+                                {*{foreach $temLists as $k=>$v}*}
+                                    {*<option value="{$v[0]}">{$v[1]}</option>*}
+                                {*{/foreach}*}
+                            {*</select>*}
+                        {*</div>*}
+                    {*</div>*}
+                {*</td>*}
+            {*</tr>*}
+            <tr>
+                <td><label></label></td>
+                <td>
+                    <div class="control-group ">
+                        <div class="field input-group">
+                            <input class="btns" type="submit" id="submitBtn" value="提 交"/>
+                            <a class="btns" href="{url("consoles_login_guide")}" style="display: block;">返 回</a>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+
+            </thead>
+        </table>
+
+
+        <div style="margin-bottom: 40px;"></div>
+    </form>
+</div>
+</body>
+<script type="text/javascript" n:syntax="double">
+
+    $(function () {
+        addressInit("province", "city", "area")
+    });
+
+    $('#formArticle').on("submit", function () {
+        $.ajax({
+            type: "post",
+            url: $(this).attr("action"),
+            data: $("#formArticle").serialize(),
+            cache: false,
+            dataType: "json",
+            success: function (res) {
+                layer.alert(res.info);
+                if (res.status == "n") {
+                    return false;
+                } else {
+                    location.replace(res.url);
+                }
+
+            }
+        });
+        return false;
+    })
+</script>
+</html>

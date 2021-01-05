@@ -1,0 +1,77 @@
+Admin\Entity\TaskCycle:
+  type: entity
+  table: task_cycle
+  id:
+    id:
+      type: integer
+      nullable: false
+      unsigned: false
+      comment: ''
+      id: true
+      generator:
+        strategy: IDENTITY
+  fields:
+    sid:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+    codeNo:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: code_no
+    cycleTypes:
+      type: smallint
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: cycle_types
+    cycleTimes:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: cycle_times
+    cycleStart:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+      column: cycle_start
+    cycleEnd:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+      column: cycle_end
+    firstTime:
+      type: datetime
+      nullable: true
+      comment: ''
+      column: first_time
+    lastTime:
+      type: datetime
+      nullable: true
+      comment: ''
+      column: last_time
+    cycleNext:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: cycle_next
+    status:
+      type: smallint
+      nullable: true
+      unsigned: false
+      comment: ''
+    addTime:
+      type: datetime
+      nullable: true
+      comment: ''
+      column: add_time
+  lifecycleCallbacks: {  }

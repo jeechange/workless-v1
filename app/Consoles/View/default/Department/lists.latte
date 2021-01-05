@@ -1,0 +1,51 @@
+{layout '../Public/layoutList.latte'} {*继承layoutList模板*}
+{block title}
+    <span><a style="color: #0087e1;margin-right: 10px;font-size: 16px;" href="{url('consoles_lists',"con=Company")}">返回</a></span>
+    组织架构-{$company->getNames()}{/block}
+{block actions}<a href="{url('consoles_add','con=Department&sid='.$sid)}" class="icon-adds" data-side-form>添加部门</a>{/block}
+
+{*选中记录的操作按钮*}
+{block actions2}
+    <div class="list-more-action-item" data-url="{url('consoles_delete_mul','con=Department')}">删除部门</div>
+{/block}
+{block actionstab}
+    {include "../Department/actionstab.latte"}
+{/block}
+{block content}
+    <table cellpadding="0" cellspacing="0" border="0" class="stdtable">
+        <thead>
+        <tr>
+            <th></th>
+            <th data-sort="d.names"><span class="table-head">部门名称</span></th> {*在th加入 data-sort 可对数据库进行排序*}
+            <th data-sort="d.parentid"><span class="table-head">上级部门</span></th>
+            <th data-sort="d.director"><span class="table-head">负责人</span></th>
+            <th data-sort="d.phone"><span class="table-head">负责人手机</span></th>
+            <th data-sort="d.directors"><span class="table-head">助手</span></th>
+            <th><span class="table-head">部门人数</span></th>
+            <th data-sort="d.status"><span class="table-head">状态</span></th>
+            <th><span class="table-head">操作</span></th>
+        </tr>
+        </thead>
+        <tbody>
+        {foreach $lists as $k=>$item}
+            <tr>
+                <td style="width: 60px;"><input type="checkbox" name='ids[]' class="checkall_1 checkall-item" value="{$item['d_id']}"/></td>
+                <td class="wid-auto">{$item['d_names']}</td>
+                <td class="wid-auto">{$item['d_parentName']}</td>
+                <td class="wid-auto">{$item['d_director']}</td>
+                <td class="wid-auto">{$item['d_phone']}</td>
+                <td class="wid-auto">{$item['d_directors']}</td>
+                <td class="wid-auto">{$item['a_total']}</td>
+                <td class="center">{$item["statusMemo"]}</td>
+                <td>
+                    <a href="{url('consoles_mod','con=department&id='.$item['d_id'])}" data-side-form>编辑</a>
+                </td>
+            </tr>
+        {/foreach}
+        </tbody>
+    </table>
+{/block}
+
+
+
+

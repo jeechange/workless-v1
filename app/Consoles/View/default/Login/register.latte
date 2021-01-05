@@ -1,0 +1,231 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
+    <title>{seo()->getTitle()}</title>
+    <meta name="keywords" content="{seo()->getKeywords()}"/>
+    <meta name="description" content="{seo()->getDescription()}"/>
+    <link type="text/css" rel="stylesheet" href="{path('[Jeechange]/metroUI/css/login.css')}"/>
+    <!--[if lte IE 8]>
+    <link rel="stylesheet" type="text/css" href="{path('[Admin]/css/ie8.css')}"/>
+    <![endif]-->
+    <script type="text/javascript" src="{path('[Jeechange]/js/jquery-1.8.3.min.js')}"></script>
+    <style type="text/css">
+        .login_bg_form .loginform, .loginBoxCenter .loginInput{
+            behavior:url({path('[Admin]/css/iecss3.htc')})
+        }
+
+        .red{
+            color:red;
+        }
+
+        .msg-box{
+            top:-32px;
+            left:-310px;
+        }
+    </style>
+    <script type="text/javascript" src="{path('[Core]/layer/layer.min.js')}"></script>
+    <script type="text/javascript" src="{path('[Core]/layer/layer.js')}"></script>
+    <link rel="stylesheet" href="{path('[Core]/niceue/validator/jquery.validator.css')}" type="text/css"/>
+    <script type="text/javascript" src="{path('[Core]/niceue/validator/jquery.validator.js') }"></script>
+    <script type="text/javascript" src="{path('[Core]/niceue/validator/local/zh_CN.js')}"></script>
+    <script type="text/javascript" n:syntax="double">
+        $(function () {
+            $('.mform').validator({
+                fields: {
+                    'userName': '用户名: required;length[6~18, true];remote[{{url('consoles_register_registerajaxcheck')|noescape}}];',
+                    'pwd': '密码: required;length[6~18, true]',
+                    'pwd_confirm': '确认密码: ; match[eq, password];',
+                    'phone': '手机号码:required;mobile;remote[{{url('consoles_register_PhoneAjaxCheck')|noescape}}];',
+//                    'code': '手机验证码:required;'
+                }
+            });
+        });
+    </script>
+</head>
+<body class="login">
+
+<div id="input-form-warp" style="display: none;">
+    <br>
+    <form action="{url('consoles_register_inputCode')}" class="form-horizontal" method="post" id="input-form" enctype="multipart/form-data" style="margin:20px">
+        <div class="control-group">
+            <label class="control-label" for="appendedPrependedInput" style="font-size:16px;margin-bottom:12px;">验证码<span class="red">*</span>：</label>
+            <div class="controls" style="margin-top:10px;">
+                <input id="verify" class="loginInput" type="text" placeholder="请输入验证码" autocomplete="off" name="verify" style='width:220px; height:45px;    padding: 0 0 0 10px;'>
+                <img id="getverify" src="" width="117" height="47" onerror="getvalidate(this)" onclick="getvalidate(this);"/>
+            </div>    <!-- /controls -->
+        </div>
+    </form>
+</div>
+
+<div class="login_top" style="margin:1% auto"><a href="https://www.jeechange.com/"><img src="{path('[Admin]/images/logo-max.png')}"/></a></div>
+<div class="login_bg_form">
+    <div class="loginform">
+        <div class="login-box-plain">
+            <h2>用 户 登 录</h2>
+            {if $message}
+                <div style="color:red;font-size:14px; padding-top: 5px;">{$message}</div>
+            {/if}
+            <form id="loginform" method="post" action="" class="mform">
+                <div class="loginBoxCenter">
+                    <p>
+                        <label for="userName">用户名<span class="red">*</span>：</label>
+                    </p>
+
+                    <p>
+                        <input id="userName" class="loginInput" type="text" placeholder="请输入用户名" autocomplete="off" name="userName" value="">
+                    </p>
+
+                    <p>
+                        <label for="phone">手机号码<span class="red">*</span>：</label>
+                    </p>
+
+                    <p>
+                        <input id="phone" class="loginInput" type="text" placeholder="请输入手机号码" autocomplete="off" name="phone" value="">
+                    </p>
+
+                    <p>
+                        <input class="loginInput codeinput" type="text" placeholder="请输入短信验证码" autocomplete="off" name="code" style="float:left;margin-left:0;">
+                    </p>
+
+                    <p style="height:53px;">
+                        <a id="code" class="code input-code" href="{url('consoles_register_inputCode')}" style="margin-left:10px; margin-right:5px;float:left">获取短信验证码</a>
+                    </p>
+
+                    <p>
+                        <label for="pwd">密码<span class="red">*</span>：</label>
+                    </p>
+                    <p>
+                        <input id="pwd" class="loginInput " type="password" placeholder="请输入密码" autocomplete="off" name="pwd">
+                    </p>
+                    <p>
+                        <label for="pwd1">确认密码<span class="red">*</span>：</label>
+                    </p>
+                    <p>
+                        <input id="pwd1" class="loginInput" type="password" placeholder="请输入确认密码" autocomplete="off" name="pwd_confirm">
+                    </p>
+                    <p>
+                        <input class="btn btn-login" type="submit" value="注 册"/>
+                    </p>
+                    <p style="float:right">
+                        <span><a href="{url("consoles_login_login")}">返回登陆</a></span>
+                    </p>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+<script type="text/javascript" n:syntax="double">
+    var imageCode = "";
+
+    function getvalidate(obj) {
+        var url = {{url('consoles_register_getverify')}} +"?r=" + Math.random();
+        $.ajax({
+            type: "get",
+            url: url,
+            cache: false,
+            complete: function (jqXHR) {
+                if (jqXHR.statusText != "OK") {
+                    return;
+                }
+                obj.src = jqXHR.responseText;
+                var headers = jqXHR.getAllResponseHeaders().match(/Image\-Code\: ([0-9a-z]{32})/);
+                if (headers) {
+                    imageCode = headers[1];
+                }
+            }
+        });
+    }
+
+    $("#userName").blur(function () {
+        var userName = $('#userName').val();
+        var url = {{url('consoles_register_registerajaxcheck')}} +"?userName=" + userName;
+        $("#message").css("display", "none");
+        $.ajax({
+            type: "post",
+            url: url,
+            cache: false,
+            dataType: "json",
+            success: function (data) {
+                if (data.status == "n") {
+                    $("#message").empty();
+                    $("#message").css("display", "block");
+                    $("#message").html(data.error);
+                }
+            }
+        });
+    });
+
+    function imgloading(event) {
+        console.log(event);
+    }
+
+    $(function () {
+
+        var sms_code = {
+            init: false,
+            second: 0
+        };
+        setInterval(function () {
+            if (sms_code.second >= 0) {
+                sms_code.second--;
+            }
+            if (sms_code.second > 0) {
+                $(".input-code").text(sms_code.second + "秒後重新获取");
+            } else {
+                $(".input-code").text(sms_code.init ? "重新获取短信验证码" : "获取短信验证码");
+            }
+        }, 1000);
+        $('.input-code').click(function () {
+            if ($("#phone").val() == "") {
+                layer.alert("请填入您的手机号码");
+                return false;
+            }
+            if (sms_code.second > 0) {
+                layer.alert("请" + sms_code.second + "秒後重新获取");
+                return false;
+            }
+            $('#getverify').click();
+            $("#verify").val("");
+            var layerIndex = layer.open({
+                title: '获取短信验证码',
+                type: 1,
+                closeBtn: 0,
+                shadeClose: true,
+                area: ['400px;', '240px'], //宽高
+                content: $('#input-form-warp'), //捕获的元素
+                btn: ['提交', '放弃'],
+                yes: function () {
+                    if ($("#verify").val() == "") {
+                        layer.alert("请填入验证码");
+                        return false;
+                    }
+                    $.ajax({
+                        url: "{{url("consoles_register_inputCode")|noescape}}",
+                        type: "POST",
+                        data: {
+                            "verify": $("#verify").val(),
+                            "phone": $("#phone").val(),
+                        },
+                        dataType: "json",
+                        success: function (res) {
+                            sms_code.init = true;
+                            $('#getverify').click();
+                            $("#verify").val("");
+                            if (res.status == 'n') {
+                                layer.alert(res.info);
+                                sms_code.second = 0;
+                            } else {
+                                layer.close(layerIndex);
+                                sms_code.second = 60;
+                            }
+                        }
+                    });
+                }
+            });
+            return false;
+        });
+    })
+</script>
+</html>

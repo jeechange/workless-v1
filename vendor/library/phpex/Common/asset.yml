@@ -1,0 +1,38 @@
+basedir: public
+safe_access_script: "safe_access_script.php?upload/"
+folder:
+    'Home': home
+    'Admin': admin    
+_empty:
+    input: %core.main getMainRoot%/Common/phpex_empty.jpg 
+    output: phpex_empty.jpg 
+water:
+    default:
+        prefix: wd_
+        path: %core.main getMainRoot%/Common/phpex_water.jpg
+        alpha: 80
+        position: 9
+        margin: 10
+thumb:            
+    small:
+       prefix: s_
+       size: 80*80               
+    middle:
+       prefix: m_
+       size: 150*150  
+    big:
+       prefix: b_
+       size: 300*150               
+clip:
+    small:
+       prefix: cs_
+       size: 300*150
+       point: "0,0"
+    middle:
+       prefix: cm_
+       size: 300*150
+       point: "0,0"
+    big:
+       prefix: cb_
+       size: 300*150
+       point: "0,0"

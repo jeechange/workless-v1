@@ -1,0 +1,5 @@
+<div class="tabs" style="height:3.2rem;line-height:3.2rem">
+    <a href="{url("mobileConsoles_acorn_apply","tabs_two=Action")}" class="tabs-link{if $active=='submit'} active{/if}" style="margin-left:6px;">提交申请</a>
+    <a href="{url("mobileConsoles_acorn_applyLists","types=my")}" class="tabs-link{if $active=='my'} active{/if}">我的申请</a>
+    <a href="{url("mobileConsoles_acorn_auditLists","types=audit")}" class="tabs-link{if $active=='audit'} active{/if} {if $redDot['home']['acorn']['audit'] > 0}redDotTwo{/if}">我的审核</a>
+</div>

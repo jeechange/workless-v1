@@ -1,0 +1,154 @@
+<div class="popup index-popup" data-relate-id="info">
+    <header class="bar bar-nav" style="height:2.8rem;line-height:2.8rem">
+        <a class="button button-link button-nav pull-right close-popup" style="line-height:2.8rem;margin-right:0.5rem">
+            关闭
+        </a>
+        <h1 class="title" style="height:2.8rem;line-height:2.8rem;text-align:left;padding-left:15px;">选择积分事项</h1>
+    </header>
+    <div class="content">
+        <div class="searchbar" style="background: rgb(255, 255, 255);border: 1px solid #ddd;border-radius: 25px;margin-top: 1.1rem;">
+            <form action="" method="get">
+                <a class="searchbar-cancel">取消</a>
+                <div class="search-input">
+                    <label class="icon icon-search" for="search"></label>
+                    <input type="search" id='search' oninput="findStandard.call(this)" placeholder='输入关键字...' style="border:none"/>
+                </div>
+            </form>
+        </div>
+        <div class="list-block standard-block">
+            {if $lists}
+                <ul>
+                    {foreach $lists as $v}
+                        <li data-names-keyword="{$v['s_names']}">
+                            <a data-names="{$v['s_names']}" {if $v['s_acorn'] != 0} data-acorn="{$v['s_acorn']}" {else} data-acorn="不预设"{/if} class="item-content close-popup{if $v['s_acorn']<=0} negative{/if}" onclick="sid.call(this,{$v['s_id']})" data-href="{$url}">
+                                <div class="item-inner" style="min-height:3.6rem;">
+                                    <div class="item-name sui-ellipsis-1" style="line-height: 18px;">{$v['s_names']}</div>
+                                    {if $v['s_acorn'] != 0}
+                                        <div class="item-src">{$v['s_acorn']}<i class="icon al-icon al-icon-influence sui-font-size-rem-0-8"></i></div>
+                                    {else}
+                                        <div class="item-src">不预设</div>
+                                    {/if}
+                                    <div class="item-src" style="color:#0894ec">选择</div>
+                                </div>
+                            </a>
+                        </li>
+                    {/foreach}
+                </ul>
+            {else}
+                <div class="list" style="margin-top:100px;text-align:center">
+                    <img src="{path('[MobileConsoles]/img/null.png')}" alt="" class="" style="width:60%; height:100%;margin:0 20%;display:block;">
+                    <div>暂无内容</div>
+                </div>
+            {/if}
+        </div>
+    </div>
+</div>
+
+
+<style>
+    /*主页*/
+    .tabs_two{
+        background:#fff;
+        border-bottom:1px #faf9f9 solid;
+    }
+
+    .tabs_two a{
+        display:inline-block; s font-size:14px;
+        line-height:3.2rem;
+        color:#101010;
+        padding:0 2.25%;
+    }
+
+    .actives{
+        color:#0894ec !important;
+    }
+
+    .standard-block .list{
+        display:none;
+    }
+
+    .standard-block .list.selected{
+        display:block;
+    }
+
+    .list > li{
+        height:3.6rem;
+        line-height:3.6rem;
+    }
+
+    .list-block{
+        margin:.5rem 0;
+    }
+
+    .list-block ul:before, .list-block ul:after{
+        display:none;
+    }
+
+    .standard-block .item-content .item-name, .standard-block .item-content .item-src{
+        line-height:15px; color:#3d4145;
+    }
+
+    .standard-block .item-content.negative .item-name, .standard-block .item-content.negative .item-src{
+        color:red;
+    }
+
+    .standard-block .highlight{
+        color:#ff4a2b;
+        margin:0;
+        font-weight:700;
+    }
+
+    .standard-block .item-content.negative .highlight{
+        color:#3d4145;
+    }
+
+</style>
+<script type="text/javascript">
+    function tabsTwo(tabs) {
+        $(".tabs_two > a").attr("class", "");
+        $("#" + tabs).attr("class", "actives");
+        $("[data-standard-tab='" + tabs + "']").addClass("selected").siblings(".selected").removeClass("selected");
+    }
+
+    function findStandard() {
+        var val = $(this).val().toString().replace(/^\s+|\s+$/gm, '');
+        var lists = $(".standard-block").find("li[data-names-keyword]");
+        if (!val) {
+            $(".standard-block").find("li").show();
+            for (var i = 0; i < lists.length; i++) {
+                var text = $(lists[i]).find(".item-name").text();
+                $(lists[i]).find(".item-name").html(text);
+            }
+            return true;
+        }
+        for (var i = 0; i < lists.length; i++) {
+            var text = $(lists[i]).attr("data-names-keyword");
+            var indexOf = text.indexOf(val);
+            if (indexOf === -1) {
+                $(lists[i]).find(".item-name").html(text);
+                $(lists[i]).hide();
+                continue;
+            }
+            var newHtml = "";
+            if (indexOf === 0) {
+                newHtml = '<span class="highlight">' + val + '<\/span>' + text.substring(val.length);
+            }
+            if (indexOf > 0) {
+                newHtml = text.substring(0, indexOf) + '<span class="highlight">' + val + '<\/span>' + text.substring(val.length + indexOf);
+            }
+            $(lists[i]).find(".item-name").html(newHtml);
+            $(lists[i]).show();
+        }
+    }
+
+
+    function sid(id) {
+        var names = $(this).attr("data-names");
+        var acorn = $(this).attr("data-acorn");
+        $("#index").text(names);
+        $("#index").attr("class", "index-add open-popup open-worker-added-box");
+        $("#s_id").val(id);
+        $("#acorn").val(acorn);
+        $("#acorns").val(acorn)
+    }
+</script>

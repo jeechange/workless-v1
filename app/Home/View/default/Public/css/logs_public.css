@@ -1,0 +1,83 @@
+@media screen and (min-width:426px){
+
+    .problem{
+        margin-top:70px;
+    }
+    .problem ul{
+        margin-bottom:60px !important;
+    }
+
+    .problem_list ul li{
+        overflow:hidden;
+    }
+
+    .problem_list ul li a{
+        display:block;
+        overflow:hidden;
+    }
+
+    .problem_list ul li a img{
+        float:left;
+        width:190px;
+        height:124px;
+    }
+
+    .problem_list ul li a .conts{
+        float:left;
+        width:780px;
+        margin-left:30px;
+    }
+
+    .problem_list ul li h5{
+        line-height:33px;
+        font-size:23px;
+        font-weight:100;
+        margin-bottom:13px;
+        color:rgba(16, 16, 16, 1);
+    }
+
+    .problem_list ul li p{
+        font-size:14px;
+        line-height:20px;
+        color:rgba(16, 16, 16, 1);
+        overflow:hidden;
+        height:60px;
+    }
+
+    .problem_list ul li span{
+        line-height:20px;
+        color:rgba(16, 16, 16, 1);
+        overflow:hidden;
+        font-size:12px;
+    }
+
+    .problem_list ul li h5, .problem_list ul li p, .problem_list ul li span{
+        text-align:left;
+    }
+
+    .page-bar{
+        width:160px;
+        overflow:hidden;
+        text-align:center;
+        margin-bottom:40px;
+        margin-left:0;
+        margin-top:62px;
+    }
+
+    .page-bar > div{
+        display:inline-block;
+        padding:5px 10px;
+        border:#28559c 1px solid;
+        color:#28559c;
+        margin-right:20px;
+    }
+
+    .page-bar > div.page-current{
+        background:#28559c;
+        color:#FFF;
+    }
+
+    .page-describe, .page-size{
+        display:none !important;
+    }
+}

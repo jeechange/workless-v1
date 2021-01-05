@@ -1,0 +1,67 @@
+{layout "../Layout/layoutBoth.latte"}
+{block headTitle}添加项目{/block}
+{block tabs_content}
+    {include "./manageTabs.latte"}
+{/block}
+
+{block private_css}
+{/block}
+{block private_js}
+    {include "./listsJs.latte"}
+    <script type="text/javascript">
+        $("#bnt").click(function () {
+            $.ajax({
+                type: "post",
+                url: $("#formArticle").attr("action"),
+                data: $("#formArticle").serialize(),
+                cache: false,
+                dataType: "json",
+                success: function (data) {
+                    if (data.status == "n") {
+                        $.toast(data.info);
+                        return false;
+                    } else {
+                        $.toast(data.info);
+                        setTimeout(function () {
+                            location.replace(data.url);
+                        }, 2000);
+                    }
+                }
+            });
+        });
+
+    </script>
+{/block}
+{block content}
+    <div class="list-block" style="margin-top: 3rem;">
+        <form id="formArticle" class="stdform mform" method="post" action="" onsubmit="return false">
+            <ul>
+                <li class="cycleTypes-1">
+                    <div class="item-content">
+                        <div class="item-inner">
+                            <div class="item-title label">项目名称</div>
+                            <div class="item-input">
+                                <input type="text" id="names" placeholder="项目名称" class="" name="names">
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li class="cycleTypes-3">
+                    <div class="item-content">
+                        <div class="item-inner">
+                            <div class="item-title label">说明</div>
+                            <div class="item-input">
+                                <textarea id="memo" placeholder="请填写说明" class="" name="memo"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </form>
+        <div class="content-block">
+            <div class="col-95">
+                <div class="button button-big button-fill" id="bnt">提交</div>
+            </div>
+        </div>
+    </div>
+{/block}

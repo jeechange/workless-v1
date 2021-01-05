@@ -1,0 +1,43 @@
+{layout "../Layout/layout.latte"}
+{block headTitle}任务统计{/block}
+{block tabs_content}
+    {include "../Task/manageTabs.latte"}
+{/block}
+
+{block private_css}
+    <style>
+        .list-block .item-content{
+            min-height:2rem;
+            line-height:2rem;
+        }
+    </style>
+{/block}
+{block private_js}
+{/block}
+{block content}
+    <div class="list-block" style="margin-top: 3.1rem;">
+        <ul>
+            <li>
+                <a href="{url('mobileConsoles_taskStatistics_taskList')}" class="item-content item-link">
+                    <div class="item-inner">
+                        <div class="item-title"> 任务量统计</div>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a href="{url('mobileConsoles_taskStatistics_efficiency')}" class="item-content item-link">
+                    <div class="item-inner">
+                        <div class="item-title"> 效率统计</div>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a href="{url('mobileConsoles_taskStatistics_quality')}" class="item-content item-link">
+                    <div class="item-inner">
+                        <div class="item-title"> 质量统计</div>
+                    </div>
+                </a>
+            </li>
+        </ul>
+    </div>
+{/block}

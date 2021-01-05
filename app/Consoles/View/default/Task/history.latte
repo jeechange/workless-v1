@@ -1,0 +1,29 @@
+{layout '../Public/sideForm.latte'}
+{block title}历史任务{/block}
+{block submits}{/block}
+{block content}
+    <table cellpadding="0" cellspacing="0" border="0" class="stdtable">
+        <thead>
+        <tr>
+            <th><span class="table-head">任务编号</span></th>
+            <th><span class="table-head">时间</span></th>
+            <th><span class="table-head">状态</span></th>
+            <th><span class="table-head">操作</span></th>
+        </tr>
+        </thead>
+        <tbody>
+        {foreach $lists as $k=>$item}
+            <tr>
+                <td class="wid-auto">
+                    #{$item['t_codeNo']}-{$item['t_cycleUse']}
+                </td>
+                <td class="wid-auto">{$item['t_addTime']|totime} 至 {$item['t_deadline']|totime}</td>
+                <td class="wid-auto">{$item["statusMemo"]}</td>
+                <td style="width:140px !important;">
+                    <a class="right-exchange" href="{url('consoles_task_details','id='.$item["t_id"])}">详情</a>
+                </td>
+            </tr>
+        {/foreach}
+        </tbody>
+    </table>
+{/block}

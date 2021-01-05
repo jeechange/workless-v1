@@ -1,0 +1,15 @@
+##格式 id:[0:pid,1:names,2:route,3:params,4:sort,5:enable,6:show,7:iconn,8:access]
+---
+1: [0," ","admin_index_dashboard",{},0,1,1,"icon-zhuye"]
+2: [0,"企业管理","",{},0,1,1,"icon-menhu"]
+3: [0,"用户管理","",{},0,1,1,"icon-tuiguang"]
+4: [0,"财务管理","",{},0,1,1,"icon-gongjubao"]
+5: [0,"服务中心","",{},0,1,1,"icon-yonghu"]
+9: [0,"系统设置","",{},0,1,1,"icon-jiexiao-j"]
+
+21: [2,"企业列表","admin_lists",{con: Company},0,1,1,"icon-menhu"]
+22: [2,"企业申请列表","admin_lists",{con: CompanyAuth},0,1,1,"icon-menhu"]
+
+31: [3,"用户列表","admin_lists",{con: User},0,1,1,"icon-tuiguang"]
+
+91: [9,"自动脚本","admin_lists",{con: Crontabs},0,1,1,"icon-menhu"]

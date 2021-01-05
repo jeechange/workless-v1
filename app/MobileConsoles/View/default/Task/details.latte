@@ -1,0 +1,1300 @@
+{layout "../Layout/layout.latte"}
+{block headTitle}{$typesTitle}任务详情{/block}
+{block tabs_content}
+    {include "../Task/tabs.latte"}
+{/block}
+
+{block custom}
+    {include "../Public/custom.latte" , title1=>"选择执行人", title2=>"转派执行人"}
+    <div class="popup dynamic-popup" data-relate-id="info">
+        <header class="bar bar-nav">
+            <a class="button button-link button-nav pull-right close-popup">
+                关闭
+            </a>
+            <h1 class="title">发布动态</h1>
+        </header>
+        <div data-url="{url("mobileConsoles_taskme_addDynamic",array("id"=>$task->getId()))}" class="bar bar-standard bar-footer list-study-block dynamic-submit">
+            提交
+        </div>
+        <div class="content">
+            <div class="content-inner">
+                <div class="content-block">
+                    <div class="list-block" style="margin-top: 2.3rem;">
+
+                        <div class="field-item">
+                            <div class="field-item-title">
+                                动态内容
+                            </div>
+                            <div class="field-item-body">
+                                <textarea class="dynamic-content"></textarea>
+                            </div>
+                        </div>
+                        <div class="field-item">
+                            <div class="field-item-title">
+                                图片
+                            </div>
+                            <div class="field-item-body">
+                                <span class="pic-add">&plus;<input type="file" id="pics" name="pics" accept="image/*" onchange="handleInputChange(this)"/></span>
+                                <input type="hidden" class="pics-added-save dynamic-thumbs" name="thumbs">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {if $task->getTypes()==3 && count($lists)>1}
+        <div class="popup history-popup">
+            <header class="bar bar-nav">
+                <a class="button button-link button-nav pull-right close-popup">
+                    关闭
+                </a>
+                <h1 class="title">历史任务</h1>
+            </header>
+            <div class="content">
+                <div class="content-inner">
+                    <div class="content-block">
+                        <div class="list-block" style="margin-top: 2.3rem;">
+                            {foreach $lists as $k=>$item}
+                                <div class="card">
+                                    <div class="card-header">#{$item['t_codeNo']}-{$item['t_cycleUse']} <a class="right-exchange" href="{url('mobileConsoles_task_details','id='.$item["t_id"])}" style="float:right">详情</a></div>
+                                    <div class="card-content">
+                                        <div class="card-content-inner">{$item['t_addTime']|totime} 至 {$item['t_deadline']|totime}</div>
+                                        <div class="card-content-inner">{$item["statusMemo"]}</div>
+                                    </div>
+                                </div>
+                            {/foreach}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {/if}
+    <div class="popup task-done-popup">
+        <header class="bar bar-nav">
+            <a class="button button-link button-nav pull-right close-popup">
+                关闭
+            </a>
+            <h1 class="title">交付任务</h1>
+        </header>
+        <div class="content">
+            <div class="content-inner">
+                <div class="list-block form-group-create">
+                    <ul>
+                        <!-- Text inputs -->
+                        <li>
+                            <div class="item-content">
+                                <div class="item-inner">
+                                    <div class="item-title label">预估任务量</div>
+                                    <div class="item-input" style="padding-left:20px">{$workloadMemo}</div>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="item-content">
+                                <div class="item-inner">
+                                    <div class="item-title label">耗时</div>
+                                    <div class="item-input">
+                                        <div class="input-workload" style="padding-left: 0;">
+                                            {*<span id="workload_day_box"><input value="0" id="workload_day">天</span>*}
+
+                                            <input id="picker-workload" class="workload" value="0天 0小时 0分钟" readonly style="appearance: menulist;
+        -webkit-appearance: menulist;"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        {if $task->getStandardTypes()==2}
+                            <li>
+                                <div class="item-content">
+                                    <div class="item-inner">
+                                        <div class="item-title label">完成数量</div>
+                                        <div class="item-input" style="padding:0 15px">
+                                            <input type="text" id="accept-num" value="0" style="border-bottom: #e7e7e7 1px solid;padding:5px 0;text-align:center;font-size:1rem"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        {/if}
+                        <li class="align-top">
+                            <div class="item-content">
+                                <div class="item-inner">
+                                    <div class="item-input">
+                                        <textarea id="accept-memo" placeholder="附加说明"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="content-block">
+                        <div class="row">
+                            <div class="col-100">
+                                <a href="#" class="button button-big button-fill button-success submit-dynamic-action" data-types="done">提交</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="popup task-redeploy-popup">
+        <header class="bar bar-nav">
+            <a class="button button-link button-nav pull-right close-popup">
+                关闭
+            </a>
+            <h1 class="title">转派他人</h1>
+        </header>
+        <div class="content">
+            <div class="content-inner">
+                <div class="list-block form-group-create">
+                    <ul>
+                        <!-- Text inputs -->
+                        <li>
+                            <div class="item-content">
+                                <div class="item-inner">
+                                    <div class="item-title label">预估任务量</div>
+                                    <div class="item-input" style="padding-left:20px">{$workloadMemo}</div>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="item-content">
+                                <div class="item-inner">
+                                    <div class="item-title label">耗时</div>
+                                    <div class="item-input">
+                                        <div class="input-workload" style="padding-left: 0;">
+                                            {*<span id="workload_day_box_1"><input value="0" id="redeployDay">天</span>*}
+                                            <input id="picker-redeploy" class="workload" value="0天 0小时 0分钟" readonly style="appearance: menulist;
+        -webkit-appearance: menulist;"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        {if $task->getStandardTypes()==2}
+                            <li>
+                                <div class="item-content">
+                                    <div class="item-inner">
+                                        <div class="item-title label">完成数量</div>
+                                        <div class="item-input" style="padding:0 15px">
+                                            <input type="text" id="redeploy-num" value="0" style="border-bottom: #e7e7e7 1px solid;padding:5px 0;text-align:center;font-size:1rem"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        {/if}
+                        <li class="align-top" style="">
+                            <div class="item-content">
+                                <div class="item-inner">
+                                    <div class="item-input">
+                                        <textarea id="redeployMemo" placeholder="转派原因"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="align-top" style="border-top:1px solid #e7e7e7">
+                            <div class="item-content">
+                                <div class="field-item-body">
+                                    <div class="field-item-member-box">
+                                        <span class="staff-add open-popup open-worker-added-box" data-popup=".accept-popup" id="accept">&plus;</span>
+                                        <input type="hidden" name="accept">
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="content-block">
+                        <div class="row">
+                            <div class="col-100">
+                                <a href="#" class="button button-big button-fill button-success submit-dynamic-action" data-types="redeploy">提交</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="popup over-popup">
+        <header class="bar bar-nav">
+            <a class="button button-link button-nav pull-right close-popup">
+                关闭
+            </a>
+            <h1 class="title">结束周期任务</h1>
+        </header>
+        <div class="content">
+            <div class="content-inner">
+                <div class="list-block form-group-create">
+                    <ul>
+                        <li class="align-top">
+                            <div class="item-content">
+                                <div class="item-inner">
+                                    <div class="item-input">
+                                        <textarea id="content-accept-over" placeholder="结束说明"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="content-block">
+                        <div class="row">
+                            <div class="col-100">
+                                <a href="#" class="button button-big button-fill button-success submit-dynamic-action" data-types="over">提交</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="popup task-cancel-popup">
+        <header class="bar bar-nav">
+            <a class="button button-link button-nav pull-right close-popup">
+                关闭
+            </a>
+            <h1 class="title">取消任务</h1>
+        </header>
+        <div class="content">
+            <div class="content-inner">
+                <div class="list-block form-group-create">
+                    <ul>
+                        <li class="align-top">
+                            <div class="item-content">
+                                <div class="item-inner">
+                                    <div class="item-input">
+                                        <textarea id="content-accept-cancel" placeholder="取消原因"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="content-block">
+                        <div class="row">
+                            <div class="col-100">
+                                <a href="#" class="button button-big button-fill button-success submit-dynamic-action" data-types="cancel">提交</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <form action="{url('mobileConsoles_taskme_commentDynamic',array("id"=>$task->getId()))}" id="comment-say-form">
+        <input type="hidden" name="userId" value="">
+        <input type="hidden" name="dynamicId" value="">
+        <div class="comment-say-content-box-bg"></div>
+        <div class="comment-say-content-box">
+            <div class="comment-say-content-row">
+                <input name="content" id="comment-say-content" placeholder="" style="min-height:40px; border:none;"/>
+                <input type="submit" id="comment-say-content-submit" value="回复">
+            </div>
+        </div>
+    </form>
+{/block}
+{block private_css}
+    {include "../Task/addCss.latte"}
+    <style>
+
+        .input-workload{
+            text-align:center;
+            display:flex;
+            justify-content:center;
+        }
+
+        .worker-added-item-remove{
+            display:none;
+        }
+
+        .dynamic-block{
+            background:#eee;
+            margin-bottom:60px;
+        }
+
+        .dynamic-title{
+            text-align:center;
+            font-size:16px;
+            padding-top:15px;
+        }
+
+        .dynamic-item{
+            margin-top:0;
+            padding:10px .75rem;
+            background:#fff;
+        }
+
+        .dynamic-item .dynamic-item-names{
+            color:#009dd9;
+            position:relative;
+        }
+
+        .dynamic-item-time{
+            position:absolute;
+            right:0; top:0;
+            color:#666;
+        }
+
+        .dynamic-item-body{
+            padding:.5rem 0.25rem;
+        }
+
+        .dynamic-item-thumbs img{
+            width:60px;
+            height:60px;
+            margin:5px 8px 0 0;
+        }
+
+        .dynamic-item-tools{
+            text-align:left;
+            padding-top:.25rem;
+        }
+
+        .dynamic-item-reply{
+            margin-right:.75rem;
+        }
+
+        .dynamic-comment-dd ul, .dynamic-comment-dd li{
+            margin:0; padding:0;
+            list-style-type:none;
+        }
+
+        .dynamic-comment-dd ul{
+            background:#f2f2f2;
+            padding-left:5px;
+            padding-bottom:5px;
+            width:100%;
+        }
+
+        .dynamic-comment-dd li span{
+            line-height:20px;
+            cursor:pointer;
+        }
+
+        .dynamic-comment-dd li textarea{
+            width:400px;
+            height:70px;
+        }
+
+        .dynamic-comment-dd li .dynamic-comment-say{
+            /*color:#009dd9;*/
+            font-weight:bold;
+        }
+
+        .dynamic-comment-dd li .dynamic-comment-say .dynamic-comment-reply{
+            color:#666; margin:0 5px;
+            font-weight:normal;
+        }
+
+        .dynamic-comment-reply-input input{
+            display:block;
+            height:30px;
+            line-height:30px;
+            margin-top:5px;
+            margin-bottom:5px;
+            padding:0 30px;
+        }
+
+        .dynamic-item dd.dynamic-reply-dd, .dynamic-item dd.dynamic-comment-dd{
+            display:none;
+        }
+
+        .issue-action{
+            position:fixed;
+            background:rgba(24, 28, 31, 0.6);
+            width:44px;
+            height:44px;
+            line-height:44px;
+            z-index:99999;
+            bottom:80px; right:15px;
+            text-align:center;
+            color:#fff;
+        }
+
+        .comment-say-content-box{
+            background:#fff; width:100%; position:fixed;
+            bottom:0; height:auto;
+            z-index:19880501; display:none;
+            min-height:50px;
+        }
+
+        .comment-say-content-row{
+            display:flex;
+            padding-top:10px;
+        }
+
+        #comment-say-content{
+            flex:1;
+        }
+
+        #comment-say-content-submit{
+            width:80px;
+        }
+
+        .comment-say-content-box-bg{
+            position:fixed;
+            z-index:19880500;
+            bottom:0;
+            top:0;
+            right:0;
+            left:0;
+            display:none;
+            background:rgba(155, 155, 155, 0.3);
+        }
+
+        .study-item{
+            display:inline-block;
+            min-width:40px;
+            height:40px;
+            background:#fff;
+            border:1px solid #f6f6f6;
+            color:#aaa;
+            text-align:center;
+            line-height:40px;
+            font-size:12px;
+            border-radius:5px;
+            margin-right:15px;
+            position:relative;
+            margin-top:10px;
+            padding-left:5px;
+            padding-right:5px;
+            vertical-align:middle;
+        }
+
+        .study-item img{
+            width:30px;
+            height:30px;
+            background:#f6f6f6;
+            vertical-align:middle;
+        }
+
+        .dynamic-submit{
+            text-align:center;
+            line-height:48px;
+            background:#0894ec;
+            color:#fff;
+        }
+
+        .field-item{
+            padding:5px 0 5px;
+            border-bottom:1px solid #f2f2f2 !important;
+        }
+
+        .list-block .item-inner:after{
+            background:none;
+        }
+
+        .accept-popup{
+            z-index:10401;
+        }
+
+        {*颜色    #009ae2执行中（蓝色）    #333333已指派（黑色）  #259b24已完成（绿色） #ff9800等待验收（橙色） <span style="color:#ff9800;">等待验收</span><span style="color:#259b24;">已完成</span> *}
+        .member-item-0{
+            color:#009ae2;
+        }
+
+        .member-item-1{
+            color:#259b24;
+        }
+
+        .member-item-2{
+            color:#333333;
+        }
+
+        .color-0{
+            color:#cccccc;
+        }
+
+        .color-1{
+            color:#ff9800;
+        }
+
+        .color-2{
+            color:#f2f2f2;
+        }
+
+        .color-3{
+            color:#259b24;
+        }
+
+        .field-item-row{
+            display:flex;
+            justify-content:space-between;
+            padding:8px 0;
+            border-bottom:1px solid #f2f2f2;
+        }
+
+        .field-item-row:last-child{
+            border:none;
+        }
+
+        .field-item-row .field-item-title{
+            line-height:25px;
+            margin-top:0;
+            color:#999;
+        }
+
+        .field-item-row .field-item-body{
+            margin-right:8px;
+            font-size:1rem;
+        }
+
+        .field-item-body{
+            padding-top:0 !important;
+        }
+
+        .field-item .field-item-last{
+            font-size:.75rem !important;
+            border-bottom:none !important;
+        }
+
+        .fs075{
+            font-size:.75rem !important;
+        }
+
+        .task-history{
+            float:right;
+            padding:3px 13px;
+            font-size:12px;
+            color:white; border:1px solid #009ae2;
+            border-radius:20px; background:#009ae2;
+        }
+
+
+    </style>
+{/block}
+
+{block private_js}
+    {include "../Public/customJs.latte"}
+    {include "../Task/addJs.latte"}
+    {include "../Public/H5Upload.latte"}
+    <script>
+        var isExecutors = {in_array($userId,explode(",",$task->getExecutors()))};
+        var executorsCanDo = {$executorsCanDo};
+        var isAccept = {$userId == $task->getAcceptId()};
+        var issue = {$userId == $task->getIssueId()};
+        var taskStatus = {$task->getStatus()};
+        var isCycle = {$task->getTypes()==3};
+        var isRecheck = {$userId != $task->getAcceptId() && $recheckCount>0};
+
+        var memberActions = [{
+            text: '操作',
+            label: true
+        }];
+        memberActions.push({
+            text: '发布动态',
+            bold: true,
+            onClick: function () {
+                $.popup(".dynamic-popup");
+            }
+        });
+        if (isExecutors) {
+            if (executorsCanDo) {
+                memberActions.push({
+                    text: '交付任务',
+                    bold: true,
+                    onClick: function () {
+                        $.popup(".task-done-popup");
+                    }
+                });
+                memberActions.push({
+                    text: '转派他人',
+                    bold: true,
+                    onClick: function () {
+                        $.popup(".task-redeploy-popup");
+                    }
+                });
+            } else {
+                // memberActions.push({
+                //     text: '交付任务',
+                //     bold: true,
+                //     color: 'danger',
+                // });
+                // memberActions.push({
+                //     text: '转派他人',
+                //     bold: true,
+                //     color: 'danger',
+                // });
+            }
+        }
+        if (isAccept || isRecheck) {
+            memberActions.push({
+                text: '验收任务',
+                bold: true,
+                onClick: function () {
+                    $.showPreloader('加载中，请稍候...');
+                    location.href = {url("mobileConsoles_taskme_accept_action",array("id"=>$task->getId()))};
+                }
+            });
+            // if (isCycle) {
+            //     if (taskStatus > 0) {
+            //         // memberActions.push({
+            //         //     text: '结束周期',
+            //         //     bold: true,
+            //         //     color: 'danger',
+            //         // });
+            //     } else {
+            //         memberActions.push({
+            //             text: '结束周期',
+            //             bold: true,
+            //             onClick: function () {
+            //                 $.popup(".over-popup");
+            //             }
+            //         });
+            //     }
+            // }
+        }
+        if (issue) {
+            if (taskStatus > 0) {
+                // memberActions.push({
+                //     text: '指派新成员',
+                //     bold: true,
+                //     color: 'danger',
+                // });
+                // memberActions.push({
+                //     text: '取消任务',
+                //     bold: true,
+                //     color: 'danger',
+                // });
+            } else {
+                memberActions.push({
+                    text: '指派新成员',
+                    bold: true,
+                    onClick: function () {
+                        $.popup(".staff-popup");
+                    }
+                });
+                memberActions.push({
+                    text: '取消任务',
+                    bold: true,
+                    onClick: function () {
+                        $.popup(".task-cancel-popup");
+                    }
+                });
+            }
+
+            memberActions.push({
+                text: '删除任务',
+                bold: true,
+                onClick: function () {
+                    $.confirm("任务删除后不可恢复，确定删除吗？", function () {
+                        postPages({url('mobileConsoles_taskme_remove')}, {
+                            taskId: {$task->getId()}
+                        });
+                    });
+                }
+            });
+
+        }
+
+        memberActions.push({
+            text: '分享',
+            bold: true,
+            onClick: function () {
+                var url = $('#shareBox').attr('data-url');
+                location.replace(url);
+            }
+        });
+
+
+        function postPages(toUrl, data) {
+            $.showPreloader('正在提交，请稍候...');
+            $.ajax({
+                type: "POST",
+                dataType: "json",
+                url: toUrl,
+                data: data,
+                success: function (res) {
+                    $.hidePreloader();
+                    try {
+                        if (res.status === "y") {
+                            $.toast(res.info || res.data);
+                            setTimeout(function () {
+                                if (typeof res.url === "string") location.replace(res.url);
+                                else location.reload(true);
+                            }, 2000)
+                        } else {
+                            $.toast(res.info);
+                        }
+                    } catch (e) {
+                        $.toast(e.message);
+                    }
+                }
+            });
+        }
+
+        function addWorker(relateId, userids) {
+            $.confirm('任务进行中，确定额外增派其他人参与吗？',
+                function () {
+                    $.showPreloader('正在操作，请稍候...');
+                    var data = new Object();
+                    data[relateId] = userids.join(",");
+                    postPages({url("mobileConsoles_taskme_allot",array("id"=>$task->getId()))}, data);
+                }
+            );
+        }
+
+        function countDown(endTimes) {
+            if (!endTimes || typeof endTimes !== "string") return 0;
+            endTimes = endTimes.replace(/\-+/g, ":");
+            endTimes = endTimes.replace(/\s+/g, ":");
+            var endTimesArr = endTimes.split(/:/g);
+            var endTimeDate = new Date(endTimesArr[0], endTimesArr[1] - 1, endTimesArr[2], endTimesArr[3], endTimesArr[4], endTimesArr[5]);
+            var times = endTimeDate.getTime() - (new Date().getTime());
+            if (times <= 0) return 0;
+            var day = 0,
+                hour = 0,
+                minute = 0,
+                second = 0;//时间默认值
+            if (times > 0) {
+                day = Math.floor(times / 1000 / 60 / 60 / 24);
+                hour = Math.floor(times / 1000 / 60 / 60 % 24);
+                minute = Math.floor(times / 1000 / 60 % 60);
+                second = Math.floor(times / 1000 % 60);
+            }
+            var $return = "";
+            if (day > 0) return day + "天" + hour + "小时";
+            if (hour > 0) return hour + "小时" + minute + "分";
+            if (minute > 0) return minute + "分";
+            return second + "秒";
+        }
+
+        function setWorkload() {
+            var day = $("#workload_day").val();
+            var hour = $("#workload_hour").val();
+            var minute = $("#workload_minute").val();
+            var workload = [day, hour, minute].join(",");
+            $("#workload").val(workload);
+        }
+
+
+        $(function () {
+
+            $(".dynamic-submit").on("click", function () {
+                var data = {
+                    content: $(".dynamic-content").val(),
+                    thumbs: $(".dynamic-thumbs").val()
+                };
+                postPages($(this).attr("data-url"), data);
+            });
+
+            setInterval(function () {
+                var endTimes = $("[data-deadline]").attr("data-deadline");
+                var cTime = countDown(endTimes || "");
+                if (cTime === 0) {
+                    $("[data-deadline]").text("( 已过期 )");
+                } else {
+                    $("[data-deadline]").text("( 剩余:" + cTime + " )");
+                }
+            }, 1000);
+
+            $(".dynamic-comment-button").on("click", function () {
+                var url = $(this).attr("data-url");
+                var relId = $(this).attr("data-rel");
+                var content = $(this).siblings("textarea").val();
+                var sendData = {
+                    relId: relId,
+                    content: content
+                };
+                postPages(url, sendData);
+            });
+
+            $(".issue-action").on("click", function () {
+                var buttons2 = [{
+                    text: '取消',
+                    bg: 'danger'
+                }];
+                $.actions([memberActions, buttons2]);
+            });
+
+            $(".dynamic-item-body,.dynamic-comment-say-content").on("click", function () {
+                $(".comment-say-content-box").show();
+                $("#comment-say-content").focus().attr("placeholder", "回复" + $(this).attr("data-user-name"));
+                $("input[name='userId']").val($(this).attr("data-user-id"));
+                $("input[name='dynamicId']").val($(this).attr("data-dynamic-id"));
+                $(".comment-say-content-box-bg").show();
+            });
+
+            $("#comment-say-form").on("submit", function () {
+                postPages($(this).attr("action"), $(this).serialize());
+                return false;
+            });
+            $(".comment-say-content-box-bg").on("click", function () {
+                $(".comment-say-content-box-bg,.comment-say-content-box").hide();
+            });
+
+            $(".dynamic-item-comment").on("click", function () {
+                $(this).parent().siblings(".dynamic-comment-dd").toggle();
+            });
+
+
+            $(".submit-dynamic-action").on("click", function () {
+                var types = $(this).attr("data-types");
+
+                var url = {url("mobileConsoles_taskme_dynamicAction",array("id"=>$task->getId()))};
+
+                var accept = $("#picker-workload").val();
+
+                var workloadsArr = accept.match(/\d+/g);
+
+                var acceptDay = workloadsArr[0];
+                var acceptHour = workloadsArr[1];
+                var acceptMinute = workloadsArr[2];
+                var acceptNum = $("#accept-num").val();
+                var acceptMemo = $("#accept-memo").val();
+
+                var redeploy = $("#picker-redeploy").val();
+
+                var redeploysArr = redeploy.match(/\d+/g);
+                var redeployDay = redeploysArr[0];
+                var redeployHour = redeploysArr[1];
+                var redeployMinute = redeploysArr[2];
+                var redeployNum = $("#redeploy-num").val();
+                var redeployMemo = $("#redeployMemo").val();
+
+                var overMemo = $("#content-accept-over").val();
+
+
+                var cancelMemo = $("#content-accept-cancel").val();
+
+                var sendData = {
+                    acceptDay: acceptDay,
+                    acceptHour: acceptHour,
+                    acceptMinute: acceptMinute,
+                    acceptNum: acceptNum,
+                    acceptMemo: acceptMemo,
+
+                    redeployDay: redeployDay,
+                    redeployHour: redeployHour,
+                    redeployMinute: redeployMinute,
+                    redeployNum: redeployNum,
+                    redeployMemo: redeployMemo,
+
+                    overMemo: overMemo,
+
+                    cancelMemo: cancelMemo,
+                    types: types
+                };
+                if (types === "done") {
+                    if (sendData["acceptDay"] === "") {
+                        $.alert("请填写耗时");
+                        return;
+                    }
+                }
+                if (types === "cancel") {
+                    if (sendData["cancelMemo"] === "") {
+                        $.alert("请填写取消原因");
+                        return;
+                    }
+                }
+                if (types === "over") {
+                    if (!sendData["overMemo"]) {
+                        $.alert("请填结束说明");
+                        return;
+                    }
+                }
+                if (types === "redeploy") {
+                    if (!sendData["redeployMemo"]) {
+                        $.alert("请填写转派原因");
+                        return;
+                    }
+                    sendData['redeployMember'] = $("[name='accept']").val();
+                    if (!sendData['redeployMember'] || sendData['redeployMember'] === "0") {
+                        $.alert("请选择其他执行人员");
+                        return;
+                    }
+                }
+
+                var titles = {
+                    done: "确定交付任务吗？",
+                    cancel: "您将取消任务，确定吗？",
+                    over: "您将结束周期任务，确定吗？",
+                    redeploy: "您将不再执行任务，并指派其他人执行，确定吗？",
+                };
+                if (typeof  titles[types] !== "undefined") {
+                    $.confirm(titles[types], function () {
+                        postPages(url, sendData);
+                    });
+                } else {
+                    $.alert("操作出错，请刷新页面重试");
+                }
+            });
+
+            $("#shareBox").live('click', function () {
+                var url = $(this).attr('data-url');
+                location.replace(url);
+            });
+            $("#picker-workload").picker({
+                toolbarTemplate: '<header class="bar bar-nav"><button class="button button-link pull-right close-picker">确定</button><h1 class="title">请提交耗时</h1></header>',
+                cols: [
+                    {
+                        textAlign: 'center',
+                        values: ["0天", "1天", "2天", "3天", "4天", "5天", "6天", "7天", "8天", "9天", "10天", "11天", "12天", "13天", "14天", "15天"]
+                    },
+                    {
+                        textAlign: 'center',
+                        values: ["0小时", "1小时", "2小时", "3小时", "4小时", "5小时", "6小时", "7小时"],
+                    },
+                    {
+                        textAlign: 'center',
+                        values: ["0分钟", "15分钟", "30分钟", "45分钟"],
+                    }
+                ]
+            });
+            $("#picker-redeploy").picker({
+                toolbarTemplate: '<header class="bar bar-nav"><button class="button button-link pull-right close-picker">确定</button><h1 class="title">请提交耗时</h1></header>',
+                cols: [
+                    {
+                        textAlign: 'center',
+                        values: ["0天", "1天", "2天", "3天", "4天", "5天", "6天", "7天", "8天", "9天", "10天", "11天", "12天", "13天", "14天", "15天"]
+                    },
+                    {
+                        textAlign: 'center',
+                        values: ["0小时", "1小时", "2小时", "3小时", "4小时", "5小时", "6小时", "7小时"],
+                    },
+                    {
+                        textAlign: 'center',
+                        values: ["0分钟", "15分钟", "30分钟", "45分钟"],
+                    }
+                ]
+            });
+        })
+
+        function uploadPhotoBrowser(val) {
+            if (!this.PhotoBrowser) {
+                this.PhotoBrowser = $.photoBrowser({
+                    photos: [val]
+                });
+            }
+            this.PhotoBrowser.open();
+        }
+    </script>
+{/block}
+
+{block content}
+    {*<span class="issue-action" data-cancel-url="{url("mobileConsoles_taskme_cancel",array("id"=>$task->getId()))}">操作</span>*}
+    <div class="list-block" style="margin-top: 3rem;">
+        <div class="field-item">
+            <div class="field-item-title" style="font-size:1.1rem; padding:0 5px; font-weight:bold;">
+                #{$task->getCodeNo()}{if $task->getTypes()==3 && $task->getCycleUse()>0}-{$task->getCycleUse()}{/if}&nbsp;&nbsp;{$task->getNames()}
+                {if $task->getTypes()==3 && count($lists)>1}
+                    <a class="task-history open-popup" data-popup=".history-popup">历史任务</a>
+                {/if}
+            </div>
+
+            <div class="field-item-body" style="margin-top:20px;">
+                {foreach $priorityMemo as $priority =>$priorityM}
+                    {if $task->getPriority()==$priority}
+                        {*selected*}
+                        <label class="priority-input priority-{$priorityM}" style="float:left; border:none;">
+                            <span style="width:26px; height:26px; line-height:26px;"><input type="radio" name="priority" value="{$priority}" {if $iterator->isFirst()}checked{/if}>{$priorityM}</span>
+                        </label>
+                    {/if}
+                {/foreach}
+                <span style="padding: 3px 13px; float:left; font-size:12px; color:white; border:1px solid #009ae2; border-radius:20px; background:#009ae2;margin-right:15px">{$taskTypesMemo}</span>
+                <span style="padding: 3px 13px; float:left; font-size:12px; color:white; border:1px solid #009ae2; border-radius:20px; background:#009ae2;">{$statusMemo[$task->getStatus()]}</span>
+                {if $groupName}
+                    <span style="padding: 3px 13px; float:left; font-size:12px; color:#009ae2; border:1px solid #009ae2; border-radius:20px; margin-left:20px;"><a href="{url("mobileConsoles_task_group_choice_lists",array('names'=>$groupId))}">{$groupName}</a></span>
+                {/if}
+
+
+                <div style="clear:both;"></div>
+            </div>
+
+            {*<div class="field-item-body">*}
+            {*<input type="text" placeholder="请输入任务名称" disabled value="{$task->getNames()}"/>*}
+            {*</div>*}
+        </div>
+
+        <div class="field-item">
+            <div class="field-item-title" style="color:#999;">
+                任务内容
+            </div>
+            <div class="field-item-body" style="margin-bottom:8px; font-size:1rem;">
+                {str_replace(array("\r\n","\n","\r"),"<br>",$task->getContent())|noescape}
+            </div>
+        </div>
+
+        {if !empty($thumbs)}
+            <div class="field-item">
+                <div class="field-item-title" style="color:#999;">
+                    图片 / 文件
+                </div>
+                <div class="field-item-body">
+                    {foreach $thumbs as $thumb}
+                        {if $thumb["type"]=="img"}
+                            <img class="layer-photos" layer-pid="" onclick="uploadPhotoBrowser.call(this,{$thumb['src']})" style="max-width:150px;max-height:150px;cursor:pointer" src="{$cdnThumbBase}{$thumb['val']}" alt="{$thumb['name']}">
+                        {else}
+                            <a href="{$thumb['src']}" title="{$thumb['val']}" target="_blank">{$thumb['name']}</a>
+                        {/if}
+                    {/foreach}
+                </div>
+            </div>
+        {/if}
+
+        {*<div class="field-item-between"></div>*}
+
+
+        <div class="field-item">
+            <div class="field-item-title" style="color:#999;">
+                预估任务量 <span style="color:#333;margin-left:15px">{$workloadMemo}</span>
+            </div>
+
+        </div>
+
+        <div class="field-item">
+            <div class="field-item-title" style="color:#999;">
+                积分
+            </div>
+            <div class="field-item-body">
+                {if !$standard || $standard->getAcorn()==0}
+                    <div class="item-inner selected-standard-show">日基础分&times;难度系数&times;完成质量&times;任务量</div>
+                {else}
+                    <div class="item-inner selected-standard-show">参考任务模型：{$standard->getNames()}({$standard->getAcorn()})</div>
+                {/if}
+            </div>
+        </div>
+
+        <div class="field-item">
+            <div class="field-item-title" style="color:#999;">
+                期限 {if $task->getTypes()==3}<span style="font-size:14px;color:#333">({$taskCycleMemo})</span>{/if}
+            </div>
+            <div class="field-item-body">
+                <div class="item-content" style="padding-left: 0;">
+                    <div class="item-inner selected-group-show" style="color:#009ae2">截止：{$task->getDeadline()|totime}
+                        <span data-deadline="{$task->getDeadline()|totime}"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="field-item">
+            <div class="field-item-title" style="margin-top:5px; margin-bottom:5px;">
+                <span style="line-height:27px; color:#999;">发布人</span>
+                <div style="float:right; padding:3px 13px; background:#009ae2; color:white; border-radius:50px;">{$IssueName}</div>
+                <div style="clear:both;"></div>
+            </div>
+        </div>
+
+        <div class="field-item">
+            {foreach $executorslist as $v}
+                <div class="field-item-title" style="margin-top:5px; margin-bottom:5px;">
+
+                    <span style="line-height:27px; color:#999;">执行人&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>
+
+                    <span class="member-item-{$v["status"]["class"]}">{$v["status"]["memo"]}</span>
+
+                    <div style="float:right; padding:3px 13px; background:#009ae2; color:white; border-radius:50px;">{$v["fullName"]}</div>
+
+                    <div style="clear:both;"></div>
+                </div>
+            {/foreach}
+            <div class="field-item-title" style="display:none">
+                <span data-action="addWorker" class="staff-add open-popup open-worker-added-box" data-popup=".staff-popup" id="executors" style="display:none">&plus;</span>
+            </div>
+        </div>
+
+        <div class="field-item" style="border-bottom:none !important;">
+            <div class="field-item-title" style="margin-top:5px; margin-bottom:5px;">
+                <span style="line-height:27px; color:#999;">验收人&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                <span class="color-{$task->getStatus()}">
+                    {if $task->getStatus() == 0}
+                        未验收
+                    {else}
+                        {$statusMemo[$task->getStatus()]}
+                    {/if}
+                </span>
+                <div style="float:right; padding:3px 13px; background:#009ae2; color:white; border-radius:50px;">{$acceptName}</div>
+                <div style="clear:both;"></div>
+            </div>
+
+        </div>
+
+        {if $myAllots ||$doneAllots}
+            <div style="padding:15px 10px 15px 10px;background:#eee; font-size:1rem;">
+                验收结果
+            </div>
+        {/if}
+        {if $myAllots}
+            {foreach $myAllots as $k=>$item}
+                <div class="field-item {if $iterator->isLast() && !$doneAllots}field-item-last{/if}" style="border:none !important;">
+                    <div class="field-item-row fs075">
+                        <span class="field-item-title">指派时间</span>
+                        <div class="field-item-body">{$item['addTime']|totime:"m/d H:i"}</div>
+                    </div>
+                    <div class="field-item-row">
+                        <span class="field-item-title">计划完成</span>
+                        <div class="field-item-body">{$item['endTime']|totime:"m/d H:i"}</div>
+                    </div>
+                    <div class="field-item-row">
+                        <span class="field-item-title">实际完成</span>
+                        <div class="field-item-body">{$item['doneTime']|totime:"m/d H:i"}</div>
+                    </div>
+                    <div class="field-item-row">
+                        <span class="field-item-title">耗时</span>
+                        <div class="field-item-body">
+                            {var $acceptDay=explode(",",$item["acceptDay"])}
+                            {if $acceptDay[0]}{$acceptDay[0]}天{/if}
+                            {if $acceptDay[1]}{$acceptDay[1]}小时{/if}
+                            {if $acceptDay[2]}{$acceptDay[2]}分钟{/if}
+                        </div>
+                    </div>
+                    <div class="field-item-row">
+                        <span class="field-item-title">核准任务量</span>
+                        <div class="field-item-body">
+                            {var $allotWorkloads=$item["accept"]?explode(",",$item["workload"]):$taskWorkload}
+                            {if $allotWorkloads[0]}{$allotWorkloads[0]}天{/if}
+                            {if $allotWorkloads[1]}{$allotWorkloads[1]}小时{/if}
+                            {if $allotWorkloads[2]}{$allotWorkloads[2]}分钟{/if}
+                            {if !$item["accept"]}<span style="color:red">未验收</span>{/if}
+                        </div>
+                    </div>
+                    <div class="field-item-row">
+                        <span class="field-item-title">实得分数</span>
+                        <div class="field-item-body">
+                            {if !$item["accept"]}<span style="color:red">未验收</span>{else}{$item["acorn"]|default:0}{/if}
+                        </div>
+                    </div>
+                    <div class="field-item-row">
+                        <span class="field-item-title">评价</span>
+                        <div class="field-item-body">
+                            {if !$item["accept"]}
+                                <span style="color:red">未验收</span>
+                            {else}
+                                {foreach $lists1 as $q}
+                                    {if $item["rating"]==$q["id"]}{$q["names"]}{/if}
+                                {/foreach}
+                            {/if}
+                        </div>
+                    </div>
+                    <div class="field-item-row">
+                        <span class="field-item-title">状态</span>
+                        <div class="field-item-body" style="border:none !important;">
+                            {if $item['accept']}{$item['statusMemo']},已验收{else}
+                                <span style="color:red">{$item['statusMemo']},未验收</span>
+                            {/if}
+                        </div>
+                    </div>
+                </div>
+            {/foreach}
+        {/if}
+
+        {if $doneAllots}
+            {foreach $doneAllots as $k=>$item}
+                <div class="field-item {if $iterator->isLast()}field-item-last{/if}" style="border:none !important;">
+                    <div class="field-item-row">
+                        <span class="field-item-title">执行人</span>
+                        <div class="field-item-body">{$item['userName']}</div>
+                    </div>
+                    <div class="field-item-row">
+                        <span class="field-item-title">指派时间</span>
+                        <div class="field-item-body">{$item['addTime']|totime:"m/d H:i"}</div>
+                    </div>
+                    <div class="field-item-row">
+                        <span class="field-item-title">计划完成</span>
+                        <div class="field-item-body">{$item['endTime']|totime:"m/d H:i"}</div>
+                    </div>
+                    <div class="field-item-row">
+                        <span class="field-item-title">实际完成</span>
+                        <div class="field-item-body">{$item['doneTime']|totime:"m/d H:i"}</div>
+                    </div>
+                    <div class="field-item-row">
+                        <span class="field-item-title">耗时</span>
+                        <div class="field-item-body">
+                            {var $acceptDay=explode(",",$item["acceptDay"])}
+                            {if $acceptDay[0]}{$acceptDay[0]}天{/if}
+                            {if $acceptDay[1]}{$acceptDay[1]}小时{/if}
+                            {if $acceptDay[2]}{$acceptDay[2]}分钟{/if}
+                        </div>
+                    </div>
+                    <div class="field-item-row">
+                        <span class="field-item-title">核准任务量</span>
+                        <div class="field-item-body">
+                            {var $allotWorkloads=$item["accept"]?explode(",",$item["workload"]):$taskWorkload}
+                            {if $allotWorkloads[0]}{$allotWorkloads[0]}天{/if}
+                            {if $allotWorkloads[1]}{$allotWorkloads[1]}小时{/if}
+                            {if $allotWorkloads[2]}{$allotWorkloads[2]}分钟{/if}
+                            {if !$item["accept"]}<span style="color:red">未验收</span>{/if}
+                        </div>
+                    </div>
+                    <div class="field-item-row">
+                        <span class="field-item-title">实得分数</span>
+                        <div class="field-item-body">
+                            {if !$item["accept"]}<span style="color:red">未验收</span>{else}{$item["acorn"]|default:0}{/if}
+                        </div>
+                    </div>
+                    <div class="field-item-row">
+                        <span class="field-item-title">评价</span>
+                        <div class="field-item-body">
+                            {if !$item["accept"]}
+                                <span style="color:red">未验收</span>
+                            {else}
+                                {foreach $lists1 as $q}
+                                    {if $item["rating"]==$q["id"]}{$q["names"]}{/if}
+                                {/foreach}
+                            {/if}
+                        </div>
+                    </div>
+                    <div class="field-item-row">
+                        <span class="field-item-title">状态</span>
+                        <div class="field-item-body">
+                            {if $item['accept']}{$item['statusMemo']},已验收{else}
+                                <span style="color:red">{$item['statusMemo']},未验收</span>
+                            {/if}
+                        </div>
+                    </div>
+                </div>
+            {/foreach}
+        {/if}
+
+        <div class="dynamic-block">
+            <div class="dynamic-title" style="padding:15px 10px 15px 10px; text-align:left;">
+                动态 ({count($dynamics)})
+            </div>
+            {foreach $dynamics as $dynamic}
+                <div class="dynamic-item">
+                    <div class="dynamic-item-names" style="color:#333;"><span style="font-weight:bold;">{$dynamic["userName"]}</span>：</div>
+                    <div class="dynamic-item-body" data-user-name="{$dynamic["userName"]}" data-user-id="{$dynamic["userId"]}" data-dynamic-id="{$dynamic["id"]}">
+                        {$dynamic["content"]}
+                    </div>
+                    <div class="dynamic-item-thumbs">
+                        {foreach $dynamic["thumbs"] as $thumb}
+                            <img src="https://cdn.itmakes.com/thumbs/{$thumb}" alt="">
+                        {/foreach}
+                    </div>
+
+                    <div class="dynamic-item-tools" style="position:relative;">
+                        <span class="dynamic-item-comment">回复({count($comments[$dynamic["id"]])})</span>
+                        <div class="dynamic-item-time">{$dynamic["addTime"]|totime}</div>
+                    </div>
+
+                    {if $comments[$dynamic["id"]]}
+                        <dd class="dynamic-comment-dd" style="box-sizing:border-box; display:block; margin: 25px 0 0 0;">
+                            <ul style="padding:10px;">
+                                {foreach $comments[$dynamic["id"]] as $comment}
+                                    <li data-names="{$userId==$comment["userId"]?$comment["ruserName"]:$comment["userName"]}">
+                                    <span class="dynamic-comment-say">{$comment["userName"]} {if $comment["replyId"]&& $comment["replyId"]!=$comment["userId"]}
+                                        <span class="dynamic-comment-reply">回复</span>
+                                        {$comment["ruserName"]}{/if}：
+                                    </span>
+                                        <br/>
+                                        <span class="dynamic-comment-say-content" data-user-id="{$comment["userId"]}" data-dynamic-id="{$dynamic["id"]}" data-user-name="{$comment["userName"]}" style="display:block; padding:10px 0 15px 0;">{$comment["content"]}</span>
+                                        <div style="clear:both;"></div>
+                                    </li>
+                                {/foreach}
+                            </ul>
+                        </dd>
+                    {/if}
+
+                </div>
+                {*底边*}
+                <div style="margin:0; padding:0; width:100%; height:1px; background:#fff; display:block;">
+                    <div style="margin:0 3%; padding:0; width:94%; height:1px; background:#f2f2f2; display:block;"></div>
+                </div>
+            {/foreach}
+        </div>
+    </div>
+    <div id="shareBox" data-status="show" data-url="{url('mobileConsoles_index_share',array("eventid"=>$taskId,"template"=>"RELEASE_TASK"))}" style="position: fixed;right: -1px;bottom: 50px;border:1px solid #0087e1;padding: 5px 5px 5px 10px;border-top-left-radius: 20px;border-bottom-left-radius: 20px;color: #fff;z-index: 9999;display: none;">
+        <img src="{path('[MobileConsoles]/img/shareIcon.png')}" style="float: left;display: block;width: 20px;height: 20px;">
+        <p style="float: left;line-height: 14px;margin: 3px;color: #0087e2;">分享</p>
+    </div>
+{/block}

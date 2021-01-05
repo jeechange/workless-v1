@@ -1,0 +1,49 @@
+{layout '../Public/layoutList.latte'} {*继承layoutList模板*}
+{block title}组织架构{/block}
+{block actions}<a href="{url('consoles_add','con=StaffGroup')}" class="icon-adds" data-side-form>添加小组</a>{/block}
+{block actionstab}
+    {include "../Department/actionstab.latte"}
+{/block}
+{*选中记录的操作按钮*}
+{block actions2}
+    <div class="list-more-action-item" data-url="{url('consoles_delete_mul','con=StaffGroup')}">删除小组</div>
+{/block}
+
+{block content}
+    <table cellpadding="0" cellspacing="0" border="0" class="stdtable">
+        <thead>
+        <tr>
+            <th></th>
+            <th data-sort="s.names"><span class="table-head">小组名称</span></th> {*在th加入 data-sort 可对数据库进行排序*}
+            <th data-sort="s.num"><span class="table-head">口号</span></th> {*在th加入 data-sort 可对数据库进行排序*}
+            <th data-sort="s.num"><span class="table-head">组长</span></th> {*在th加入 data-sort 可对数据库进行排序*}
+            <th data-sort="s.num"><span class="table-head">副组长</span></th> {*在th加入 data-sort 可对数据库进行排序*}
+            <th data-sort="s.num"><span class="table-head">成员</span></th> {*在th加入 data-sort 可对数据库进行排序*}
+            <th data-sort="d.id"><span class="table-head">创建时间</span></th>
+            {*<th data-sort="s.status"><span class="table-head">状态</span></th>*}
+            <th><span class="table-head">操作</span></th>
+        </tr>
+        </thead>
+        <tbody>
+        {foreach $groupLists as $k=>$item}
+            <tr>
+                <td style="width: 60px;"><input type="checkbox" name='ids[]' class="checkall_1 checkall-item" value="{$item['id']}"/></td>
+                <td class="wid-auto">{$item['names']}</td>
+                <td class="wid-auto">{$item['subject']}</td>
+                <td class="wid-auto">{$item['leader']}</td>
+                <td class="wid-auto">{$item['helper']}</td>
+                <td class="wid-auto">{$item['members']}</td>
+                <td class="wid-auto">{$item['addTime']}</td>
+                {*<td class="center">{$item["status"]}</td>*}
+                <td>
+                    <a href="{url('consoles_mod','con=StaffGroup&id='.$item['id'])}" data-side-form>编辑</a>
+                </td>
+            </tr>
+        {/foreach}
+        </tbody>
+    </table>
+{/block}
+
+
+
+

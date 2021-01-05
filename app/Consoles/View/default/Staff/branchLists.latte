@@ -1,0 +1,58 @@
+{layout '../Public/layoutList.latte'} {*继承layoutList模板*}
+{block title}
+    <span><a style="color: #0087e1;margin-right: 10px;font-size: 16px;" href="{Q()->server->get("HTTP_AJAX_REFERER")}">返回</a></span>
+    我的直线下级{/block}
+{*{block actions}<a href="{url('consoles_add','con=Staff')}" class="icon-adds" data-side-form="900px">添加员工</a>{/block}*}
+
+{block actionstab}
+{/block}
+
+{*选中记录的操作按钮*}
+{block actions2}
+{/block}
+{block private_css}
+    <style type="text/css">
+        .list-more-action{
+            display:none;
+        }
+    </style>
+{/block}
+{block content}
+    {if $lists}
+        <table cellpadding="0" cellspacing="0" border="0" class="stdtable">
+            <thead>
+            <tr>
+                <th><span class="table-head">姓名</span></th> {*在th加入 data-sort 可对数据库进行排序*}
+                <th><span class="table-head">手机号码</span></th>
+                <th><span class="table-head">直线经理</span></th>
+                <th><span class="table-head">微信号</span></th>
+                <th><span class="table-head">QQ号</span></th>
+                <th><span class="table-head">邮箱</span></th>
+                <th><span class="table-head">备注</span></th>
+            </tr>
+            </thead>
+            <tbody>
+            {foreach $lists as $key=>$item}
+                <tr>
+                    <td>{$item['u_fullName']}</td>
+                    <td>{$item['u_phone']}</td>
+                    <td>{$item['c_leaderName']}</td>
+                    <td>{$item['u_wx']}</td>
+                    <td>{$item['u_qq']}</td>
+                    <td>{$item['u_email']}</td>
+                    <td>{$item['u_memo']}</td>
+                </tr>
+            {/foreach}
+            </tbody>
+        </table>
+    {else}
+        <div style="position:relative; width:100%; line-height:50px; display:block; text-align:center;">
+            <img src="{path('[MobileConsoles]/img/null.png')}" alt="" class="" style="width:300px;height:100%; margin:50px auto 0; display:block;">
+            <div style="width:100%; color:#999; text-align:center; font-size:1.5rem;">暂时没有下级哦！</div>
+        </div>
+    {/if}
+{/block}
+
+
+
+

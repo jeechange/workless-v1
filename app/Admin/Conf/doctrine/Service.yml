@@ -1,0 +1,65 @@
+Admin\Entity\Service:
+  type: entity
+  table: service
+  id:
+    id:
+      type: integer
+      nullable: false
+      unsigned: false
+      comment: ''
+      id: true
+      generator:
+        strategy: IDENTITY
+  fields:
+    names:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    sCode:
+      type: string
+      nullable: true
+      length: 30
+      fixed: false
+      comment: ''
+      column: s_code
+    types:
+      type: smallint
+      nullable: true
+      unsigned: false
+      comment: ''
+    spec:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    money:
+      type: decimal
+      nullable: true
+      precision: 10
+      scale: 2
+      comment: ''
+    addTime:
+      type: datetime
+      nullable: true
+      comment: ''
+      column: add_time
+    putawayTime:
+      type: datetime
+      nullable: true
+      comment: ''
+      column: putaway_time
+    content:
+      type: text
+      nullable: true
+      length: null
+      fixed: false
+      comment: ''
+    status:
+      type: smallint
+      nullable: true
+      unsigned: false
+      comment: ''
+  lifecycleCallbacks: {  }

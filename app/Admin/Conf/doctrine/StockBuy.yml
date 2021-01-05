@@ -1,0 +1,90 @@
+Admin\Entity\StockBuy:
+  type: entity
+  table: stock_buy
+  id:
+    id:
+      type: integer
+      nullable: false
+      unsigned: false
+      comment: ''
+      id: true
+      generator:
+        strategy: IDENTITY
+  fields:
+    userId:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: user_id
+    collection:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    account:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    accountNo:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+      column: account_no
+    name:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    money:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    balance:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    checkTime:
+      type: datetime
+      nullable: true
+      comment: ''
+      column: check_time
+    adminId:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: admin_id
+    status:
+      type: smallint
+      nullable: true
+      unsigned: false
+      comment: ''
+    sid:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+    usePriority:
+      type: smallint
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: use_priority
+    proof:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+  lifecycleCallbacks: {  }

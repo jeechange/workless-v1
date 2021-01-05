@@ -1,0 +1,15 @@
+{if $tabs=="effectDeduction"}
+    <div class="tabs">
+        <div style="width:90%;float:left;overflow-y: auto;white-space: nowrap;display: inline-block;">
+            <a href="{url("mobileConsoles_sort_effect_deduction",array("sTypes"=>$sTypes,"types"=>1,"bTypes"=>$bTypes))}" class="tabs-link{if $types==1} active{/if}" style="margin-left: 6px;">个人</a>
+            <a href="{url("mobileConsoles_sort_effect_deduction",array("sTypes"=>$sTypes,"types"=>2,"bTypes"=>$bTypes))}" class="tabs-link{if $types==2} active{/if}">部门</a>
+        </div>
+    </div>
+{elseif $tabs=='deAveragePoints'}
+    <div class="tabs">
+        <div style="width:90%;float:left;overflow-y: auto;white-space: nowrap;display: inline-block;">
+            <a class="tabs-link" style="margin-left: 6px;">各个部门人均得分</a>
+
+        </div>
+    </div>
+{/if}

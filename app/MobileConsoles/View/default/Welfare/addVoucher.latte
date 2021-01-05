@@ -1,0 +1,289 @@
+{layout "../Layout/layout.latte"}
+
+{block tabs_content}
+    {include "./tabs.latte"}
+{/block}
+
+
+{block private_css}
+    <style>
+        .content{
+            background:#fff;
+        }
+
+        .field-item{
+            margin:5px 10px;
+            padding-bottom:10px;
+        }
+
+        .field-item .field-item-title{
+            color:#101010;
+            font-size:14px;
+            vertical-align:bottom;
+        }
+
+        .field-item .field-item-title .required{
+            color:#e51c23;
+            font-weight:400;
+        }
+
+        .field-item .field-item-body{
+            position:relative;
+            padding-top:5px;
+        }
+
+        .field-item .field-item-body input[type=text]{
+            display:block;
+            position:relative;
+            border-bottom:#e7e7e7 1px solid;
+        }
+
+        .field-item .field-item-body .field-item-tag{
+            position:absolute;
+            right:0.5rem;
+            background:#8BC34A;
+            padding:3px 10px;
+            font-size:12px;
+            margin-left:5px;
+            top:3px;
+            color:#fff;
+        }
+
+        .priority-input{
+            display:inline-block;
+            width:35px;
+            height:35px;
+            line-height:35px;
+            text-align:center;
+            margin-right:15px;
+            color:#fff !important;
+            border:2px solid #fff;
+        }
+
+        .priority-input span{
+            margin:auto !important;
+            display:block;
+            width:30px;
+            height:30px;
+            line-height:30px;
+            border-radius:50%;
+            cursor:pointer;
+        }
+
+        .priority-input input{
+            display:none !important;
+        }
+
+        .priority-input.selected{
+            font-weight:900 !important;
+            border:2px solid #009DD9;
+            background:#d7d7d7;
+        }
+
+        .field-item-body textarea{
+            border:#e7e7e7 1px solid;
+        }
+
+        .field-item-body .field-item-member-box{
+            padding:10px 0;
+            border-bottom:2px solid #ddd;
+        }
+
+        .field-item-body .field-member{
+            display:inline-block;
+            border-radius:15px;
+            padding:3px 10px;
+            border:#e7e7e7 1px solid;
+        }
+
+        .field-item-body .field-item-score-box{
+            padding:10px 0;
+        }
+
+        .field-item-body .field-score{
+            display:inline-block;
+            padding:5px 15px;
+            border:#e7e7e7 1px solid;
+            margin-top:5px;
+        }
+
+        .field-item-between{
+            background:rgba(170, 170, 170, 0.07);
+            height:8px;
+        }
+
+        .medal-item{
+            border:1px solid #ddd;
+            display:inline-block;
+            vertical-align:middle;
+            min-width:80px;
+            padding:3px 8px;
+            margin-right:5px;
+            height:35px;
+            line-height:35px;
+            text-align:center;
+            cursor:pointer;
+            box-sizing:content-box;
+            margin-top:5px;
+        }
+
+        .medal-item img{
+            width:30px;
+            height:30px;
+            vertical-align:middle;
+        }
+
+        .medal-item.medal-item-selected, .field-score.field-score-selected{
+            border:1px solid #009DD9;
+        }
+
+        .pic-add{
+            display:inline-block;width:40px;height:40px;background:#f6f6f6;color:#aaa;text-align:center;line-height:40px;font-size:36px;
+            position:relative;
+        }
+
+        .pic-add input{
+            opacity:0;
+            position:absolute;
+            top:0;
+            left:0;
+            width:40px;
+            height:40px;
+        }
+
+        #deadline{
+            width:120px;
+            display:inline-block;
+            height:auto;
+        }
+
+    </style>
+{/block}
+
+{block private_js}
+    <script type="text/javascript">
+        $(function () {
+            $("#bnts").click(function () {
+                console.log($("#formArticle").serialize());
+                $.ajax({
+                    type: "post",
+                    url: $("#formArticle").attr("action"),
+                    data: $("#formArticle").serialize(),
+                    cache: false,
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.status == "n") {
+                            $.toast(data.info);
+                            return false;
+                        } else {
+                            $.toast(data.info);
+                            setTimeout(function () {
+                                $.showPreloader();
+                                location.replace(data.url);
+                            }, 2000);
+                        }
+                    }
+                });
+            })
+        });
+
+        $(".create-actions").click(function () {
+            var settingName = $(this).attr("data-settingName");
+            var settingUrl = $(this).attr("data-settingUrl");
+            var welfareAddName = $(this).attr("data-welfareAddName");
+            var welfareAddUrl = $(this).attr("data-welfareAddUrl");
+            var welfareAddTypes = $(this).attr("data-welfareAddTypes");
+            var welfareAddTypesUrl = $(this).attr("data-welfareAddTypesUrl");
+            var buttons1 = [
+                {
+                    text: '请选择',
+                    label: true
+                },
+                {
+                    text: welfareAddName,
+                    onClick: function () {
+                        window.location.href = welfareAddUrl;
+                    }
+                },
+                {
+                    text: welfareAddTypes,
+                    onClick: function () {
+                        window.location.href = welfareAddTypesUrl;
+                    }
+                },
+                {
+                    text: settingName,
+                    onClick: function () {
+                        window.location.href = settingUrl;
+                    }
+                },
+
+            ];
+            var buttons2 = [
+                {
+                    text: '取消',
+                    bg: 'danger'
+                }
+            ];
+            var groups = [buttons1, buttons2];
+            $.actions(groups);
+        });
+    </script>
+{/block}
+{block content}
+    <form id="formArticle" class="stdform mform" method="post" action="">
+        <div class="list-block" style="margin-top: 3.4rem;">
+            <div class="field-item">
+                <div class="field-item-title">
+                    抵扣券名称 <span class="required">*</span>
+                </div>
+                <div class="field-item-body">
+                    <input type="text" name="names" placeholder="请输入抵扣券名称"/>
+                </div>
+            </div>
+            <div class="field-item">
+                <div class="field-item-title">
+                    抵扣券面额 <span class="required">*</span>
+                </div>
+                <div class="field-item-body">
+                    <input type="text" name="acorn" placeholder="请输入抵扣券面额"/>
+                </div>
+            </div>
+            <div class="field-item">
+                <div class="field-item-title">
+                    使用说明
+                </div>
+                <div class="field-item-body">
+                    <input type="text" name="icon" placeholder="请输入使用说明"/>
+                </div>
+            </div>
+            <div class="field-item">
+                <div class="field-item-title">
+                    排序
+                </div>
+                <div class="field-item-body">
+                    <input type="text" name="sort" placeholder="请输入排序" value="1"/>
+                </div>
+            </div>
+            <div class="item-content">
+                <div class="item-media"><i class="icon icon-form-email"></i></div>
+                <div class="item-inner">
+                    <div class="item-title label">状态</div>
+                    <div class="item-input">
+                        <input name='status' checked type="radio" value='1'>启用
+                        <input name='status' type="radio" value='0'>停用
+                    </div>
+                </div>
+            </div>
+    </form>
+    <div class="content-block">
+        <div class="col-95">
+            <div class="button button-big button-fill" id="bnts">提交</div>
+        </div>
+    </div>
+    {if $isSuper}
+        <div>
+            <span data-settingUrl="{url("mobileConsoles_welfare_bonus_setting")}" data-welfareAddUrl="{url("mobileConsoles_welfare_add")}" data-welfareAddTypesUrl="{url("mobileConsoles_welfare_voucher")}" data-settingName="设置" data-welfareAddName="发放物资福利" data-welfareAddTypes="抵扣券管理" class="create-actions">管理</span>
+        </div>
+    {/if}
+{/block}

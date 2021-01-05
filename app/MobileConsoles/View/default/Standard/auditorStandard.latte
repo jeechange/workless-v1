@@ -1,0 +1,353 @@
+{layout "../Layout/layout.latte"}
+{block private_js}
+    <script type="text/javascript">
+        $(function () {
+            if ($("input[name='acorn']").val() == 0) {
+                $("#acorn").hide();
+                $(".acorn-show").html('不预设');
+                $("input[name='acornTypes']").val(1);
+            } else {
+                $("#acorn").show();
+                $(".acorn-show").html('预设');
+                $("input[name='acornTypes']").val(0);
+            }
+            $("#bnt").click(function () {
+                $.confirm('是否确认审核?', function () {
+                    $.ajax({
+                        type: "post",
+                        url: $("#formArticle").attr("action"),
+                        data: $("#formArticle").serialize(),
+                        cache: false,
+                        dataType: "json",
+                        success: function (data) {
+                            if (data.status == "n") {
+                                $.toast(data.info);
+                                return false;
+                            } else {
+                                $.toast(data.info);
+                                setTimeout(function () {
+                                    $.showPreloader();
+                                    location.replace(data.url);
+                                }, 2000);
+                            }
+                        }
+                    });
+                });
+            });
+            $("#modify").click(function () {
+                $.confirm('是否确认修改?', function () {
+                    $.ajax({
+                        type: "post",
+                        url: $("#modify").attr("data-url"),
+                        data: $("#formArticle").serialize(),
+                        cache: false,
+                        dataType: "json",
+                        success: function (data) {
+                            if (data.status == "n") {
+                                $.toast(data.info);
+                                return false;
+                            } else {
+                                $.toast(data.info);
+                                setTimeout(function () {
+                                    $.showPreloader();
+                                    location.replace(data.url);
+                                }, 2000);
+                            }
+                        }
+                    });
+                });
+            });
+            $(".acorn-show").click(function () {
+                var buttons1 = [
+                    {
+                        text: '请选择',
+                        label: true
+                    },
+                    {
+                        text: '预设',
+                        bold: true,
+                        color: 'danger',
+                        onClick: function () {
+                            $.alert("你选择了“预设“");
+                            $("#acorn").show();
+                            $(".acorn-show").html('预设');
+                            $("input[name='acornTypes']").val(0);
+                        }
+                    },
+                    {
+                        text: '不预设',
+                        onClick: function () {
+                            $.alert("你选择了“不预设“");
+                            $("#acorn").hide();
+                            $(".acorn-show").html('不预设');
+                            $("input[name='acornTypes']").val(1);
+                        }
+                    }
+                ];
+                var buttons2 = [
+                    {
+                        text: '取消',
+                        bg: 'danger'
+                    }
+                ];
+                var groups = [buttons1, buttons2];
+                $.actions(groups);
+            });
+        });
+
+        function deleteAdr(atr) {
+            $.confirm('是否确认删除?', function () {
+                var dele = $(atr);
+                $.ajax({
+                    type: "post",
+                    url: dele.attr("data-url"),
+                    data: " ",
+                    cache: false,
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.status == "n") {
+                            $.toast(data.info);
+                            if (data.url) {
+                                setTimeout(function () {
+                                    $.showPreloader();
+                                    location.replace(data.url);
+                                }, 2000);
+                            }
+                            return false;
+                        } else {
+                            $.toast(data.info);
+                            setTimeout(function () {
+                                $.showPreloader();
+                                location.replace(data.url);
+                            }, 2000);
+                        }
+                    }
+                });
+            });
+        }
+
+        function refusal(atr) {
+            $.confirm('是否确认拒绝?', function () {
+                var sysMemo = $("#syMemo").val();
+                if (!sysMemo) {
+                    $.toast("请填写拒绝理由");
+                    return false;
+                }
+                var refusal = $(atr);
+                $.ajax({
+                    type: "post",
+                    url: refusal.attr("data-url"),
+                    data: {
+                        sysMemo: sysMemo
+                    },
+                    cache: false,
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.status == "n") {
+                            $.toast(data.info);
+                            if (data.url) {
+                                setTimeout(function () {
+                                    $.showPreloader();
+                                    location.replace(data.url);
+                                }, 2000);
+                            }
+                            return false;
+                        } else {
+                            $.toast(data.info);
+                            if (data.url) {
+                                setTimeout(function () {
+                                    $.showPreloader();
+                                    location.replace(data.url);
+                                }, 2000);
+                            }
+                        }
+                    }
+                });
+            });
+        }
+    </script>
+{/block}
+{block private_css}
+    <style type="text/css">
+        .list-block{
+            margin:0;
+        }
+    </style>
+{/block}
+{block content}
+    <div class="content">
+        <form id="formArticle" class="stdform mform" method="post" action="" onsubmit="return false">
+            <div class="list-block">
+                <ul>
+                    <!-- Text inputs -->
+                    <li>
+                        <div class="item-content">
+                            <div class="item-media"><i class="icon icon-form-name"></i></div>
+                            <div class="item-inner">
+                                <div class="item-title label">名称</div>
+                                <div class="item-input">
+                                    <input type="text" placeholder="标准名称" name="names" value="{$lists['s_names']}">
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="item-content">
+                            <div class="item-media"><i class="icon icon-form-email"></i></div>
+                            <div class="item-inner">
+                                <div class="item-title label">类型</div>
+                                <div class="item-input">
+                                    <select id="pid" name="pid" disabled>
+                                        {foreach $options as $key=>$item}
+                                            <option value="{$item['id']}" {if $lists['s_classify']==$item['id']}selected{/if}>{$item['names']}</option>
+                                        {/foreach}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="item-content">
+                            <div class="item-media"><i class="icon icon-form-email"></i></div>
+                            <div class="item-inner">
+                                <div class="item-title label">积分</div>
+                                <div class="item-input">
+                                    <p style="margin-left: 4px;"><a href="#" class="acorn-show">是否预设</a></p>
+                                    <div id="acorn">
+                                        <input type="text" placeholder="积分" name="acorn" style="width:80%;float:left" value="{$lists['s_acorn']}"><i class="icon al-icon al-icon-influence" style="width:20%;line-height: 35px;"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li style="display:none;">
+                        <div class="item-content">
+                            <div class="item-media"><i class="icon icon-form-email"></i></div>
+                            <div class="item-inner">
+                                <div class="item-title label">发放方式</div>
+                                <div class="item-input">
+                                    <select id="methods" name="methods">
+                                        {foreach $methods as $key=>$item}
+                                            <option value="{$key}" {if $lists['s_methods']==$key}selected{/if} >{$item}</option>
+                                        {/foreach}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li style="display:none;">
+                        <div class="item-content">
+                            <div class="item-media"><i class="icon icon-form-email"></i></div>
+                            <div class="item-inner">
+                                <div class="item-title label">发放频率</div>
+                                <div class="item-input">
+                                    <select id="cycle" name="cycle">
+                                        {foreach $cycle as $k=>$values}
+                                            <option value="{$k}" {if $lists['s_cycle']==$k}selected{/if}>{$values}</option>
+                                        {/foreach}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="item-content">
+                            <div class="item-media"><i class="icon icon-form-email"></i></div>
+                            <div class="item-inner">
+                                <div class="item-title label">标准说明</div>
+                                <div class="item-input">
+                                    <textarea name="memo" data-toggle="rich" id="memo">{$lists['s_memo']}</textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li>
+                        <div class="item-content">
+                            <div class="item-media"><i class="icon icon-form-name"></i></div>
+                            <div class="item-inner">
+                                <div class="item-title label">申请人</div>
+                                <div class="item-input">
+                                    <input type="text" value="{$lists['fullName']}" readonly>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="item-content">
+                            <div class="item-media"><i class="icon icon-form-name"></i></div>
+                            <div class="item-inner">
+                                <div class="item-title label">联系号码</div>
+                                <div class="item-input">
+                                    <input type="text" value="{$lists['phone']}" readonly>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    {if $lists['sa_userId']!=$userId }
+                        <li>
+                            <div class="item-content">
+                                <div class="item-media"><i class="icon icon-form-email"></i></div>
+                                <div class="item-inner">
+                                    <div class="item-title label">通过/拒绝理由</div>
+                                    <div class="item-input">
+                                        <textarea name="syMemo" id="syMemo"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    {/if}
+                    <li>
+                        <div class="item-content">
+                            <div class="item-media"><i class="icon icon-form-email"></i></div>
+                            <div class="item-inner">
+                                <div class="item-title label">状态</div>
+                                <div class="item-input">
+                                    {if $lists['sa_status']==0}
+                                        申请中
+                                    {elseif $lists['sa_status']==1}
+                                        审核通过
+                                    {else}
+                                        拒绝
+                                    {/if}
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <input type="hidden" name="acornTypes" value="">
+        </form>
+        {if $lists['sa_memo']}
+            <div class="card">
+                <div class="card-header">理由说明</div>
+                <div class="card-content" style="min-height:50px">
+                    {foreach $lists['sa_memo'] as $key=>$item}
+                        <div class="card-content-inner">{$item['addTime']|totime} ：{$item['memo']}</div>
+                    {/foreach}
+                </div>
+            </div>
+        {/if}
+        {if $lists['sa_status']!=1}
+            <div class="content-block">
+                <div class="row">
+                    {if $lists['sa_userId']!=$userId }
+                        <div class="col-50">
+                            <a href="#" class="button button-big button-fill button-danger" data-url="{url('mobileConsoles_standard_refusal',array("id"=>$lists['s_id']))}" onclick="refusal($(this))">拒绝</a>
+                        </div>
+                        <div class="col-50">
+                            <a href="#" class="button button-big button-fill" id="bnt">审核</a>
+                        </div>
+                    {else}
+                        <div class="col-50">
+                            <a href="#" class="button button-big button-fill button-danger" data-url="{url('mobileConsoles_standard_delete',array("id"=>$lists['s_id']))}" onclick="deleteAdr($(this))">删除</a>
+                        </div>
+                        <div class="col-50">
+                            <a data-url="{url('mobileConsoles_standard_modify',array("id"=>$lists['s_id']))}" class="button button-big button-fill" id="modify">修改</a>
+                        </div>
+                    {/if}
+                </div>
+            </div>
+        {/if}
+    </div>
+{/block}

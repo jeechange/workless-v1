@@ -1,0 +1,252 @@
+{layout "../Layout/layout.latte"}
+{block headTitle}添加备忘{/block}
+{block title}添加备忘{/block}
+{block private_css}
+    <style>
+        td {
+            line-height: 30px !important;
+        }
+        .selectIcon {
+            float: left;
+            width: 18px;
+            height: 18px;
+            margin:4px;
+            display: block;
+        }
+        #todayBox,#tomorrowBox,#somedayBox,#certaindayBox {
+            overflow: hidden;
+            margin: 4px;
+            float: left;
+        }
+        #todayBox:hover,#tomorrowBox:hover,#somedayBox:hover,#certaindayBox:hover {
+            cursor: pointer;
+        }
+
+        .bar {
+            background-color: #fff !important;
+        }
+
+        .list-block {
+            margin: 0 !important;
+        }
+
+        .button-success.button-fill {
+            background-color: #0894ec;
+        }
+
+        .button-danger.button-fill {
+            background-color: unset;
+            color: #0894ec;
+        }
+
+        .list-block .item-title.label {
+            width: 21%;
+        }
+
+        .list-block textarea {
+            height: 15rem;
+        }
+    </style>
+{/block}
+
+{block private_js}
+    <script>
+        $(function(){
+
+            $("#todayBox").click(function(){
+
+                $("#tomorrowBox").attr("data-status","unselected");
+                $("#tomorrowBox").children("img").attr("src",{path('[Consoles]/images/unselected.png')});
+                $("#somedayBox").attr("data-status","unselected");
+                $("#somedayBox").children("img").attr("src",{path('[Consoles]/images/unselected.png')});
+                $("#certaindayBox").attr("data-status","unselected");
+                $("#certaindayBox").children("img").attr("src",{path('[Consoles]/images/unselected.png')});
+                $("#certaindayLi").css("display","none");
+
+                var status = $(this).attr("data-status");
+                if(status == "unselected"){
+                    $(this).children("img").attr("src",{path('[Consoles]/images/selected.png')});
+                    $(this).attr("data-status","selected");
+                    $("#types").val("today");
+                }else{
+                    $(this).children("img").attr("src",{path('[Consoles]/images/unselected.png')});
+                    $(this).attr("data-status","unselected");
+                    $("#types").val("");
+                }
+            })
+
+            $("#tomorrowBox").click(function(){
+
+                $("#todayBox").attr("data-status","unselected");
+                $("#todayBox").children("img").attr("src",{path('[Consoles]/images/unselected.png')});
+                $("#somedayBox").attr("data-status","unselected");
+                $("#somedayBox").children("img").attr("src",{path('[Consoles]/images/unselected.png')});
+                $("#certaindayBox").attr("data-status","unselected");
+                $("#certaindayBox").children("img").attr("src",{path('[Consoles]/images/unselected.png')});
+                $("#certaindayLi").css("display","none");
+
+                var status = $(this).attr("data-status");
+                if(status == "unselected"){
+                    $(this).children("img").attr("src",{path('[Consoles]/images/selected.png')});
+                    $(this).attr("data-status","selected");
+                    $("#types").val("tomorrow");
+                }else{
+                    $(this).children("img").attr("src",{path('[Consoles]/images/unselected.png')});
+                    $(this).attr("data-status","unselected");
+                    $("#types").val("");
+                }
+            })
+
+            $("#somedayBox").click(function(){
+
+                $("#tomorrowBox").attr("data-status","unselected");
+                $("#tomorrowBox").children("img").attr("src",{path('[Consoles]/images/unselected.png')});
+                $("#todayBox").attr("data-status","unselected");
+                $("#todayBox").children("img").attr("src",{path('[Consoles]/images/unselected.png')});
+                $("#certaindayBox").attr("data-status","unselected");
+                $("#certaindayBox").children("img").attr("src",{path('[Consoles]/images/unselected.png')});
+                $("#certaindayLi").css("display","none");
+
+                var status = $(this).attr("data-status");
+                if(status == "unselected"){
+                    $(this).children("img").attr("src",{path('[Consoles]/images/selected.png')});
+                    $(this).attr("data-status","selected");
+                    $("#types").val("someday");
+                }else{
+                    $(this).children("img").attr("src",{path('[Consoles]/images/unselected.png')});
+                    $(this).attr("data-status","unselected");
+                    $("#types").val("");
+                }
+            })
+
+            $("#certaindayBox").click(function(){
+                $("#tomorrowBox").attr("data-status","unselected");
+                $("#tomorrowBox").children("img").attr("src",{path('[Consoles]/images/unselected.png')});
+                $("#todayBox").attr("data-status","unselected");
+                $("#todayBox").children("img").attr("src",{path('[Consoles]/images/unselected.png')});
+                $("#somedayBox").attr("data-status","unselected");
+                $("#somedayBox").children("img").attr("src",{path('[Consoles]/images/unselected.png')});
+                var status = $(this).attr("data-status");
+                if(status == "unselected"){
+                    $(this).children("img").attr("src",{path('[Consoles]/images/selected.png')});
+                    $(this).attr("data-status","selected");
+                    $("#certaindayLi").css("display","block");
+                    $("#types").val("certainday");
+                }else{
+                    $(this).children("img").attr("src",{path('[Consoles]/images/unselected.png')});
+                    $(this).attr("data-status","unselected");
+                    $("#certaindayLi").css("display","none");
+                    $("#types").val("");
+                }
+            })
+
+
+
+            $("#addBtn").click(function () {
+                var url = $(this).attr("href");
+                var content = $("#content").val();
+                var types = $("#types").val();
+                var certainTime = $("#certainTime").val();
+                var formData = {
+                    content: content,
+                    types: types,
+                    certainTime: certainTime
+                }
+                $.ajax({
+                    type: "post",
+                    url: url,
+                    data: formData,
+                    cache: false,
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.status == "n") {
+                            $.toast(data.info)
+                            return false;
+                        } else {
+                            $.showPreloader(data.info)
+                            setTimeout(function () {
+                                location.replace(data.url);
+                                $.hidePreloader();
+                            }, 1000);
+                        }
+                    }
+                });
+                return false;
+            });
+
+
+            $("#certainTime").datetimePicker({
+                value: ['2018', '11', '19', '5', '20']
+            });
+
+        })
+    </script>
+{/block}
+
+{block content}
+    <div class="content">
+        <div class="list-block">
+            <ul>
+                <li class="align-top">
+                    <div class="item-content">
+                        <div class="item-media"><i class="icon icon-form-comment"></i></div>
+                        <div class="item-inner">
+                            <textarea id="content" name="content" placeholder="请输入备忘" style="padding: 0;"></textarea>
+                        </div>
+                    </div>
+                </li>
+                <li class="align-top">
+                    <div class="item-content">
+                        <div class="item-media"><i class="icon icon-form-comment"></i></div>
+                        <div class="item-inner">
+                            <div class="item-title label">完成时间：</div>
+                            <div class="item-input"></div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="item-content">
+                        <div class="item-media"><i class="icon icon-form-toggle"></i></div>
+                        <div class="item-inner">
+                            <div id="todayBox" data-status="selected">
+                                <p style="float: left;margin: 4px 0;">今天</p>
+                                <img class="selectIcon" src="{path('[Consoles]/images/selected.png')}"/>
+                            </div>
+                            <div id="tomorrowBox" data-status="unselected">
+                                <p style="float: left;margin: 4px 0;">明天</p>
+                                <img class="selectIcon" src="{path('[Consoles]/images/unselected.png')}"/>
+                            </div>
+                            <div id="somedayBox" data-status="unselected">
+                                <p style="float: left;margin: 4px 0;">某天</p>
+                                <img class="selectIcon" src="{path('[Consoles]/images/unselected.png')}"/>
+                            </div>
+                            <div id="certaindayBox" data-status="unselected">
+                                <p style="float: left;margin: 4px 0;">具体日期</p>
+                                <img class="selectIcon" src="{path('[Consoles]/images/unselected.png')}"/>
+                            </div>
+                            <input id="types" type="hidden" name="types" value="today">
+                        </div>
+                    </div>
+                </li>
+                <li id="certaindayLi" style="display: none;">
+                    <div class="item-content">
+                        <div class="item-media"><i class="icon icon-form-toggle"></i></div>
+                        <div class="item-inner">
+                            <div style="overflow: hidden;margin: 0 auto;width: 55%;">
+                                <span style="float: left;line-height: 2.25rem;width: 35%;">请选择：</span>
+                                <input type="text" id="certainTime" name="certainTime" style="padding: 0;float: left;width: 65%;line-height: 2.25rem;"/>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+            {*<input id="types" type="hidden" name="types">*}
+        </div>
+        <div class="content-block">
+            <div class="row">
+                <div class="col-100" style="margin-bottom: 10px;"><a id="addBtn" href="{url("mobileConsoles_anything_anythingAdd")}" class="button button-big button-fill button-success">提交</a></div>
+                <div class="col-100"><a href="{url("mobileConsoles_anything_anythingLists")}" class="button button-big button-fill button-danger" >返回</a></div>
+            </div>
+        </div>
+    </div>
+{/block}

@@ -1,0 +1,50 @@
+.confirm {
+  background-clip: padding-box;
+  background-color: #FFFFFF;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  border-radius: 6px;
+  box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+  overflow: auto;
+  position: fixed;
+  z-index: 1050;
+}
+
+
+.confirm-header {
+  border-bottom: 1px solid #EEEEEE;
+  padding: 9px 15px;}
+  h1, h2, h3, h4, h5, h6 {
+    color: inherit;
+    font-family: inherit;
+    font-weight: bold;
+    margin: 0;
+    text-rendering: optimizelegibility;
+  }
+
+
+.confirm-header .close {
+  margin-top: 2px;
+}
+.confirm-body {
+  max-height: 400px;
+  overflow-y: auto;
+  padding: 15px;
+}
+.confirm-footer:before, .confirm-footer:after {
+  content: "";
+  display: table;
+}
+
+.confirm-footer:after {
+  clear: both;
+}
+
+.confirm-footer {
+  background-color: #F5F5F5;
+  border-radius: 0 0 6px 6px;
+  border-top: 1px solid #DDDDDD;
+  box-shadow: 0 1px 0 #FFFFFF inset;
+  margin-bottom: 0;
+  padding: 14px 15px 15px;
+  text-align: right;
+}

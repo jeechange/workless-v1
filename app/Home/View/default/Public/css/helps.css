@@ -1,0 +1,280 @@
+
+
+*{
+    margin:0;
+    padding:0;
+}
+li{
+    list-style:none;
+}
+img{
+    image-rendering: -moz-crisp-edges;         /* Firefox */
+    image-rendering:   -o-crisp-edges;         /* Opera */
+    image-rendering: -webkit-optimize-contrast;/* Webkit (non-standard naming) */
+    image-rendering: crisp-edges;
+}
+a{
+    text-decoration:none;
+}
+
+/*myOrder导航*/
+@media screen and (min-width:426px){
+    .problem{
+        width:1440px;
+        margin:auto;
+        overflow:hidden;
+        margin-top:153px;
+        /*margin-bottom:150px;*/
+    }
+    .problem_list{
+        width:1000px;
+        margin:auto;
+    }
+    .problem ul{
+        width:100%;
+        margin:auto;
+        overflow:hidden;
+        margin-top:50px;
+        margin-bottom:168px;
+    }
+    .problem ul li{
+        float:left;
+        width:100%;
+        margin-bottom:20px;
+        text-align:center;
+    }
+    .problem ul li a{
+        font-size:18px;
+        font-family:Microsoft YaHei;
+        font-weight:400;
+        line-height:40px;
+        color:rgba(38,38,38,1);
+        opacity:1;
+    }
+    .help{
+        overflow:hidden;
+        width:776px;
+        height:78px;
+        margin:auto;
+        border:2px solid rgba(40,85,156,1);
+        margin-bottom:336px;
+    }
+    .help form{
+        overflow:hidden;
+    }
+    .help form input{
+        width:664px;
+        font-size:24px;
+        font-family:Microsoft YaHei;
+        font-weight:400;
+        line-height:78px;
+        color:rgba(175,175,175,1);
+        opacity:1;
+        border:none;
+        text-indent:1rem;
+    }
+    .help form button{
+        border:none;
+        width:112px;
+        height:80px;
+        background:rgba(40,85,156,1);
+        opacity:1;
+        font-size:24px;
+        font-family:Microsoft YaHei;
+        font-weight:400;
+        line-height:80px;
+        color:rgba(249,249,249,1);
+        float:right;
+    }
+    .problem{
+        margin-top:70px;
+    }
+
+    .problem_list ul li{
+        overflow:hidden;
+    }
+
+    .problem_list ul li a{
+        display:block;
+        overflow:hidden;
+    }
+
+    .problem_list ul li a img{
+        float:left;
+        width:190px;
+        height:124px;
+    }
+
+    .problem_list ul li a .conts{
+        float:left;
+        width:780px;
+        margin-left:30px;
+    }
+
+    .problem_list ul li h5{
+        line-height:33px;
+        font-size:23px;
+        font-weight:100;
+        margin-bottom:13px;
+        color:rgba(16, 16, 16, 1);
+    }
+
+    .problem_list ul li p{
+        font-size:14px;
+        line-height:20px;
+        color:rgba(16, 16, 16, 1);
+        overflow:hidden;
+        height:60px;
+    }
+
+    .problem_list ul li span{
+        line-height:20px;
+        color:rgba(16, 16, 16, 1);
+        overflow:hidden;
+        font-size:12px;
+    }
+
+    .problem_list ul li h5, .problem_list ul li p, .problem_list ul li span{
+        text-align:left;
+    }
+
+    .page-bar{
+        width:800px;
+        margin:auto;
+        overflow:hidden;
+        text-align:center;
+        margin-bottom:40px;
+    }
+
+    .page-bar > div{
+        display:inline-block;
+        padding:5px 10px;
+        border:#28559c 1px solid;
+        color:#28559c;
+        margin-right:20px;
+    }
+
+    .page-bar > div.page-current{
+        background:#28559c;
+        color:#FFF;
+    }
+
+    .page-describe, .page-size{
+        display:none !important;
+    }
+}
+@media screen and (max-width:425px){
+    .problem{
+        margin-top:20px;
+    }
+    .problem>h2{
+        text-align:center;
+        font-size:14px;
+        font-family:Microsoft YaHei;
+        font-weight:bold;
+        line-height:40px;
+        color:rgba(38,38,38,1);
+        opacity:1;
+    }
+    .problem ul{
+        width:90%;
+        margin:auto;
+    }
+    .problem ul li{
+        margin-bottom:10px;
+        overflow:hidden;
+    }
+    .problem ul li:last-child{
+        margin-bottom:0;
+    }
+    .problem ul li a{
+        font-size:12px;
+        font-family:Microsoft YaHei;
+        font-weight:400;
+        color:rgba(38,38,38,1);
+        opacity:1;
+    }
+    .problem_list ul li a img{
+        width:30%;
+        float:left;
+    }
+    .problem_list ul li a .conts{
+        width:68%;
+        float:right;
+    }
+    .conts h5{
+        font-size: 18px;
+        color: #000;
+    }
+    .conts p{
+        margin-top: 10px;
+        line-height: 22px;
+        font-size: 14px;
+        color: #000;
+        height:3rem;
+        overflow:hidden;
+    }
+    .conts p:last-child{
+        margin-top: 0;
+        line-height: 22px;
+        font-size: 12px;
+        color: #999;
+        height:unset;
+    }
+    .help{
+        width:65%;
+        margin:auto;
+        margin-top:25px;
+        margin-bottom:65px;
+    }
+    .help form{
+        overflow:hidden;
+    }
+    .help input{
+        width:79%;
+        height:30px;
+        background:rgba(255,255,255,1);
+        border:1px solid rgba(40,85,156,1);
+        opacity:1;
+        text-indent:1rem;
+        float:left;
+    }
+    .help button{
+        width:20%;
+        height:32px;
+        background:rgba(40,85,156,1);
+        opacity:1;
+        font-size:9px;
+        font-family:Microsoft YaHei;
+        font-weight:400;
+        line-height:15px;
+        color:rgba(249,249,249,1);
+        border:#28559c 1px solid;
+        float:left;
+    }
+
+    .page-bar{
+        width:53.33vw;
+        overflow:hidden;
+        text-align:center;
+        margin-bottom:40px;
+    }
+
+    .page-bar > div{
+        display:inline-block;
+        padding:1.3vw 2.7vw;
+        border:#28559c 1px solid;
+        color:#28559c;
+        margin-right:5.4vw;
+    }
+
+    .page-bar > div.page-current{
+        background:#28559c;
+        color:#FFF;
+    }
+
+    .page-describe, .page-size{
+        display:none !important;
+    }
+
+}

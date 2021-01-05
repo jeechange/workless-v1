@@ -1,0 +1,473 @@
+{layout '../Public/sideForm.latte'}
+{block title}编辑普通任务{/block}
+
+
+{block private_css}
+    <style>
+        .priority-input{
+            display:inline-block;
+            width:35px;
+            height:35px;
+            line-height:35px;
+            text-align:center;
+            margin-right:15px;
+            color:#fff !important;
+            border:2px solid #fff;
+        }
+
+        .priority-input span{
+            margin:auto !important;
+            display:block;
+            width:30px;
+            height:30px;
+            line-height:30px;
+            border-radius:50%;
+            cursor:pointer;
+        }
+
+        .priority-input input{
+            display:none !important;
+        }
+
+        .priority-A span{
+            background:#FB855C;
+        }
+
+        .priority-B span{
+            background:#FFBA00;
+        }
+
+        .priority-C span{
+            background:#305AAE;
+        }
+
+        .priority-D span{
+            background:#5CABFB;
+        }
+
+        .priority-input.selected{
+            font-weight:900 !important;
+            border:2px solid #009DD9;
+            background:#d7d7d7;
+        }
+
+        .medal-item{
+            border:1px solid #ddd;
+            display:inline-block;
+            vertical-align:middle;
+            min-width:80px;
+            padding:3px 8px;
+            margin-right:5px;
+            height:35px;
+            line-height:35px;
+            text-align:center;
+            cursor:pointer;
+        }
+
+        .medal-item img{
+            width:30px;
+            height:30px;
+            vertical-align:middle;
+        }
+
+        .medal-item.medal-item-selected{
+            border:2px solid #009DD9;
+        }
+
+        .acorn-item{
+            width:90px;
+            display:inline-block;
+            margin-right:10px;
+        }
+
+        .acorn-item dt{
+            text-align:center;
+            font-size:14px;
+            height:30px;
+            line-height:30px;
+        }
+
+        .acorn-item dd input{
+            width:100% !important;
+            text-align:center;
+            padding-left:0 !important;
+        }
+
+        .shortcut-deadline{
+            display:inline-block; *display:inline; *zoom:1;
+            border:1px solid #ddd;
+            padding:3px 8px;
+            margin-right:5px;
+            cursor:pointer;
+        }
+
+        .shortcut-deadline.selected{
+            border:1px solid #009DD9;
+            color:#5CABFB;
+        }
+
+        .warning{
+            border-color:red !important;
+            color:red !important;
+        }
+
+        .mform .control-group div.input-group select[disabled]{
+            background-color:rgb(235, 235, 228);
+        }
+
+        .help-question{
+            display:inline-block; width:15px; height:15px; line-height:15px; text-align:center; border-radius:50%; text-decoration:none; cursor:pointer; margin-left:5px; background:#ddd; color:#fff;
+        }
+
+        .help-question:hover{
+            background:#bebebe; text-decoration:none; color:#fff;
+        }
+
+        .radiobox-input{
+            display:inline-block;
+            width:80px;
+            height:30px;
+            line-height:30px;
+            text-align:center;
+            margin-right:5px;
+            color:#fff !important;
+        }
+
+        .radiobox-input span{
+            margin:auto !important;
+            display:block;
+            width:80px;
+            height:30px;
+            line-height:30px;
+            border-radius:30px;
+            cursor:pointer;
+            background:#5CABFB;
+            border:2px solid #fff;
+        }
+
+        .radiobox-input input{
+            display:none !important;
+        }
+
+        .radiobox-input.selected span{
+            font-weight:900 !important;
+            border:2px solid #d7d7d7;
+            background:#30436e;
+        }
+
+
+    </style>
+{/block}
+
+{block private_js}
+    {include 'addJs.latte'}
+    <script>
+        var oldEndTims = "";
+        var standardTypes = {$task->getStandardTypes()?:1};
+        init.ready(function () {
+            $(".help-question").unbind().bind("click", function () {
+                var that = this;
+                layer.tips("计时模型：按任务时间来计算积分<br>计件模型：按完成任务数量计算积分", that);
+            });
+            $(".priority-input").unbind().bind("click", function () {
+                $(this).siblings(".selected").removeClass("selected");
+                $(this).addClass("selected");
+            });
+            $(".radiobox-input").unbind().bind("click", function () {
+                $(this).siblings(".selected").removeClass("selected");
+                $(this).addClass("selected");
+                var $val = $(this).attr("data-value");
+                if ($val == 1) {
+                    $("#workload_type_1").show();
+                    $("#workload_type_2").hide();
+                    $("#workload_2").attr("disabled", "disabled");
+                    $("#workload").removeAttr("disabled");
+                    $("#expressie_1").show();
+                    $("#expressie_2").hide();
+                } else {
+                    $("#workload_type_2").show();
+                    $("#workload_type_1").hide();
+                    $("#workload").attr("disabled", "disabled");
+                    $("#workload_2").removeAttr("disabled");
+                    $("#expressie_2").show();
+                    $("#expressie_1").hide();
+                }
+            });
+            $("[name='standardTypes'][value='" + standardTypes + "']").trigger("click");
+
+            $(".medal-item").unbind().bind("click", function () {
+                $(this).siblings(".medal-item-selected").removeClass("medal-item-selected");
+                $(this).addClass("medal-item-selected");
+                var val = $(this).attr("data-val");
+                $("#medal").val(val);
+            });
+
+            $(".shortcut-deadline").unbind().bind("click", function () {
+                $(this).addClass("selected").siblings(".shortcut-deadline.selected").removeClass("selected");
+                var val = $(this).attr("data-val");
+                $("#deadline").val(val);
+            });
+
+            if (typeof window.timerdeadline !== "undefined") {
+                clearInterval(window.timerdeadline);
+            }
+
+            $("#deadline").unbind().bind("change", function () {
+                console.log("deadline change");
+            });
+
+
+            $("#standardId").unbind().bind("change", function () {
+
+                var selectedOption = $(this).find("option:selected");
+
+                var val = selectedOption.attr("data-val");
+                var workload = selectedOption.attr("data-workload");
+
+                if (val != 0) {
+                    $(".show-standard-acorn").text(val).show();
+                    $(".expressie").hide();
+                    if (!workload) {
+                        $("#workload_day,#workload_hour,#workload_minute").removeAttr("disabled");
+                    } else {
+                        $("#workload_day,#workload_hour,#workload_minute").attr("disabled", true);
+                        var workloads = workload.toString().split(",");
+                        $("#workload_day").val(workloads[0]);
+                        $("#workload_hour").val(workloads[1]);
+                        $("#workload_minute").val(workloads[2]);
+                        $("#workload").val(workload);
+                    }
+                } else {
+                    $(".expressie").show();
+                    $(".show-standard-acorn").hide();
+                    $("#workload_day,#workload_hour,#workload_minute").removeAttr("disabled");
+                }
+
+            }).trigger("change");
+
+            function setWorkload() {
+                var day = $("#workload_day").val();
+                var hour = $("#workload_hour").val();
+                var minute = $("#workload_minute").val();
+                var workload = [day, hour, minute].join(",");
+                $("#workload").val(workload);
+            }
+
+            $("#workload_day").unbind().bind("keyup", function () {
+                setWorkload();
+            });
+            $("#workload_hour,#workload_minute").unbind().bind("change", function () {
+                setWorkload();
+            });
+
+
+            window.timerdeadline = setInterval(function () {
+                var endTimes = $("#deadline").val();
+
+                if (endTimes !== oldEndTims) {
+                    var today = $(".shortcut-deadline[data-type='today']").attr("data-val");
+                    var tomorrow = $(".shortcut-deadline[data-type='tomorrow']").attr("data-val");
+                    var week = $(".shortcut-deadline[data-type='week']").attr("data-val");
+
+                    if (today === endTimes) {
+                        $(".shortcut-deadline[data-type='today']").addClass("selected");
+                    } else {
+                        $(".shortcut-deadline[data-type='today']").removeClass("selected");
+                    }
+                    if (tomorrow === endTimes) {
+                        $(".shortcut-deadline[data-type='tomorrow']").addClass("selected");
+                    } else {
+                        $(".shortcut-deadline[data-type='tomorrow']").removeClass("selected");
+                    }
+                    if (week === endTimes) {
+                        $(".shortcut-deadline[data-type='week']").addClass("selected");
+                    } else {
+                        $(".shortcut-deadline[data-type='week']").removeClass("selected");
+                    }
+                    var times = (new Date(endTimes)) - (new Date());
+                    if (times) {
+                        var day = Math.floor(times / 1000 / 60 / 60 / 24);
+                        if (day >= 7) {
+                            layer.alert("任务周期超过7天，建议细分任务，让任务更具体");
+                            $("#deadline,#deadlineRemain").addClass("warning");
+                        } else {
+                            $("#deadline,#deadlineRemain").removeClass("warning");
+                        }
+                    } else {
+                        $("#deadline,#deadlineRemain").removeClass("warning");
+                    }
+                    oldEndTims = endTimes;
+                }
+                var cTime = countDown(endTimes);
+                $("#deadlineRemain").text("剩余：" + cTime);
+            }, 1000);
+        });
+    </script>
+{/block}
+
+
+{block content}
+    <form id="formArticle" class="stdform mform" method="post" action="">
+        <table cellpadding="0" cellspacing="0" border="0" id="frmtable" class="formtable">
+            <thead>
+            <tr>
+                <td><label>任务名称</label></td>
+                <td>
+                    <div class="field control-group">
+                        <div class="input-group">
+                            <input type="text" id="frm_names" name="names" class="smallinput" value="{$task->getNames()}"/>
+
+                            <input type="hidden" name="pid" data-rel="pids" value="{$task->getPid()}">
+                            <span class="set-group-name" id="pids">{$taskGroupName}</span>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+
+            <tr>
+                <td><label>优先级</label></td>
+                <td>
+                    <div class="field control-group">
+                        <div class="input-group">
+                            {foreach $priorityMemo as $priority =>$priorityM}
+                                <label class="priority-input priority-{$priorityM} {if $priority==$task->getPriority()}selected{/if}">
+                                    <span><input type="radio" name="priority" value="{$priority}" {if $priority==$task->getPriority()}checked{/if}>{$priorityM}</span>
+                                </label>
+                            {/foreach}
+                            <span style="color: #FB855C;">说明：A表示重要紧急的，有时效性要求，为最高优先级</span>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+
+            <tr>
+                <td><label>执行人</label></td>
+                <td>
+                    <div class="field control-group">
+                        {$executors|noescape}
+                    </div>
+                </td>
+            </tr>
+
+            <tr>
+                <td><label>验收人</label></td>
+                <td>
+                    <div class="field control-group">
+                        {$accept|noescape}
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td><label>期限</label></td>
+                <td>
+                    <div class="field control-group">
+                        <div class="input-group">
+                            <span class="shortcut-deadline" data-type="today" data-val="{$today}">今天</span>
+                            <span class="shortcut-deadline" data-type="tomorrow" data-val="{$tomorrow}">明天</span>
+                            <span class="shortcut-deadline" data-type="week" data-val="{$week}">本周</span>
+                            <input type="text" class="laydate" readonly name="deadline" id="deadline" style="width: 180px;" value="{$task->getDeadline()|totime}">
+                            <span style="display: inline-block;vertical-align: bottom;padding: 5px 15px;margin-right: 15px;">之前</span>
+
+                            <span style="display: inline-block;vertical-align: bottom;border:1px solid #D7D7D7 ;padding: 5px 15px;" id="deadlineRemain">剩余:0秒</span>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td><label>可见性</label></td>
+                <td>
+                    <div class="field control-group">
+                        <div class="input-group">
+                            <select name="visibility" id="visibility">
+                                {foreach $visibilityMemo as $visibility=>$v}
+                                    <option value="{$visibility}" {if $task->getVisibility() == $visibility}selected{/if}>{$v}</option>
+                                {/foreach}
+                            </select>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td><label>任务模型</label></td>
+                <td>
+                    <div class="field control-group">
+                        <div class="input-group">
+
+                            <label class="radiobox-input" data-value="1"><span><input type="radio" name="standardTypes" value="1">计时模型</span></label>
+                            <label class="radiobox-input" data-value="2"><span><input type="radio" name="standardTypes" value="2">计件模型</span></label>
+
+                            {*<select name="standardId" id="standardId">*}
+                                {*{foreach $standards as $s}*}
+                                    {*<option data-workload="{$s["workload"]}" value="{$s["id"]}" {if $s["id"]==$task->getStandardId()}selected{/if} data-val="{$s["acorn"]}">{$s["names"]}</option>*}
+                                {*{/foreach}*}
+                            {*</select>*}
+                            <span class="help-question" target="_blank" href="">?</span>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td><label>预估任务量</label></td>
+                <td>
+                    <div class="field control-group">
+                        <div class="input-group" id="workload_type_1">
+                            <select style="height:35px;padding-left:10px;width:80px" id="workload_day">
+                                {for $i=0;$i<16;$i++}
+                                    <option {if $i==$allotWorkloads[0]}selected{/if} value="{$i}">{$i}天</option>
+                                {/for}
+                            </select>
+                            <select style="height:35px;padding-left:10px;width:80px" id="workload_hour">
+                                {for $i=0;$i<8;$i++}
+                                    <option {if $i==$allotWorkloads[1]}selected{/if} value="{$i}">{$i}小时</option>
+                                {/for}
+                            </select>
+                            <select style="height:35px;padding-left:10px;width:80px;margin-left:5px" id="workload_minute">
+                                {for $i=0;$i<60;$i=$i+15}
+                                    <option {if $i==$allotWorkloads[2]}selected{/if} value="{$i}">{$i}分钟</option>
+                                {/for}
+                            </select>
+                            <input name="workload" id="workload" value="{join(",",$allotWorkloads)}" type="hidden">
+                        </div>
+                        <div class="input-group" id="workload_type_2">
+                            <input style="width:100px" name="workload" id="workload_2" value="{intval($task->getWorkload())}"> 个单位
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td><label>积分</label></td>
+                <td>
+                    <div class="field control-group">
+                        <div class="input-group">
+                            {*<input type="text" id="frm_acorn_1" class="smallinput" name="acorn[1]" value="{$acorns[0]}" style="width: 100px;"/> -*}
+                            {*<input type="text" id="frm_acorn_2" class="smallinput" name="acorn[2]" value="{$acorns[1]}" style="width: 100px;"/>*}
+
+                            <div class="expressie" id="expressie_1"> = 日基础分 &times; 难度系数 &times; 完成质量 &times; 任务量</div>
+                            <div class="expressie" id="expressie_2"> = 每件基础分 &times; 件数 &times; 完成质量</div>
+                            <div class="show-standard-acorn"></div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td><label>任务内容</label></td>
+                <td>
+                    <div class="field control-group">
+                        <div class="input-group">
+                            <textarea id="frm_content_pc" name="content" style="padding:10px; width: 600px; height: 250px;">{$task->getContent()}</textarea>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td><label>图片/附件</label></td>
+                <td>
+                    <div class="field control-group">
+                        <div class="img-uploader-file" data-name="thumbs" data-options="other"></div>
+                    </div>
+                </td>
+            </tr>
+            </thead>
+        </table>
+    </form>
+{/block}

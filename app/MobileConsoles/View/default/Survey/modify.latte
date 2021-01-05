@@ -1,0 +1,187 @@
+{layout "../Layout/layout.latte"}
+{block private_js}
+    <script type="text/javascript">
+        $(function () {
+            var total = 0;
+            var reg = '^[0-9]*[1-9][0-9]*$';
+            var totalScore ={$lists['s_totalScore']};
+            var singelScore ={$lists['s_acorn']};//单个分数
+            $("#total").html(total);
+            $("input.acorn").live('input propertychange', function () {
+                if ($(this).val() && !$(this).val().match(reg)) {
+                    $.toast("请输入正确的数字", '1000');
+                    return false;
+                }
+                if ($(this).val()) {
+                    total = 0;
+                    $("input.acorn").each(function (index, element) {
+                        if ($(this).val() > parseInt(singelScore)) {
+                            $.toast("单个调查成员最高分为" + singelScore + "分", '1000');
+                            $(this).val(0);
+                            return false;
+                        }
+                        total += parseInt($(this).val() ? $(this).val() : 0);
+                    });
+                    if (total > parseInt(totalScore)) {
+                        $.toast("总评分不得超过" + totalScore + "分", '1000');
+                        return false;
+                    }
+                    $("#total").html(total);
+                } else {
+                    total = 0;
+                    $("input.acorn").each(function (index, element) {
+                        var values = $(this).val() ? $(this).val() : 0;
+                        if (values > parseInt(singelScore)) {
+                            $.toast("单个调查成员最高分为" + singelScore + "分", '1000');
+                            $(this).val(0);
+                            return false;
+                        }
+                        total += parseInt(values);
+                    });
+                    if (total > parseInt(totalScore)) {
+                        $.toast("总评分不得超过" + totalScore + "分", '1000');
+                        return false;
+                    }
+                    $("#total").html(total);
+                }
+            });
+            $("#bnt").click(function () {
+                $.ajax({
+                    type: "post",
+                    url: $("#formArticle").attr("action"),
+                    data: $("#formArticle").serialize(),
+                    cache: false,
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.status == "n") {
+                            $.toast(data.info, '2000', "extraclass");
+                            return false;
+                        } else {
+                            $.toast(data.info);
+                            setTimeout(function () {
+                                location.reload();
+                            }, 2000);
+                        }
+                    }
+                });
+            });
+        })
+    </script>
+{/block}
+{block tabs_content}
+    {include "./tabs.latte"}
+{/block}
+{block private_css}
+    {include  './surveyCss.latte'}
+    <style>
+        .extraclass{
+            height:60px;
+        }
+        input::-webkit-input-placeholder{
+            /* WebKit browsers */
+            color:#ccc;
+        }
+
+        input:-moz-placeholder{
+            /* Mozilla Firefox 4 to 18 */
+            color:#ccc;
+        }
+
+        input::-moz-placeholder{
+            /* Mozilla Firefox 19+ */
+            color:#ccc;
+        }
+
+        input::-ms-input-placeholder{
+            /* Internet Explorer 10+ */
+            color:#ccc;
+        }
+    </style>
+{/block}
+{block custom}
+{/block}
+{block content}
+    <div class="grid-demo survey-content">
+        <div class="row">
+            <div class="bnt bnt-bg-red col-33">{$lists['typeMemo']}调查</div>
+            <div class="bnt bnt-bg-blue col-33">{$lists['anonymityMemo']}调查</div>
+            <div class="col-33"></div>
+        </div>
+        <div style="line-height: 35px;">
+            <div class="survey-font-14">
+                <span class="survey-left-line"></span>工作专注度（10分）
+            </div>
+            <div>时间段：2018 年 7月 至 2018 年 12月</div>
+            <div>评分总数：<span class="survey-font-16">{$lists['s_totalScore']}</span>分
+                <div class="survey-font-12">
+                    单个调查成员对所有被调查对象在此项调查内容中的总评分不得超过{$lists['s_totalScore']}分
+                </div>
+            </div>
+            <div>发布人：
+                <div class="survey-font-12"> {$lists['s_issue']}</div>
+            </div>
+            <div>调查对象：
+                <div class="survey-font-12">
+                    评分必须为整数，单个被调查对象最高分为{$lists['s_acorn']}分，最低分为0分，相同分数者不能超过总数的 30%
+                </div>
+            </div>
+            {if $surveyResulte&&$surveyResulte['status']==0}
+                <div>已填：
+                    <span style="color:red" id="total"></span>
+                </div>
+            {/if}
+        </div>
+        <div class="survey-object-content">
+            {if  $lists['s_status']!=2}
+                {if $surveyResulte}
+                    {if $surveyResulte['status']==0}
+                        <form id="formArticle" class="stdform mform" method="post" action="">
+                            {foreach $lists['surveyObject'] as $key=>$item}
+                                <div class="row" style="margin-bottom: 10px;">
+                                    <div class="col-70">
+                                        <input class="survey-object-names" name="names[{$item['id']}]" value="{$item['fullName']}" id="surveyName" readonly>
+                                    </div>
+                                    <div class="col-30">
+                                        <input class="survey-object-arcon acorn" name="acorn[{$item['id']}]" value="" maxlength="10" autocomplete="off" placeholder="0">
+                                    </div>
+                                </div>
+                            {/foreach}
+                            <input type="hidden" name="sResulteId" value="{$surveyResulte['id']}">
+                            <input type="hidden" name="single" value="{$lists['s_acorn']}">
+                        </form>
+                    {else}
+                        <div style="color:#009ae2">调查结果：</div>
+                        <div class="survey-font-12">你的评分已经提交，待他人评分</div>
+                    {/if}
+                {else}
+                    <div style="color:#009ae2">调查结果：</div>
+                    <div class="survey-font-12">调查中，请耐心等待</div>
+                {/if}
+
+            {else}
+                <div style="color:#009ae2">调查结果：</div>
+                <div>
+                    调查人数：
+                    <span style="line-height: 30px;">{$lists['s_userCount']}人 &nbsp;&nbsp;&nbsp;&nbsp;平均分：{$lists['s_average']}分 &nbsp;&nbsp;&nbsp;&nbsp;最高分：{$lists['s_max']}分 最低分：{$lists['s_min']}分&nbsp;&nbsp;&nbsp;&nbsp;{if $lists['s_repeat']>=2}重复最多的分数：有{$lists['s_repeat']}个人得{$lists['s_repeatAcorn']}分{/if}</span>
+                </div>
+                {foreach $lists['userScore'] as $key=>$item}
+                    <div class="row" style="margin-bottom: 10px;">
+                        <div class="col-70">
+                            <div class="survey-object-names">{$item['fullName']}</div>
+                        </div>
+                        <div class="col-30">
+                            <div class="survey-object-arcon">{$item['acorn']}</div>
+                        </div>
+                    </div>
+                {/foreach}
+            {/if}
+            {if !$lists['userScore']&&$surveyResulte&&$surveyResulte['status']==0}
+                <div class="content-block">
+                    <div class="col-95">
+                        <div class="button button-big button-fill" id="bnt">提交</div>
+                    </div>
+                </div>
+            {/if}
+        </div>
+    </div>
+{/block}

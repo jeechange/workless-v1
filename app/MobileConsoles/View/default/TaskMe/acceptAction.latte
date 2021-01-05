@@ -1,0 +1,843 @@
+{layout "../Layout/layout.latte"}
+{block headTitle}验收任务{/block}
+{block tabs_content}
+    {include "../Task/tabs.latte"}
+{/block}
+
+{block private_css}
+    <style>
+        .card-content-inner{ font-size:0.85rem !important; }
+
+        .accept-item{
+            border:1px solid #ddd;
+            height:250px;
+            width:100%;
+            background:#fff;
+            position:relative;
+            overflow:hidden;
+            margin-bottom:15px;
+        }
+
+        .workload{
+            border-top:none;
+            border-left:none;
+            border-right:none;
+            border-bottom:red 1px solid;
+            text-align:center;
+            font-size:1rem;
+            padding:5px 0;
+            appearance:menulist;
+            -webkit-appearance:menulist;
+            margin-left:15px;
+        }
+
+        .tabs-lobby{
+            z-index:19 !important;
+        }
+
+        .accept-item-seal{
+            position:absolute;
+            width:150px;
+            height:150px;
+            top:-75px;
+            right:-75px;
+            border:1px solid #e7e7e7;
+            border-radius:50%;
+            padding-top:95px;
+            padding-left:25px;
+            background:#fff;
+            z-index:15;
+            display:none;
+        }
+
+        .accept-item.accept-item-done .accept-item-seal{
+            display:block;
+        }
+
+        .accept-item-names{
+            height:44px;
+            line-height:44px;
+            font-size:18px;
+            padding-left:15px;
+            position:relative;
+        }
+
+        .accept-action{
+            position:absolute;
+            right:15px;
+            border:1px solid #eee;
+            padding:0px 15px;
+            background:#459b1e;
+            color:#fff;
+            top:5px;
+            height:30px;
+            line-height:30px;
+            font-size:14px;
+            cursor:pointer;
+        }
+
+        .accept-nopass-submit{
+            padding:0; float:left; width:50%; height:100%; display:block; background:#cccccc; color:#666666; line-height:1.5rem; text-align:center;
+        }
+
+        .accept-item-names:after, .accept-item-button:before{
+            content:'';
+            position:absolute;
+            left:0;
+            bottom:0;
+            right:auto;
+            top:auto;
+            height:1px;
+            width:100%;
+            background-color:#e7e7e7;
+            display:block;
+            -webkit-transform-origin:50% 100%;
+            transform-origin:50% 100%;
+        }
+
+        .accept-item-button:before{
+            bottom:auto;
+            top:0;
+        }
+
+        .accept-item-button{
+            height:44px;
+            line-height:44px;
+            padding:0 15px;
+            position:absolute;
+            bottom:0;
+            width:100%;
+        }
+
+        .accept-item-status{
+            position:absolute;
+            right:15px;
+        }
+
+        .accept-item-label{
+            border:1px solid #eee;
+            padding:5px 15px;
+            background:#459b1e;
+            color:#fff;
+        }
+
+        .accept-item-medal{
+            padding:5px 15px;
+        }
+
+        .medal-item{
+            border:1px solid #ddd;
+            display:inline-block;
+            vertical-align:middle;
+            min-width:80px;
+            padding:3px 8px;
+            margin-right:5px;
+            height:35px;
+            line-height:35px;
+            text-align:center;
+            cursor:pointer;
+            box-sizing:content-box;
+            margin-top:5px;
+            color:grey;
+        }
+
+        .medal-item.standard{
+            line-height:22px;
+            height:22px;
+            padding:3px 5px;
+        }
+
+        .medal-item.standard.selected, .medal-item.task-tag.selected{
+            background:#459b1e;
+            color:#fff;
+        }
+
+        .medal-item img{
+            width:30px;
+            height:30px;
+            vertical-align:middle;
+            filter:grayscale(100%);
+        }
+
+        .medal-item.selected img{
+            filter:none;
+        }
+
+        .accept-item-plan{
+            padding:0 15px;
+            line-height:20px;
+            position:relative;
+        }
+
+        .accept-item-plan span{
+            position:absolute;
+            right:15px;
+        }
+
+        .field-item{
+            margin:5px 10px;
+            padding-bottom:10px;
+        }
+
+        .field-item .field-item-title{
+            color:#101010;
+            font-size:14px;
+            vertical-align:bottom;
+        }
+
+        .field-item .field-item-title .required{
+            color:#e51c23;
+            font-weight:400;
+        }
+
+        .field-item .field-item-body{
+            position:relative;
+            padding-top:5px;
+        }
+
+        .field-item .field-item-body input[type=text]{
+            display:block;
+            position:relative;
+            border-bottom:#e7e7e7 1px solid;
+        }
+
+        .taskStatus-0{
+            color:#009DD9;
+        }
+
+        .taskStatus-1{
+            color:#87db61;
+        }
+
+        .taskStatus-2{
+            color:#ffdda7;
+        }
+
+        .taskStatus-3{
+            color:#666666;
+        }
+
+        .NewPingJia{ margin-left:10px; padding:3px 10px; display:inline-block; color:#bbbbbb; border:1px solid #bbbbbb; border-radius:30px; }
+
+        .selected .NewPingJia{ color:#009ea2 !important; border:1px solid #009ea2 !important; }
+
+        .NewPJActive{ color:#009ea2; border:1px solid #009ea2; }
+
+        .inputSmall{ margin:5px; padding:5px; max-width:50px; text-align:center; }
+
+        .inputBig{ margin:5px; padding:5px; text-align:center; }
+
+        .SegmentingLine{ margin:20px 0; width:100%; height:1px; display:block; background:#cccccc; clear:both; }
+
+        .stdtable td, .stdtable th{
+            border:1px solid #eee;
+            max-width:60px;
+            text-align:center;
+            padding:7px 0;
+        }
+
+    </style>
+{/block}
+
+{block custom}
+    <div class="popup acceptAction-popup-recheck" data-relate-id="acceptRecheck" style="z-index:10401">
+        <header class="bar bar-nav">
+            <a class="button button-link button-nav pull-right close-popup" data-popup=".acceptAction-popup-recheck">
+                关闭
+            </a>
+            <h1 class="title">提交验收审核</h1>
+        </header>
+        <div class="content">
+            <div style="line-height:30px;color:red;text-align:center">您审核的分数上限为{$myMaxAcorn}分</div>
+            <div style="line-height:30px;color:red;text-align:center">高于{$myMaxAcorn}分需要提交给更高级别的人员审核</div>
+            <div id="acceptRecheck-content" style="padding:5px 10px"></div>
+        </div>
+    </div>
+    <div class="popup acceptAction-popup-done" data-relate-id="acceptAction">
+        <header class="bar bar-nav">
+            <a class="button button-link button-nav pull-right close-popup">
+                关闭
+            </a>
+            <h1 class="title">验收任务结果</h1>
+        </header>
+
+        <div class="content">
+            <div class="content-inner">
+                <div class="content-block" style="margin:0; padding:30px 0.85rem;">
+                    {*{$executors["body"]|noescape}*}
+                    {*{var $acceptDay=explode(",",$allot["acceptDay"])}*}
+                    <div style="line-height:40px">
+                        <span>预计任务量</span>
+
+                        <span style="padding-left:15px">{$workloadMemo}</span>
+                    </div>
+                    <div>
+                        <span>执行人耗时</span>
+                        {*<input class="inputSmall" type="number" name="acceptDayDone" id="acceptDayDone" disabled value="0"/>*}
+                        {*<span>天</span>*}
+                        <select style="height:35px;padding-left:10px;width:80px" disabled name="acceptDayDone" id="acceptDayDone">
+                            {for $i=0;$i<16;$i++}
+                                <option value="{$i}">{$i}天</option>
+                            {/for}
+                        </select>
+                        <select style="height:35px;padding-left:10px;width:80px" disabled class="allotHourDone" id="allotHourDone">
+                            {for $i=0; $i<8; $i++}
+                                <option {if $i==$acceptDay[1]}selected{/if} value="{$i}">{$i}小时</option>
+                            {/for}
+                        </select>
+                        <select style="height:35px;padding-left:10px;width:80px" disabled class="allotMinuteDone" id="allotMinuteDone">
+                            {for $i=0; $i<60; $i=$i+15}
+                                <option {if $i==$acceptDay[2]}selected{/if} value="{$i}">{$i}分钟</option>
+                            {/for}
+                        </select>
+                    </div>
+
+                    {if $task->getStandardTypes()==2}
+                        <div style="line-height:40px">
+                            <span>完成数量</span>
+
+                            <span style="padding-left:25px" id="allotNumDone">{$acceptDay[3]}</span>
+                        </div>
+                    {/if}
+                    <div class="SegmentingLine"></div>
+                    {if $task->getStandardTypes()==2}
+                        <div class="grade-item">
+                            <span>核准数量：</span>
+
+                            <input type="text" id="workloadNumDone" class="smallinput workloadNum" style="line-height:30px;padding-left:10px;width:60px;margin-left:0;border:1px solid red;"/> 件
+
+                        </div>
+                        <div class="grade-item" style="margin-top:10px">
+                            <span>每件积分：</span>
+
+                            <input type="text" value="0" id="eachAcornDone" class="smallinput eachAcorn" style="line-height:30px;padding-left:10px;width:60px;margin-left:0;border:1px solid red;"/> 分
+                        </div>
+                    {else}
+                        <div>
+                            <span>核准任务量</span>
+                            {*<input class="inputSmall" type="number" name="workloadDayDone" id="workloadDayDone" value="" style="border:1px solid red;"/>*}
+                            {*<span>天</span>*}
+                            <select style="border-color:red;height:35px;padding-left:10px;width:80px" disabled name="workloadDayDone" id="workloadDayDone">
+                                {for $i=0;$i<16;$i++}
+                                    <option value="{$i}">{$i}天</option>
+                                {/for}
+                            </select>
+                            <select disabled data-id="{$item["id"]}" class="workloadHourDone" id="workloadHourDone" style="border-color:red; height:35px;padding-left:10px;width:80px;">
+                                {for $i=0;$i<8;$i++}
+                                    <option {if $i==$allotWorkloads[1]}selected{/if} value="{$i}">{$i}小时</option>
+                                {/for}
+                            </select>
+                            <select disabled data-id="{$item["id"]}" class="workloadMinuteDone" id="workloadMinuteDone" style="border-color:red; height:35px;padding-left:10px;width:80px;">
+                                {for $i=0;$i<60;$i=$i+15}
+                                    <option {if $i==$allotWorkloads[2]}selected{/if} value="{$i}">{$i}分钟</option>
+                                {/for}
+                            </select>
+                            <p style="color:red;width:auto;font-size:14px">根据耗时和预估任务量填写</p>
+                        </div>
+                    {/if}
+                    <div class="SegmentingLine"></div>
+                    {if !$standard || $standard->getAcorn()==0}
+                        {if $task->getStandardTypes()!=2}
+                            <div>
+                                <span>难度系数</span>
+                                <input class="inputBig" type="number" id="allotHardDone" disabled value=""/>
+                                <span></span>
+                                <p>（区间：{$lists4[0]["names"]}~{$lists4[1]["names"]}，转派的任务可以不填写）</p>
+                            </div>
+                            <div class="SegmentingLine"></div>
+                        {/if}
+                        <div>
+                            <span>完成质量</span>
+                            <input class="inputBig" type="number" id="allotQualityDone" disabled/>
+                            <span>%</span>
+                            <p>（区间：{$lists5[0]["names"]}%~{$lists5[1]["names"]}%，转派的任务可以不填写）</p>
+                        </div>
+                        <div class="SegmentingLine"></div>
+                        <div>
+                            <span>实得分数</span>
+                            <input class="inputBig readonly" type="number" id="allotAcornDone" disabled/>
+                            <span>分</span>
+                        </div>
+                        <p>(说明：任务分 = 日基础分（{$lists3[0]["names"]}） &times; 难度系数 &times; 完成质量 &times; 任务量)</p>
+                    {else}
+                        <div>
+                            <span>实得分数</span>
+                            <input class="inputBig" type="number" name="allotAcorn" id="allotAcornDone" disabled/>
+                            <span>分</span>
+                        </div>
+                        <p>参考标准：{$standard->getNames()}({$standard->getAcorn()})</p>
+                    {/if}
+                    <div class="SegmentingLine"></div>
+                    <div>评价：
+                        {foreach $lists1 as $k => $q}
+                            <label data-name='rating' class="rating-item-done" data-val="{$q["id"]}">
+                                <div class="NewPingJia">{$q["names"]}</div>
+                            </label>
+                        {/foreach}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="popup acceptAction-popup accept-action-box" data-relate-id="acceptAction">
+        <header class="bar bar-nav">
+            <a class="button button-link button-nav pull-right close-popup">
+                关闭
+            </a>
+            <h1 class="title">验收任务结果</h1>
+        </header>
+        <div class="bar bar-standard bar-footer list-staff-block" style="padding:0; height:40px; background: #fff;">
+            {*{$executors["confirm"]|noescape}*}
+            <div style="padding:0; float:left; width:50%; height:100%; display:block; background:#009ae2; color:#ffffff; line-height:40px; text-align:center;" class="accept-submit" data-id="{$task->getId()}">验收通过</div>
+            <div style="line-height:40px;" class="accept-nopass-submit" data-id="{$task->getId()}">验收不通过</div>
+        </div>
+        <div class="content">
+            <div class="content-inner">
+                <div class="content-block" style="margin:0; padding:30px 0.85rem;">
+                    {*{$executors["body"]|noescape}*}
+                    {*{var $acceptDay=explode(",",$allot["acceptDay"])}*}
+                    <div style="line-height:40px">
+                        <span>预计任务量</span>
+
+                        <span style="padding-left:15px">{$workloadMemo}</span>
+                    </div>
+                    <div>
+                        <span>执行人耗时</span>
+                        {*<input class="inputSmall" type="number" name="acceptDay" id="acceptDay" disabled value="0"/>*}
+                        {*<span>天</span>*}
+
+
+                        <select style="height:35px;padding-left:10px;width:80px" disabled name="acceptDay" id="acceptDay">
+                            {for $i=0;$i<16;$i++}
+                                <option value="{$i}">{$i}天</option>
+                            {/for}
+                        </select>
+                        <select style="height:35px;padding-left:10px;width:80px" disabled class="allotHour" id="allotHour">
+                            {for $i=0; $i<8; $i++}
+                                <option {if $i==$acceptDay[1]}selected{/if} value="{$i}">{$i}小时</option>
+                            {/for}
+                        </select>
+                        <select style="height:35px;padding-left:10px;width:80px" disabled class="allotMinute" id="allotMinute">
+                            {for $i=0; $i<60; $i=$i+15}
+                                <option {if $i==$acceptDay[2]}selected{/if} value="{$i}">{$i}分钟</option>
+                            {/for}
+                        </select>
+                        {if $task->getStandardTypes()==2}
+                            <div style="line-height:40px">
+                                <span>完成数量</span>
+                                <span style="padding-left:25px" id="allotNum">{$acceptDay[3]}</span>
+                            </div>
+                        {/if}
+
+                    </div>
+                    <div class="SegmentingLine"></div>
+                    {if $task->getStandardTypes()==2}
+                        <div class="grade-item">
+                            <span>核准数量：</span>
+
+                            <input type="text" name="workloadNum" class="smallinput workloadNum" style="line-height:30px;padding-left:10px;width:60px;margin-left:0;border:1px solid red;"/> 件
+
+                        </div>
+                        <div class="grade-item" style="margin-top:10px">
+                            <span>每件积分：</span>
+
+                            <input type="text" value="0" name="eachAcorn" class="smallinput eachAcorn" style="line-height:30px;padding-left:10px;width:60px;margin-left:0;border:1px solid red;"/> 分
+                        </div>
+                    {else}
+                        <div>
+                            <span>核准任务量</span>
+
+                            <input id="picker-workload" class="workload" value="0天 0小时 0分钟"/>
+
+
+                            <p style="color:red;width:auto;font-size:14px">根据耗时和预估任务量填写</p>
+                        </div>
+                    {/if}
+                    <div class="SegmentingLine"></div>
+                    {if !$standard || $standard->getAcorn()==0}
+                        {if $task->getStandardTypes()!=2}
+                            <div>
+                                <span>难度系数</span>
+                                <input class="inputBig" type="number" name="allotHard" {if $item["accept"]}disabled value="{$item["acceptHard"]}" {else}value="{$defaultAcceptHard}"{/if} />
+                                <span></span>
+                                <p>（区间：{$lists4[0]["names"]}~{$lists4[1]["names"]}，转派的任务可以不填写）</p>
+                            </div>
+                            <div class="SegmentingLine"></div>
+                        {/if}
+                        <div>
+                            <span>完成质量</span>
+                            <input class="inputBig" type="number" name="allotQuality" {if $item["accept"]}disabled value="{(float)$item["acceptQuality"]}" {else}value="{(float)$defaultAcceptQuality}"{/if}/>
+                            <span>%</span>
+                            <p>（区间：{$lists5[0]["names"]}%~{$lists5[1]["names"]}%，转派的任务可以不填写）</p>
+                        </div>
+                        <div class="SegmentingLine"></div>
+                        <div>
+                            <span>实得分数</span>
+                            <input class="inputBig readonly" type="number" name="allotAcorn" id="allotAcorn" readonly/>
+                            <span>分</span>
+                        </div>
+                        <p>(说明：任务分 = 日基础分（{$lists3[0]["names"]}） &times; 难度系数 &times; 完成质量 &times; 任务量)</p>
+                    {else}
+                        <div>
+                            <span>实得分数</span>
+                            <input class="inputBig" type="number" name="allotAcorn" id="allotAcorn"/>
+                            <span>分</span>
+                        </div>
+                        <p>参考标准：{$standard->getNames()}({$standard->getAcorn()})</p>
+                    {/if}
+                    <div class="SegmentingLine"></div>
+                    <div>评价：
+                        {foreach $lists1 as $k => $q}
+                            <label data-name='rating' class="rating-item" data-val="{$q["id"]}">
+                                <div class="NewPingJia" id="pjld{$k}">{$q["names"]}</div>
+                            </label>
+                        {/foreach}
+                    </div>
+                    <textarea name="allotMemo" placeholder="验收说明" style="margin-top:20px; padding:10px; width:100%; min-height:100px;"></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+{/block}
+
+{block private_js}
+    <script>
+        var postData = {
+            aid: 0,
+            day: 0,
+            hour: 0,
+            minute: 0,
+            hard: 0,
+            workloadNum: 0,
+            quality: 0,
+            memo: "",
+
+            aday: 0,
+            ahour: 0,
+            aminute: 0,
+            allotNum: 0,
+
+            acceptDay: "",
+            workload: "",
+
+            acceptHard: 0,
+            acceptQuality: 0,
+            rating: 0,
+            medal: 0,
+            acorn: 0
+        };
+        var dayBase = {floatval($lists3[0]["names"])};
+        var hardrange = [{floatval($lists4[0]["names"])}, {floatval($lists4[1]["names"])}];
+        var qualityrange = [{floatval($lists5[0]["names"])}, {floatval($lists5[1]["names"])}];
+        var myMaxAcorn ={$myMaxAcorn};
+
+        var standardTypes ={$task->getStandardTypes()?:1};
+
+        function postPages(toUrl, data) {
+            $.showPreloader('正在提交，请稍候...');
+            $.ajax({
+                type: "POST",
+                dataType: "json",
+                url: toUrl,
+                data: data,
+                success: function (res) {
+                    $.hidePreloader();
+                    try {
+                        if (res.status === "y") {
+                            $.toast(res.info);
+                            setTimeout(function () {
+                                location.reload(true);
+                            }, 2000)
+                        } else {
+                            $.toast(res.info);
+                        }
+                    } catch (e) {
+                        $.toast(e.message);
+                    }
+                }
+            });
+        }
+
+        function submitAccept(id) {
+            var formData = JSON.parse($(this).attr("data-posts"));
+            var url = {url("mobileConsoles_taskMe_accept_allot_up_submit")};
+            formData["id"] = id;
+            $.confirm("验收结果关系到个人积分，是否验收提交审核", function () {
+                postPages(url, formData, function () {
+                    $.closeModal();
+                });
+            });
+        }
+
+        function sumAcorn() {
+            var days = postData.workload.toString().split(",");
+            postData.day = days.length > 0 ? parseInt(days[0]) || 0 : 0;
+            postData.hour = days.length > 1 ? parseInt(days[1]) || 0 : 0;
+            postData.minute = days.length > 2 ? parseInt(days[2]) || 0 : 0;
+            postData.workloadNum = days.length > 3 ? parseInt(days[3]) || 0 : 0;
+
+            postData.workload = [postData.day, postData.hour, postData.minute].join(",");
+
+            var aDays = postData.acceptDay.toString().split(",");
+            postData.aday = aDays.length > 0 ? parseInt(aDays[0]) || 0 : 0;
+            postData.ahour = aDays.length > 1 ? parseInt(aDays[1]) || 0 : 0;
+            postData.aminute = aDays.length > 2 ? parseInt(aDays[2]) || 0 : 0;
+            postData.allotNum = aDays.length > 3 ? parseInt(aDays[3]) || 0 : 0;
+
+
+            var day = postData.day + (postData.hour / 8) + (postData.minute / 480);
+
+            if (standardTypes != 2) {
+
+                if ($("[name='allotAcorn']").hasClass("readonly")) {
+                    var hard = postData.hard;
+                    var quality = postData.quality;
+                    if (hard < hardrange[0] || hard > hardrange[1]) hard = 0;
+                    if (quality < qualityrange[0] || quality > qualityrange[1]) quality = 0;
+                    postData.acorn = Math.round(dayBase * day * hard * quality / 100);
+                }
+            } else {
+                var hard = postData.hard;
+                var quality = postData.quality;
+                if (quality < qualityrange[0] || quality > qualityrange[1]) quality = 0;
+                postData.acorn = Math.round(postData.workloadNum * hard * quality / 100);
+            }
+            $("#acceptDay").val(postData.aday);
+            $("#allotHour").val(postData.ahour);
+            $("#allotMinute").val(postData.aminute);
+            $("#allotNum").text((postData.allotNum || 0) + " 件");
+
+            $("#picker-workload").val(postData.day + "天 " + postData.hour + "小时 " + postData.minute + "分钟");
+
+            $("[name='allotAcorn']").val(postData.acorn || 0);
+            $(".accept-action[data-id='" + postData["aid"] + "']").attr("data-acorn", postData.acorn);
+        }
+
+        function changeCheck() {
+            if (standardTypes != 2) {
+                var workloads = $("#picker-workload").val();
+                var workloadsArr = workloads.match(/\d+/g);
+                postData.day = workloadsArr[0];
+                postData.hour = workloadsArr[1];
+                postData.minute = workloadsArr[2];
+                postData.workload = [postData.day, postData.hour, postData.minute].join(",");
+                postData.hard = $("[name='allotHard']").val();
+            } else {
+                postData.workloadNum = $("[name='workloadNum']").val();
+                postData.workload = [postData.day, postData.hour, postData.minute, postData.workloadNum].join(",");
+                postData.hard = $("[name='eachAcorn']").val();
+            }
+            postData.quality = $("[name='allotQuality']").val();
+            var acceptAction = $(".accept-action[data-id='" + postData["aid"] + "']");
+            acceptAction.attr("data-workload", postData.workload);
+            acceptAction.attr("data-accepthard", postData.hard);
+            acceptAction.attr("data-acceptquality", postData.quality);
+            sumAcorn();
+        }
+
+        $(function () {
+            $("#picker-workload").picker({
+                toolbarTemplate: '<header class="bar bar-nav"><button class="button button-link pull-right close-picker">确定</button><h1 class="title">请设置任务量</h1></header>',
+                cols: [
+                    {
+                        textAlign: 'center',
+                        values: ["0天", "1天", "2天", "3天", "4天", "5天", "6天", "7天", "8天", "9天", "10天", "11天", "12天", "13天", "14天", "15天"]
+                    },
+                    {
+                        textAlign: 'center',
+                        values: ["0小时", "1小时", "2小时", "3小时", "4小时", "5小时", "6小时", "7小时"],
+                    },
+                    {
+                        textAlign: 'center',
+                        values: ["0分钟", "15分钟", "30分钟", "45分钟"],
+                    }
+                ],
+                onClose: function () {
+                    changeCheck();
+                }
+            });
+
+            $(".accept-action").on("click", function () {
+                $.popup('.accept-action-box');
+                postData.aid = $(this).attr("data-id");
+                postData.acceptDay = $(this).attr("data-acceptday");
+                postData.workload = $(this).attr("data-workload");
+                postData.hard = $(this).attr("data-accepthard");
+                postData.quality = $(this).attr("data-acceptquality");
+                postData.acorn = $(this).attr("data-acorn");
+                postData.rating = $(this).attr("data-rating");
+
+                $("[name='acceptDay']").val(postData["acceptDay"]);
+                $("[name='acceptHard']").val(postData.hard);
+                $("[name='acceptQuality']").val(postData.quality);
+
+                $(".rating-item[data-val='" + postData["rating"] + "']").addClass("selected").siblings(".selected").removeClass("selected");
+                sumAcorn();
+                $(".executor").val($(this).attr("data-username"));
+            });
+            $(".accept-action-done").on("click", function () {
+                $.popup('.acceptAction-popup-done');
+
+
+                var acceptDay = $(this).attr("data-acceptday");
+                var workload = $(this).attr("data-workload");
+                var hard = $(this).attr("data-accepthard");
+                var quality = $(this).attr("data-acceptquality");
+                var acorn = $(this).attr("data-acorn");
+                var rating = $(this).attr("data-rating");
+
+
+                var adays = acceptDay.toString().split(",");
+                var days = workload.toString().split(",");
+
+                $("#acceptDayDone").val(adays.length > 0 ? adays[0] : 0);
+                $("#allotHourDone").val(adays.length > 1 ? adays[1] : 0);
+                $("#allotMinuteDone").val(adays.length > 2 ? adays[2] : 0);
+                $("#allotNumDone").text((adays.length > 3 ? adays[3] : 0) + " 件");
+
+                $("#workloadDayDone").val(days.length > 0 ? days[0] : 0);
+                $("#workloadHourDone").val(days.length > 1 ? days[1] : 0);
+                $("#workloadMinuteDone").val(days.length > 2 ? days[2] : 0);
+                $("#workloadNumDone").val((days.length > 3 ? days[3] : 0));
+
+                $("#allotHardDone").val(hard);
+                $("#eachAcornDone").val(parseFloat(hard));
+                $("#allotQualityDone").val(quality);
+                $("#allotAcornDone").val(acorn);
+
+                $(".rating-item-done[data-val='" + rating + "']").addClass("selected").siblings(".selected").removeClass("selected");
+            });
+
+            $("[name='allotHard']:not([disabled]),[name='allotQuality']:not([disabled]),[name='eachAcorn']:not([disabled]),[name='workloadNum']:not([disabled])").on("input", function () {
+                changeCheck();
+            });
+            $("[name='allotAcorn']:not([readonly])").on("input", function () {
+                postData.acorn = $(this).val();
+                $("[name='allotAcorn']").val(postData.acorn || 0);
+            });
+            $(".accept-nopass-submit").on("click", function () {
+                var sendData = {
+                    dataId: postData.aid,
+                    memo: $("[name='allotMemo']").val(),
+                };
+                $.confirm("验收不通过的任务，将会重新变回执行中状态，确定吗？", function () {
+                    postPages({url("mobileConsoles_taskMe_accept_allot_nopass")}, sendData);
+                });
+            });
+            $(".accept-action-box .rating-item").on("click", function () {
+                $(this).siblings(".rating-item.selected").removeClass("selected");
+                $(this).addClass("selected");
+                postData.rating = $(this).attr("data-val");
+
+                $(".accept-action[data-id='" + postData["aid"] + "']").attr("data-rating", postData.rating);
+            });
+            $(".accept-submit").on("click", function () {
+                postData["memo"] = $("[name='allotMemo']").val();
+
+                if (myMaxAcorn != 0 && postData.acorn > myMaxAcorn) {
+                    if (!postData.memo) {
+                        $.alert("您的验收上限为" + myMaxAcorn + "分，请填写验收说明再提交。");
+                        return;
+                    }
+                    $.showPreloader('正在提交，请稍候...');
+                    $.ajax({
+                        type: "POST",
+                        data: postData,
+                        url:{url("mobileConsoles_taskMe_accept_allot_up","id={$task->getId()}")},
+                        success: function (request) {
+                            $.hidePreloader();
+                            if (request.status === "y") {
+                                $("#acceptRecheck-content").html(request.html);
+                                $.popup('.acceptAction-popup-recheck');
+                            } else {
+                                $.toast(request.info);
+                            }
+                            return false;
+                        }, error: function () {
+                            return false;
+                        }
+                    });
+                } else {
+                    $.confirm("验收结果关系到个人积分，是否验收", function () {
+                        postPages({$recheckAllots?url("mobileConsoles_taskMe_accept_allot_recheck"):url("mobileConsoles_taskMe_accept_allot")}, postData);
+                    });
+                }
+            });
+        });
+
+    </script>
+{/block}
+
+{block content}
+    <div class="list-block" style="margin-top:10%; padding: 15px 0.85rem;">
+
+        {if $recheckAllots}
+            {foreach $recheckAllots as $allot}
+                <div class="card" style="margin:5% 2%; padding:10px; width:96%; display:block; border-radius:5px;">
+                    <div class="card-header" style="padding-bottom:15px; display:block;">
+                        <span style="font-weight:bold;">#{$task->getCodeNo()}</span> &nbsp; {$allot['userName']}
+                    </div>
+                    <div class="card-content" style="padding:8px 0;">
+                        <div class="card-content-inner" style="padding-top:8px; padding-bottom:8px;">指派时间：{$allot['addTime']|totime}</div>
+                        <div class="card-content-inner" style="padding-top:8px; padding-bottom:8px;">计划完成时间：{$allot['endTime']|totime}</div>
+                        {*{if $allot['status'] == 3 or $allot['status'] == 2}*}
+                        <div class="card-content-inner" style="padding-top:8px; padding-bottom:8px;">实际完成时间：{$allot['doneTime']|totime}</div>
+                        {*{/if}*}
+                    </div>
+                    <div class="card-footer" style="padding-top:20px;">
+                        {if $allot["status"]>0}
+                            {if $allot["accept"]!=2}
+                                <span class="taskStatus-{$allot['status']}">{$allot['statusMemo']},已验收</span>
+                                <span style="float:left; padding:5px 30px; background:#8ADAFF; color:white; border-radius:30px;" class="accept-action-done" data-acceptday="{$allot["acceptDay"]}" data-workload="{$allot["workload"]}" data-accepthard="{$allot["acceptHard"]?:$defaultAcceptHard}" data-acceptquality="{$allot["acceptQuality"]?:$defaultAcceptQuality}" data-acorn="{$allot["acorn"]}" data-rating="{$lists1[1]["id"]}"
+                                      data-username="{$allot["userName"]}">详情</span>
+                            {else}
+                                <span class="taskStatus-{$allot['status']}">等待验收审核</span>
+                                <span style="float:left; padding:5px 30px; background:#009ae2; color:white; border-radius:30px;line-height:normal;position:static" data-acceptday="{$allot["acceptDay"]}" data-workload="{$allot["workload"]}" data-accepthard="{$allot["acceptHard"]?:$defaultAcceptHard}" data-acceptquality="{$allot["acceptQuality"]?:$defaultAcceptQuality}" data-acorn="{$item["acorn"]}" class="accept-action" data-id="{$allot["id"]}" data-rating="{$lists1[1]["id"]}"
+                                      data-username="{$allot["userName"]}">审核验收</span>
+                            {/if}
+                        {else}
+                            <span class="taskStatus-{$allot['status']}">{$allot['statusMemo']}</span>
+                        {/if}
+                    </div>
+                </div>
+            {/foreach}
+        {/if}
+
+
+        {foreach $allots as $allot}
+            <div class="card" style="margin:5% 2%; padding:10px; width:96%; display:block; border-radius:5px;">
+                <div class="card-header" style="padding-bottom:15px; display:block;">
+                    <span style="font-weight:bold;">#{$task->getCodeNo()}</span> &nbsp; {$allot['userName']}
+                </div>
+                <div class="card-content" style="padding:8px 0;">
+                    <div class="card-content-inner" style="padding-top:8px; padding-bottom:8px;">指派时间：{$allot['addTime']|totime}</div>
+                    <div class="card-content-inner" style="padding-top:8px; padding-bottom:8px;">计划完成时间：{$allot['endTime']|totime}</div>
+                    {*{if $allot['status'] == 3 or $allot['status'] == 2}*}
+                    <div class="card-content-inner" style="padding-top:8px; padding-bottom:8px;">实际完成时间：{$allot['doneTime']|totime}</div>
+                    {*{/if}*}
+                </div>
+                <div class="card-footer" style="padding-top:20px;">
+                    {if $allot["status"]>0}
+                        {if $allot['accept']}
+                            {if $allot["accept"]!=2}
+                                <span class="taskStatus-{$allot['status']}">{$allot['statusMemo']},已验收</span>
+                            {else}
+                                <span class="taskStatus-{$allot['status']}">等待验收审核</span>
+                            {/if}
+                            <span style="float:left; padding:5px 30px; background:#8ADAFF; color:white; border-radius:30px;" class="accept-action-done" data-acceptday="{$allot["acceptDay"]}" data-workload="{$allot["workload"]}" data-accepthard="{$allot["acceptHard"]?:$defaultAcceptHard}" data-acceptquality="{$allot["acceptQuality"]?:$defaultAcceptQuality}" data-acorn="{$allot["acorn"]}" data-rating="{$lists1[1]["id"]}"
+                                  data-username="{$allot["userName"]}">详情</span>
+                        {else}
+                            <span class="taskStatus-{$allot['status']}" style="color:red;">{$allot['statusMemo']}，未验收</span>
+                            <span style="float:left; padding:5px 30px; background:#009ae2; color:white; border-radius:30px;line-height:normal;position:static" data-acceptday="{$allot["acceptDay"]}" data-workload="{$allot["workload"]}" data-accepthard="{$allot["acceptHard"]?:$defaultAcceptHard}" data-acceptquality="{$allot["acceptQuality"]?:$defaultAcceptQuality}" data-acorn="{$item["acorn"]}" class="accept-action" data-id="{$allot["id"]}" data-rating="{$lists1[1]["id"]}"
+                                  data-username="{$allot["userName"]}">验收</span>
+                        {/if}
+                    {else}
+                        <span class="taskStatus-{$allot['status']}">{$allot['statusMemo']}</span>
+                    {/if}
+                </div>
+            </div>
+        {/foreach}
+
+
+    </div>
+{/block}

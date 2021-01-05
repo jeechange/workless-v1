@@ -1,0 +1,47 @@
+{layout "../Layout/layout.latte"}
+
+{block tabs_content}
+    {include "./tabs.latte"}
+{/block}
+
+{block private_js}
+    {include "../Welfare/snackJS.latte"}
+{/block}
+{block private_css}
+    <style type="text/css">
+        .bar-header-secondary ~ .content{
+            top:0;
+        }
+    </style>
+{/block}
+
+{block content}
+    <div class="list-block" style="margin-top: 3.2rem;">
+        {if $lists}
+            <ul class="list">
+                {foreach $lists as $k=>$v}
+                    <li>
+                        <a class="item-content item-link" href="{url("mobileConsoles_welfare_checkDetail",array("id"=>$v['wo_id']))}">
+                            <div class="item-inner">
+                                <div class="item-name sui-ellipsis-1" style="line-height:2.2rem">{$v['fullName']}</div>
+                                <div class="item-memo sui-ellipsis-1" style="line-height:2.2rem">{$v['ws_names']}</div>
+                                {if $v['wo_status'] == 0}
+                                    <div class="item-src" style="color:#ef6e10">{$v['statusMemo']}</div>
+                                {elseif $v['wo_status'] == 1}
+                                    <div class="item-src" style="color:#2f8a20 ">{$v['statusMemo']}</div>
+                                {elseif $v['wo_status'] == 2}
+                                    <div class="item-src" style="color:#c61313">{$v['statusMemo']}</div>
+                                {/if}
+                            </div>
+                        </a>
+                    </li>
+                {/foreach}
+            </ul>
+        {else}
+            <div style="margin-top:150px;text-align:center">
+                <img src="{path('[MobileConsoles]/img/null.png')}" alt="" class="" style="width:60%; height:100%; margin: 0 20%; display:block;">
+                <div style="color:#999;">暂无内容</div>
+            </div>
+        {/if}
+    </div>
+{/block}

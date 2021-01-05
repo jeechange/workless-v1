@@ -1,0 +1,135 @@
+{layout '../Layout/layout.latte'}
+{block private_css}
+    <link type="text/css" rel="stylesheet" href="{path('[Home]/css/payOrder.css')}">
+    {*<style>
+        *{
+            margin:0;
+            padding:0;
+        }
+        li{
+            list-style:none;
+        }
+        img{
+            image-rendering: -moz-crisp-edges;         /* Firefox */
+            image-rendering:   -o-crisp-edges;         /* Opera */
+            image-rendering: -webkit-optimize-contrast;/* Webkit (non-standard naming) */
+            image-rendering: crisp-edges;
+        }
+        a{
+            text-decoration:none;
+        }
+        /*myOrder导航*/
+        .my_order{
+            width:90%;
+            margin:auto;
+            overflow:hidden;
+            margin-top:44px;
+            padding-bottom:45px;
+            border-bottom:2px dashed #707070;
+        }
+        .my_order .my_order_nav{
+            width:50%;
+            margin:auto;
+            overflow:hidden;
+        }
+        .my_order .my_order_nav>ul{
+            display:flex;
+            justify-content:space-between;
+        }
+        .my_order .my_order_nav>ul>li>a{
+            font-size:24px;
+            font-family:Microsoft YaHei;
+            font-weight:bold;
+            line-height:50px;
+            color:rgba(38,38,38,1);
+        }
+        .my_order .my_order_nav>ul>li>a:hover,.my_order .my_order_nav>ul>li .center{
+            color:rgba(40,85,156,1);
+            border-bottom:3px solid #28559C;
+        }
+
+        /*二维码支付*/
+        .code{
+            width:15%;
+            margin:auto;
+            margin-top:68px;
+            margin-bottom:591px;
+        }
+        .code .code_p{
+            height:170px;
+            border:1px solid rgba(112,112,112,1)
+        }
+        .code .code_p>p{
+            background:rgba(255,255,255,1);
+            text-align:center;
+            font-size:16px;
+            font-family:Microsoft YaHei;
+            font-weight:bold;
+            line-height:170px;
+            color:rgba(38,38,38,1);
+            text-align:center;
+        }
+        .code .please{
+            text-align:center;
+            margin-top:8px;
+        }
+        .code .please>a{
+            font-size:16px;
+            font-family:Microsoft YaHei;
+            font-weight:400;
+            line-height:22px;
+            color:rgba(38,38,38,1);
+        }
+    </style>*}
+    <style>
+        @media screen and (max-width:414px){
+            /*myOrder导航*/
+            .my_order{
+                width:90%;
+                margin-top:31px;
+            }
+            .my_order .my_order_nav{
+                width:80%;
+                margin:auto;
+                overflow:hidden;
+            }
+            .my_order .my_order_nav>ul>li>a{
+                font-size:12px;
+                font-family:Microsoft YaHei;
+                font-weight:bold;
+                line-height:40px;
+                color:rgba(38,38,38,1);
+            }
+            .my_order .my_order_nav>ul>li>a:hover,.my_order .my_order_nav>ul>li .center{
+                color:rgba(40,85,156,1);
+                border:none
+            }
+
+        }
+    </style>
+{/block}
+{block private_content}
+
+    {*myOrder导航*}
+    <div class="my_order">
+        <div class="my_order_nav">
+            <ul>
+                <li><a href="{url('home_index_myOrder')}" >我 的 订 单</a></li>
+                <li><a href="{url('home_index_orderConfirm')}">订 单 确 认</a></li>
+                <li><a href="{url('home_index_payOrder')}"  class="center">订 单 付 款</a></li>
+            </ul>
+        </div>
+    </div>
+
+    {*二维码支付*}
+    <div class="code">
+        <div class="code_p">
+            <p>二维码</p>
+        </div>
+        <div class="please">
+            <a href="">请用微信付款</a>
+        </div>
+    </div>
+
+{/block}
+{block private_js}{/block}

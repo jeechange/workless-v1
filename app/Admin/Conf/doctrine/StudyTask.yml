@@ -1,0 +1,53 @@
+Admin\Entity\StudyTask:
+  type: entity
+  table: study_task
+  id:
+    id:
+      type: integer
+      nullable: false
+      unsigned: false
+      comment: ''
+      id: true
+      generator:
+        strategy: IDENTITY
+  fields:
+    sid:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+    stuId:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: stu_id
+    taskId:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: task_id
+    addTime:
+      type: datetime
+      nullable: true
+      comment: ''
+      column: add_time
+    status:
+      type: smallint
+      nullable: true
+      unsigned: false
+      comment: ''
+    memo:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    userId:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: user_id
+  lifecycleCallbacks: {  }

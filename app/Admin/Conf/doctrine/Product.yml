@@ -1,0 +1,145 @@
+Admin\Entity\Product:
+  type: entity
+  table: product
+  indexes:
+    upp_id:
+      columns:
+        - s_id
+  id:
+    id:
+      type: integer
+      nullable: false
+      unsigned: false
+      comment: ''
+      id: true
+      generator:
+        strategy: IDENTITY
+  fields:
+    names:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    code:
+      type: string
+      nullable: true
+      length: 50
+      fixed: false
+      comment: ''
+    categoryId:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: category_id
+    specId:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: spec_id
+    spec1:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    spec2:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    spec3:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    spec4:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    spec5:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    unit:
+      type: string
+      nullable: true
+      length: 50
+      fixed: false
+      comment: ''
+    keywords:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    price:
+      type: decimal
+      nullable: true
+      precision: 10
+      scale: 2
+      comment: ''
+    postageFree:
+      type: smallint
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: postage_free
+    putaway:
+      type: smallint
+      nullable: true
+      unsigned: false
+      comment: ''
+    weight:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+    description:
+      type: text
+      nullable: true
+      length: null
+      fixed: false
+      comment: ''
+    addTime:
+      type: datetime
+      nullable: true
+      comment: ''
+      column: add_time
+    updateTime:
+      type: datetime
+      nullable: true
+      comment: ''
+      column: update_time
+    platform:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    sort:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+    tabloid:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    sId:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: s_id
+  lifecycleCallbacks: {  }

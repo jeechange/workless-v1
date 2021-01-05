@@ -1,0 +1,21 @@
+{includeblock 'header.latte'}
+
+<body class="index-body">
+
+    <div id='contentdiv' class="content" style="margin-left: 30px;">
+        {block content}{/block}
+    </div>
+    <script src="{path('[Supply]/js/jquery-1.8.3.min.js') }"></script>
+
+
+
+    <script src="{path('[Supply]/js/jquery.cookie.js') }"></script>
+    <script src="{path('[Jeesell]/js/jquery.spinner.js') }"></script>
+    <script type="text/javascript" src="{path('[Jeesell]/js/workless.config.js')}"></script>
+    <script type="text/javascript" src="{path('[Jeesell]/js/widget/check-all.js')}"></script>
+    <script type="text/javascript" src="{path('[Core]/layer/layer.js')}"></script><!-- 弹出层 -->
+    <script type="text/javascript" src="{path('[Core]/laydate/laydate.js')}"></script>
+    <script type="text/javascript" src="{path('[Supply]/js/common.js')}"></script>
+    {block private_js}{/block}
+</body>
+</html>

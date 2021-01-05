@@ -1,0 +1,53 @@
+Admin\Entity\TaskGroupDocVersions:
+  type: entity
+  table: task_group_doc_versions
+  id:
+    id:
+      type: integer
+      nullable: false
+      unsigned: false
+      comment: ''
+      id: true
+      generator:
+        strategy: IDENTITY
+  fields:
+    sid:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+    gid:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+    docId:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: doc_id
+    userId:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: user_id
+    title:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    content:
+      type: text
+      nullable: true
+      length: null
+      fixed: false
+      comment: ''
+    addTime:
+      type: datetime
+      nullable: true
+      comment: ''
+      column: add_time
+  lifecycleCallbacks: {  }

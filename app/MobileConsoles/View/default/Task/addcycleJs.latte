@@ -1,0 +1,168 @@
+<script>
+    $(function () {
+        var hours = [], minute = ["00", "30"], days = [];
+        for (var h = 0; h < 24; h++) {
+            var hs = h.toString();
+            if (hs.length === 1) hs = "0" + hs;
+            hours.push(hs);
+        }
+        for (var d = 1; d < 32; d++) {
+            var ds = d.toString();
+            days.push(ds);
+        }
+
+        $(".cycleTypes").on("click", function () {
+            $(this).addClass("cycleTypes-selected");
+            $(this).siblings(".cycleTypes-selected").removeClass("cycleTypes-selected");
+            var val = $(this).attr("data-val");
+            switch (val) {
+                case "1":
+                    $(".cycleTypes-1").show();
+                    $(".cycleTypes-3,.cycleTypes-2").hide();
+                    break;
+                case "2":
+                    $(".cycleTypes-2").show();
+                    $(".cycleTypes-1,.cycleTypes-3").hide();
+                    break;
+                case "3":
+                    $(".cycleTypes-3").show();
+                    $(".cycleTypes-1,.cycleTypes-2").hide();
+                    break;
+            }
+        });
+        $(".cycleTypes-selected").trigger("click");
+
+        $("#startTime1,#endTime1").picker({
+            toolbarTemplate: '<header class="bar bar-nav">\
+  <button class="button button-link pull-right close-picker">确定</button>\
+  <h1 class="title">选择时间</h1>\
+  </header>',
+            inputReadOnly: true,
+            cols: [
+                {
+                    textAlign: 'left',
+                    values: hours,
+                },
+                {
+                    textAlign: 'right',
+                    values: minute,
+                }
+            ],
+            formatValue: function (picker, value, displayValue) {
+                return displayValue[0] + " : " + displayValue[1]
+            }
+        });
+        $("#startTime2,#endTime2").picker({
+            toolbarTemplate: '<header class="bar bar-nav">\
+  <button class="button button-link pull-right close-picker">确定</button>\
+  <h1 class="title">选择星期</h1>\
+  </header>',
+            inputReadOnly: true,
+            cols: [
+                {
+                    textAlign: 'left',
+                    values: ['星期一', '星期二', '星期三', '星期四', '星期五', '星期六', '星期日'],
+                }
+            ]
+        });
+        $("#startTime3,#endTime3").picker({
+            toolbarTemplate: '<header class="bar bar-nav">\
+  <button class="button button-link pull-right close-picker">确定</button>\
+  <h1 class="title">选择日期</h1>\
+  </header>',
+            inputReadOnly: true,
+            cols: [
+                {
+                    textAlign: 'left',
+                    values: days,
+                }
+            ]
+        });
+        $(".select-cycleTypes-confirm").on("click", function () {
+            var cycleTypes = $(".cycleTypes-selected").attr("data-val");
+            var cycleTypesText = $(".cycleTypes-selected").attr("data-show");
+
+            var cycleTimes = $("#cycleTimes").val();
+
+
+            if (!/^[1-9][0-9]*$/.test(cycleTimes)) {
+                $.toast("周期频率必须为大于1的整数");
+                return;
+            }
+
+            var sTime = "", eTime = "";
+            var cycleTypesVal;
+            var danwei = "";
+            switch (cycleTypes) {
+                case "1":
+                    sTime = $("#startTime1").val();
+                    eTime = $("#endTime1").val();
+                    cycleTypesVal = 1;
+                    break;
+                case "2":
+                    sTime = $("#startTime2").val();
+                    eTime = $("#endTime2").val();
+                    cycleTypesVal = 2;
+                    break;
+                case "3":
+                    sTime = $("#startTime3").val();
+                    eTime = $("#endTime3").val();
+                    cycleTypesVal = 3;
+                    danwei = "号";
+                    break;
+            }
+            if (!sTime) {
+                $.toast("请选择开始时间");
+                return;
+            }
+            if (!eTime) {
+                $.toast("请选择结束时间");
+                return;
+            }
+            var memo = "每" + cycleTimes + cycleTypesText + " " + sTime + danwei + " 至 ";
+            switch (cycleTypes) {
+                case "1":
+                    var sTimes = sTime.split(":");
+                    var eTimes = eTime.split(":");
+                    if (parseInt(sTimes[0]) > parseInt(eTimes[0])) {
+                        memo += "次日" + eTime;
+                    } else if (parseInt(sTimes[0]) === parseInt(eTimes[0]) && parseInt(sTimes[1]) > parseInt(eTimes[1])) {
+                        memo += "次日" + eTime;
+                    } else if (sTime === eTime) {
+                        memo += "次日" + eTime;
+                    } else {
+                        memo += eTime;
+                    }
+                    break;
+                case "2":
+                    var sTimes = 0;
+                    var eTimes = 0;
+                    var weeks = ['星期一', '星期二', '星期三', '星期四', '星期五', '星期六', '星期日'];
+                    for (var i = 0; i < 7; i++) {
+                        if (weeks[i] === sTime) sTimes = i;
+                        if (weeks[i] === eTime) eTimes = i;
+                    }
+                    if (sTimes >= eTimes) {
+                        memo += "次周" + eTime;
+                    } else {
+                        memo += eTime;
+                    }
+                    break;
+                case "3":
+                    if (parseInt(sTime) >= parseInt(eTime)) {
+                        memo += "次月" + eTime + danwei;
+                    } else {
+                        memo += eTime + danwei;
+                    }
+                    break;
+            }
+
+            $(".cycle-show").text(memo);
+            $("[name='cycleTypes']").val(cycleTypesVal);
+            $("[name='cycleStart']").val(sTime);
+            $("[name='cycleEnd']").val(eTime);
+            $("[name='cycleTimes']").val(cycleTimes);
+            $.closeModal(".cycle-box");
+        });
+    })
+</script>

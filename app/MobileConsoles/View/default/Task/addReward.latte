@@ -1,0 +1,168 @@
+{layout "../Layout/layout.latte"}
+{block tabs_content}
+    {include "./tabs.latte"}
+{/block}
+{block headTitle}发布悬赏任务{/block}
+{block private_css}
+    {include "addCss.latte"}
+{/block}
+{block custom}
+    {include "../Public/custom.latte" , title1=>"选择执行人", title2=>"选择验收人"}
+    {include "../Public/taskStandard.latte"}
+{/block}
+
+
+{block private_js}
+    {include "../Public/customJs.latte"}
+    {include "addJs.latte"}
+    <link rel="stylesheet" href="{path('[MobileConsoles]/h5upload/h5upload.css')}">
+    <script src="{path('[MobileConsoles]/h5upload/h5upload.js')}"></script>
+{/block}
+{block content}
+    <div class="list-block" style="margin-top: 4.7rem;">
+        <form action="" id="my-form">
+
+            <div class="field-item">
+                <div class="field-item-title">
+                    任务名称 <span class="required">*</span>
+                </div>
+                <div class="field-item-body">
+                    <input type="text" name="names" placeholder="请输入任务名称"/>
+                </div>
+            </div>
+
+            <div class="field-item">
+                <div class="field-item-title">
+                    任务项目
+                </div>
+                <div class="field-item-body">
+                    <div class="item-content item-link" style="padding-left: 0;">
+                        <div class="item-inner open-popup selected-group-show" data-popup=".task-group-popup">无项目</div>
+                        <input name="pid" type="hidden">
+                    </div>
+                </div>
+            </div>
+            <div class="field-item">
+                <div class="field-item-title">
+                    优先级 <span class="required">*</span>
+                </div>
+                <div class="field-item-body" style="padding-top:15px;text-align:center">
+                    {foreach $priorityMemo as $priority =>$priorityM}
+                        <label class="priority-input priority-{$priorityM} {if $priority==$priorityDefault}selected{/if}">
+                            <span><input type="radio" name="priority" value="{$priority}" {if $priority==$priorityDefault}checked{/if}>{$priorityM}</span>
+                        </label>
+                    {/foreach}
+                </div>
+            </div>
+            <div class="field-item-between"></div>
+            <div class="field-item">
+                <div class="field-item-title">
+                    验收人 <span class="required">*</span>
+                </div>
+                <div class="field-item-body">
+                    <div class="field-item-member-box">
+                        <span class="staff-add open-popup open-worker-added-box" data-popup=".accept-popup" id="accept">&plus;</span>
+                        <input type="hidden" name="accept">
+                    </div>
+                </div>
+            </div>
+            <div class="field-item">
+                <div class="field-item-title">
+                    人数 <span class="required">*</span>
+                </div>
+                <div class="field-item-body">
+                    <div class="field-item-member-box" style="border:none">
+                        <input type="number" name="nums" step="1" min="1" value="1"/>
+                    </div>
+                </div>
+            </div>
+            <div class="field-item-between"></div>
+            <div class="field-item">
+                <div class="field-item-title">
+                    期限 <span class="required">*</span>
+                </div>
+                <div class="field-item-body">
+                    <div style="text-align:center;margin-bottom:10px">
+                        <span class="shortcut-deadline" data-type="today" data-val="{$today}">今天</span>
+                        <span class="shortcut-deadline" data-type="tomorrow" data-val="{$tomorrow}">明天</span>
+                        <span class="shortcut-deadline" data-type="week" data-val="{$week}">本周</span>
+                    </div>
+                    <div style="font-size:1rem;text-align:center;">
+                        <div style="margin-top:15px"><input type="text" name="deadline" id="deadline" value="{$today}" style="font-size:1rem;width:150px"> 之前</div>
+                        <div id="deadlineRemain" style="margin-top:10px;font-size:.95rem">剩余：1天12小时50分</div>
+                    </div>
+                </div>
+            </div>
+            <div class="field-item-between"></div>
+            <div class="field-item">
+                <div class="field-item-title">
+                    外部可见 <span class="required">*</span>
+                    <div style="float:right;padding-top:5px">
+                        <div class="item-input">
+                            <label class="label-switch">
+                                <input type="checkbox" name="visibility" value="1">
+                                <div class="checkbox"></div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="field-item">
+                <div class="field-item-title">
+                    任务模型 <span class="required">*</span>
+                </div>
+                <div class="field-item-body" style="">
+                    <div class="item-content item-link" style="padding-left: 0;">
+                        <input class="item-inner selected-standard-show" id="picker-standardTypes" value="计时模型">
+                        <input type="hidden" name="standardTypes" value="1">
+                    </div>
+                </div>
+            </div>
+            <div class="field-item">
+                <div class="field-item-title">
+                    预估任务量 <span class="required">*</span>
+                </div>
+                <div class="field-item-body" style="">
+                    <div class="item-content input-workload" style="padding-left: 0;">
+                        <input id="picker-workload" class="workload" value="0天 0小时 0分钟"/>
+                        <input id="input-workload" class="workload" value="0" style="display:none"/>
+                        <input name="workload" id="workload" value="" type="hidden">
+                    </div>
+                </div>
+            </div>
+            <div class="field-item-between"></div>
+            <div class="field-item">
+                <div class="field-item-title">
+                    任务内容 <span class="required">*</span>
+                </div>
+                <div class="field-item-body">
+                    <textarea name="content">如题</textarea>
+                </div>
+            </div>
+            <div class="field-item">
+                <div class="field-item-title">
+                    图片
+                </div>
+                <div class="field-item-body">
+                    <span class="pic-add">&plus;<input type="file" id="pics" name="thumbs" accept="image/*" multiple data-toggle="h5upload"/></span>
+                </div>
+            </div>
+            {*<div class="field-item-between"></div>*}
+            {*<div class="field-item">*}
+            {*<div class="field-item-title">*}
+            {*检验学习*}
+            {*</div>*}
+            {*<div class="field-item-body">*}
+            {*<div class="field-item-member-box">*}
+            {*<span class="staff-add open-popup open-learns-box" data-popup=".learns-popup" id="learns">&plus;</span>*}
+            {*<input type="hidden" name="learns">*}
+            {*</div>*}
+            {*</div>*}
+            {*</div>*}
+        </form>
+        <div class="field-item-between"></div>
+        <div class="content-block" style="padding:1.5rem 0.75rem 3rem 0.75rem">
+            <a href="#" data-url="{url("mobileConsoles_task_addreward")}" class="button button-big button-fill submit-form">提交</a>
+        </div>
+    </div>
+{/block}

@@ -1,0 +1,117 @@
+<!DOCTYPE HTML>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
+    <title>WorkLess - 可量化的团队协作软件,团队协作系统源码,任务协作系统源码</title>
+    <meta name="keywords" content="团队协作系统源码,任务协作系统源码,团队协作软件,任务协作软件,敏捷开发,项目管理,项目协作">
+    <meta name="description" content="WorkLess是一款可量化的团队协作软件，通过积分来衡量每个任务的任务量、难度和完成质量，最终合理量化每个协作创造的价值是WorkLess的核心思想，诠释了精准协作创造价值的理念。">
+    <link type="text/css" rel="stylesheet" href="{path('[Jeechange]/metroUI/css/login.css')}"/>
+    <!--[if lte IE 8]>
+    <link rel="stylesheet" type="text/css" href="{path('[Jeechange]/metroUI/css/ie8.css')}"/>
+    <link rel="shortcut icon" href="/favicon.ico">
+    <![endif]-->
+    <style type="text/css">
+        a:hover{
+            text-decoration:none;
+            color:#fff;
+            overflow:hidden;
+        }
+
+        #cover{
+            width:100%;
+            height:100%;
+            background:#000;
+            opacity:0.5;
+            position:absolute;
+            top:0;
+            left:0;
+            z-index:99;
+        }
+
+        #guideBox{
+            width:auto;
+            height:auto;
+            background:#fff;
+            position:absolute;
+            top:50%;
+            left:50%;
+            transform:translate(-50%, -50%);
+            border-radius:0.625rem;
+            z-index:99;
+        }
+
+        #guideIcon{
+            width:300px;
+            height:300px;
+            margin:-10% auto 5%;
+        }
+
+        .guideBtn{
+            width:350px;
+            margin:0 50px;
+            background:red;
+            color:#fff;
+            display:block;
+            height:50px;
+            text-decoration:none;
+            line-height:50px;
+            text-align:center;
+            font-size:16px;
+            z-index:999;
+            position:relative;
+        }
+
+        .guideText{
+            text-align:center;
+            font-size:0.75rem;
+            color:#666;
+            margin-top:20px;
+        }
+
+        #forCancel{
+            width:100%;
+            height:100%;
+            position:absolute;
+            top:0;
+            left:0;
+            z-index:99;
+        }
+
+        #cancelBtn{
+            position:absolute;
+            top:0.5rem;
+            right:0.55rem;
+            margin:0;
+            font-size:0.75rem;
+            color:#666;
+            z-index:999;
+        }
+
+        .aui-col-xs{
+            overflow:hidden;
+            float:left;
+        }
+    </style>
+    <script type="text/javascript" src="{path('[Jeechange]/js/jquery-1.8.3.min.js')}"></script>
+    <script type="text/javascript" src="{path('[Core]/layer/layer.js')}"></script><!-- 弹出层 -->
+
+</head>
+<body class="login">
+<div id="cover"></div>
+<div id="guideBox">
+
+    <div id="guideIcon"><img src="{path('[Consoles]/images/guideIcon.png')}" style="display: block;width:100%;height: 100%;"/></div>
+
+    <div style="display: flex; margin: 15px 0;justify-content: center;">
+        <div class="aui-col-xs">
+            <a href="{url('home_index_price')}" target="_blank"  class="button button-big guideBtn">您账户中关联的企业已过期，请联系客服续费！</a>
+
+            <p class="guideText" id="joinTeamText">0755-32914822 / 137-6839-1479</p>
+        </div>
+
+
+
+    </div>
+    <a id="cancelBtn" data-href="{url('consoles_login_logout')}" href="##" onclick="location.href = this.getAttribute('data-href');">重新登录</a>
+</div>
+</body>
+</html>

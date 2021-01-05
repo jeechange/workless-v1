@@ -1,0 +1,17 @@
+<div class="tabs">
+    <a href="{url("~mobileConsoles_externalRelations_lists","different=yes&&tabs_sub=0")}" class="tabs-link {if $tabs_sub=="0"}active{/if}" style="margin-left:10px;">执行中</a>
+    <a href="{url("~mobileConsoles_externalRelations_lists","different=yes&&tabs_sub=1")}" class="tabs-link {if $tabs_sub=="1"}active{/if}">待验收</a>
+    <a href="{url("~mobileConsoles_externalRelations_lists","different=yes&&tabs_sub=3")}" class="tabs-link {if $tabs_sub=="3"}active{/if}">已完成</a>
+</div>
+<style>
+    .bar{
+        background-color:#efeff4
+    }
+
+    .bar .searchbar{
+        background:rgb(255, 255, 255);
+        border:1px solid #ddd;
+        border-radius:25px;
+    }
+</style>
+

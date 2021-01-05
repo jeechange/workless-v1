@@ -1,0 +1,121 @@
+{layout "../Layout/layout.latte"}
+{block headTitle}邀请同事{/block}
+{block tabs_content}
+    {*{include "./tabs.latte"}*}
+{/block}
+{block private_js}
+    <script type="text/javascript">
+        function getVerify(url) {
+            var url = url + "?r=";
+            var src = url + Math.random();
+            $("#imgVerify").attr("src", src);
+        }
+
+        $(function () {
+            $("#fzlj").click(function () {
+                var Yurl = document.getElementById("Yurl");
+                Yurl.select(); // 选择对象
+                var ret = document.execCommand("Copy");
+                $.toast("复制成功");
+            });
+
+            $("#bnt").click(function () {
+                var Curl = document.getElementById("Curl").value;
+
+                console.log(Lurl)
+
+                var data = {
+                    "types": "1",
+                    "code": $("#Icode").val(),
+                    "phone": $("#Iphone").val()
+                };
+                console.log(data)
+                $.ajax({
+                    type: "post",
+                    url: $("#Iurl").val(),
+                    data: data,
+                    cache: false,
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.status == "n") {
+                            $.toast(data.info);
+                            return false;
+                        } else {
+                            getVerify(Curl);
+                            $.toast(data.info);
+                        }
+                    }
+                });
+            });
+        });
+
+        function copy(message) {
+
+            var fullName = $(this).attr("alt");
+
+            var input = document.createElement("input");
+            input.value = message;
+            document.body.appendChild(input);
+            input.select();
+            input.setSelectionRange(0, input.value.length), document.execCommand('Copy');
+            document.body.removeChild(input);
+            $.toast("复制成功！")
+        }
+    </script>
+{/block}
+{block private_css}
+    <style>
+        .item-title, input{ font-size:0.9rem !important; }
+
+        .item-button > div{ box-sizing:border-box; width:100%; padding:10px 30px; background:#fff; border-bottom:1px solid #ddd; }
+    </style>
+{/block}
+{block content}
+    <div class="item-button">
+        <div>邀请他人加入WorkLess</div>
+        <div>邀请的对象将加入【{$company['names']}】</div>
+        <div>
+            邀请链接：{$pureUrl}
+            {*<input id="Yurl" type="hidden" style="display:none;" value="{url("~mobileConsoles_login",array("company"=>"{$company['codeNo']}","user"=>"{$phone}"))}"/>*}
+            <textarea id="Yurl" style="position:fixed; top:-100%;left:-100%;">{$pureUrl}</textarea>
+            <div class="content-block" style="width:100%; padding:0; margin:0;" onclick="copy({$url})" alt="{$fullName}">
+                <div class="col-95">
+                    {*<div class="button button-big button-fill" id="fzlj">复制链接</div>*}
+                    <div class="button button-big button-fill" >复制链接</div>
+                </div>
+            </div>
+        </div>
+        <div style="padding: 10px 30px;background: #fff;">
+            <div style="width:100%; height:45px; display:block; margin-bottom:10px;">
+                <div style="box-sizing:border-box; margin:0; padding:10px 10px 10px 0; width:35%; height:30px; float:left;">发送短信给</div>
+                <input name="phone" id="Iphone" type="tel" placeholder="请输入邀请人手机号" style="margin:0; padding:5px 10px; width:65%; height:40px; float:right;"/>
+            </div>
+            <div style="width:100%; height:45px; display:block; margin-bottom:10px;">
+                <div style="box-sizing:border-box; margin:0; padding:0; width:35%; height:30px; float:left;">
+                    <img class="get-verify" src="{url('mobileConsoles_login_verify')}" onclick="getVerify({url('~mobileConsoles_login_verify')})" title="看不清，换一张" id="imgVerify" style="top:0; height:30px;"/>
+                </div>
+                <input name="code" id="Icode" placeholder="输入验证码，才能发送短信" style="margin:0; padding:10px; width:65%; height:40px; float:right;"/>
+            </div>
+            <div style="clear: both;"></div>
+            <div style="width:100%; display:block;">
+                {*<button style="width:100%;">发 送</button>*}
+                <div class="content-block" style="width:100%; padding:0; margin:0;">
+                    <div class="col-95">
+                        <div class="button button-big button-fill" id="bnt">发 送</div>
+                    </div>
+                    <input type="hidden" name="code" id="Iurl" style="display:none;" value="{url('~mobileConsoles_user_inviting')}"/>
+                </div>
+            </div>
+            <div style="clear:both;"></div>
+        </div>
+    </div>
+    {*<div class="content-block">*}
+    {*<div class="col-95">*}
+    {*<div class="button button-big button-fill" id="bnt">提交</div>*}
+    {*</div>*}
+    {*</div>*}
+    <input id="Vurl" type="hidden" style="display:none;" value="{url("~mobileConsoles_login_YZvcode")}"/>
+    <input id="Curl" type="hidden" style="display:none;" value="{url('~mobileConsoles_login_verify')}"/>
+    <input id="Lurl" type="hidden" style="display:none;" value="{url('~mobileConsoles_user_inviting')}"/>
+
+{/block}

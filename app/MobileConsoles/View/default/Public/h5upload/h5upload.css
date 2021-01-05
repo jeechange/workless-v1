@@ -1,0 +1,63 @@
+
+.file-queue{
+    display:inline-block;
+    width:40px;
+    height:40px;
+    font-size:12px;
+    margin-right:15px;
+    margin-top:10px;
+    line-height:40px;
+    text-align:center;
+}
+
+.pics-added-item{
+    display:inline-block;
+    width:40px;
+    height:40px;
+    background:#aaa;
+    text-align:center;
+    line-height:40px;
+    font-size:12px;
+    position:relative;
+    vertical-align:bottom;
+}
+
+.pics-added-item img{
+    width:40px;
+    height:40px;
+    background:transparent;
+}
+
+.pics-added-item-remove{
+    position:absolute;
+    top:-5px;
+    right:-5px;
+    line-height:12px;
+    width:12px;
+    height:12px;
+    text-align:center;
+    border-radius:50%;
+    background:#181c1f;
+    color:#fff;
+}
+
+.pic-add{
+    display:inline-block;
+    width:40px;height:40px;
+    background:#f6f6f6;color:#aaa;
+    text-align:center;
+    line-height:40px;font-size:36px;
+    position:relative;
+    margin-top:10px;
+    vertical-align:bottom;
+}
+
+.pic-add input{
+    opacity:0;
+    position:absolute;
+    top:0;
+    left:0;
+    width:40px;
+    height:40px;
+}
+

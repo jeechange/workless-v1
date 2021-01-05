@@ -1,0 +1,73 @@
+logdir: %core.main getRuntime%/Logs/
+error:
+    error_page: %core.main getMainRoot%/Common/phpex_error.php
+    error_msg: "服务器异常"
+    tmpl_exception_file:
+        dev:  %core.main getMainRoot%/Common/phpex_exception_dev.php
+        prod:  %core.main getMainRoot%/Common/phpex_exception_prod.php
+        test:  %core.main getMainRoot%/Common/phpex_exception_test.php
+cache:
+    temp: 1
+    prefix: 1
+    expire: 1
+    subdir: 1
+session:
+    session_auto_start: false
+    cookie_domain: 
+    session_path: 
+    cookie_domain:        
+    session_timeout:  1800     
+response:
+    charset: UTF-8
+    contentType: text/html
+    ajax_type: JSON
+    jsonContentType: 'application/json'
+    jsonpHandlerVar: "callback"
+    jsonpHandler: "jsonpReturn"
+    expires: 3600
+view:
+   engine: Latte   
+   RelateEngine:
+       latte: Latte
+       twig: Twig
+       php: Php
+       tpl: Smarty  
+   contentType: html
+   supportContentType: [html, xml, json]
+   success_tpl: %core.main getMainRoot%/Common/success.latte
+   error_tpl: %core.main getMainRoot%/Common/error.latte
+   tpl_theme: default
+   layout: layout.latte
+   cache: %core.main getRuntime%/cache/%core.main getEnv%/
+  
+request:
+    post:
+    query:
+    cookie:
+        expire: 0
+        path: /
+        domain: ~
+        secure: n
+        httpOnly: y
+    server:    
+    files:
+route:
+    url_mode: 2
+    var_name: r    
+    key: "phpex"
+    cache: %core.main getRuntime%/Temp/route
+access:
+    message: 权限不足
+    tpl: %core.main getMainRoot%/Common/denied.html.latte
+vars:
+    AJAX_SUBMIT: ajax    
+asset: @%core.main getMainRoot%/Common/asset.yml 
+seo: 
+    title: phpex开发框架
+    keywords: phpex,框架,mvc框架
+    description: "phpex框架 - 是由广西九程软创科技有限公司开发维护的MVC结构的开源PHP框架，遵循Apache2开源协议发布，是为了敏捷WEB应用开发和简化企业应用开发而诞生的。"
+               
+               
+        
+        
+        

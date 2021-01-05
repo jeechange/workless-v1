@@ -1,0 +1,44 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
+    <title>九程软件云平台</title>
+    <meta name="keywords" content="九程软件云平台"/>
+    <meta name="description" content="九程软件云平台"/>
+    <link type="text/css" rel="stylesheet" href="{path('[Node]/css/login.css')}"/>
+</head>
+<body class="login">
+<div class="login_bg_form">
+    <div class="loginform">
+        <div class="login-box-plain">
+            <h2>添 加 节 点</h2>
+            <div style="color:red;font-size:14px; padding-top: 5px;"></div>
+            <form id="loginform" method="post" action="" class="mform">
+                <div class="loginBoxCenter">
+                    <p>
+                        <label for="userName">选择添加Module<span class="red">*</span>：</label>
+                    </p>
+                    <p>
+                    <div class="field control-group">
+                        <div class="input-group">
+                            <select id="module" name="module" style="min-width: 300px;min-height:30px;">
+                                {foreach $mods as $vo}
+                                    <option>{$vo}</option>
+                                {/foreach}
+                            </select>
+                        </div>
+                    </div>
+                    </p>
+                    <p>
+                        <input class="btn btn-login" type="submit" value=" 生 成 "/>
+                    </p>
+                    <p>
+                        <a style="box-sizing:border-box;height: 45px;line-height:30px;text-decoration: none;color:white" class="btn btn-login" href="{url('node_index_index')}">回首页</a>
+                    </p>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

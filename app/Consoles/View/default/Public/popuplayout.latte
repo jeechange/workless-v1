@@ -1,0 +1,14 @@
+{includeblock 'header.latte'}
+<body class="index-body">
+    <div class="contentMain">
+        {block content}{/block}
+    </div>
+    <script src="{path('[Admin]/js/jquery-1.8.3.min.js') }"></script>   
+    <script src="{path('[Admin]/js/jquery.cookie.js') }"></script>
+    <script src="{path('[Jeesell]/js/jquery.spinner.js') }"></script>
+    <script type="text/javascript" src="{path('[Core]/layer/layer.js')}"></script><!-- 弹出层 -->
+    <script type="text/javascript" src="{path('[Core]/laydate/laydate.js')}"></script>
+    <script type="text/javascript" src="{path('[Admin]/js/common.js')}"></script>
+    {block private_js}{/block}
+</body>
+</html>

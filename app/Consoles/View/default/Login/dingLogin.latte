@@ -1,0 +1,85 @@
+<!DOCTYPE HTML>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
+    <title>{seo()->getTitle()}</title>
+    <meta name="keywords" content="{seo()->getKeywords()}"/>
+    <meta name="description" content="{seo()->getDescription()}"/>
+    <link type="text/css" rel="stylesheet" href="{path('[Jeechange]/metroUI/css/login.css')}"/>
+    <!--[if lte IE 8]>
+    <link rel="stylesheet" type="text/css" href="{path('[Jeechange]/metroUI/css/ie8.css')}"/>
+    <link rel="icon" href="{path('[Home]/images/xiangshuyunIcon.png')}">
+    <![endif]-->
+    <style type="text/css">
+        .login_bg_form .loginform, .loginBoxCenter .loginInput{
+            behavior:url({path('[Jeechange]/metroUI/css/iecss3.htc')})
+        }
+        .icon {
+            padding:20px 0;
+            height: 5em;
+            vertical-align: -0.15em;
+            fill: currentColor;
+            overflow: hidden;
+        }
+    </style>
+    <script src="https://g.alicdn.com/dingding/dingtalk-pc-api/2.7.0/index.js"></script>
+    <script type="text/javascript" src="{path('[Jeechange]/js/jquery-1.8.3.min.js')}"></script>
+    <link rel="stylesheet" href="{path('[MobileConsoles]/al-font/iconfont.css')}">
+    <script type="text/javascript" src="{path('[MobileConsoles]/al-font/iconfont.js')}"></script>
+
+    <script>
+        $(function () {
+            DingTalkPC.runtime.permission.requestAuthCode({
+                corpId: {$corpId}, //企业ID
+                onSuccess: function (result) {
+                    $("[name='code']").val(result.code);
+                    var postData = $("#loginform").serialize();
+                    $.ajax({
+                        url: $("#loginform").attr("action"),
+                        type: "POST",
+                        data: postData,
+                        dataType: "json",
+                        success: function (res) {
+                            alert(JSON.stringify(res));
+                            if (res.status == "n") {
+
+                                $(".show-message").text(res.info).css("color", "red");
+                                return;
+                            }
+                            $(".show-message").text('登录成功，正在跳转...').css("color", "#333");
+                            setTimeout(function () {
+                                location.replace(res.data);
+                            }, 500)
+                        }
+                    });
+                },
+                onFail: function (err) {
+                    $(".show-message").text(err.errorMessage).css("color", "red");
+                }
+            })
+        });
+    </script>
+</head>
+<body class="login">
+<div class="login_top"></div>
+<div class="login_bg_form">
+    <div class="loginform">
+        <div class="login-box-plain">
+            {*<h2>WorkLess</h2>*}
+            {*<img src="{path('[Home]/images/xiangshuyunLogo.png')}" alt="" style="padding:20px 0;">*}
+            <div style="margin-top: 60px;"></div>
+            <svg class="icon" aria-hidden="true">
+                <use xlink:href="#al-icon-xiangshuyunlogo_lan"></use>
+            </svg>
+            <form id="loginform" method="post" action="{url("consoles_login_login")}">
+                <div class="loginBoxCenter">
+                    <input type="hidden" name="code" value="" style="display:none;"/>
+                    <input type="hidden" name="company" value="{$company}" style="display:none;"/>
+                    <input type="hidden" name="recEN" value="{$recEN}" style="display:none;"/>
+                    <div style="text-align: center;color:#333" class="show-message"> 自动登录中，请稍候..</div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

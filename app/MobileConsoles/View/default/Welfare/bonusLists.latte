@@ -1,0 +1,146 @@
+{layout "../Layout/layoutBoth.latte"}
+{block headTitle}分红股增加记录{/block}
+{block tabs_content}
+    {include "./tabs.latte"}
+
+    <div class="bar bar-header-secondary">
+        <form action="">
+            <div class="searchbar">
+                <a class="searchbar-cancel">取消</a>
+                <div class="search-input">
+                    <label class="icon icon-search" for="search"></label>
+                    <input type="search" id='search' name="keywords" placeholder='输入关键字...' value="{$keywords}"/>
+                </div>
+            </div>
+        </form>
+    </div>
+{/block}
+
+{block private_css}
+    <style>
+        .bar-header-secondary~.content{
+            top:0;
+        }
+
+        .item-content .item-media span{
+            width: 40px;
+            height: 40px;
+            display: block;
+            line-height: 40px;
+            text-align: center;
+            font-size: 0.7rem;
+            color: white;
+            border-radius: 50%;
+            background: #0087e2;
+        }
+
+
+
+        .item-content .item-inner{
+            display:block;
+        }
+
+        .item-content .item-inner:after{
+            display:none;
+        }
+
+        .item-content .item-inner .item-row{
+            display:flex;justify-content:space-between;
+            line-height:24px;
+        }
+
+        .item-content .item-inner .item-row .item-title.item-title-bold{
+            font-weight:bold;
+        }
+
+        .item-content .item-inner .item-row .item-bonus{
+            color:#E51C23;
+            font-size:16px;
+            font-weight:bold;
+        }
+
+        .item-content .item-inner .item-row .item-after{
+            margin-right:0.1rem;
+        }
+    </style>
+{/block}
+
+{block private_js}
+    <script>
+        var datas = {
+            offset: {$offset}, infinite: true, loading: false,
+            keywords: {$keywords}
+        };
+        $(function () {
+            $(document).on('refresh', '.pull-to-refresh-content', function (e) {
+                if (datas.loading) return;
+                datas.offset = 0;
+                datas.loading = true;
+                $.ajax({
+                    url: $(".listsItems").data("data-url"),
+                    type: "GET",
+                    data: datas,
+                    dataType: "json",
+                    success: function (res) {
+                        $.pullToRefreshDone('.pull-to-refresh-content');
+                        datas.loading = false;
+                        if (res.status === "n") {
+                            $.toast(res.info);
+                            return;
+                        }
+                        datas.offset = res.data.offset;
+                        datas.infinite = res.data.infinite;
+                        $(".listsItems").html(res.data.html);
+                        if (datas.infinite) {
+                            $('.infinite-scroll-preloader').show();
+                        } else {
+                            $('.infinite-scroll-preloader').hide();
+                        }
+                    }
+                });
+            });
+
+
+            $(document).on('infinite', '.infinite-scroll-bottom', function () {
+                if (datas.loading || !datas.infinite) return;
+                datas.loading = true;
+                $.ajax({
+                    url: $(".listsItems").data("data-url"),
+                    type: "GET",
+                    data: datas,
+                    dataType: "json",
+                    success: function (res) {
+                        $.pullToRefreshDone('.pull-to-refresh-content');
+                        datas.loading = false;
+                        if (res.status === "n") {
+                            $.toast(res.info);
+                            return;
+                        }
+                        datas.offset = res.data.offset;
+                        datas.infinite = res.data.infinite;
+                        $(".listsItems").append(res.data.html);
+                        if (datas.infinite) {
+                            $('.infinite-scroll-preloader').show();
+                        } else {
+                            $('.infinite-scroll-preloader').hide();
+                        }
+                    }
+                });
+            });
+            if ({$infinite}) {
+                $('.infinite-scroll-preloader').show();
+            } else {
+                $('.infinite-scroll-preloader').hide();
+            }
+        })
+    </script>
+{/block}
+
+
+{block content}
+    <div class="list-block" style="margin-top: 2.3rem;">
+        <ul class="listsItems" data-url="{url("mobileConsoles_welfare_bonus_lists")}">
+            {include "bonusListsItems.latte"}
+        </ul>
+    </div>
+{/block}

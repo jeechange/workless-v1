@@ -1,0 +1,26 @@
+Admin\Entity\TargetSetting:
+  type: entity
+  table: target_setting
+  id:
+    id:
+      type: integer
+      nullable: false
+      unsigned: false
+      comment: ''
+      id: true
+      generator:
+        strategy: IDENTITY
+  fields:
+    principle:
+      type: text
+      nullable: true
+      length: null
+      fixed: false
+      comment: ''
+    specs:
+      type: text
+      nullable: true
+      length: null
+      fixed: false
+      comment: ''
+  lifecycleCallbacks: {  }

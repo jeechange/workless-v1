@@ -1,0 +1,306 @@
+{layout '../Public/layoutList.latte'}
+{block title}备忘{/block}
+{block actions}
+    <a href="{url('consoles_anything_anythingAdd')}" class="icon-adds" data-side-form>添加备忘</a>
+{/block}
+{block private_css}
+    <style>
+        a:hover {
+            text-decoration: none;
+        }
+
+        .anythingNav {
+            overflow: hidden;
+        }
+
+        .anythingNav li {
+            width: 33.33%;
+            float: left;
+            list-style: none;
+
+        }
+
+        .anythingNav li a {
+            font-size: 16px;
+            text-align: center;
+            line-height: 16px;
+            display: block;
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .anythingNav li:hover {
+            cursor: pointer;
+        }
+
+        .anythingNav li.current a {
+            color: #0087e1;
+            font-size: 16px;
+            border-bottom: 1px solid #0087e1;
+        }
+
+        .anythingContent {
+            /*padding: 5% 0;*/
+            overflow: hidden;
+            border: 1px solid #fafafa;
+            min-height: 600px;
+        }
+
+        .anythingContent li {
+            list-style: none;
+            overflow: hidden;
+            padding: 20px 5%;
+            position: relative;
+        }
+
+        .anythingContent li > p {
+            float: left;
+            font-size: 14px;
+            line-height: 22px;
+            width: 70%;
+        }
+
+        .anythingContent li a {
+            display: block;
+            padding: 5px;
+            background: #74afd6;
+            color: #fff;
+            font-size: 12px;
+            line-height: 12px;
+            width: 40px;
+            text-align: center;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            right: 16%;
+            /*float: left;*/
+        }
+
+        .anythingContent li a:last-child {
+            right: 5%;
+            background: #de5252;
+            /*float: right;*/
+        }
+
+        .anythingContent li div p {
+            font-size: 14px;
+            float: left;
+            line-height: 20px;
+        }
+
+        .anythingContent li div img {
+            width: 20px;
+            height: 20px;
+            margin-left: 5px;
+            float: left;
+        }
+
+        .anythingContent li a:hover {
+            cursor: pointer;
+        }
+
+        /*.anythingContent li:nth-of-type(odd) {*/
+            /*background: #fff;*/
+        /*}*/
+        .anything-task-group{
+            font-size: 12px;
+            border:1px solid #ccc;
+            padding: 2px;
+        }
+
+    </style>
+{/block}
+
+{block private_js}
+    <script type="text/javascript">
+
+    </script>
+{/block}
+
+{block content}
+    <div style="width: 700px;background:#fff;overflow: hidden;margin:10px auto;">
+        <ul class="anythingNav">
+            <li class="{if $current=='today'}current{/if}"><a
+                        href="{url("consoles_anything_anythingLists",array("types"=>"today"))}" data-side-form>今天</a></li>
+            <li class="{if $current=='someday'}current{/if}"><a
+                        href="{url("consoles_anything_anythingLists",array("types"=>"someday"))}" data-side-form>某天</a></li>
+            <li class="{if $current=='log'}current{/if}"><a
+                        href="{url("consoles_anything_anythingLists",array("types"=>"log"))}" data-side-form>日志</a></li>
+        </ul>
+        <ul class="anythingContent">
+            {if $current=='today' && $todayLists}
+                {foreach $todayLists as $k=>$v}
+                    <li>
+                        <p>{if $v['tgId']}<span class="anything-task-group">{$v['tgNames']}</span>{/if}{$v['content']}</p>
+                        {if $v['status'] == 0}
+                            <a href="{url("consoles_anything_anythingCheck",array("id"=>$v['id']))}"
+                               confirm="确定完成？">完成</a>
+                            <a href="{url("consoles_anything_anythingDelete",array("id"=>$v['id']))}"
+                               confirm="确定删除？">删除</a>
+                        {else}
+                            <a href="{url("consoles_anything_anythingRevoke",array("id"=>$v['id']))}"
+                               confirm="确定撤回？"
+                               style="background: #ddd;">已完成</a>
+                            <a href="{url("consoles_anything_anythingDelete",array("id"=>$v['id']))}"
+                               confirm="确定删除？">删除</a>
+                        {/if}
+                    </li>
+                {/foreach}
+            {/if}
+            {if $current=='someday' && $somedayLists}
+                {foreach $somedayLists as $k=>$v}
+                    <li>
+                        <p>{if $v['tgId']}<span class="anything-task-group">{$v['tgNames']}</span>{/if}$v['content']}</p>
+                        {if $v['status'] == 0}
+                            <a href="{url("consoles_anything_anythingCheck",array("id"=>$v['id']))}"
+                               confirm="确定完成？">完成</a>
+                            <a href="{url("consoles_anything_anythingDelete",array("id"=>$v['id']))}"
+                               confirm="确定删除？">删除</a>
+                        {else}
+                            <a href="{url("consoles_anything_anythingRevoke",array("id"=>$v['id']))}"
+                               confirm="确定撤回？"
+                               style="background: #ddd;">已完成</a>
+                            <a href="{url("consoles_anything_anythingDelete",array("id"=>$v['id']))}"
+                               confirm="确定删除？">删除</a>
+                        {/if}
+                    </li>
+                {/foreach}
+            {/if}
+            {if $current=='log' && $logLists}
+                {if $todayArr}
+                    <li>
+                        <div style="overflow:hidden;margin: 0 auto;width: fit-content;">
+                            <p>今天</p>
+                            <img src="{path('[Consoles]/images/today.png')}"style="width: 20px;height: 20px;margin-left: 5px;"/>
+                        </div>
+                    </li>
+                    {foreach $todayArr as $k=>$v}
+                        <li>
+                            <p>{if $v['tgId']}<span class="anything-task-group">{$v['tgNames']}</span>{/if}{$v['content']}</p>
+                            {if $v['status'] == 0}
+                                <a href="{url("consoles_anything_anythingCheck",array("id"=>$v['id']))}"
+                                   confirm="确定完成？">完成</a>
+                                <a href="{url("consoles_anything_anythingDelete",array("id"=>$v['id']))}"
+                                   confirm="确定删除？">删除</a>
+                            {else}
+                                <a href="{url("consoles_anything_anythingRevoke",array("id"=>$v['id']))}"
+                                   confirm="确定撤回？"
+                                   style="background: #ddd;">已完成</a>
+                                <a href="{url("consoles_anything_anythingDelete",array("id"=>$v['id']))}"
+                                   confirm="确定删除？">删除</a>
+                            {/if}
+                        </li>
+                    {/foreach}
+                {/if}
+
+                {if $yesterdayArr}
+                    <li>
+                        <div style="overflow:hidden;margin: 0 auto;width: fit-content;">
+                            <p>昨天</p>
+                            <img src="{path('[Consoles]/images/yesterday.png')}"
+                                 style="width: 20px;height: 20px;margin-left: 5px;"/>
+                        </div>
+                    </li>
+                    {foreach $yesterdayArr as $k=>$v}
+                        <li>
+                            <p>{if $v['tgId']}<span class="anything-task-group">{$v['tgNames']}</span>{/if}{$v['content']}</p>
+                            {if $v['status'] == 0}
+                                <a href="{url("consoles_anything_anythingCheck",array("id"=>$v['id']))}"
+                                   confirm="确定完成？">完成</a>
+                                <a href="{url("consoles_anything_anythingDelete",array("id"=>$v['id']))}"
+                                   confirm="确定删除？">删除</a>
+                            {else}
+                                <a href="{url("consoles_anything_anythingRevoke",array("id"=>$v['id']))}"
+                                   confirm="确定撤回？"
+                                   style="background: #ddd;">已完成</a>
+                                <a href="{url("consoles_anything_anythingDelete",array("id"=>$v['id']))}"
+                                   confirm="确定删除？">删除</a>
+                            {/if}
+                        </li>
+                    {/foreach}
+                {/if}
+
+                {if $tomorrowArr}
+                    <li>
+                        <div style="overflow:hidden;margin: 0 auto;width: fit-content;">
+                            <p>明天</p>
+                            <img src="{path('[Consoles]/images/tomorrow.png')}"
+                                 style="width: 20px;height: 20px;margin-left: 5px;"/>
+                        </div>
+                    </li>
+                    {foreach $tomorrowArr as $k=>$v}
+                        <li>
+                            <p>{if $v['tgId']}<span class="anything-task-group">{$v['tgNames']}</span>{/if}{$v['content']}</p>
+                            {if $v['status'] == 0}
+                                <a href="{url("consoles_anything_anythingCheck",array("id"=>$v['id']))}"
+                                   confirm="确定完成？">完成</a>
+                                <a href="{url("consoles_anything_anythingDelete",array("id"=>$v['id']))}"
+                                   confirm="确定删除？">删除</a>
+                            {else}
+                                <a href="{url("consoles_anything_anythingRevoke",array("id"=>$v['id']))}"
+                                   confirm="确定撤回？"
+                                   style="background: #ddd;">已完成</a>
+                                <a href="{url("consoles_anything_anythingDelete",array("id"=>$v['id']))}"
+                                   confirm="确定删除？">删除</a>
+                            {/if}
+                        </li>
+                    {/foreach}
+                {/if}
+
+                {if $somedayArr}
+                    <li>
+                        <div style="overflow:hidden;margin: 0 auto;width: fit-content;">
+                            <p>某天</p>
+                            <img src="{path('[Consoles]/images/someday.png')}"
+                                 style="width: 20px;height: 20px;margin-left: 5px;"/>
+                        </div>
+                    </li>
+                    {foreach $somedayArr as $k=>$v}
+                        <li>
+                            <p>{if $v['tgId']}<span class="anything-task-group">{$v['tgNames']}</span>{/if}{$v['content']}</p>
+                            {if $v['status'] == 0}
+                                <a href="{url("consoles_anything_anythingCheck",array("id"=>$v['id']))}"
+                                   confirm="确定完成？">完成</a>
+                                <a href="{url("consoles_anything_anythingDelete",array("id"=>$v['id']))}"
+                                   confirm="确定删除？">删除</a>
+                            {else}
+                                <a href="{url("consoles_anything_anythingRevoke",array("id"=>$v['id']))}"
+                                   confirm="确定撤回？"
+                                   style="background: #ddd;">已完成</a>
+                                <a href="{url("consoles_anything_anythingDelete",array("id"=>$v['id']))}"
+                                   confirm="确定删除？">删除</a>
+                            {/if}
+                        </li>
+                    {/foreach}
+                {/if}
+
+                {if $otherArr}
+                    <li>
+                        <div style="overflow:hidden;margin: 0 auto;width: fit-content;">
+                            <p>其它</p>
+                            <img src="{path('[Consoles]/images/other.png')}"
+                                 style="width: 20px;height: 20px;margin-left: 5px;"/>
+                        </div>
+                    </li>
+                    {foreach $otherArr as $k=>$v}
+                        <li>
+                            <p>{if $v['tgId']}<span class="anything-task-group">{$v['tgNames']}</span>{/if}{$v['content']}</p>
+                            {if $v['status'] == 0}
+                                <a href="{url("consoles_anything_anythingCheck",array("id"=>$v['id']))}"
+                                   confirm="确定完成？">完成</a>
+                                <a href="{url("consoles_anything_anythingDelete",array("id"=>$v['id']))}"
+                                   confirm="确定删除？">删除</a>
+                            {else}
+                                <a href="{url("consoles_anything_anythingRevoke",array("id"=>$v['id']))}"
+                                   confirm="确定撤回？"
+                                   style="background: #ddd;">已完成</a>
+                                <a href="{url("consoles_anything_anythingDelete",array("id"=>$v['id']))}"
+                                   confirm="确定删除？">删除</a>
+                            {/if}
+                        </li>
+                    {/foreach}
+                {/if}
+            {/if}
+        </ul>
+    </div>
+{/block}

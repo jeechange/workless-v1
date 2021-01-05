@@ -1,0 +1,110 @@
+{layout '../Public/layoutList.latte'} {*继承layoutList模板*}
+{block title}统计分析{/block}
+{block actionstab}
+    {include "./actionstab.latte"}
+{/block}
+
+{block private_css}
+    <style type="text/css">
+        .item-search-box{
+            width:30%;
+            float:left;
+        }
+
+        .item-search-box .item-search-border{
+            margin:10px;
+            padding:20px;
+            border:1px solid #dddddd;
+        }
+
+        .item-search-bar{
+            width:100%;
+            margin-bottom:20px;
+        }
+
+        .item-search-input{
+            width: 100%;
+            height:25px;
+            line-height:25px;
+        }
+
+        .item-inner{
+            width:100%;
+            margin:0.1rem;
+        }
+
+        .item-inner .item-title-depament{
+            padding:0.5rem;
+            background:#f7f7f7;
+            text-align:center;
+        }
+    </style>
+{/block}
+{block private_js}
+    <script type="text/javascript">
+        var department = {$department}?{$department}:[];
+        function showName(obj){
+            var newdepartment = [];
+            var name = $(obj).val()
+            name=new RegExp(name);
+            for(var index in department){
+                if(name.test(department[index]['names'])){
+                    newdepartment.push(department[index])
+                }
+            }
+            var html = '';
+            for(var i in newdepartment){
+                var url = {url('consoles_ranking_departmentPoints',array('types'=>$types))}+'&departmentId='+newdepartment[i]['id'];
+                html += "<li><a class='item-content item-link' href='"+url+"'><div class='item-inner'><div class='item-title-depament'>"+newdepartment[i]['names']+"</div></div></a></li>";
+            }
+            $('#department').html(html)
+        }
+    </script>
+{/block}
+{block content}
+    <div class="item-search-box">
+        <div class="item-search-border">
+            <div class="item-search-bar">
+                <input type="text" placeholder="输入关键字" name="search" onkeyup="showName(this)" class="item-search-input" value="">
+                <input type="text" style="display:none;"/>
+            </div>
+            <ul style="list-style: none;" id="department">
+                {foreach $department as $k => $v}
+                    <li>
+                        <a class="item-content item-link" href="{url('consoles_ranking_departmentPoints',array('types'=>$types,'departmentId'=>$v['id']))}">
+                            <div class="item-inner">
+                                <div class="item-title-depament" {if $departmentId==$v['id']}style="background-color:#cac6c6"{/if}>
+                                    {$v['names']}
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                {/foreach}
+            </ul>
+        </div>
+    </div>
+    <table cellpadding="0" cellspacing="0" border="0" class="stdtable" style="width:70%;float:left">
+        <thead>
+        <tr>
+            <th></th>
+            <th data-sort="s.names"><span class="table-head">姓名</span></th> {*在th加入 data-sort 可对数据库进行排序*}
+            <th data-sort="s.id"><span class="table-head">日期</span></th>
+            <th><span class="table-head">{if $types==2}总加分{elseif $types==1}总扣分{else}总得分{/if}</span></th>
+        </tr>
+        </thead>
+        <tbody>
+        {foreach $lists as $k=>$item}
+            <tr>
+                <td style="width: 60px;"><input type="checkbox" name='ids[]' class="checkall_1 checkall-item" value="{$item['s_id']}"/></td>
+                <td class="wid-auto">{$item['userName']}</td>
+                <td class="wid-auto">{$item['week']}</td>
+                <td class="wid-auto">{$item['acorn']}</td>
+            </tr>
+        {/foreach}
+        </tbody>
+    </table>
+{/block}
+
+
+
+

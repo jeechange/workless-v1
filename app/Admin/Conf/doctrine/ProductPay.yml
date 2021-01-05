@@ -1,0 +1,48 @@
+Admin\Entity\ProductPay:
+  type: entity
+  table: product_pay
+  id:
+    id:
+      type: integer
+      nullable: false
+      unsigned: false
+      comment: ''
+      id: true
+      generator:
+        strategy: IDENTITY
+  fields:
+    sid:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+    productId:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: product_id
+    payTypes:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+      column: pay_types
+    consumer:
+      type: smallint
+      nullable: true
+      unsigned: false
+      comment: ''
+    addTime:
+      type: datetime
+      nullable: true
+      comment: ''
+      column: add_time
+    status:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+  lifecycleCallbacks: {  }

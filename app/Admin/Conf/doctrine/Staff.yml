@@ -1,0 +1,136 @@
+Admin\Entity\Staff:
+  type: entity
+  table: staff
+  id:
+    id:
+      type: integer
+      nullable: false
+      unsigned: false
+      comment: ''
+      id: true
+      generator:
+        strategy: IDENTITY
+  fields:
+    sid:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+    fullName:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+      column: full_name
+    userId:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: user_id
+    userName:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+      column: user_name
+    roleName:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+      column: role_name
+    effect:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+    point:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+    pwd:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    safepwd:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    department:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+    station:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+    phone:
+      type: string
+      nullable: true
+      length: 15
+      fixed: false
+      comment: ''
+    qq:
+      type: string
+      nullable: true
+      length: 15
+      fixed: false
+      comment: ''
+    wx:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    email:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    addTime:
+      type: datetime
+      nullable: true
+      comment: ''
+      column: add_time
+    memo:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    status:
+      type: smallint
+      nullable: true
+      unsigned: false
+      comment: ''
+    photo:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    bonus:
+      type: decimal
+      nullable: true
+      precision: 20
+      scale: 2
+      comment: ''
+    snackNum:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: snack_num
+  lifecycleCallbacks: {  }

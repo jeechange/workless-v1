@@ -1,0 +1,187 @@
+{layout '../Public/layoutList.latte'} {*继承layoutList模板*}
+{block title}统计分析{/block}
+{block actions}
+{/block}
+{block actionstab}
+    {include "./actionstab.latte"}
+{/block}
+{block checkbox}{/block}
+{block private_css}
+{/block}
+{block private_js}
+    <script type="text/javascript" n:syntax="double">
+        var myChart = echarts.init(document.getElementById('main'));
+        option = {
+            title: {
+                text: '',
+                subtext: ''
+            },
+            tooltip: {
+                trigger: 'axis'
+            },
+            legend: {
+                data: ['发布次数', "验收次数", "执行次数"]
+            },
+            toolbox: {
+                show: true,
+                feature: {
+                    dataView: {
+                        show: true, readOnly: false
+                    },
+                    magicType: {
+                        show: true, type: ['line', 'bar']
+                    },
+                    restore: {
+                        show: true
+                    },
+                    saveAsImage: {
+                        show: true
+                    }
+                }
+            },
+            calculable: true,
+            xAxis: [
+                {
+                    type: 'category',
+                    data: {{$names}}
+                }
+            ],
+            yAxis: [
+                {
+                    type: 'value'
+                }
+            ],
+            series: [
+                {
+                    name: '发布次数',
+                    type: 'bar',
+                    areaStyle: {
+                        color: ['#0087e2']
+                    },
+                    data:{{$issueVlues}},
+                    markPoint: {
+                        data: [
+                            {
+                                type: 'max', name: '最大值'
+                            },
+                            {
+                                type: 'min', name: '最小值'
+                            }
+                        ]
+                    },
+                    markLine: {
+                        data: [
+                            {
+                                type: 'average', name: '平均值'
+                            }
+                        ]
+                    }
+                },
+                {
+                    name: '验收次数',
+                    type: 'bar',
+                    areaStyle: {
+                        color: ['#0087e2']
+                    },
+                    data:{{$acceptVlues}},
+                    markPoint: {
+                        data: [
+                            {
+                                type: 'max', name: '最大值'
+                            },
+                            {
+                                type: 'min', name: '最小值'
+                            }
+                        ]
+                    },
+                    markLine: {
+                        data: [
+                            {
+                                type: 'average', name: '平均值'
+                            }
+                        ]
+                    }
+                },
+                {
+                    name: '执行次数',
+                    type: 'bar',
+                    areaStyle: {
+                        color: ['#0087e2']
+                    },
+                    data:{{$allotVlues}},
+                    markPoint: {
+                        data: [
+                            {
+                                type: 'max', name: '最大值'
+                            },
+                            {
+                                type: 'min', name: '最小值'
+                            }
+                        ]
+                    },
+                    markLine: {
+                        data: [
+                            {
+                                type: 'average', name: '平均值'
+                            }
+                        ]
+                    }
+                }
+            ]
+        };
+        myChart.setOption(option);
+    </script>
+{/block}
+{block selectButton}
+    <div class="ranking-box">
+        <a href="{url("consoles_lists","con=taskStatistics&types={$active}&bTypes=1")}">
+            <div class="ranking-select {if $bTypes==1}ativce{/if}">昨日</div>
+        </a>
+        <a href="{url("consoles_lists","con=taskStatistics&types={$active}&bTypes=2")}">
+            <div class="ranking-select {if $bTypes==2}ativce{/if}">7日内</div>
+        </a>
+        <a href="{url("consoles_lists","con=taskStatistics&types={$active}&bTypes=3")}">
+            <div class="ranking-select {if $bTypes==3}ativce{/if}">30日内</div>
+        </a>
+    </div>
+{/block}
+{block content}
+    <table cellpadding="0" cellspacing="0" border="0" class="stdtable">
+        <thead>
+        <tr>
+            <th><span class="table-head">姓名</span></th> {*在th加入 data-sort 可对数据库进行排序*}
+            <th><span class="table-head">发布（次）</span></th>
+            <th><span class="table-head">验收完成（次）</span></th>
+            <th><span class="table-head">执行完成（次）</span></th>
+            <th><span class="table-head">正在执行中(次)</span></th>
+            <th><span class="table-head">总任务量</span></th>
+            <th><span class="table-head">已完成任务量(占比)</span></th>
+        </tr>
+        </thead>
+        <tbody>
+        {foreach $lists as $k=>$item}
+            <tr>
+                <td class="wid-auto input-rec-td">{$item['userName']}</td>
+                <td class="wid-auto">{$item['issueCount']}</td>
+                <td class="wid-auto">{$item['acceptCount']}</td>
+                <td class="wid-auto">{$item['allotCount']}</td>
+                <td class="wid-auto">{$item['execute']}</td>
+                <td class="wid-auto">{$item['totalWl']}小时</td>
+                <td class="wid-auto">{if $item['proportion']>0}{$item['realWl']}（{$item['proportion']}%）{else}--{/if}</td>
+            </tr>
+        {/foreach}
+        </tbody>
+    </table>
+{/block}
+{block sub_content}
+    {if $names}
+        <div style="height: 80px;"></div>
+        <div style="width:100%;float:left;">
+            <!-- 为 echarts 准备一个具备大小（宽高）的Dom。 -->
+            <div id="main" style="width:100%;height:400px;margin:0 auto"></div>
+        </div>
+    {/if}
+{/block}
+
+
+

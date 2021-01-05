@@ -1,0 +1,22 @@
+{layout '../Public/sideForm.latte'}
+{block title}邀请同事{/block}
+
+{block content}
+    <form id="formArticle" class="stdform mform" method="post" action="" onsubmit="return false">
+        <table cellpadding="0" cellspacing="0" border="0" id="frmtable" class="formtable">
+            <thead>
+            <tr>
+                <td><label>用户</label></td>
+                <td>
+                    <div class="field control-group">
+                        <div class="input-group input-auto-find">
+                            <input type="text" data-url="{url("consoles_company_findusers")}" class="smallinput" placeholder="输入用户名/手机号/姓名" autocomplete="off"/>
+                            <input type="hidden" name="userId" value="">
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            </thead>
+        </table>
+    </form>
+{/block}

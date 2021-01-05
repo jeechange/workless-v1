@@ -1,0 +1,102 @@
+Admin\Entity\MoneyLaunch:
+  type: entity
+  table: money_launch
+  id:
+    id:
+      type: integer
+      nullable: false
+      unsigned: false
+      comment: ''
+      id: true
+      generator:
+        strategy: IDENTITY
+  fields:
+    name:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    memo:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    sysmemo:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    status:
+      type: smallint
+      nullable: true
+      unsigned: false
+      comment: ''
+    addTime:
+      type: datetime
+      nullable: true
+      comment: ''
+      column: add_time
+    num:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+    joinPerson:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+      column: join_person
+    examinePerson:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+      column: examine_person
+    endTime:
+      type: datetime
+      nullable: true
+      comment: ''
+      column: end_time
+    types:
+      type: smallint
+      nullable: true
+      unsigned: false
+      comment: ''
+    source:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    sid:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+    categoryId:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: category_id
+    sortToken:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+      column: sort_token
+    sortInfo:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+      column: sort_info
+  lifecycleCallbacks: {  }

@@ -1,0 +1,36 @@
+Admin\Entity\TargetAudit:
+  type: entity
+  table: target_audit
+  id:
+    id:
+      type: integer
+      nullable: false
+      unsigned: false
+      comment: ''
+      id: true
+      generator:
+        strategy: IDENTITY
+  fields:
+    tId:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: t_id
+    userId:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: user_id
+    status:
+      type: smallint
+      nullable: true
+      unsigned: false
+      comment: ''
+    types:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+  lifecycleCallbacks: {  }

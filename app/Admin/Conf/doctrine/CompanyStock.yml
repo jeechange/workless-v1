@@ -1,0 +1,52 @@
+Admin\Entity\CompanyStock:
+  type: entity
+  table: company_stock
+  id:
+    id:
+      type: integer
+      nullable: false
+      unsigned: false
+      comment: ''
+      id: true
+      generator:
+        strategy: IDENTITY
+  fields:
+    sid:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+    bonus:
+      type: decimal
+      nullable: true
+      precision: 20
+      scale: 2
+      comment: ''
+    releaseBonus:
+      type: decimal
+      nullable: true
+      precision: 20
+      scale: 2
+      comment: ''
+      column: release_bonus
+    price:
+      type: decimal
+      nullable: true
+      precision: 10
+      scale: 2
+      comment: ''
+    totalMoney:
+      type: decimal
+      nullable: true
+      precision: 20
+      scale: 2
+      comment: ''
+      column: total_money
+    lockTime:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+      column: lock_time
+  lifecycleCallbacks: {  }

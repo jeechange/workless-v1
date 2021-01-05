@@ -1,0 +1,340 @@
+<style>
+    .index-top, .index-top a, .right-menu div.right-menu-item a, .userinfo div#headicon span#username{
+        background:#fff;
+        color:#333;
+    }
+
+    .logo{
+        height:50px;
+        width:180px;
+    }
+
+    .index-main{
+        padding-top:50px;
+    }
+
+    #menudiv{
+        top:50px;
+        width:180px;
+    }
+
+    .menu > ul > li > ul > li{
+        width:175px;
+    }
+
+    .left-menu{
+        height:50px;
+        text-align:left;
+        line-height:50px;
+        position:absolute;
+        left:200px;
+        z-index:1;
+        top:0;
+    }
+
+    .left-menu div.left-menu-item{
+        display:inline-block;
+        padding-left:5px;
+        padding-right:5px;
+        cursor:pointer;
+    }
+
+    .left-menu div.left-menu-item a{
+        color:#333;
+        text-decoration:none;
+        display:block;
+        border-radius:15px;
+        border:1px solid #ccc;
+        height:28px;
+        line-height:28px;
+        padding:0 20px;
+        background:#F2F2F2;
+    }
+
+    .left-menu-item a .badge{
+        background:red;
+        border-radius:50%;
+        width:8px;
+        display:inline-block;
+        height:8px;
+        margin-left:5px;
+    }
+
+    .right-menu-item-hover, .usermenu-hover, .userinfo div#headicon.usermenu-hover span#username, .right-menu div.right-menu-item.right-menu-item-hover a{
+        background-color:#F2F2F2;
+    }
+
+    .userinfo div#headicon span#username{
+        line-height:50px;
+        background:#F2F2F2;
+    }
+
+    .right-menu{
+        height:50px;
+        line-height:50px;
+    }
+
+    .userinfo{
+        height:50px;
+    }
+
+    .sub_menu_3_4{
+        top:52px;
+        left:180px;
+    }
+
+    .sub_menu_3_4 > span{
+        color:#0087E1;
+        font-style:normal;
+        text-align:center;
+        font-weight:700;
+        margin-left:0;
+    }
+
+    .sub_menu_3_4 > ul > li{
+        margin-left:0;
+        text-align:center;
+        height:40px;
+        line-height:40px;
+    }
+
+    .sub_menu_3_4 > ul > li.current{
+        background:#fff;
+    }
+
+    .content_show_3_4{
+        left:330px !important;
+        cursor:default;
+    }
+
+    #contentdiv{
+        background:#fff;
+    }
+
+    .headNavT .headNavMark{
+        width:2px;
+        background:#0087E1;
+        height:20px;
+        position:absolute;
+        top:15px;
+    }
+
+    .headNavT .headNavT-title{
+        margin-left:10px;
+        font-size:16px;
+    }
+
+    .headNavT .head-action{
+        position:absolute;
+        top:2px;
+        right:15px;
+        padding:0;
+        margin:0;
+        border:none;
+    }
+
+    .stdtable{
+        margin-top:10px;
+    }
+
+    #contentdiv .searchForm{
+        border:none;
+        margin-bottom:0;
+        padding-bottom:0;
+    }
+
+    .image-preview{
+        z-index:99999;
+    }
+
+    .head-action-tab{
+        padding:0;
+        border:none;
+        display:inline-block;
+        margin-left:20px;
+    }
+
+    .head-action-tab a{
+        display:inline-block;
+        margin:0 10px 10px 0;
+        border:1px solid #e2e2e2;
+        background:#f2f2f2;
+        padding:0 15px;
+        height:27px;
+        line-height:27px;
+        text-decoration:none;
+        border-radius:1px;
+        color:#333;
+        font-size:13px;
+    }
+
+    .head-action-tab a.selected{
+        border:1px solid #465563;
+        background:#4d5b69;
+        color:#fff;
+    }
+
+    .redDot{
+        position:relative;
+    }
+
+    .redDot:after{
+        content:'';
+        position:absolute;
+        top:50%;
+        right:-12px;
+        width:8px;
+        height:8px;
+        transform:translateY(-50%);
+        border-radius:50%;
+        background:red;
+    }
+
+    .redDotTwo{
+        position:relative;
+    }
+
+    .redDotTwo:after{
+        content:'';
+        position:absolute;
+        top:50%;
+        right:2px;
+        width:8px;
+        height:8px;
+        transform:translateY(-50%);
+        border-radius:50%;
+        background:red;
+    }
+
+    .redDotThree{
+        position:relative;
+    }
+
+    .redDotThree:after{
+        content:'';
+        position:absolute;
+        top:50%;
+        right:12px;
+        width:8px;
+        height:8px;
+        transform:translateY(-50%);
+        border-radius:50%;
+        background:red;
+    }
+
+    .logo{
+        line-height:50px;
+    }
+
+    #searchTask{
+        color:#333;
+        text-decoration:none;
+        display:block;
+        border-radius:15px;
+        border:1px solid #ccc;
+        height:28px;
+        line-height:28px;
+        padding:0 20px;
+        background:#fff;
+        font-size:12px;
+        outline:none;
+    }
+
+</style>
+
+<div class='index-header index-header-2'>
+    <div class="index-top">
+
+        <div id='logodiv' class="logo" style="background:#0087e1">
+            {*<img src="{path('[Consoles]/images/logo.png')}" style="height: 50px;width: 180px;vertical-align: top;">*}
+            <span class="icon al-icon al-icon-workless" style="font-size:22px;color:#FFF;display:block;height:48px;"></span>
+            <span class="icon al-icon al-icon-qidongtubiao1" style="font-size:22px;color:#FFF;display:block;height:30px;"></span>
+        </div>
+        {if $user->getSid()!=0}
+            <div class="left-menu left-menu-2">
+                <div class="left-menu-item"><a href="{url('consoles_lists','con=Todo')}#211" style="font-family: '微软雅黑';">TODO</a></div>
+                <div class="left-menu-item"><a href="{url('consoles_add','con=task&types=temp')}" data-side-form>发布任务</a></div>
+                <div class="left-menu-item"><a href="{url('consoles_acorn_apply','activecd=Report')}#511">申请积分</a></div>
+                <div class="left-menu-item"><a href="{url("consoles_lists","con=Ranking")}#54">积分排名</a></div>
+                <div class="left-menu-item">
+                    <form id="formSubmit" action="{url('consoles_index_toTask')}" method="post">
+                        <input id="searchTask" type="text" name="codeNo" placeholder="输入任务编号直达任务"/>
+                    </form>
+                </div>
+
+            </div>
+            <div class="right-menu">
+                <div class="right-menu-item {if $redDot['anything']['today'] > 0}redDotTwo{/if}"><a href="{url("consoles_anything_anythingLists")}" data-side-form>备忘</a></div>
+                <div class="right-menu-item"><a href="https://workless.cn" target=_blank>购买商业版</a></div>
+            </div>
+        {else}
+            <div class="left-menu">
+                <div class="left-menu-item"><a href="{url("consoles_acorn_submitApply")}#21">创建团队</a></div>
+                <div class="left-menu-item"><a href="{url('consoles_lists','con=taskMe')}" class="icon-adds">加入团队</a></div>
+            </div>
+        {/if}
+        <div class="userinfo">
+            <div title="头像" id="headicon">
+                <span id="username">{mb_substr($user->getFullName(),0,4,"utf8")}</span>
+                <span id="icon"></span>
+            </div>
+            <ul class='usermenu'>
+                {if $user->getSid()==0}
+                    <li>
+                        <a href="{url('consoles_set_myuser','different=yes')}">
+                            <span class='icon'></span>
+                            <span class='title'>我的账户</span>
+                            <span class='tip'></span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{url('consoles_set_password','different=yes')}">
+                            <span class='icon'></span>
+                            <span class='title'>修改密码</span>
+                            <span class='tip'></span>
+                        </a>
+                    </li>
+                    <li>
+                        <a data-href="{url('consoles_login_logout')}" href="##" onclick="location.href =this.getAttribute('data-href');">
+                            <span class='icon'></span>
+                            <span class='title'>退出</span>
+                            <span class='tip'></span>
+                        </a>
+                    </li>
+                {else}
+                    <li>
+                        <a href="{url('consoles_set_myuser')}">
+                            <span class='icon'></span>
+                            <span class='title'>我的账户</span>
+                            <span class='tip'></span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{url('consoles_set_password')}">
+                            <span class='icon'></span>
+                            <span class='title'>修改密码</span>
+                            <span class='tip'></span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{url('consoles_lists',"con=Company")}">
+                            <span class='icon'></span>
+                            <span class='title'>我的团队</span>
+                            <span class='tip'></span>
+                        </a>
+                    </li>
+                    <li>
+                        <a data-href="{url('consoles_login_logout')}" href="##" onclick="location.href =this.getAttribute('data-href');">
+                            <span class='icon'></span>
+                            <span class='title'>退出</span>
+                            <span class='tip'></span>
+                        </a>
+                    </li>
+                {/if}
+
+            </ul>
+        </div>
+    </div>
+</div>
+
+

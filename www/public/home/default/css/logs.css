@@ -1,0 +1,131 @@
+
+*{
+    margin:0;
+    padding:0;
+}
+li{
+    list-style:none;
+}
+img{
+    image-rendering: -moz-crisp-edges;         /* Firefox */
+    image-rendering:   -o-crisp-edges;         /* Opera */
+    image-rendering: -webkit-optimize-contrast;/* Webkit (non-standard naming) */
+    image-rendering: crisp-edges;
+}
+a{
+    text-decoration:none;
+}
+@media screen and (min-width:426px){
+    .logs{
+        width:1035px;
+        margin:auto;
+        overflow:hidden;
+        margin-top:162px;
+        margin-bottom:110px;
+    }
+    .logs li{
+        overflow:hidden;
+        width:100%;
+        margin-bottom:70px;
+        padding:5px;
+    }
+    .logs .nums{
+        width:159px;
+        height:154px;
+        font-size:80px;
+        font-family:Microsoft YaHei;
+        font-weight:bold;
+        line-height:159px;
+        color:rgba(255,255,255,1);
+        opacity:1;
+        background:#28559c;
+        text-align:center;
+        float:left;
+        box-shadow:0px 3px 6px rgba(0,0,0,0.16);
+
+    }
+    .logs .logContent{
+        width:840px;
+        height:154px;
+        background:rgba(255,255,255,1);
+        box-shadow:0px 3px 6px rgba(0,0,0,0.16);
+        opacity:1;
+        float:left;
+        padding-left:28px;
+    }
+    .logContent h5{
+        font-size:24px;
+        font-family:Microsoft YaHei;
+        font-weight:bold;
+        line-height:40px;
+        color:rgba(40,85,156,1);
+        opacity:1;
+    }
+    .logContent p{
+        width:792px;
+        height:65px;
+        font-family:Microsoft YaHei;
+        font-weight:400;
+        line-height:40px;
+        color:rgba(38,38,38,1);
+        opacity:1;
+    }
+    .logContent p:last-child{
+        height:unset;
+    }
+}
+@media screen and (max-width:425px){
+    .logs{
+        width:90%;
+        margin-left:5%;
+        overflow:hidden;
+        margin-top:40px;
+        min-height:20vh;
+    }
+    .logs ul{
+        padding:2px;
+    }
+    .logs ul li{
+       box-shadow:0px 3px 6px rgba(0,0,0,0.16);
+        background:#FFF;
+        overflow:hidden;
+    }
+    .logs ul li .nums{
+        float:left;
+        width:60px;
+        height:60px;
+        font-size:50px;
+        font-family:Microsoft YaHei;
+        font-weight:bold;
+        line-height:60px;
+        color:rgba(255,255,255,1);
+        opacity:1;
+        background:#28559c;
+        text-align:center;
+    }
+    .logs ul li .logContent{
+        float:left;
+        width:78%;
+        height:60px;
+        background:rgba(255,255,255,1);
+        opacity:1;
+    }
+    .logContent h5{
+        margin-left:20px;
+        font-size:14px;
+        color:#28559c;
+    }
+    .logContent p{
+        margin-left:20px;
+        font-size:12px;
+        color:#000;
+        margin-bottom:5px;
+    }
+    .logContent p:last-child{
+       display:none;
+    }
+
+}
+
+
+

@@ -1,0 +1,121 @@
+{layout "../Layout/layout.latte"}
+{block headTitle}积分统计{/block}
+{block tabs_content}
+    {*{include "./tabs.latte"}*}
+{/block}
+{block private_css}
+    <style>
+        .list-block .item-content{
+            min-height:2rem;
+            line-height:2rem;
+        }
+    </style>
+{/block}
+{block private_js}
+{/block}
+{block content}
+    <div class="list-block" style="margin-top: 3rem;">
+        <ul>
+            <li>
+                <a href="{url("mobileConsoles_sort_findAcorn",array("types"=>"find"))}" class="item-content item-link">
+                    <div class="item-inner">
+                        <div class="item-title"> 积分查询</div>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a href="{url("mobileConsoles_sort_rankings")}" class="item-content item-link">
+                    <div class="item-inner">
+                        <div class="item-title"> 排行榜</div>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a href="{url('mobileConsoles_taskStatistics_lists')}" class="item-content item-link">
+                    <div class="item-inner">
+                        <div class="item-title"> 任务统计</div>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a href="{url("mobileConsoles_sort_effect_deduction",array("sTypes"=>1))}" class="item-content item-link">
+                    <div class="item-inner">
+                        <div class="item-title"> 加分统计</div>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a href="{url("mobileConsoles_sort_effect_deduction",array("sTypes"=>2))}" class="item-content item-link">
+                    <div class="item-inner">
+                        <div class="item-title"> 扣分统计</div>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a href="{url("mobileConsoles_sort_effect_deduction",array("sTypes"=>0))}" class="item-content item-link">
+                    <div class="item-inner">
+                        <div class="item-title"> 得分统计</div>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a href="{url("mobileConsoles_sort_deAveragePoints")}" class="item-content item-link">
+                    <div class="item-inner">
+                        <div class="item-title">各部门平均分</div>
+                    </div>
+                </a>
+            </li>
+            {*<li>*}
+            {*<a href="javascript:void(0)" class="item-content item-link">*}
+            {*<div class="item-inner">*}
+            {*<div class="item-title"> 奖扣任务</div>*}
+            {*</div>*}
+            {*</a>*}
+            {*</li>*}
+            {*<li>*}
+            {*<a href="javascript:void(0)" class="item-content item-link">*}
+            {*<div class="item-inner">*}
+            {*<div class="item-title"> 进步统计</div>*}
+            {*</div>*}
+            {*</a>*}
+            {*</li>*}
+            {*<li>*}
+            {*<a href="javascript:void(0)" class="item-content item-link">*}
+            {*<div class="item-inner">*}
+            {*<div class="item-title"> 申请统计</div>*}
+            {*</div>*}
+            {*</a>*}
+            {*</li>*}
+            {*<li>*}
+            {*<a href="javascript:void(0)" class="item-content item-link">*}
+            {*<div class="item-inner">*}
+            {*<div class="item-title"> 区间分数统计</div>*}
+            {*</div>*}
+            {*</a>*}
+            {*</li>*}
+            {*<li>*}
+            {*<a href="javascript:void(0)" class="item-content item-link">*}
+            {*<div class="item-inner">*}
+            {*<div class="item-title"> 分类得分统计</div>*}
+            {*</div>*}
+            {*</a>*}
+            {*</li>*}
+            {*<li>*}
+            {*<a href="javascript:void(0)" class="item-content item-link">*}
+            {*<div class="item-inner">*}
+            {*<div class="item-title"> 事项得分统计</div>*}
+            {*</div>*}
+            {*</a>*}
+            {*</li>*}
+            {*<li>*}
+            {*<a href="javascript:void(0)" class="item-content item-link">*}
+            {*<div class="item-inner">*}
+            {*<div class="item-title"> 根据标准统计</div>*}
+            {*</div>*}
+            {*</a>*}
+            {*</li>*}
+
+
+        </ul>
+    </div>
+{/block}

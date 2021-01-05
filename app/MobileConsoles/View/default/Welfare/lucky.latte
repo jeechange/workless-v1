@@ -1,0 +1,299 @@
+{layout "../Layout/layout.latte"}
+{block headTitle}幸运奖{/block}
+{block tabs_content}
+    {include "./tabs.latte"}
+{/block}
+{block private_css}
+    <style>
+        .content{
+            background:#fff;
+            padding:0 15px;
+        }
+
+        .lucky-title{
+            padding:5px;
+            border-bottom:1px dashed #ddd;
+            margin-bottom:15px;
+        }
+
+        h3, h3 input{
+            height:23px;
+            line-height:23px;
+            color:#101010;
+            font-size:16px;
+            text-align:center;
+        }
+
+        .lucky-scope-title{
+            margin-bottom:15px;
+        }
+
+        .lucky-scope ul:before, .lucky-scope ul:after{
+            display:none;
+        }
+
+        .lucky-scope li{
+            display:inline-block;
+            height:27px;
+            line-height:27px;
+            width:30%;
+            color:#101010;
+            font-size:12px;
+            text-align:center;
+            border:1px solid rgba(187, 187, 187, 1);
+            margin-right:1%;
+            margin-bottom:5px;
+            overflow:hidden;
+            text-overflow:ellipsis;
+            white-space:nowrap
+        }
+
+        .lucky-scope li.selected{
+            background:#0087E2;
+            border-color:#0087E2;
+            color:#fff;
+        }
+
+        .show-runtime{
+            width:100%;
+            height:135px;
+            line-height:26px;
+            background-color:#ECE9E9;
+            color:#101010;
+            font-size:18px;
+            text-align:center;
+            border:1px solid #DFDBDB;
+        }
+
+        .show-runtime-text{
+            font-size:24px;
+            text-align:center;
+            margin-top:55px;
+        }
+
+        .show-result{
+            text-align:center;
+            margin-top:15px;
+            visibility:hidden;
+        }
+
+        .show-result.show{
+            visibility:visible;
+        }
+
+        .show-result-user{
+            height:23px;
+            line-height:20px;
+            color:#101010;
+            font-size:14px;
+            text-align:center;
+        }
+
+        .show-result-content{
+            height:30px;
+            line-height:30px;
+            color:#E51C23;
+            font-size:16px;
+            text-align:center;
+        }
+
+        .start-action{
+            margin:10px auto;
+            width:143px;
+            height:48px;
+            line-height:48px;
+            background-color:#E51C23;
+            color:#fff;
+            font-size:14px;
+            text-align:center;
+            border:1px solid #E51C23;
+        }
+    </style>
+{/block}
+
+{block private_js}
+    <script>
+        var prizes = {$prizes};
+        var luckyRun = false;
+        var timer;
+        var members ={$members};
+        var runMembers = {$members[0]};
+        var luckyScopes = [0];
+
+        function GetRnd(min, max) {
+            var randnum = parseInt(Math.random() * (max - min + 1));//其中"parseInt"是将随机数转换成整数
+            return randnum;
+        }
+
+        function startTimer() {
+            luckyRun = true;
+            $(".show-result").removeClass("show");
+            $(".start-action").text("停止");
+            timer = setInterval(function () {
+                var num = runMembers.length - 1;
+                var rnd = runMembers[GetRnd(0, num)];
+                $(".show-runtime-text").attr("data-user-id", rnd[0]).text(rnd[1]);
+            }, 10);
+        }
+
+        function stopTimer() {
+            luckyRun = false;
+            $(".start-action").text("开始抽奖");
+            clearInterval(timer);//取消赋值给"timer"间隔要执行的函数
+
+            var runtimeBox = $(".show-runtime-text");
+
+            $(".show-result-user-name").text(runtimeBox.text());
+            var num = prizes.length - 1;
+            var content = prizes[GetRnd(0, num)]
+            $(".show-result-content").text(content);
+
+
+            var postdata = {
+                userId: runtimeBox.attr("data-user-id"),
+                title: $("#lucky-title-input").val(),
+                lucky: content,
+                scopes: luckyScopes.join(",")
+            };
+
+            $.showPreloader('正在开奖，请稍候...');
+            $.ajax({
+                url: $("start-action").attr("data-url"),
+                type: "POST",
+                data: postdata,
+                dataType: "json",
+                success: function (res) {
+                    $.hidePreloader();
+                    if (res.status === "n") {
+                        $.toast(res.info);
+                        return;
+                    }
+                    $(".show-result").addClass("show");
+
+                    $.toast("可以分享出去获得积分哦");
+                    $("#shareBox").css('display',"block");
+                    $("#shareBox").attr('data-url',res.url);
+                }
+            });
+        }
+
+        $(function () {
+            $(".start-action").on("click", function () {
+                if (runMembers.length < 3) {
+                    $.toast("至少三人才能进行抽奖");
+                    return;
+                }
+                if (prizes.length < 1) {
+                    $.toast("请先设置奖品");
+                    return;
+                }
+                if (luckyRun) {
+                    stopTimer();
+                } else {
+                    startTimer();
+                }
+            });
+
+            $(".lucky-scope").on("click", "li", function () {
+                $(this).toggleClass("selected");
+                var selecteds = $(".lucky-scope li.selected");
+
+                luckyScopes = [];
+                if (selecteds.length === 0) {
+                    runMembers = [];
+                    return;
+                }
+                var userIds = [];
+
+                for (var i = 0; i < selecteds.length; i++) {
+                    var val = $(selecteds[i]).attr("data-val");
+                    luckyScopes.push(val);
+                    if (typeof members[val] === "undefined" || members[val].length === 0) continue;
+                    for (var j = 0; j < members[val].length; j++) {
+                        var user = members[val][j];
+                        if ($.inArray(user[0], userIds) > -1) continue;
+                        userIds.push(user[0]);
+                        runMembers.push([user[0], user[1]])
+                    }
+                }
+            });
+
+            $("#shareBox").live('click',function(){
+                var url = $(this).attr('data-url');
+                location.replace(url);
+            })
+
+            $(".create-actions").click(function () {
+                var settingName = $(this).attr("data-settingName");
+                var settingUrl = $(this).attr("data-settingUrl");
+                var studyAddName = $(this).attr("data-studyAddName");
+                var studyAddUrl = $(this).attr("data-studyAddUrl");
+                var buttons1 = [
+                    {
+                        text: '请选择',
+                        label: true
+                    },
+                    {
+                        text: studyAddName,
+                        onClick: function () {
+                            window.location.href = studyAddUrl;
+                        }
+                    },
+                    {
+                        text: settingName,
+                        onClick: function () {
+                            window.location.href = settingUrl;
+                        }
+                    }
+                ];
+                var buttons2 = [
+                    {
+                        text: '取消',
+                        bg: 'danger'
+                    }
+                ];
+                var groups = [buttons1, buttons2];
+                $.actions(groups);
+            });
+
+
+        })
+    </script>
+{/block}
+
+{block content}
+    <div class="list-block" style="margin-top: 2.3rem;position: relative;">
+        <div class="lucky-title">
+            <h3><input type="text" id="lucky-title-input" value="快乐会议有快乐抽奖"></h3>
+        </div>
+        <div class="lucky-scope">
+            <div class="lucky-scope-title">抽奖范围</div>
+            <ul>
+                <li class="selected" data-val="0">全公司({count($members[0])}人)</li>
+                {foreach $deps as $dep}
+                    <li data-val="{$dep["id"]}">{$dep["names"]}({count($members[$dep["id"]])}人)</li>
+                {/foreach}
+
+            </ul>
+        </div>
+        <div class="show-runtime">
+            <div class="show-runtime-text"></div>
+        </div>
+        <div class="show-result">
+            <div class="show-result-user">恭喜"<span class="show-result-user-name"></span>"获得</div>
+            <div class="show-result-content">"现场高歌一曲的表现机会"</div>
+        </div>
+
+        <div class="start-action" data-url="{url('mobileConsoles_welfare_lucky')}">开始抽奖</div>
+
+    </div>
+    <div id="shareBox" data-status="hide" data-url="" style="position: fixed;right: -1px;bottom: 50px;border:1px solid #0087e1;padding: 5px 5px 5px 10px;border-top-left-radius: 20px;border-bottom-left-radius: 20px;color: #fff;z-index: 9999;display: none;">
+        <img src="{path('[MobileConsoles]/img/shareIcon.png')}" style="float: left;display: block;width: 20px;height: 20px;">
+        <p style="float: left;line-height: 14px;margin: 3px;color: #0087e2;">分享</p>
+    </div>
+    {if $isSuper}
+        <div>
+            <span data-settingUrl="{url("mobileConsoles_welfare_bonus_setting")}" data-studyAddUrl="{url("mobileConsoles_study_add")}" data-settingName="设置" data-studyAddName="幸运抽奖" class="create-actions">管理</span>
+        </div>
+    {/if}
+{/block}

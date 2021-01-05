@@ -1,0 +1,30 @@
+{layout '../Public/layoutList.latte'} {*继承layoutList模板*}
+{block title}{$title}{/block}
+{block private_css}
+    <style type="text/css">
+        #contentdiv{
+            background:#fff;
+        }
+
+        a.selected{
+            border:1px solid #465563;
+            background:#4d5b69 !important;
+            color:#fff;
+        }
+    </style>
+{/block}
+{block actionstab}
+    {include "../$con/actionstab.latte"}
+{/block}
+{block private_js}
+{/block}
+{block content}
+    <div id="contentdiv">
+        <div style="position:relative; width:100%; height:600px; line-height:50px; display:block; text-align:center;">
+            <div style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);">
+                <img src="{path('[MobileConsoles]/img/null.png')}" alt="" class="" style="width:180px; height:180px; display:block;">
+                <div style="width:100%; color:#999; text-align:center; font-size:1.2rem;">该功能正在开发中</div>
+            </div>
+        </div>
+    </div>
+{/block}

@@ -1,0 +1,374 @@
+{layout '../Public/sideForm.latte'}
+{block title}修改菜单{/block}
+{block private_css}
+    <style>
+        #actionAdd, #nodeAdd{
+            cursor:pointer;
+        }
+
+        .action-item, .menu-item{
+            padding:0 10px;
+            margin-right:10px;
+            margin-bottom:5px;
+            border-radius:15px;
+            border:1px solid #ddd;
+            line-height:25px;
+            box-sizing:border-box;
+            vertical-align:top;
+        }
+
+        .action-item span, .menu-item span{
+            display:inline !important;
+            margin-left:10px;
+            cursor:pointer;
+        }
+    </style>
+{/block}
+{block private_js}
+    <script>
+        var controllerCounts = new Object();
+        var controllers = new Object();
+
+        var menus = {$menus};
+        var nodesMap = new Object();
+
+        function initControllers($nodes) {
+            for (var i in $nodes) {
+                var controller = $nodes[i]["controller"];
+                if (typeof  controllers[controller] === "undefined") controllers[controller] = [];
+                controllers[controller].push($nodes[i]);
+                nodesMap[$nodes[i]["id"]] = $nodes[i];
+                if (typeof controllerCounts[controller] === "undefined") controllerCounts[controller] = 0;
+                controllerCounts[controller]++;
+            }
+        }
+
+        function initMenus() {
+            var $menu1Html = "";
+            for (var id in menus) {
+                if (menus[id]["pid"] > 0) continue;
+                var findExp = "[data-menu-item='" + id + "']";
+                var findPidExp = "[data-menu-item-pid='" + id + "']";
+                if ($(findExp).length > 0 && $(findPidExp).length >= menus[id]["subCount"]) continue;
+                $menu1Html += "<option value='" + id + "'>" + menus[id]["basename"] + "<\/opton>";
+            }
+            $("#menu1").html($menu1Html);
+            initMenus2();
+        }
+
+        function initMenus2() {
+            $("#menu2,#menu3,#menu4").hide();
+            var selected1 = $("#menu1").val();
+            if (!selected1) {
+                $("#menu2,#menu3,#menu4").html("");
+                return false;
+            }
+            var menu2Html = "";
+            var findExpPid = "[data-menu-item='" + selected1 + "']";
+            if ($(findExpPid).length === 0) {
+                menu2Html += "<option value=''>##<\/opton>";
+            }
+
+            for (var id in menus) {
+                if (menus[id]["pid"] != selected1) continue;
+                var findExp = "[data-menu-item='" + id + "']";
+                var findPidExp = "[data-menu-item-pid='" + id + "']";
+                if ($(findExp).length > 0 && $(findPidExp).length >= menus[id]["subCount"]) continue;
+                menu2Html += "<option value='" + id + "'>" + menus[id]["basename"] + "<\/opton>";
+            }
+            if (!menu2Html) {
+                $("#menu2,#menu3,#menu4").html("");
+                return false;
+            }
+
+            $("#menu2").show();
+            $("#menu2").html(menu2Html);
+            initMenus3();
+        }
+
+        function initMenus3() {
+            $("#menu3,#menu4").hide();
+            var selected2 = $("#menu2").val();
+            if (!selected2) {
+                $("#menu3,#menu4").html("");
+                return false;
+            }
+            var menu3Html = "";
+            var findExpPid = "[data-menu-item='" + selected2 + "']";
+            if ($(findExpPid).length === 0) {
+                menu3Html += "<option value=''>##<\/opton>";
+            }
+
+            for (var id in menus) {
+                if (menus[id]["pid"] != selected2) continue;
+                var findExp = "[data-menu-item='" + id + "']";
+                var findPidExp = "[data-menu-item-pid='" + id + "']";
+                if ($(findExp).length > 0 && $(findPidExp).length >= menus[id]["subCount"]) continue;
+                menu3Html += "<option value='" + id + "'>" + menus[id]["basename"] + "<\/opton>";
+            }
+            if (!menu3Html) {
+                $("#menu3,#menu4").html("");
+                return false;
+            }
+            $("#menu3").show();
+            $("#menu3").html(menu3Html);
+            initMenus4();
+        }
+
+        function initMenus4() {
+            $("#menu4").hide();
+            var selected3 = $("#menu3").val();
+            if (!selected3) {
+                $("#menu4").html("");
+                return false;
+            }
+            var menu4Html = "";
+
+            var findExpPid = "[data-menu-item='" + selected3 + "']";
+            if ($(findExpPid).length === 0) {
+                menu4Html += "<option value=''>##<\/opton>";
+            }
+
+            for (var id in menus) {
+                if (menus[id]["pid"] != selected3) continue;
+                var findExp = "[data-menu-item='" + id + "']";
+                var findPidExp = "[data-menu-item-pid='" + id + "']";
+                if ($(findExp).length > 0 && $(findPidExp).length >= menus[id]["subCount"]) continue;
+                menu4Html += "<option value='" + id + "'>" + menus[id]["basename"] + "<\/opton>";
+            }
+            if (!menu4Html) {
+                $("#menu4").html("");
+                return false;
+            }
+            $("#menu4").show();
+            $("#menu4").html(menu4Html);
+        }
+
+
+        function initNode() {
+            var controllerHtml = "";
+            for (var j in controllers) {
+                var findExp = "[data-controller-item='" + j + "']";
+                if ($(findExp).length >= controllerCounts[j]) continue;
+                controllerHtml += "<option value='" + j + "'>" + j + "<\/opton>";
+            }
+            $("#controller").html(controllerHtml);
+            initNodeAction(controllers);
+        }
+
+        function initNodeAction() {
+            var selectController = $("#controller").val();
+            $("#action").hide();
+            if (typeof controllers[selectController] === "undefined") {
+                $("#action").html("");
+                return false;
+            }
+            var actions = controllers[selectController];
+            var actionHtml = "";
+            for (var k in actions) {
+
+                var id = actions[k]["id"];
+
+                var findExp = "[data-action-item='" + id + "']";
+                if ($(findExp).length > 0) continue;
+                actionHtml += "<option value='" + id + "'>" + actions[k]["action"] + "<\/opton>";
+            }
+            $("#action").html(actionHtml);
+            if (actionHtml) {
+                $("#action").show();
+            }
+        }
+
+        function removeAction(id) {
+            var findExp = "[data-action-item='" + id + "']";
+
+            if ($(findExp).length <= 0) return false;
+            $(findExp).remove();
+
+            if (nodesMap[id] === "undefined") return false;
+            initNode();
+        }
+
+        function removeMenu(id) {
+            var findExp = "[data-menu-item='" + id + "']";
+            if ($(findExp).length <= 0) return false;
+            $(findExp).remove();
+            initMenus();
+        }
+
+        init.ready(function () {
+            initControllers({$nodes});
+            initMenus();
+            initNode();
+            $("#controller").change(function () {
+                initNodeAction();
+            });
+            $("#menu1,#menu2,#menu3").change(function () {
+                var id = $(this).attr("id");
+                switch (id) {
+                    case "menu1":
+                        initMenus2();
+                        break;
+                    case "menu2":
+                        initMenus3();
+                        break;
+                    case "menu3":
+                        initMenus4();
+                        break;
+                }
+            });
+            $("#actionAdd").click(function () {
+                var actionId = $("#action").val();
+                if (!actionId || typeof nodesMap[actionId] === "undefined") {
+                    initNode();
+                    return false;
+                }
+                var findExp = "[data-action-item='" + actionId + "']";
+                if ($(findExp).length > 0) return false;
+                var nodeInfo = nodesMap[actionId];
+
+                var html = '<span class="action-item" data-action-item="' + actionId + '" data-controller-item="' + nodeInfo["controller"] + '">' +
+                    '<input type="hidden" name="node[]" value="' + actionId + '">' +
+                    nodeInfo["controller"] + ":" + nodeInfo["action"] +
+                    '<span onclick="removeAction(' + actionId + ')">&times;<\/span><\/span>';
+                $(".action-items").append(html);
+                initNode();
+            });
+            $("#nodeAdd").click(function () {
+                var id = $("#menu4").val() || $("#menu3").val() || $("#menu2").val() || $("#menu1").val();
+
+                var menuInfo = menus[id];
+
+                var findExp = "[data-menu-item='" + id + "']";
+                if ($(findExp).length > 0) {
+                    initMenus();
+                    return false;
+                }
+                var html = '<span class="menu-item" data-menu-item="' + id + '" data-menu-item-pid="' + menuInfo['pid'] + '">' +
+                    '<input type="hidden" name="menu[]" value="' + id + '">' +
+                    menuInfo["name"] +
+                    '<span onclick="removeMenu(' + id + ')">&times;<\/span><\/span>';
+                $(".menu-items").append(html);
+                initMenus()
+            });
+
+
+        });
+    </script>
+{/block}
+{block content}
+    <form id="formSite" class="mform" method="post" action="">
+        <table cellpadding="0" cellspacing="0" border="0" id="frmtable" class="formtable">
+            <thead>
+            <tr>
+                <td><label>菜单名称</label></td>
+                <td>
+                    <div class="control-group">
+                        <div class="field input-group">
+                            <input type="text" id="frm_title" name="names" class="smallinput" value="{$menu->getNames()}"/>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td><label>上级菜单</label></td>
+                <td>
+                    <div class="control-group">
+                        <div class="field input-group">
+                            <select name="pid">
+                                <option value="0">=作为顶级菜单</option>
+                                {$options|noescape}
+                            </select>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td><label>包含节点</label></td>
+                <td>
+                    <div class="control-group">
+                        <div class="field input-group">
+                            <div>
+                                <select id="controller"></select>
+                                <select id="action"></select>
+                                <span id="actionAdd">添加</span>
+                            </div>
+                            <div class="action-items">
+                                {foreach $nodes as $node}
+                                    {if in_array($node["id"],$nodeList)}
+                                        <span class="action-item" data-action-item="{$node["id"]}" data-controller-item="{$node["controller"]}">
+                                            <input type="hidden" name="node[]" value="{$node["id"]}"/>
+                                            {$node["controller"]}:{$node["action"]}
+                                            <span onclick="removeAction({$node["id"]})">&times;</span>
+                                        </span>
+                                    {/if}
+                                {/foreach}
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td><label>包含菜单</label></td>
+                <td>
+                    <div class="control-group">
+                        <div class="field input-group">
+                            <div>
+                                <select id="menu1"></select>
+                                <select id="menu2"></select>
+                                <select id="menu3"></select>
+                                <select id="menu4"></select>
+                                <span id="nodeAdd">添加</span>
+                            </div>
+                            <div class="menu-items">
+                                {foreach $menus as $mid=>$m}
+                                    {if in_array($mid,$menuList)}
+                                        <span class="menu-item" data-menu-item="{$mid}" data-menu-item-pid="{$m["pid"]}">
+                                         <input type="hidden" name="menu[]" value="{$mid}">
+                                            {$m["name"]}
+                                            <span onclick="removeMenu({$mid})">&times;</span>
+                                        </span>
+                                    {/if}
+                                {/foreach}
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td><label>可见性</label></td>
+                <td>
+                    <div class="control-group">
+                        <div class="field input-group">
+                            <label class='radio'><input name='visible' {if $menu->getVisible()==1}checked{/if} type="radio" value='1'>可见</label>
+                            <label class='radio'><input name='visible' {if $menu->getVisible()!=1}checked{/if} type="radio" value='0'>不可见</label>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td><label>默认状态</label></td>
+                <td>
+                    <div class="control-group">
+                        <div class="field input-group">
+                            <label class='radio'><input name='defaultStatus' {if $menu->getDefaultStatus()==1}checked{/if} type="radio" value='1'>启用</label>
+                            <label class='radio'><input name='defaultStatus' type="radio" {if $menu->getDefaultStatus()!=1}checked{/if} value='0'>禁用</label>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td><label>启用</label></td>
+                <td>
+                    <div class="control-group">
+                        <div class="field input-group">
+                            <label class='radio'><input name='status' {if $menu->getStatus()==1}checked{/if} type="radio" value='1'>启用</label>
+                            <label class='radio'><input name='status' {if $menu->getStatus()!=1}checked{/if} type="radio" value='0'>禁用</label>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            </thead>
+        </table>
+    </form>
+{/block}

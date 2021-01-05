@@ -1,0 +1,99 @@
+
+*{
+    margin:0;
+    padding:0;
+}
+li{
+    list-style:none;
+}
+img{
+    image-rendering: -moz-crisp-edges;         /* Firefox */
+    image-rendering:   -o-crisp-edges;         /* Opera */
+    image-rendering: -webkit-optimize-contrast;/* Webkit (non-standard naming) */
+    image-rendering: crisp-edges;
+}
+a{
+    text-decoration:none;
+}
+/*设置*/
+@media screen and (min-width:426px){
+    .install{
+        margin-top:96px;
+    }
+    .install h4{
+        font-size:32px;
+        font-family:Microsoft YaHei;
+        font-weight:bold;
+        line-height:40px;
+        color:rgba(38,38,38,1);
+        opacity:1;
+        text-align:center;
+    }
+    .install p{
+        text-align:center;
+        font-size:18px;
+        font-family:Microsoft YaHei;
+        font-weight:400;
+        line-height:40px;
+        color:rgba(38,38,38,1);
+        opacity:1;
+    }
+    .step{
+        width:1200px;
+        overflow:hidden;
+        margin:auto;
+        margin-bottom:210px;
+        margin-top:60px;
+    }
+}
+
+@media screen and (max-width:425px){
+    /*设置*/
+    .install{
+        text-align:center;
+        margin:auto;
+        margin-top:20px;
+        margin-bottom:10px;
+    }
+    .install>h4{
+        font-size:16px;
+        font-family:Microsoft YaHei;
+        font-weight:bold;
+        line-height:32px;
+        color:rgba(38,38,38,1);
+        text-align:center;
+    }
+    .install>p{
+        font-size:12px;
+        font-family:Segoe UI;
+        font-weight:400;
+        line-height:16px;
+        color:rgba(112,112,112,1);
+        margin-left: -12px;
+        /*margin-top:27px;*/
+    }
+    .step{
+        width:80%;
+        margin:auto;
+        margin-bottom:41px;
+    }
+    .step>ul>li>img{
+        width:100%;
+    }
+    .step>ul>li:first-child{
+        margin-bottom:20px;
+        font-size:12px;
+        font-family:Segoe UI;
+        font-weight:400;
+        line-height:20px;
+        color:rgba(112,112,112,1);
+    }
+    .step>ul>li:last-child{
+        margin-bottom:20px;
+    }
+
+
+
+}
+
+

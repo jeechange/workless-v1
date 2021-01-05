@@ -1,0 +1,94 @@
+{layout '../Public/sideForm.latte'}
+{block title}购买短信{/block}
+
+{block submits}
+    <div class="contenteditsSubmits">
+        <div class="contenteditsSubmit1" style="background:#0087e1">确认购买</div>
+    </div>
+{/block}
+
+
+{block private_js}
+    <script>
+        init.ready(function () {
+            $(".contenteditsSubmit1").unbind().bind("click", function () {
+
+
+                var val = $("[name='buySms']:checked").val();
+
+                if (!val) {
+                    layer.alert("请选择购买的套餐");
+                    return false;
+                }
+
+
+                var holdSubmit = $(this).data("holdSubmit") || false;
+                if (holdSubmit) return;
+                var $this = $(this);
+                $this.data("holdSubmit", true);
+                var msgIndex = layer.msg("正在提交", {
+                    offset: 't',
+                    time: 0,
+                    icon: 16
+                });
+                var url = {url("consoles_openapi_smsBuy")};
+
+                $.ajax({
+                    type: "post",
+                    dataType: "json",
+                    url: url,
+                    headers: {
+                        ajaxExtraMethod: "SideForm"
+                    },
+                    data: {
+                        buyId: val
+                    },
+                    success: function (result) {
+                        $this.data("holdSubmit", false);
+                        layer.close(msgIndex);
+                        if (result.status === "n") {
+                            layer.alert(result.info);
+                        } else {
+                            layer.msg(result.info, {
+                                offset: 't',
+                                time: 3000,
+                                icon: 1
+                            });
+                            window.open(result.nextUrl, '_blank');
+                        }
+                    }
+                });
+
+            });
+
+        })
+    </script>
+{/block}
+
+{block content}
+    <form id="formArticle1" class="stdform mform" method="post" action="">
+        <table cellpadding="0" cellspacing="0" border="0" class="stdtable">
+            <thead>
+            <tr>
+                <th><span class="table-head">编号</span></th> {*在th加入 data-sort 可对数据库进行排序*}
+                <th><span class="table-head">费用</span></th> {*在th加入 data-sort 可对数据库进行排序*}
+                <th><span class="table-head">规格</span></th> {*在th加入 data-sort 可对数据库进行排序*}
+                <th><span class="table-head">说明</span></th>
+                <th><span class="table-head">选择</span></th>
+            </tr>
+            </thead>
+            <tbody>
+            {foreach $lists as $item}
+                <tr>
+                    <td class="wid-auto">#{$item["sCode"]}</td>
+                    <td class="wid-auto">￥{$item["money"]|coin}</td>
+                    <td class="wid-auto">{$item["spec"]}</td>
+                    <td class="wid-auto">{$item["content"]}</td>
+                    <td class="wid-auto"><label><input type="radio" name="buySms" value="{$item["id"]}">购买</label></td>
+                </tr>
+            {/foreach}
+            </tbody>
+        </table>
+
+    </form>
+{/block}

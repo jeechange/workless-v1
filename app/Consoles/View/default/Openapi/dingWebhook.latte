@@ -1,0 +1,31 @@
+{layout '../Public/layoutList.latte'} {*继承layoutList模板*}
+{block title}钉钉机器人{/block}
+{block actions}<a href="{url('consoles_openapi_dingwebhook_add')}" class="icon-adds" data-side-form="">新增机器人</a>{/block}
+
+{*选中记录的操作按钮*}
+
+{block content}
+    <table cellpadding="0" cellspacing="0" border="0" class="stdtable">
+        <thead>
+        <tr>
+            <th><span class="table-head">机器人名称</span></th>
+            <th><span class="table-head">Webhook地址</span></th>
+            <th><span class="table-head">状态</span></th>
+            <th><span class="table-head">操作</span></th>
+        </tr>
+        </thead>
+        <tbody>
+        {foreach $lists as $item }
+            <tr>
+                <td>{$item['names']}</td>
+                <td>{$item['corpsecret']}</td>
+                <td>{$item['statusMemo']}</td>
+                <td>
+                    <a href="{url('consoles_openapi_dingwebhook_modify','id='.$item['id'])}" data-side-form="">修改</a>
+                    | <a data-confirm="确认删除吗？" href="{url('consoles_openapi_dingwebhook_delete','id='.$item['id'])}">删除</a>
+                </td>
+            </tr>
+        {/foreach}
+        </tbody>
+    </table>
+{/block}

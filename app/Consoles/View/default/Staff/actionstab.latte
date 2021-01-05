@@ -1,0 +1,6 @@
+{*{if Admin\DModel\RbacAccessDModel::hasAccredit("Consoles.Staff.lists",$isSuper)}*}
+    {*<a href="{url('consoles_lists','con=Staff')}" {if $active=="StaffLists"}class="selected"{/if}>员工列表</a>*}
+{*{/if}*}
+{if Admin\DModel\RbacAccessDModel::hasAccredit("Consoles.Company.memberLists",$isSuper)}
+    <a href="{url('consoles_company_memberLists')}" {if $active=="memberLists"}class="selected"{/if}>邀请新同事</a>
+{/if}

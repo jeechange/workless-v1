@@ -1,0 +1,113 @@
+{layout '../Public/layoutList.latte'} {*继承layoutList模板*}
+{block title}分享申请事项{/block}
+{block private_js}
+    <script type="text/javascript">
+        function copy(message) {
+            var input = document.createElement("input");
+            input.value = message;
+            document.body.appendChild(input);
+            input.select();
+            input.setSelectionRange(0, input.value.length), document.execCommand('Copy');
+            document.body.removeChild(input);
+            layer.msg('复制成功')
+        }
+
+        function shareDingWebHook(id, shareid, contentAndShareUrl) {
+            $.ajax({
+                url: $(this).attr("data-url"),
+                type: "POST",
+                data: {
+                    id: id,
+                    shareid: shareid,
+                    contentAndShareUrl: contentAndShareUrl,
+                },
+                dataType: "json",
+                success: function (res) {
+                    if (res.status === "n") {
+                        layer.msg(res.info);
+                        return;
+                    }
+                    layer.msg(res.info);
+                }
+            });
+        }
+
+    </script>
+{/block}
+{block private_css}
+    <style>
+        .con{
+            width:100%;
+            margin:auto;
+            margin-top:3.2rem;
+            text-align:center;
+            line-height:26px;
+            font-size:16px;
+        }
+
+        .copyCopy{
+            margin:auto;
+            text-align:center;
+            margin-top:30px;
+        }
+
+        .return{
+            margin:auto;
+            text-align:center;
+            margin-top:30px;
+        }
+
+        .bnt{
+            background-color:#FF9800;
+            height:50px;
+            line-height:50px;
+            color:#333;
+            font-size:20px;
+            border-radius:5px;
+            -moz-border-radius:5px;
+        }
+
+        a:hover{
+            text-decoration:none
+        }
+    </style>
+{/block}
+{block content}
+    <div style="position:relative; width:100%; line-height:50px; display:block; text-align:center;">
+        <img src="{path('[MobileConsoles]/img/acorn-share.png')}" alt="" class="" style="width:250px; height:250px; margin:25px auto 0; display:block;">
+    </div>
+    <div class="con">
+        {*<div style="color:#009688;margin-top:150px;font-size: 18px;">*}
+        {*成功申请!*}
+        {*</div>*}
+        {*<div>请耐心等待审核</div>*}
+        <div style="font-size:16px;color:#888888;">分享可以获得积分哦！</div>
+    </div>
+    {*{foreach $lists as $api}*}
+        {*<div class="copyCopy" style="width:50%;">*}
+            {*<a>*}
+                {*<div>*}
+                    {*<div class="bnt" data-url="{url("consoles_index_share_ding_webhook")}" style="background-color:#0087E2;;color:#fff;border-radius:50px;cursor:pointer;" onclick="shareDingWebHook.call(this,{$api["id"]},{$shareid},{$contentAndShareUrl});">分享到[{$api["names"]}](钉钉机器人)</div>*}
+                {*</div>*}
+            {*</a>*}
+        {*</div>*}
+    {*{/foreach}*}
+    <div class="copyCopy" style="width:50%;">
+        <a href="javascript:;" onclick="copy({$contentAndShareUrl});">
+            <div>
+                <div id="bnts" class="bnt" style="color:#fff;border-radius:50px;">复制分享链接</div>
+            </div>
+        </a>
+    </div>
+    {*<div class="return" style="width:25%;font-size:16px;">*}
+    {*<a href="{$gobackUrl}">*}
+    {*<div>*}
+    {*<div id="bnts" class="bnt" style="background: #fff;">返回</div>*}
+    {*</div>*}
+    {*</a>*}
+    {*</div>*}
+{/block}
+
+
+
+

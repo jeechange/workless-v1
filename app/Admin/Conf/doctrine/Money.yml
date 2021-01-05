@@ -1,0 +1,83 @@
+Admin\Entity\Money:
+  type: entity
+  table: money
+  id:
+    id:
+      type: integer
+      nullable: false
+      unsigned: false
+      comment: ''
+      id: true
+      generator:
+        strategy: IDENTITY
+  fields:
+    userId:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: user_id
+    fromUser:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+      column: from_user
+    types:
+      type: smallint
+      nullable: true
+      unsigned: false
+      comment: ''
+    btypes:
+      type: smallint
+      nullable: true
+      unsigned: false
+      comment: ''
+    biz:
+      type: string
+      nullable: true
+      length: 50
+      fixed: false
+      comment: ''
+    money:
+      type: decimal
+      nullable: true
+      precision: 10
+      scale: 2
+      comment: ''
+    balance:
+      type: decimal
+      nullable: true
+      precision: 10
+      scale: 2
+      comment: ''
+    addTime:
+      type: datetime
+      nullable: true
+      comment: ''
+      column: add_time
+    memo:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    sysMemo:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+      column: sys_memo
+    status:
+      type: smallint
+      nullable: true
+      unsigned: false
+      comment: ''
+    sid:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+  lifecycleCallbacks: {  }

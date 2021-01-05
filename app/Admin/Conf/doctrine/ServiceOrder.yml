@@ -1,0 +1,80 @@
+Admin\Entity\ServiceOrder:
+  type: entity
+  table: service_order
+  id:
+    id:
+      type: integer
+      nullable: false
+      unsigned: false
+      comment: ''
+      id: true
+      generator:
+        strategy: IDENTITY
+  fields:
+    sid:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+    userId:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: user_id
+    serviceId:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: service_id
+    orderId:
+      type: string
+      nullable: true
+      length: 30
+      fixed: false
+      comment: ''
+      column: order_id
+    addTime:
+      type: datetime
+      nullable: true
+      comment: ''
+      column: add_time
+    payTime:
+      type: datetime
+      nullable: true
+      comment: ''
+      column: pay_time
+    payTypes:
+      type: smallint
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: pay_types
+    nums:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+    money:
+      type: decimal
+      nullable: true
+      precision: 10
+      scale: 2
+      comment: ''
+    doneTime:
+      type: datetime
+      nullable: true
+      comment: ''
+      column: done_time
+    status:
+      type: smallint
+      nullable: true
+      unsigned: false
+      comment: ''
+    types:
+      type: smallint
+      nullable: true
+      unsigned: false
+      comment: ''
+  lifecycleCallbacks: {  }

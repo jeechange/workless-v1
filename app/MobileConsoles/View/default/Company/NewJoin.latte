@@ -1,0 +1,253 @@
+{layout "../Layout/layout.latte"}
+{block tabs_content}
+    {*{include "./tabs.latte"}*}
+{/block}
+{block private_js}
+    <script type="text/javascript">
+        $(function () {
+            $("#bnt").click(function () {
+                $.showPreloader('请稍候...');
+                $.ajax({
+                    type: "post",
+                    url: $("#formArticle").attr("action"),
+                    data: $("#formArticle").serialize(),
+                    cache: false,
+                    dataType: "json",
+                    success: function (data) {
+                        $.showPreloader();
+                        if (data.status == "n") {
+                            $.toast(data.info);
+                            return false;
+                        } else {
+                            $.toast("添加成功");
+                            setTimeout(function () {
+                                location.replace(data.url);
+                            }, 3000);
+                        }
+                    }
+                });
+            });
+
+            $("#search").keydown(function (e) {
+                if (e.which == 13) {
+                    searchUser();
+                }
+            });
+
+            var stations = {$stations};
+            $("#department").change(function () {
+                var department = $(this).val();
+                if (department) {
+                    var html = "";
+                    for (var i in stations) {
+                        if (stations[i]["department"] == department) {
+                            html += "<option value=\"" + stations[i]["id"] + "\">" + stations[i]["names"] + "<\/option>";
+                        }
+                        $("#station").html(html);
+                    }
+                }
+            }).trigger("change");
+        });
+
+        function searchUser() {
+            $.ajax({
+                type: "post",
+                url: $("#formSearch").attr("action"),
+                data: $("#formSearch").serialize(),
+                cache: false,
+                dataType: "json",
+                success: function (data) {
+                    if (data.status == "n") {
+                        alert(data.info);
+                        return false;
+                    } else {
+                        $("#findBox").css("display", "block");
+                        $('#findBox').html(data['data']);
+                    }
+                }
+            });
+        }
+
+        function ChoiceId(e, fullName, phone) {
+            $("#findBox").css("display", "none");
+
+            $("#ChoiceImg").text(fullName);
+            $("#ChoiceInfo").text(phone + ' — ' + fullName);
+            $("#ChoiceId").val(e);
+
+            $("#formA").css("display", "block");
+            $("#formB").css("display", "block");
+        }
+    </script>
+{/block}
+{block private_css}
+    <style>
+        .item-title, input{ font-size:0.9rem !important; }
+
+        .findBox{ width:100%; display:block; background:#eee; }
+
+        .ChoiceBox{ width:100%; display:block; background:#eee; }
+
+        .findUser{ box-sizing:border-box; width:100%; height:60px; display:block; padding:10px; float:left; border-bottom:1px solid #aaa; }
+
+        .wztx{
+            float:left;
+            position:relative;
+            width:40px;
+            height:40px;
+            display:block;
+            line-height:40px;
+            text-align:center;
+            font-size:0.7rem;
+            color:white;
+            border-radius:50%;
+            background:#0087e2;
+        }
+
+        .dian{ float:right; width:16px; height:100%; display:block; border-radius:50%; }
+
+        .dianlabel{ float:right; padding:10px; border-radius:5px; background:#0a8acd; color:white; }
+
+        .wzxx{ float:left; padding-left:15px; line-height:40px; font-size:14px; }
+
+        .wzxx p{ margin:0; padding:0; }
+    </style>
+{/block}
+{block content}
+    <form id="formSearch" class="stdform mform" method="post" action="{$searchUrl}" onsubmit="return false">
+        <div class="list-block" style="margin:0; background:white;">
+            <div class="item-content">
+                <div class="item-media"><i class="icon icon-form-name"></i></div>
+                <div class="item-inner">
+                    <label class="icon icon-search" for="search"> </label>
+                    <input type="search" id='search' name="search" placeholder='请输入用户名/手机号/姓名' style="width:100%; padding:10px !important; font-size:16px;"/>
+                </div>
+            </div>
+        </div>
+    </form>
+    <div class="findBox" id="findBox">
+        {*<div class="findUser" id="FindUserBox1">*}
+        {*<div class="wztx">黎俊麟{$listsTwo}</div>*}
+        {*<div class="wzxx">黎俊麟 — 15700010001</div>*}
+        {*<input class="dian" type="radio" name="FindId" id="FindUser1" value="1" style="display:none;"/>*}
+        {*<div class="dianlabel" onclick="ChoiceId(1,'黎俊麟3','15700010002')">选择</div>*}
+        {*</div>*}
+        {*<div style="clear:both;"></div>*}
+    </div>
+    <form id="formArticle" class="stdform mform" method="post" action="" onsubmit="return false">
+        <div class="list-block" id="formA" style="margin:0; display:none;">
+            <ul>
+                <li>
+                    <div class="ChoiceBox" id="ChoiceBox">
+                        <div class="findUser">
+                            <div class="wztx" id="ChoiceImg">黎俊麟{$listsTwo}</div>
+                            <div class="wzxx" id="ChoiceInfo">黎俊麟 — 15700010001</div>
+                            <input type="text" name="ChoiceId" id="ChoiceId" value="0" style="display:none;"/>
+                            <div class="dianlabel">当前所选</div>
+                        </div>
+                        <div style="clear:both;"></div>
+                    </div>
+                </li>
+                <li>
+                    <div class="item-content">
+                        <div class="item-media"><i class="icon icon-form-gender"></i></div>
+                        <div class="item-inner">
+                            <div class="item-title label">部门</div>
+                            <div class="item-input">
+                                <select id="department" name="department">
+                                    {$options|noescape}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="item-content">
+                        <div class="item-media"><i class="icon icon-form-gender"></i></div>
+                        <div class="item-inner">
+                            <div class="item-title label">职位</div>
+                            <div class="item-input">
+                                <select name="station" id="station"></select>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="item-content">
+                        <div class="item-media"><i class="icon icon-form-gender"></i></div>
+                        <div class="item-inner">
+                            <div class="item-title label">权限</div>
+                            <div class="item-input">
+                                <select name="roleId">
+                                    {foreach $roles as $role}
+                                        <option value="{$role["id"]}">{$role["names"]}</option>
+                                    {/foreach}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="item-content">
+                        <div class="item-media"><i class="icon icon-form-name"></i></div>
+                        <div class="item-inner">
+                            <div class="item-title label">微信号</div>
+                            <div class="item-input">
+                                <input type="text" placeholder="微信号" name="wx" id='city-picker'>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="item-content">
+                        <div class="item-media"><i class="icon icon-form-name"></i></div>
+                        <div class="item-inner">
+                            <div class="item-title label">QQ号</div>
+                            <div class="item-input">
+                                <input type="text" placeholder="QQ号" name="qq" id='city-picker'>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="item-content">
+                        <div class="item-media"><i class="icon icon-form-name"></i></div>
+                        <div class="item-inner">
+                            <div class="item-title label">邮箱</div>
+                            <div class="item-input">
+                                <input type="text" placeholder="邮箱" name="email" id='city-picker'>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="item-content">
+                        <div class="item-media"><i class="icon icon-form-name"></i></div>
+                        <div class="item-inner">
+                            <div class="item-title label">备注</div>
+                            <div class="item-input">
+                                <textarea placeholder="备注" name="memo"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                {*<li>*}
+                {*<div class="item-content">*}
+                {*<div class="item-media"><i class="icon icon-form-name"></i></div>*}
+                {*<div class="item-inner">*}
+                {*<div class="item-title label">状态</div>*}
+                {*<div class="item-input">*}
+                {*<input type="text" placeholder="状态" name="names" id='city-picker'>*}
+                {*</div>*}
+                {*</div>*}
+                {*</div>*}
+                {*</li>*}
+            </ul>
+        </div>
+    </form>
+    <div class="content-block" id="formB" style="display:none;">
+        <div class="col-95">
+            <div class="button button-big button-fill" id="bnt">提交</div>
+        </div>
+    </div>
+{/block}

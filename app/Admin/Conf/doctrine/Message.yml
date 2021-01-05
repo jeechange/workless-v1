@@ -1,0 +1,86 @@
+Admin\Entity\Message:
+  type: entity
+  table: message
+  indexes:
+    sid:
+      columns:
+        - sid
+  id:
+    id:
+      type: integer
+      nullable: false
+      unsigned: false
+      comment: ''
+      id: true
+      generator:
+        strategy: IDENTITY
+  fields:
+    sid:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+    code:
+      type: string
+      nullable: true
+      length: 50
+      fixed: false
+      comment: ''
+    userId:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: user_id
+    toUserId:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: to_user_id
+    title:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    content:
+      type: text
+      nullable: true
+      length: null
+      fixed: false
+      comment: ''
+    addTime:
+      type: datetime
+      nullable: true
+      comment: ''
+      column: add_time
+    tel:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    email:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    address:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    types:
+      type: smallint
+      nullable: true
+      unsigned: false
+      comment: ''
+    status:
+      type: smallint
+      nullable: true
+      unsigned: false
+      comment: ''
+  lifecycleCallbacks: {  }

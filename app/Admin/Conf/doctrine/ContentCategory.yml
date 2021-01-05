@@ -1,0 +1,47 @@
+Admin\Entity\ContentCategory:
+  type: entity
+  table: content_category
+  id:
+    id:
+      type: integer
+      nullable: false
+      unsigned: false
+      comment: ''
+      id: true
+      generator:
+        strategy: IDENTITY
+  fields:
+    sid:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+    contentId:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: content_id
+    names:
+      type: string
+      nullable: true
+      length: 50
+      fixed: false
+      comment: ''
+    sort:
+      type: smallint
+      nullable: true
+      unsigned: false
+      comment: ''
+    thumb:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    status:
+      type: smallint
+      nullable: true
+      unsigned: false
+      comment: ''
+  lifecycleCallbacks: {  }

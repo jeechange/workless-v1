@@ -1,0 +1,90 @@
+{layout '../Public/layoutList.latte'} {*继承layoutList模板*}
+{block title}积分排名{/block}
+{block actions}
+{/block}
+{block actionstab}
+    {include "./actionstab1.latte"}
+{/block}
+{block private_css}
+{/block}
+{block private_js}
+{/block}
+{block checkbox}{/block}
+{block selectButton}
+    <div class="ranking-box">
+        <a href="{url("consoles_lists","con=Ranking&types={$active}&bTypes=1")}">
+            <div class="ranking-select {if $bTypes==1}ativce{/if}">今日</div>
+        </a>
+        <a href="{url("consoles_lists","con=Ranking&types={$active}&bTypes=2")}">
+            <div class="ranking-select {if $bTypes==2}ativce{/if}">昨日</div>
+        </a>
+        <a href="{url("consoles_lists","con=Ranking&types={$active}&bTypes=3")}">
+            <div class="ranking-select {if $bTypes==3}ativce{/if}">本周</div>
+        </a>
+        <a href="{url("consoles_lists","con=Ranking&types={$active}&bTypes=4")}">
+            <div class="ranking-select {if $bTypes==4}ativce{/if}">上周</div>
+        </a>
+        <a href="{url("consoles_lists","con=Ranking&types={$active}&bTypes=5")}">
+            <div class="ranking-select  {if $bTypes==5}ativce{/if}">本月</div>
+        </a>
+        <a href="{url("consoles_lists","con=Ranking&types={$active}&bTypes=6")}">
+            <div class="ranking-select  {if $bTypes==6}ativce{/if}">上月</div>
+        </a>
+        <a href="{url("consoles_lists","con=Ranking&types={$active}&bTypes=7")}">
+            <div class="ranking-select  {if $bTypes==7}ativce{/if}">本季</div>
+        </a>
+        <a href="{url("consoles_lists","con=Ranking&types={$active}&bTypes=8")}">
+            <div class="ranking-select  {if $bTypes==8}ativce{/if}">本年</div>
+        </a>
+        <a href="{url("consoles_lists","con=Ranking&types={$active}&bTypes=9")}">
+            <div class="ranking-select  {if $bTypes==9}ativce{/if}">去年</div>
+        </a>
+        <a href="{url("consoles_lists","con=Ranking&types={$active}&bTypes=10")}">
+            <div class="ranking-select  {if $bTypes==10}ativce{/if}">总分榜</div>
+        </a>
+    </div>
+{/block}
+{block content}
+    <table cellpadding="0" cellspacing="0" border="0" class="stdtable">
+        <thead>
+        <tr>
+            <th><span class="table-head">部门</span></th> {*在th加入 data-sort 可对数据库进行排序*}
+            <th><span class="table-head">积分</span></th>
+            <th><span class="table-head">排名</span></th>
+            {if $bTypes<10}
+                <th><span class="table-head">积分环比</span></th>
+            {/if}
+        </tr>
+        </thead>
+        <tbody>
+        {foreach $lists as $k=>$item}
+            <tr>
+                <td class="wid-auto input-rec-td">{$item['userName']}</td>
+                <td class="wid-auto">{$item['acorn']}<i class="icon al-icon al-icon-influence" style="color:#0087e1;margin-left: 5px;"></i></td>
+                <td class="wid-auto">
+                    <span class="{if $k+1==1}ranking-red{elseif $k+1==2}ranking-blue{elseif $k+1==3}ranking-yellow{/if}">{$k+1}</span>
+                </td>
+                {if $bTypes<10}
+                    <td class="wid-auto">
+                        <div style="text-align:right;width: 110px;">
+                            {if $item['ratioTypes']==1}
+                                {$item['ringRatio']}%
+                                <i class="icon al-icon al-icon-shangsheng1 ranking-ringRatio-green" style="margin-left: 5px;"></i>
+                            {elseif $item['ratioTypes']==2}
+                                {$item['ringRatio']}%
+                                <i class="icon al-icon al-icon-xiajaing ranking-ringRatio-red" style="margin-left: 5px;"></i>
+                            {else}
+                                --
+                            {/if}
+                        </div>
+                    </td>
+                {/if}
+            </tr>
+        {/foreach}
+        </tbody>
+    </table>
+{/block}
+
+
+
+

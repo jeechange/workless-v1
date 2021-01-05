@@ -1,0 +1,49 @@
+{layout '../Public/sideForm.latte'}
+
+{block title}上传附件{/block}
+
+{block content}
+    <form id="formArticle" class="stdform mform" method="post" action="">
+    <table cellpadding="0" cellspacing="0" border="0" id="frmtable" class="formtable">
+        <thead>
+        <tr>
+            <td><label>项目名称</label></td>
+            <td>
+                <div class="field control-group">
+                    <div class="input-group">
+                        <input type="text" disabled class="smallinput" placeholder="" value="{$group->getNames()}"/>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td><label>文件夹</label></td>
+            <td>
+                <div class="field control-group">
+                    <div class="input-group">
+                        <input type="text" disabled class="smallinput" placeholder="" value="{$folder}"/>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td><label>图片/附件</label></td>
+            <td>
+                <div class="field control-group">
+                    <div class="img-uploader-file" data-name="thumbs" data-options="other"></div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td><label>说明</label></td>
+            <td>
+                <div class="field control-group">
+                    <div class="input-group">
+                       <textarea name="memo"></textarea>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        </thead>
+    </table>
+{/block}

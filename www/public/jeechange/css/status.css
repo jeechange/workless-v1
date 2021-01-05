@@ -1,0 +1,21 @@
+/** 普通状态 */
+.status_0,.status_1,.status_2,.status_3{text-align: center;}
+.status_0{color:grey;}
+.status_1{color:green;}
+.status_2{}
+.status_3{}
+
+/** 物流状态 */
+.logistics_0,.logistics_1,.logistics_2,.logistics_3,.logistics_4{text-align: center;}
+.logistics_0{color:grey;}
+.logistics_1{color:orange;}
+.logistics_2{color:blue;}
+.logistics_3{color:blue;}
+.logistics_4{color:green;}
+
+
+/** 付款状态 */
+.paystatus_0,.paystatus_1,.paystatus_2{text-align: center;}
+.paystatus_0{color:grey;}
+.logistics_1{color:blue;}
+.paystatus_2{color:green;}

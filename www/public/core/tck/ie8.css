@@ -1,0 +1,12 @@
+#remember{
+	display: block !important;
+	float: left;
+	margin-right: 6px;
+}
+#remember + label{
+	display: none;
+}
+
+.btn-login{
+	border: 0;
+}

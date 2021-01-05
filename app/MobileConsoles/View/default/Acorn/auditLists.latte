@@ -1,0 +1,154 @@
+{layout "../Layout/layoutBoth.latte"}
+{block headTitle}申请审核{/block}
+{block tabs_content}
+    {include "./index_tabs.latte"}
+{/block}
+{block private_css}
+    <style>
+        ul.list{
+            padding:0;
+            margin:0;
+        }
+
+        .list li{
+            display:flex;
+            width:100%;
+            height:3.6rem;
+            line-height:3.6rem;
+            padding:0 .5rem;
+            font-size:14px;
+        }
+
+        .list li a{
+            width:100%;
+        }
+
+        .list li a .item-inner:after{
+            display:none;
+        }
+
+        .list li:nth-child(2n){
+            background:#f9f9f9;
+        }
+
+        .list li .item-memo{
+            flex:1;
+            text-align:left;
+        }
+
+        .list li .item-src{
+            width:100px;
+            text-align:right;
+        }
+
+        .list li .item-name{
+            width:100px;
+            text-align:left;
+        }
+
+        .item-name{
+            overflow:hidden;
+            white-space:nowrap;
+            text-overflow:ellipsis;
+        }
+
+        .item-memo{
+            overflow:hidden;
+            white-space:nowrap;
+            text-overflow:ellipsis;
+        }
+
+        .bar{
+            background-color:rgb(255, 255, 255)
+        }
+
+        .bar .searchbar{
+            background:rgb(255, 255, 255);
+            border:1px solid #ddd;
+            border-radius:25px;
+        }
+
+        .search-input label + input{
+            padding-left:1.4rem !important;
+        }
+    </style>
+{/block}
+
+{block private_js}
+    <script>
+        $(document).on("pageInit", function () {
+            $(document).on('refresh', '.pull-to-refresh-content', function (e) {
+                setTimeout(function () {
+
+                    $.pullToRefreshDone('.pull-to-refresh-content');
+                }, 2000);
+            });
+
+            $(document).on('infinite', '.infinite-scroll-bottom', function () {
+                $('.infinite-scroll-preloader').remove();
+                // $.refreshScroller(); //刷新滚动
+            });
+            $('.infinite-scroll-preloader').remove();
+        })
+    </script>
+{/block}
+
+{block content}
+    <div class="list-block" style="margin-top: 1rem;">
+        <div class="bar bar-header-secondary" style="margin-top: 1rem;">
+            <form action="">
+                <div class="searchbar">
+                    <a class="searchbar-cancel">取消</a>
+                    <div class="search-input">
+                        <label class="icon icon-search" for="search"></label>
+                        <input type="search" id='search' name="keywords" placeholder='输入关键字...' value="{$keywords}"/>
+                    </div>
+                </div>
+            </form>
+        </div>
+        {if $lists}
+            <ul class="list" style="margin-top:3.2rem">
+                {foreach $lists as $k=>$v}
+                    {if $one != substr(totime($v['aa_addTime']),8,2)}
+                        <li style="background-color:#F5F5F5; color:#666666;line-height:24px;height:24px;font-size:12px;">
+                            <div style="display:none;">{if $one != substr(totime($v['aa_addTime']),8,2)}{$one = substr(totime($v['aa_addTime']),8,2)}{/if}</div>
+                            {substr(totime($v['aa_addTime']),0,10)}
+                        </li>
+                    {/if}
+                    <li style="background-color:#fff;border-bottom:#e5e5e5 1px solid;">
+                        <a class="item-content item-link" href="{url('mobileConsoles_acorn_auditDetail',array('id'=>$v['ad_id']))}">
+                            <div class="item-inner">
+                                <div class="item-name">{$v['toUser']}</div>
+                                <div class="item-memo">{$v['ad_sNames']}</div>
+                                {if $v['ad_status'] == 0}
+                                    <div class="item-src" style="color:#ef6e10">
+                                        {if $v['ad_types']==0}
+                                            审核中
+                                        {else}
+                                            未阅读
+                                        {/if}
+                                    </div>
+                                {elseif $v['ad_status'] == 1}
+                                    <div class="item-src" style="color:#2f8a20 ">
+                                        {if $v['ad_types']==0}
+                                            已审核
+                                        {else}
+                                            已阅读
+                                        {/if}
+                                    </div>
+                                {elseif $v['ad_status'] == 2}
+                                    <div class="item-src" style="color:#c61313">{$v['statusMemo']}</div>
+                                {/if}
+                            </div>
+                        </a>
+                    </li>
+                {/foreach}
+            </ul>
+        {else}
+            <div class="list" style="margin-top:100px;text-align:center">
+                <img src="{path('[MobileConsoles]/img/null.png')}" alt="" class="" style="width:60%; height:100%;margin:0 20%;display:block;">
+                <div>暂无内容</div>
+            </div>
+        {/if}
+    </div>
+{/block}

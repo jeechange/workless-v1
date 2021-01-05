@@ -1,0 +1,211 @@
+Admin\Entity\Goods:
+  type: entity
+  table: goods
+  id:
+    id:
+      type: integer
+      nullable: false
+      unsigned: false
+      comment: ''
+      id: true
+      generator:
+        strategy: IDENTITY
+  fields:
+    sid:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+    gid:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+    names:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    code:
+      type: string
+      nullable: true
+      length: 50
+      fixed: false
+      comment: ''
+    codeBar:
+      type: string
+      nullable: true
+      length: 50
+      fixed: false
+      comment: ''
+      column: code_bar
+    categoryId:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: category_id
+    skuTitle:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+      column: sku_title
+    skuInfo:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+      column: sku_info
+    num:
+      type: float
+      nullable: true
+      precision: 10
+      scale: 0
+      comment: ''
+    unit:
+      type: string
+      nullable: true
+      length: 50
+      fixed: false
+      comment: ''
+    price:
+      type: decimal
+      nullable: true
+      precision: 10
+      scale: 2
+      comment: ''
+    priceMarket:
+      type: decimal
+      nullable: true
+      precision: 10
+      scale: 2
+      comment: ''
+      column: price_market
+    pricePv:
+      type: decimal
+      nullable: true
+      precision: 10
+      scale: 2
+      comment: ''
+      column: price_pv
+    priceRatio:
+      type: decimal
+      nullable: true
+      precision: 10
+      scale: 2
+      comment: ''
+      column: price_ratio
+    picCover:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+      column: pic_cover
+    pics:
+      type: string
+      nullable: true
+      length: 2048
+      fixed: false
+      comment: ''
+    video:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    tabloid:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    description:
+      type: text
+      nullable: true
+      length: null
+      fixed: false
+      comment: ''
+    descriptionM:
+      type: text
+      nullable: true
+      length: null
+      fixed: false
+      comment: ''
+      column: description_m
+    sort:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+    addTime:
+      type: datetime
+      nullable: true
+      comment: ''
+      column: add_time
+    updateTime:
+      type: datetime
+      nullable: true
+      comment: ''
+      column: update_time
+    platform:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    status:
+      type: smallint
+      nullable: true
+      unsigned: false
+      comment: ''
+    inventory:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+    inventoryWarning:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: inventory_warning
+    payTypes:
+      type: smallint
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: pay_types
+    priceInfluence:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: price_influence
+    consume:
+      type: smallint
+      nullable: true
+      unsigned: false
+      comment: ''
+    sales:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+    startTime:
+      type: datetime
+      nullable: true
+      comment: ''
+      column: start_time
+    qgpMemo:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+      column: qgp_memo
+  lifecycleCallbacks: {  }

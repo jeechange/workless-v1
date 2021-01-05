@@ -1,0 +1,66 @@
+<script>
+    $(".create-actions").click(function () {
+        var name = $(this).attr("data-name");
+        // var toUrl = $(this).attr("data-url");
+        var snack = [
+            {
+                text: '添加小吃柜商品',
+                onClick: function () {
+                    window.location.href = {url("mobileConsoles_welfare_addSnack")};
+                }
+            },
+            {
+                text: '管理小吃柜商品',
+                onClick: function () {
+                    window.location.href = {url("mobileConsoles_welfare_snackWaiter")};
+                }
+            },
+            {
+                text: '核销兑换商品',
+                onClick: function () {
+                    window.location.href = {url("mobileConsoles_welfare_snackCheck")};
+                }
+            }
+        ];
+        var customer = [
+            {
+                text: '我的兑换',
+                onClick: function () {
+                    window.location.href = {url("mobileConsoles_welfare_mySnack")};
+                }
+            }
+        ];
+        var setting = [
+            {
+                text: '设置',
+                onClick: function () {
+                    window.location.href = {url("mobileConsoles_welfare_bonus_setting")};
+                }
+            }
+        ];
+        var buttons1 = [
+            {
+                text: '请选择',
+                label: true
+            }
+        ];
+        var buttons2 = [
+            {
+                text: '取消',
+                bg: 'danger'
+            }
+        ];
+        if (name == 1) {
+            buttons1 = buttons1.concat(setting, customer, snack);
+        } else if (name == 2) {
+            buttons1 = buttons1.concat(customer, snack);
+        } else if (name == 3) {
+            buttons1 = buttons1.concat(setting, customer);
+        } else if (name == 4) {
+            buttons1 = buttons1.concat(customer);
+        }
+        var groups = [buttons1, buttons2];
+        $.actions(groups);
+    })
+    ;
+</script>

@@ -1,0 +1,163 @@
+{layout "../Layout/layout.latte"}
+{block tabs_content}
+    {include "./manageTabs.latte"}
+{/block}
+{block private_css}
+    <style>
+        .content{
+            background:#fff;
+            top:2.2rem;
+        }
+
+        .set-type-title{
+            line-height:20px;
+            margin-bottom:15px;
+        }
+
+        .set-type1-item{
+            border:1px solid #BBBBBB;
+            height:50px;
+            line-height:50px;
+            text-align:center;
+        }
+
+        .set-type1-item input[type=text]{
+            padding:0;
+            margin:0;
+            text-align:center;
+            line-height:50px;
+            height:50px;
+        }
+
+        .set-type2{
+            margin-top:15px;
+            margin-bottom:15px;
+        }
+
+        .set-type2 img{
+            width:80px;
+            height:80px;
+        }
+
+        .set-type2-item{
+            text-align:center;
+            position:relative;
+        }
+
+        .set-type2-item input[type=file]{
+            opacity:0;
+            position:absolute;
+            top:0;
+            left:0;
+            width:100%;
+            height:20px;
+        }
+
+
+    </style>
+{/block}
+
+{block private_js}
+    <script>
+        var cdnThumbBase = "{$cdnThumbBase|noescape}";
+
+        var typesCount = {$typesCount};
+
+        var settingForm = {
+            images: [],
+            settings1: [],
+            settings2: [],
+        };
+
+        function uploadSucces(result, target, xhr) {
+            $.toast("上传成功");
+            var dataIndex = $(target).attr("data-index");
+            $("img[data-index='" + dataIndex + "']").attr("src", cdnThumbBase + result.saveName).attr("data-icon", result.saveName);
+        }
+
+        function uploadError(result, target, xhr) {
+            $.toast("上传失败");
+        }
+
+        function buildSettingForm() {
+            for (var i = 0; i < typesCount[1]; i++) {
+                settingForm.settings1[i] = $("#setting1_" + i).val();
+            }
+            for (var j = 0; j < typesCount[2]; j++) {
+                settingForm.settings2[j] = $("#setting2_" + j).val();
+                settingForm.images[j] = $("img[data-index='" + j + "']").attr("data-icon");
+            }
+        }
+
+        $(function () {
+            $(".submit-form").on("click", function () {
+                buildSettingForm();
+                $.showPreloader('正在提交，请稍候...');
+                $.ajax({
+                    url: $(this).attr("data-url"),
+                    type: "POST",
+                    data: settingForm,
+                    dataType: "json",
+                    success: function (res) {
+                        $.hidePreloader();
+                        if (res.status === "n") {
+                            $.toast(res.info);
+                            return;
+                        }
+                        $.toast("提交成功");
+                        setTimeout(function () {
+                            location.reload(true);
+                        }, 1000)
+                    }
+                });
+            });
+
+        })
+    </script>
+    {include "../Public/H5Upload.latte"}
+{/block}
+
+
+{block content}
+    <div class="content-padded">
+        <div class="list-block">
+            <div class="set-type-title">任务完成情况设置</div>
+
+            <div class="set-type1 row">
+                {foreach $lists1 as $index=> $item}
+                    <div class="set-type1-item col-25">
+                        <input type="text" id="setting1_{$index}" value="{$item["names"]}">
+                    </div>
+                {/foreach}
+            </div>
+        </div>
+        {*<div class="list-block">*}
+        {*<div class="set-type-title">勋章设置</div>*}
+        {*<div class="set-type1 row">*}
+        {*{foreach $lists2 as $index=> $item}*}
+        {*<div class="set-type1-item col-25">*}
+        {*<input type="text" id="setting2_{$index}" value="{$item["names"]}">*}
+        {*</div>*}
+        {*{/foreach}*}
+        {*</div>*}
+        {*<div class="set-type2 row">*}
+        {*{foreach $lists2 as $index=> $item}*}
+        {*<div class="set-type2-item col-25">*}
+        {*<img data-index="{$index}" data-icon="{$item["icon"]}" src="{$cdnThumbBase}{$item["icon"]}" alt="">*}
+        {*</div>*}
+        {*{/foreach}*}
+        {*</div>*}
+        {*<div class="set-type2 row">*}
+        {*{foreach $lists2 as $index=> $item}*}
+        {*<div class="set-type2-item col-25">*}
+        {*更换图片*}
+        {*<input type="file" name="pics" data-index="{$index}" accept="image/*" onchange="handleInputChange(this)"/>*}
+        {*</div>*}
+        {*{/foreach}*}
+        {*</div>*}
+        {*</div>*}
+        <div class="content-block">
+            <a href="#" data-url="{url("mobileConsoles_task_settings")}" class="button button-big button-fill submit-form">保存</a>
+        </div>
+    </div>
+{/block}

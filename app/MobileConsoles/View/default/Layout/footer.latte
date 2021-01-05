@@ -1,0 +1,14 @@
+<nav class="bar bar-tab" style="background-color: #ffff !important;">
+    {foreach $tabItems as $key => $tab}
+        <a class="tab-item external {if $redDot[$key]['count'] > 0}redDot{/if} {$tab['class']}" href="{$tab["url"]}">
+            {if $tab['icon']}  <span class="icon {$tab['icon']}"></span>{/if}
+            <span class="tab-label">{$tab['name']}</span>
+        </a>
+    {/foreach}
+</nav>
+
+<div id="footer-logo" style="height: 44px;width: 44px;border:none">
+    <a href="#" class="open-popup" data-popup=".added-popup" >
+        <i class="icon al-icon al-icon-tianjia" style="font-size: 40px;color: #38f;"></i>
+    </a>
+</div>

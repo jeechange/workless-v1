@@ -1,0 +1,93 @@
+Admin\Entity\Content:
+  type: entity
+  table: content
+  id:
+    id:
+      type: integer
+      nullable: false
+      unsigned: false
+      comment: ''
+      id: true
+      generator:
+        strategy: IDENTITY
+  fields:
+    sid:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+    issueId:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: issue_id
+    title:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    author:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    categoryId:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: category_id
+    types:
+      type: smallint
+      nullable: true
+      unsigned: false
+      comment: ''
+    content:
+      type: text
+      nullable: true
+      length: null
+      fixed: false
+      comment: ''
+    addTime:
+      type: datetime
+      nullable: true
+      comment: ''
+      column: add_time
+    fromWhere:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+      column: from_where
+    status:
+      type: smallint
+      nullable: true
+      unsigned: false
+      comment: ''
+    auditor:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    auditTime:
+      type: datetime
+      nullable: true
+      comment: ''
+      column: audit_time
+    code:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    acorn:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+  lifecycleCallbacks: {  }

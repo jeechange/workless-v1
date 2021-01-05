@@ -1,0 +1,111 @@
+{layout "../Layout/layoutBoth.latte"}
+{block headTitle}我的申请{/block}
+{block tabs_content}
+    {include "./index_tabs.latte"}
+{/block}
+{block private_css}
+    <style>
+        ul.list{
+            padding:0;
+            margin:0;
+        }
+
+        .list li{
+            display:flex;
+            width:100%;
+            height:3.6rem;
+            line-height:3.6rem;
+            padding:0 .5rem;
+            font-size:14px;
+        }
+
+        .list li a{
+            width:100%;
+        }
+
+        .list li a .item-inner:after{
+            display:none;
+        }
+
+        .list li:nth-child(2n){
+            background:#f9f9f9;
+        }
+
+        .list li .item-memo{
+            flex:1;
+            text-align:left;
+        }
+
+        .list li .item-src{
+            width:100px;
+            text-align:right;
+        }
+
+        .list li .item-name{
+            width:100px;
+            text-align:left;
+        }
+
+        .item-name{
+            overflow:hidden;
+            white-space:nowrap;
+            text-overflow:ellipsis;
+        }
+
+        .item-memo{
+            overflow:hidden;
+            white-space:nowrap;
+            text-overflow:ellipsis;
+        }
+    </style>
+{/block}
+
+{block private_js}
+    <script>
+        $(document).on("pageInit", function () {
+            $(document).on('refresh', '.pull-to-refresh-content', function (e) {
+                setTimeout(function () {
+
+                    $.pullToRefreshDone('.pull-to-refresh-content');
+                }, 2000);
+            });
+
+            $(document).on('infinite', '.infinite-scroll-bottom', function () {
+                $('.infinite-scroll-preloader').remove();
+                // $.refreshScroller(); //刷新滚动
+            });
+            $('.infinite-scroll-preloader').remove();
+        });
+    </script>
+{/block}
+
+
+{block content}
+    <div class="list-block" style="margin-top: 1rem;">
+        <ul class="list">
+            {foreach $lists as $k=>$v}
+                {if $one != substr(totime($v['aa_addTime']),8,2)}
+                    <li style="background-color:#F5F5F5; color:#666666;line-height:24px;height:24px;font-size:12px;">
+                        <div style="display:none;">{if $one != substr(totime($v['aa_addTime']),8,2)}{$one = substr(totime($v['aa_addTime']),8,2)}{/if}</div>
+                        {substr(totime($v['aa_addTime']),0,10)}
+                    </li>
+                {/if}
+                <li style="background-color:#fff;border-bottom:#e5e5e5 1px solid;">
+                    <a class="item-content item-link" href="{url('mobileConsoles_acorn_applyDetail',array('id'=>$v['aa_id']))}">
+                        <div class="item-inner">
+                            <div class="item-name">{$v['toUser']}</div>
+                            <div class="item-memo">{$v['sNames']}</div>
+                            {if $v['aa_status'] == 0}
+                                <div class="item-src" style="color:#ef6e10">{$v['statusMemo']}</div>
+                            {elseif $v['aa_status'] == 1}
+                                <div class="item-src" style="color:#2f8a20 ">{$v['statusMemo']}</div>
+                            {elseif $v['aa_status'] == 2}
+                                <div class="item-src" style="color:#c61313">{$v['statusMemo']}</div>
+                            {/if}
+                        </div>
+                    </a>
+                </li>
+            {/foreach}
+        </ul>
+    </div>
+{/block}

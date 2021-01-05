@@ -1,0 +1,165 @@
+{layout "../Layout/layout.latte"}
+{block headTitle}分红股{/block}
+{block tabs_content}
+    {include "./tabs.latte"}
+{/block}
+
+{block private_css}
+    <style>
+        .content{
+            background:#fff;
+        }
+
+        .pond{
+            margin:auto;
+            margin-top:20%;
+            width:95%;
+            font-size:14px;
+            text-align:center;
+            border:1px #0087E2 solid;
+        }
+
+        .pond-title{
+            line-height:28px;
+            border-bottom:1px #0087E2 solid;
+            background-color:#0087E2;
+            color:#fff;
+        }
+
+        .pond-bonus{
+            height:110px;
+            line-height:110px;
+            font-size:28px;
+            color:#0087E2;
+        }
+
+        .classification{
+            margin:auto;
+            margin-top:5%;
+            width:95%;
+            font-size:14px;
+            text-align:center;
+            overflow:hidden;
+        }
+
+        .total{
+            width:48.75%;
+            float:left;
+            border:1px #0087E2 solid;
+        }
+
+        .total > .pond-bonus{
+            line-height:84px;
+            height:84px;
+        }
+
+        .myTotal{
+            width:48.75%;
+            margin-left:2.5%;
+            border:1px #E51C23 solid;
+            float:left;
+        }
+
+        .myTotal > .pond-title{
+            border-bottom:1px #E51C23 solid;
+            background-color:#E51C23;
+        }
+
+        .myTotal > .pond-bonus{
+            line-height:84px;
+            height:84px;
+            color:#E51C23;
+        }
+
+        .ratio{
+            margin-top:-21px;
+            color:#E51C23;
+        }
+
+        .record{
+            margin:auto;
+            margin-top:15%;
+            display:block;
+            width:60%;
+            line-height:46px;
+            border:1px #BBBBBB solid;
+            text-align:center;
+            color:#686767;
+        }
+
+        .explain{
+            width:40%;
+            margin:auto;
+            margin-top:10%;
+            display:block;
+            text-align:center;
+            line-height:24px;
+        }
+    </style>
+{/block}
+
+{block private_js}
+    <script>
+        $(".create-actions").click(function () {
+            var settingName = $(this).attr("data-settingName");
+            var settingUrl = $(this).attr("data-settingUrl");
+            var bonusAddName = $(this).attr("data-bonusAddName");
+            var bonusAddUrl = $(this).attr("data-bonusAddUrl");
+            var buttons1 = [
+                {
+                    text: '请选择',
+                    label: true
+                },
+                {
+                    text: bonusAddName,
+                    onClick: function () {
+                        window.location.href = bonusAddUrl;
+                    }
+                },
+                {
+                    text: settingName,
+                    onClick: function () {
+                        window.location.href = settingUrl;
+                    }
+                }
+            ];
+            var buttons2 = [
+                {
+                    text: '取消',
+                    bg: 'danger'
+                }
+            ];
+            var groups = [buttons1, buttons2];
+            $.actions(groups);
+        });
+    </script>
+{/block}
+
+{block content}
+    <div class="pond">
+        <div class="pond-title">分红池</div>
+        <div class="pond-bonus">未启动</div>
+    </div>
+    <div class="classification">
+        <div class="total">
+            <div class="pond-title">总股数</div>
+            <div class="pond-bonus">{$companyTotal|coin}</div>
+        </div>
+        <div class="myTotal">
+            <div class="pond-title">总股数</div>
+            <div class="pond-bonus">{$staffTotal|coin}</div>
+            <div class="ratio">您的持股占比：{$scale|coin}%</div>
+        </div>
+    </div>
+    <a class="record" href="{url('mobileConsoles_welfare_bonus_lists')}">
+        查看我的分红股增长记录
+    </a>
+    <a class="explain">
+        <i class="icon al-icon al-icon-help mlrLogo"></i>分红股持有说明
+    </a>
+    {if $isSuper}
+        <div>
+            <span data-settingUrl="{url("mobileConsoles_welfare_bonus_setting")}" data-bonusAddUrl="{url("mobileConsoles_welfare_add_bonus")}" data-settingName="设置" data-bonusAddName="发放分红股" class="create-actions">管理</span>
+        </div>
+    {/if}
+{/block}

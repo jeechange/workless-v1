@@ -1,0 +1,347 @@
+<script>
+
+    function totalWorker(box) {
+        var selecteds = box.find(".worker-added-find-list .checked");
+
+        var userids = [];
+        var nums = 0;
+        for (var i = 0; i < selecteds.length; i++) {
+            var val = $(selecteds[i]).attr("data-value");
+            if ($.inArray(val, userids) > -1) continue;
+            nums++;
+            userids.push(val);
+        }
+
+        box.find(".worker-selected-num").text(nums);
+        var departments = box.find(".worker-department-label");
+        for (var i = 0; i < departments.length; i++) {
+            var ulbox = $(departments[i]).siblings("ul");
+            if (ulbox.length === 0) continue;
+            var memberNum = ulbox.find(".worker-member-label").length;
+            if (memberNum === 0) continue;
+            var checkedNum = ulbox.find(".worker-member-label.checked").length;
+
+            if (memberNum === checkedNum) {
+                $(departments[i]).addClass("checked");
+            } else {
+                $(departments[i]).removeClass("checked");
+            }
+        }
+    }
+
+    function totalStudy(box) {
+        var selecteds = box.find(".study-find-list .checked").length;
+        box.find(".study-selected-num").text(selecteds);
+    }
+
+    function removeWorkerItem(val) {
+        var workerItem = $(this).parent();
+        console.log(workerItem);
+        var boxId = workerItem.siblings(".open-worker-added-box").attr("id");
+        var box = $("[data-relate-id='" + boxId + "']");
+        box.find("[data-value='" + val + "']").removeClass("checked");
+        workerItem.remove();
+        var $selected = box.find(".worker-added-find-list .checked");
+        var $added = $("#" + boxId);
+        var userids = [];
+        for (var i = 0; i < $selected.length; i++) {
+            var val = $($selected[i]).attr("data-value");
+            userids.push(val);
+        }
+        $added.siblings("input").val(userids.join(","));
+        totalWorker(box);
+    }
+
+    function removeStudyItem(val) {
+        var studyItem = $(this).parent();
+        var boxId = studyItem.siblings(".open-learns-box").attr("id");
+        var box = $("[data-relate-id='" + boxId + "']");
+        box.find("[data-value='" + val + "']").removeClass("checked");
+
+        studyItem.remove();
+        var $selected = box.find(".study-find-list .checked");
+
+        var userids = [];
+        var $added = $("#" + boxId);
+        for (var i = 0; i < $selected.length; i++) {
+            var val = $($selected[i]).attr("data-value");
+            userids.push(val);
+        }
+        $added.siblings("input").val(userids.join(","));
+
+        totalWorker(box);
+    }
+
+    $(function () {
+        $("#addTime").calendar();
+
+        $(".select-group-confirm").on("click", function () {
+            var selectGroupId = $("[name='groupId']:checked");
+            if (selectGroupId.length === 0) {
+                $.toast("请选择任务项目");
+                return;
+            }
+            var groupName = selectGroupId.attr("data-name");
+            var val = selectGroupId.val();
+            $(".selected-group-show").text(groupName);
+            $(".selected-group-show").siblings("input").val(val);
+            $.closeModal(".task-group-popup");
+        });
+        $(".open-create-group").on("click", function () {
+            if ($(".form-group-create").hasClass("show")) return;
+            $(".form-group-create").addClass("show").show();
+            $(".list-group-block").hide();
+        });
+        $(".cancel-create-group").on("click", function () {
+            $(".form-group-create").removeClass("show").hide();
+            $(".list-group-block").show();
+        });
+        $(".submit-create-group").on("click", function () {
+            var data = {
+                names: $("[name='group_name']").val(),
+                addTime: $("[name='group_addTime']").val(),
+                memo: $("[name='group_memo']").val(),
+            };
+            var url = $(this).attr("data-url");
+            $.showIndicator();
+            $.ajax({
+                url: url,
+                type: "POST",
+                data: data,
+                dataType: "json",
+                success: function (res) {
+                    $.hideIndicator();
+                    if (res.status === "n") {
+                        $.toast(res.info);
+                        return;
+                    }
+                    $.toast("添加成功");
+                    setTimeout(function () {
+                        $("#group-lists").prepend(res.data.html);
+                        $(".form-group-create").removeClass("show").hide();
+                        $(".list-group-block").show();
+                    }, 1000)
+                }
+            });
+        });
+        $(".worker-added-box").on("input", "[type='search']", function () {
+            var val = $(this).val().toString().replace(/^\s+|\s+$/gm, '');
+            if (!val) {
+                $(this).parents(".content-block").find(".worker-added-find-list").hide();
+                $(this).parents(".content-block").find(".worker-added-list").show();
+                return true;
+            }
+
+            var lists = $(this).parents(".content-block").find(".worker-keyword");
+            for (var i = 0; i < lists.length; i++) {
+                var text = $(lists[i]).text();
+                var indexOf = text.indexOf(val);
+                if (indexOf === -1) {
+                    $(lists[i]).html(text);
+                    $(lists[i]).parents("li").hide();
+                    continue;
+                }
+                var newHtml = "";
+                if (indexOf === 0) {
+                    newHtml = '<span class="highlight">' + val + '<\/span>' + text.substring(val.length);
+                }
+                if (indexOf > 0) {
+                    newHtml = text.substring(0, indexOf) + '<span class="highlight">' + val + '<\/span>' + text.substring(val.length + indexOf);
+                }
+                $(lists[i]).html(newHtml);
+                $(lists[i]).parents("li").show();
+            }
+            $(this).parents(".content-block").find(".worker-added-find-list").show();
+            $(this).parents(".content-block").find(".worker-added-list").hide();
+        });
+
+        $(".worker-member-label").on("click", function () {
+            var val = $(this).attr("data-value");
+            $(this).toggleClass("checked");
+            var isChecked = $(this).hasClass("checked");
+            var box = $(this).parents(".worker-added-box");
+            if (isChecked) {
+                box.find("[data-value='" + val + "']").addClass("checked");
+            } else {
+                box.find("[data-value='" + val + "']").removeClass("checked");
+            }
+            totalWorker(box);
+        });
+
+        $(".worker-department-label>.item-media").on("click", function () {
+            var label = $(this).parent();
+
+            var ulbox = label.siblings("ul");
+            if (ulbox.length === 0) return true;
+            label.toggleClass("checked");
+            var isChecked = label.hasClass("checked");
+
+            var box = $(this).parents(".worker-added-box");
+            var members = ulbox.find(".worker-member-label");
+            for (var i = 0; i < members.length; i++) {
+                var val = $(members[i]).attr("data-value");
+                if (isChecked) {
+                    box.find("[data-value='" + val + "']").addClass("checked");
+                } else {
+                    box.find("[data-value='" + val + "']").removeClass("checked");
+                }
+            }
+            totalWorker(box);
+            return false;
+        });
+        $(".worker-department-label .item-inner").on("click", function () {
+            var ulbox = $(this).parents("label").siblings("ul");
+            if (ulbox.length === 0) return;
+            if (ulbox.hasClass("worker-fold-off")) {
+                ulbox.removeClass("worker-fold-off");
+                $(this).find(".item-after").text("收起");
+            } else {
+                ulbox.addClass("worker-fold-off");
+                $(this).find(".item-after").text("展开");
+            }
+            return false;
+        });
+
+        $(".worker-confirm").on("click", function () {
+            var box = $(this).parents(".worker-added-box");
+
+            var max = $(this).attr("data-max");
+
+            var $selected = box.find(".worker-added-find-list .checked");
+
+            var relateId = box.attr("data-relate-id");
+            var $added = $("#" + relateId);
+            $added.siblings(".worker-added-item").remove();
+            var userids = [];
+
+            var nums = 0;
+
+            for (var i = 0; i < $selected.length; i++) {
+                var $show = $($selected[i]).attr("data-show");
+                var val = $($selected[i]).attr("data-value");
+                if ($.inArray(val, userids) > -1) continue;
+                nums++;
+                var html = '<div class="worker-added-item">' +
+                    '<span class="worker-added-item-result">' + $show + '<\/span>' +
+                    '<span class="worker-added-item-remove" onclick="removeWorkerItem.call(this,\'' + val + '\')">&times;<\/span><\/div>';
+                $added.before(html);
+                userids.push(val);
+            }
+            if (max < nums) {
+                $.toast("最大允许选择" + max + "人");
+                return;
+            }
+
+            $added.siblings("input").val(userids.join(","));
+
+            var dataUrl = $added.attr("data-url");
+
+            if (dataUrl) {
+                $.showPreloader('正在取消，请稍候...');
+                var data = new Object();
+                data[relateId] = userids.join(",");
+                $.ajax({
+                    type: "POST",
+                    dataType: "json",
+                    data: data,
+                    url: dataUrl,
+                    success: function (res) {
+                        $.hidePreloader();
+                        try {
+                            if (res.status === "y") {
+                                $.toast(res.data);
+                                setTimeout(function () {
+                                    location.reload(true);
+                                }, 2000)
+                            } else {
+                                $.toast(res.info);
+                            }
+                        } catch (e) {
+                            $.toast(e.message);
+                        }
+                    }
+                });
+                return;
+            }
+            var actionName = $added.attr("data-action");
+
+            if (actionName && typeof window[actionName] === "function") {
+                window[actionName](relateId, userids);
+                return;
+            }
+            $.closeModal(box);
+        });
+
+        $(".study-item-label").on("click", function () {
+            $(this).toggleClass("checked");
+            var box = $(this).parents(".learns-box");
+            totalStudy(box);
+        });
+
+        $(".learns-box").on("input", "[type='search']", function () {
+            var val = $(this).val().toString().replace(/^\s+|\s+$/gm, '');
+            var lists = $(this).parents(".content-block").find(".study-keyword");
+            if (!val) {
+                $(this).parents(".content-block").find("li").show();
+                for (var i = 0; i < lists.length; i++) {
+                    var text = $(lists[i]).text();
+                    $(lists[i]).html(text);
+                }
+
+                return true;
+            }
+            for (var i = 0; i < lists.length; i++) {
+                var text = $(lists[i]).text();
+                var indexOf = text.indexOf(val);
+                if (indexOf === -1) {
+                    $(lists[i]).html(text);
+                    $(lists[i]).parents("li").hide();
+                    continue;
+                }
+                var newHtml = "";
+                if (indexOf === 0) {
+                    newHtml = '<span class="highlight">' + val + '<\/span>' + text.substring(val.length);
+                }
+                if (indexOf > 0) {
+                    newHtml = text.substring(0, indexOf) + '<span class="highlight">' + val + '<\/span>' + text.substring(val.length + indexOf);
+                }
+                $(lists[i]).html(newHtml);
+                $(lists[i]).parents("li").show();
+            }
+        });
+
+        $(".study-confirm").on("click", function () {
+            var box = $(this).parents(".learns-box");
+
+
+            var max = $(this).attr("data-max");
+
+            var $selected = box.find(".study-find-list .checked");
+
+            if (max < $selected.length) {
+                $.toast("最大允许选择" + max + "条");
+                return;
+            }
+            var relateId = box.attr("data-relate-id");
+            var $added = $("#" + relateId);
+            $added.siblings(".learns-item").remove();
+            var userids = [];
+            for (var i = 0; i < $selected.length; i++) {
+                var $name = $($selected[i]).attr("data-name");
+                var val = $($selected[i]).attr("data-value");
+                var icon = $($selected[i]).attr("data-icon");
+                var html = '<div class="study-item">' +
+                    '<span class="study-item-result"><img src="' + icon + '" alt="">' + $name + '<\/span>' +
+                    '<span class="study-item-remove" onclick="removeStudyItem.call(this,\'' + val + '\')">&times;<\/span><\/div>';
+                $added.before(html);
+                userids.push(val);
+            }
+            $added.siblings("input").val(userids.join(","));
+            $.closeModal(box);
+        });
+
+
+    })
+
+
+</script>

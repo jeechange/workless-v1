@@ -1,0 +1,61 @@
+#//Node route
+node_index_index:
+    pattern: /
+    callback: "Node:Index:index"    
+    method: get   
+    options:
+node_index_copy:
+    pattern: /cp
+    callback: "Node:Index:cp"
+    method: get
+    options:
+node_addNode_index:
+    pattern: /addNode
+    callback: "Node:AddNode:index"
+    method: any
+    options:
+node_addNode_menu:
+    pattern: /nodeMenu
+    callback: "Node:AddNode:menus"
+    method: any
+    options:
+node_addNode_addMenu:
+    pattern: /addNodeMenu
+    callback: "Node:AddNode:addMenu"
+    method: any
+    options:
+node_addNode_modifyMenu:
+    pattern: /modifyNodeMenu/:id
+    callback: "Node:AddNode:modifyMenu"
+    method: any
+    options:
+node_addNode_states:
+    pattern: /states/:names/:status/:id
+    callback: "Node:AddNode:states"
+    method: any
+    options:
+node_addNode_delMenu:
+    pattern: /delMenu/:id
+    callback: "Node:AddNode:delMenu"
+    method: any
+    options:
+node_roles_states:
+    pattern: /roles_status/:status/:id
+    callback: "Node:Roles:states"
+    method: any
+    options:
+node_roles_lists:
+    pattern: /roles/lists
+    callback: "Node:Roles:lists"
+    method: any
+    options:
+node_roles_add:
+    pattern: /roles/add
+    callback: "Node:Roles:add"
+    method: any
+    options:
+node_del_mod:
+    pattern: /del_mod/:con/:act/:id
+    callback: "Node:{con}:{act}"
+    method: any
+    options:

@@ -1,0 +1,69 @@
+Admin\Entity\CompanyService:
+  type: entity
+  table: company_service
+  id:
+    id:
+      type: integer
+      nullable: false
+      unsigned: false
+      comment: ''
+      id: true
+      generator:
+        strategy: IDENTITY
+  fields:
+    sid:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+    names:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    sCode:
+      type: string
+      nullable: true
+      length: 30
+      fixed: false
+      comment: ''
+      column: s_code
+    types:
+      type: smallint
+      nullable: true
+      unsigned: false
+      comment: ''
+    totals:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+    useTotals:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: use_totals
+    addTime:
+      type: datetime
+      nullable: true
+      comment: ''
+      column: add_time
+    expireTime:
+      type: datetime
+      nullable: true
+      comment: ''
+      column: expire_time
+    status:
+      type: smallint
+      nullable: true
+      unsigned: false
+      comment: ''
+    serviceId:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: service_id
+  lifecycleCallbacks: {  }

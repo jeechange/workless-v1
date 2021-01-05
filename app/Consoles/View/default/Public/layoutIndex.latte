@@ -1,0 +1,91 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    {includeblock 'header.latte'}
+    {if $dingJsApi}
+        <script src="https://g.alicdn.com/dingding/dingtalk-pc-api/2.7.0/index.js"></script>
+    {/if}
+
+</head>
+<body class="index-body">
+{includeblock "../Layout/top.latte"}
+<div id="contentedits" class="index-main-2">
+    <div id="contenteditsloding" style="position: absolute;left:0;right:0;top:0;height: 3px;z-index:999999">
+        <div id="contenteditslodingpercentage" style="width: 10%;height: 3px; background: #4d91e4;"></div>
+    </div>
+    <div id="contenteditsdiv"></div>
+    <div id="contenteditsdivRes" style="display: none;"></div>
+    {*<div class="contenteditsSubmits">*}
+    {*<div class="contenteditsSubmit">提交</div>*}
+    {*</div>*}
+</div>
+<div class="box index-main ">
+    {includeblock "../Layout/menu.latte"}
+
+    <div id="contentloding" class="contentloding-2" style="position: absolute;right:0;top:50px;height: 3px;z-index:999999">
+        <div id="contentlodingpercentage" style="width: 10%;height: 3px; background: #4d91e4;"></div>
+    </div>
+    <div id='contentdiv' class="content contentdiv-2" style="position:absolute;right:0;overflow-y:scroll;bottom:0;top:50px;padding: 0 20px 20px 20px;">
+        {block content}{/block}
+    </div>
+    <input type="text" value="" id="keyboard" style="display:none;">
+
+</div>
+<script src="{path('[Jeechange]/js/jquery-1.8.3.min.js') }"></script>
+<script src="{path('[Jeechange]/js/jquery.cookie.js') }"></script>
+<script src="{path('[Jeechange]/js/jquery.slider.min.js') }"></script>
+<script src="{path('[Jeechange]/js/jquery.spinner.js') }"></script>
+<script type="text/javascript" src="{path('[Consoles]/js/echarts.js')}"></script>
+<script src="{path('[Core]/niceue/validator/jquery.validator.js') }"></script>
+<script type="text/javascript" src="{path('[Core]/niceue/validator/local/zh_CN.js')}"></script>
+<script type="text/javascript" src="{path('[Core]/layer/layer.js')}"></script><!-- 弹出层 -->
+
+
+<script type="text/javascript" src="{path('[Jeechange]/plugins/laydate/laydate.js')}"></script>
+<script type="text/javascript" src="{path('[Jeechange]/plugins/address.js')}"></script>
+
+<script type="text/javascript" src="https://cdn.itmakes.com/uploader/webuploader.min.js"></script>
+<script type="text/javascript" src="https://cdn.itmakes.com/uploader/uploader.js"></script>
+
+
+<script src="{path('[Jeechange]/plugins/kindeditor/kindeditor-min.js')}"></script>
+<script src="{path('[Jeechange]/plugins/kindeditor/lang/zh_CN.js')}"></script>
+<script type="text/javascript">
+    $.uploadJson = "{url('consoles_uploads_pic',"types=rich")|noescape}";
+    $.fileManagerJson = "{url('consoles_uploads_pic_stock',"types=rich")|noescape}";
+</script>
+<script type="text/javascript" src="{path('[Jeechange]/metroUI/metroUI.js')}"></script>
+{if $dingJsApi}
+    <script>
+        DingTalkPC.config({$dingJsApiConfig});
+
+        function shareDing(content, url) {
+            DingTalkPC.biz.contact.choose({
+                multiple: false, //是否多选： true多选 false单选； 默认true
+                users: [], //默认选中的用户列表，员工userid；成功回调中应包含该信息
+                corpId: {$corpId}, //企业id
+                max: 1, //人数限制，当multiple为true才生效，可选范围1-1500
+                onSuccess: function (data) {
+                    layer.alert(JSON.stringify(data))
+
+                    /* data结构
+                      [{
+                        "name": "张三", //姓名
+                        "avatar": "http://g.alicdn.com/avatar/zhangsan.png" //头像图片url，可能为空
+                        "emplId": '0573', //员工userid
+                       },
+                       ...
+                      ]
+                    */
+                },
+                onFail: function (err) {
+                    layer.alert(JSON.stringify(err))
+                }
+            });
+        }
+    </script>
+{/if}
+
+{block private_js}{/block}
+</body>
+</html>

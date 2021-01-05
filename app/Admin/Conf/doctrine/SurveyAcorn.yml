@@ -1,0 +1,110 @@
+Admin\Entity\SurveyAcorn:
+  type: entity
+  table: survey_acorn
+  indexes:
+    user_id:
+      columns:
+        - user_id
+    from_user:
+      columns:
+        - from_user
+    auditor:
+      columns:
+        - auditor
+    sc_id:
+      columns:
+        - sc_id
+    names:
+      columns:
+        - names
+    status:
+      columns:
+        - status
+    types:
+      columns:
+        - types
+  id:
+    id:
+      type: integer
+      nullable: false
+      unsigned: false
+      comment: ''
+      id: true
+      generator:
+        strategy: IDENTITY
+  fields:
+    sid:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+    userId:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: user_id
+    fromUser:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: from_user
+    auditor:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+    scId:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: sc_id
+    names:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    acorn:
+      type: decimal
+      nullable: true
+      precision: 20
+      scale: 2
+      comment: ''
+    addTime:
+      type: datetime
+      nullable: true
+      comment: ''
+      column: add_time
+    status:
+      type: smallint
+      nullable: true
+      unsigned: false
+      comment: ''
+    types:
+      type: smallint
+      nullable: true
+      unsigned: false
+      comment: ''
+    memo:
+      type: text
+      nullable: true
+      length: null
+      fixed: false
+      comment: ''
+    sysMemo:
+      type: text
+      nullable: true
+      length: null
+      fixed: false
+      comment: ''
+      column: sys_memo
+    balance:
+      type: decimal
+      nullable: true
+      precision: 20
+      scale: 2
+      comment: ''
+  lifecycleCallbacks: {  }

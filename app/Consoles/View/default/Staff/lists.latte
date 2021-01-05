@@ -1,0 +1,83 @@
+{layout '../Public/layoutList.latte'} {*继承layoutList模板*}
+{block title}
+    <span><a style="color: #0087e1;margin-right: 10px;font-size: 16px;" href="{url('consoles_lists',"con=Company")}">返回</a></span>
+    组织架构-{$company->getNames()}
+{/block}
+{block actions}<a href="{url('consoles_add','con=Staff&sid='.$sid)}" class="icon-adds" data-side-form="700px">添加员工</a>{/block}
+
+{block actionstab}
+    {include "../Department/actionstab.latte"}
+{/block}
+
+{*选中记录的操作按钮*}
+{block actions2}
+{*    <div class="list-more-action-item" data-url="{url('consoles_delete_mul','con=Staff')}">删除员工</div>*}
+{/block}
+{block private_css}
+    <style>
+        .list-more-action{
+            display: none;
+        }
+    </style>
+{/block}
+{block content}
+    <table cellpadding="0" cellspacing="0" border="0" class="stdtable">
+        <thead>
+        <tr>
+            <th><span class="table-head">姓名</span></th>
+            <th><span class="table-head">部门</span></th>
+            <th><span class="table-head">手机号码</span></th>
+            <th><span class="table-head">微信号</span></th>
+            <th><span class="table-head">QQ号</span></th>
+            <th><span class="table-head">邮箱</span></th>
+            <th><span class="table-head">职位</span></th>
+            <th><span class="table-head">备注</span></th>
+            <th><span class="table-head">状态</span></th>
+            <th><span class="table-head">操作</span></th>
+        </tr>
+        </thead>
+        <tbody>
+        {foreach $lists as $k=>$item}
+            <tr>
+                <td>
+                    {if $item['c_status']==1}
+                        {$item["s_fullName"]|noescape}
+                    {else}
+                        {$item["c_fullName"]|noescape}
+                    {/if}
+                </td>
+                <td>{$item["d_department"]}</td>
+                <td>{if $item['c_status']==1}{$item["s_phone"]}{else}{$item["c_phone"]}{/if}</td>
+                <td>{$item["s_wx"]}</td>
+                <td>{$item["s_qq"]}</td>
+                <td>{$item["s_email"]}</td>
+                <td>{$item["ss_station"]}</td>
+                <td>{$item["s_memo"]}</td>
+                <td>
+                    {if $item['c_status']==1}
+                        {$item["s_statusStaffMemo"]|noescape}
+                    {else}
+                        {$item["c_statusMemoList"]|noescape}
+                    {/if}
+                </td>
+                <td>
+                    {if $item['c_status']!=1}
+                        <a href='{url("consoles_CompanyMember_delete", array("id" => $item["c_id"]))."?sid=".$item["c_sid"]}' data-confirm='该员工尚未接受邀请，删除后可以重新添加员工，确定要删除吗？'>删除</a>
+                    {else}
+                    <a href='{url("consoles_mod", array("con" => "Staff", "id" => $item["c_id"]))}' data-side-form='900px'>修改</a>
+                    {/if}
+
+                    {if $item["s_status"] == 3}
+                        <a href='{url("consoles_delete", array("con" => "Staff", "id" => $item["c_id"]))."?sid=".$item["c_id"]}' data-confirm='一旦删除，不可恢复，确定吗？'>删除</a>
+                    {/if}
+                </td>
+            </tr>
+        {/foreach}
+        </tbody>
+
+    </table>
+{/block}
+
+
+
+

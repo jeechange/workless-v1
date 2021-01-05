@@ -1,0 +1,7 @@
+{if $sid > 0}
+    <a href="{url('consoles_staff_lists',"sid=".$sid)}" {if $types=="yuangong"}class="selected"{/if}>员工</a>
+    <a href="{url('consoles_department_lists',"sid=".$sid)}" {if $types=="bumen"}class="selected"{/if}>部门</a>
+    <a href="{url('consoles_staffStation_lists',"sid=".$sid)}" {if $types=="zhiwei"}class="selected"{/if}>职位</a>
+{*    <a href="{url('consoles_staffGroup_lists',"sid=".$sid)}" {if $types=="xiaozu"}class="selected"{/if}>小组</a>*}
+{/if}
+{*<a href="{url('consoles_company_listsWBLXR')}" {if $types=="waibu"}class="selected"{/if}>外部</a>*}

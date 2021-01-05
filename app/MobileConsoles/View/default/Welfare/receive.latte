@@ -1,0 +1,819 @@
+{layout "../Layout/layout.latte"}
+{block tabs_content}
+    {include "./tabs.latte"}
+{/block}
+{block private_js}
+    <script>
+        $(function () {
+            $(".dynamic-submit").on("click", function () {
+                var data = {
+                    chat: $(".dynamic-chat").val(),
+                };
+                postPages($(this).attr("data-url"), data);
+            });
+            $(".dynamic-receive").on("click", function () {
+                var data = {
+                    status: 1,
+                };
+                getPages($(this).attr("data-url"), data);
+            });
+
+            $(".dynamic-listsRevoke").on("click", function () {
+                var data = {
+                    types: 2,
+                };
+                postRevoke($(this).attr("data-url"), data);
+            });
+
+            $("#shareBox").live('click', function () {
+                var url = $(this).attr('data-url');
+                location.replace(url);
+            })
+        });
+
+        function postPages(toUrl, data) {
+            $.showPreloader('正在提交，请稍候...');
+            $.ajax({
+                type: "POST",
+                dataType: "json",
+                url: toUrl,
+                data: data,
+                success: function (res) {
+                    $.hidePreloader();
+                    try {
+                        if (res.status === "y") {
+                            $.toast(res.info);
+                            setTimeout(function () {
+                                location.reload(true);
+                            }, 2000)
+                        } else {
+                            $.toast(res.info);
+                        }
+                    } catch (e) {
+                        $.toast(e.message);
+                    }
+                }
+            });
+        }
+
+
+        function postRevoke(toUrl, data) {
+            $.showPreloader('正在提交，请稍候...');
+            $.ajax({
+                type: "POST",
+                dataType: "json",
+                url: toUrl,
+                data: data,
+                success: function (res) {
+                    $.hidePreloader();
+                    try {
+                        if (res.status === "y") {
+                            $.toast(res.info);
+                            setTimeout(function () {
+                                location = (res.url);
+                            }, 2000)
+                        } else {
+                            $.toast(res.info);
+                        }
+                    } catch (e) {
+                        $.toast(e.message);
+                    }
+                }
+            });
+        }
+
+        function getPages(toUrl, data) {
+            $.showPreloader('正在领取奖品，请稍候...');
+            $.ajax({
+                type: "GET",
+                dataType: "json",
+                url: toUrl,
+                data: data,
+                success: function (res) {
+                    $.hidePreloader();
+                    try {
+                        if (res.status === "y") {
+                            $.toast(res.info);
+                            setTimeout(function () {
+                                location.replace(res.url);
+                            }, 2000)
+                        } else {
+                            $.toast(res.info);
+                        }
+                    } catch (e) {
+                        $.toast(e.message);
+                    }
+                }
+            });
+
+        }
+
+        var bodys = $('body').width();
+        if (bodys > 375) {
+            $('.quan_more > p').css('line-height', '5em');
+        }
+        //
+        // var quan_height = $('.quan_more').css('height');
+        // quan_height = parseInt(quan_height);
+        // var quan_p_height = $('.quan_more>p').css('font-size');
+        // quan_p_height = parseInt(quan_p_height);
+        // alert(quan_height)
+
+        // var quans = quan_height - quan_p_height;
+        // alert(quan_height-quan_p_height)
+
+        // $('.quan_more >p').css('margin-top',quans/2-5);
+        // alert(quan_height);
+        // $('.quan_more>p').css('line-height',quan_height);
+        // if (quan_height<30) {
+        //     $('.quan_more').css('line-height', '1.8em');
+        // }
+        // else if(quan_height>30&&quan_height<75){
+        //     $('.quan_more').css('line-height','1.2em');
+        // }
+        // else{
+        //     $('.quan_more').css('line-height','1em');
+        // }
+
+        $('p.mask').css('left', ($('body').width() - 76) / 2);
+
+        $(".create-actions0").click(function () {
+            var buttons1 = [
+                {
+                    text: '操作',
+                    label: true
+                },
+
+                {
+                    text: '撤销物资奖',
+                    onClick: function () {
+                        $.showPreloader('加载中...');
+                        $.ajax({
+                            type: 'get',
+                            url:  {url("mobileConsoles_welfare_listsRevoke",array("id"=>$wr->getId()))} ,
+                            dataType: 'json',
+                            data: [is = 0],
+                            success: function (msg) {
+                                // $('.preloader').css('display','none');
+                                $('.modal.modal-no-buttons.modal-in,.modal-overlay.modal-overlay-visible').remove();
+                                $('p.mask').css('display', 'block');
+                                var is = 0;
+                                var as = setInterval(function () {
+                                    is++;
+                                    if (is == 370) {
+                                        // $('p.mask').css('display', 'none');
+                                        window.location.href = {url('mobileConsoles_welfare')};
+
+                                    }
+                                })
+                            }
+                        })
+                        // window.location.reload();
+                    }
+                },
+                {*{*}
+                {*text: '发布周期任务',*}
+                {*onClick: function () {*}
+                {*$.showPreloader('加载中...');*}
+                {*window.location.href = {url("mobileConsoles_task_addcycle")};*}
+                {*}*}
+                {*},*}
+                {*{*}
+                {*text: '发布悬赏任务',*}
+                {*onClick: function () {*}
+                {*$.showPreloader('加载中...');*}
+                {*window.location.href = {url("mobileConsoles_task_addreward")};*}
+                {*}*}
+                {*},*}
+            ];
+            var buttons2 = [
+                {
+                    text: '取消',
+                    bg: 'danger'
+                }
+            ];
+            var groups = [buttons1, buttons2];
+            $.actions(groups);
+        });
+
+        $(function () {
+            $('.allow').on('click', function () {
+                $.ajax({
+                    type: 'get',
+                    url: {url("mobileConsoles_welfare_getGift",array("id"=>$wr->getId()))} ,
+                    dataType: 'json',
+                    data: {
+                        status: 1,
+                    },
+                    success: function (msg) {
+                        $('.mask').css('width', '90px')
+                        $('.mask').text('领取成功！');
+                        $('.modal.modal-no-buttons.modal-in,.modal-overlay.modal-overlay-visible').remove();
+                        $('p.mask').css('display', 'block');
+                        var is = 0;
+                        var as = setInterval(function () {
+                            is++;
+                            if (is == 370) {
+                                // $('p.mask').css('display', 'none');
+                                window.location.reload();
+
+                            }
+                        })
+                    }
+                })
+            })
+        })
+
+    </script>
+{/block}
+{include '../Task/listsJs.latte'}
+{block custom}
+    {if $wr->getFromUser() == $userId &&  $userId == $user->getId()}
+        <span class="create-actions create-actions0" data-popup=".added-popup">操作</span>
+    {/if}
+    <div class="popup dynamic-popup" data-relate-id="info">
+        <header class="bar bar-nav">
+            <a class="button button-link button-nav pull-right close-popup">
+                关闭
+            </a>
+            <h1 class="title">话题评论</h1>
+        </header>
+        <div data-url="{url("mobileConsoles_welfare_chat",array("id"=>$wr->getId()))}" class="bar bar-standard bar-footer list-study-block dynamic-submit" style="background:#0087E2;color:#fff;line-height:2.2rem;font-size:16px;text-align:center">
+            提 交
+        </div>
+        <div class="content">
+            <div class="content-inner">
+                <div class="content-block">
+                    <div class="list-block" style="margin-top: 2.3rem;">
+                        <div class="field-item">
+                            <div class="field-item-title">
+                                内容 <span class="required">*</span>
+                            </div>
+                            <div class="field-item-body" style="border:1px solid rgba(187, 187, 187, 1)">
+                                <textarea class="dynamic-chat" name="chat"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{/block}
+
+{block private_css}
+    <style>
+        img{
+            width:100%;
+        }
+
+        ul, ol{
+            list-style-type:none;
+        }
+
+        .content{
+            background:#fff;
+        }
+
+        .field-item{
+            margin:5px 10px;
+            padding-bottom:10px;
+        }
+
+        .field-item .field-item-title{
+            color:#101010;
+            font-size:14px;
+            vertical-align:bottom;
+        }
+
+        .field-item .field-item-body{
+            position:relative;
+            padding-top:5px;
+            /*border-bottom:#e7e7e7 1px solid;*/
+        }
+
+        .field-item-body .field-item-member-box{
+            padding:10px 0;
+            border-bottom:2px solid #ddd;
+        }
+
+        .field-item-between{
+            background:rgba(170, 170, 170, 0.07);
+            height:2px;
+        }
+
+        .field-item-body > .one{
+            display:block;
+            line-height:32px;
+        }
+
+        .chat > ul{
+            margin:0;
+            padding:0;
+            list-style:none;
+            font-size:14px;
+        }
+
+        .chat li{
+            overflow:hidden;
+        }
+
+        .chat-left > div{
+            margin-left:12px;
+        }
+
+        .chat-right > div{
+            margin-right:12px;
+        }
+
+        .chat-left > .chat-names{
+            line-height:28px;
+        }
+
+        .chat-right > .chat-names{
+            line-height:28px;
+            width:100%;
+            text-align:right;
+            float:right;
+        }
+
+        .chat-left > .chat-content{
+            margin:3px 10px;
+            padding:8px 10px 8px 15px;
+            display:block;
+            float:left;
+            background-color:#5CABFB;
+            border:1px;
+            border-radius:25px;
+            -moz-border-radius:25px;
+            color:#fff;
+        }
+
+        .chat-right > .chat-content{
+            margin:3px 10px;
+            padding:8px 10px 8px 15px;
+            display:block;
+            float:right;
+            background-color:#8BDF8B;
+            border:1px;
+            border-radius:25px;
+            -moz-border-radius:25px;
+            color:#fff;
+        }
+
+        .dynamic-popup{
+            height:40%;
+            top:60%
+        }
+
+        .button-fill{
+            border-radius:50px !important;
+        }
+
+        .one{
+            font-size:14px;
+            color:#101010;
+            line-height:20px;
+            margin-top:0;
+            margin-bottom:0;
+        }
+
+        .bodys{
+            margin-top:80px;
+        }
+
+        .quan{
+        }
+
+        .quan .more > p{
+            line-height:140px;
+            text-align:center;
+            font-size:36px;
+            color:#FFF;
+        }
+
+        .quan .quan_more{
+            width:90%;
+            height:9em;
+            margin:auto;
+            background-size:100% 100% !important;
+            background-repeat:no-repeat !important;
+            overflow:hidden;
+        }
+
+        .quan .left_more{
+            float:left;
+            width:37%;
+            margin-left:10%;
+            line-height:9em;
+        }
+
+        .quan .left_more p{
+            margin:0 !important;
+            font-size:2.4em;
+            color:#FFF;
+            overflow:hidden;
+            width:100%;
+            text-align:center;
+        }
+
+        .quan .left_more span{
+            font-size:0.4em !important;
+        }
+
+        .quan .right_more{
+            float:left;
+            /*line-height:0em !important;*/
+            width:45%;
+            margin-top:3.1em;
+            margin-left:1em;
+            /*margin-right:1em;*/
+        }
+
+        .quan .right_more p{
+            margin:0 !important;
+            font-size:16px;
+            color:#FFF;
+            line-height:20px !important;
+            margin-bottom:3px !important;
+        }
+
+        .quan_more span{
+            font-size:14px;
+            color:#FFF;
+        }
+
+        .quan_more > p{
+            margin-top:1em;
+            line-height:3.2em;
+            /*line-height:inherit;*/
+            font-size:24px;
+            text-align:center;
+            color:#FFF;
+            width:100%;
+            overflow:hidden;
+        }
+
+        .quan_info{
+            padding:0 20px;
+        }
+
+        .quan_info p{
+            margin:0 !important;
+            margin-top:10px !important;
+        }
+
+        .rewarder p{
+            font-size:16px;
+        }
+
+        .rewardReson{
+            font-size:16px;
+        }
+
+        .quan_info > div > p > span{
+            font-size:16px;
+            color:#b0b0b0;
+        }
+
+        .sender{
+            overflow:hidden;
+            margin-top:10px !important;
+        }
+
+        .sender > p{
+            float:right;
+            height:auto;
+            margin:0 !important;
+        }
+
+        .btns{
+            margin-top:40px;
+        }
+
+        #shareBox{
+            width:88%;
+            margin-left:6%;
+            border:#0087e1 1px solid;
+            border-radius:100px;
+            line-height:2.75em;
+            text-align:center;
+            margin-top:20px;
+            color:#0087e1;
+        }
+
+        .gray{
+            height:20px;
+            width:100%;
+            background:#e0e0e0;
+            margin:40px 0 20px 0;
+        }
+
+        .comment{
+            margin-top:20px;
+            padding-bottom:40px;
+        }
+
+        .addComment{
+            width:90%;
+            border:#e0e0e0 1px solid;
+            margin-left:5%;
+            padding:10px 0;
+            font-size:14px;
+            text-align:center;
+            color:#bbb;
+            border-radius:10px;
+        }
+
+        .commentTitle{
+            width:90%;
+            margin-left:5%;
+            font-size:16px;
+            font-weight:600;
+            margin-top:25px !important;
+        }
+
+        .commentLists ul{
+            width:90%;
+            margin-left:5%;
+            padding-left:0 !important;
+        }
+
+        .commentLists ul li{
+            border-top:#e0e0e0 1px solid;
+            padding:0 10px;
+        }
+
+        .commentLists ul li:last-child{
+            border-bottom:#e0e0e0 1px solid;
+        }
+
+        .commentLists ul li p{
+            font-size:14px;
+            overflow:hidden;
+        }
+
+        .commentLists ul li p span{
+            float:right;
+        }
+
+        a.more{
+            display:block;
+            font-size:12px;
+            text-align:center;
+            color:#000;
+        }
+    </style>
+{/block}
+
+{block content}
+    <div>
+        {*<div class="list-block" style="margin-top: 3.2rem;">*}
+        {*{if $wv}*}
+        {*{if $userId == $user->getId() and $lists and  $wr->getStatus() == 0}*}
+        {*<div class="field-item" style="background:url({path('[MobileConsoles]/img/material-food.png')}) no-repeat;background-size:100% 100%;margin:65px 20px 0 20px;padding-bottom:0;height:120px;color:#fff;overflow:hidden;">*}
+        {*{else}*}
+        {*<div class="field-item" style="background:url({path('[MobileConsoles]/img/material-fooded.png')}) no-repeat;background-size:100% 100%;margin:65px 20px 0 20px;padding-bottom:0;height:120px;color:#fff;overflow:hidden;">*}
+        {*{/if}*}
+        {*<div style="float:left;height:120px;line-height:120px;margin-left:15%">*}
+        {*<span style="font-size:24px;">￥<span style="font-size:48px;">{$wv['acorn']}</span></span>*}
+        {*</div>*}
+        {*<div style="float:left;margin-left:5%;margin-top:35px;">*}
+        {*<p style="font-size:18px;margin:0;padding:0;line-height:24px;">{$wv['names']}</p>*}
+        {*<p style="font-size:14px;margin:0;padding:0;line-height:24px;">随时有效，可叠加</p>*}
+        {*</div>*}
+        {*</div>*}
+        {*{else}*}
+        {*{if $userId == $user->getId() and $lists and  $wr->getStatus() == 0}*}
+        {*<div class="field-item" style="background:url({path('[MobileConsoles]/img/material-coupon.png')}) no-repeat;background-size:100% 100%;margin:65px 20px 0 20px;padding-bottom:0;height:120px;color:#fff;overflow:hidden;">*}
+        {*{else}*}
+        {*<div class="field-item" style="background:url({path('[MobileConsoles]/img/material-couponed.png')}) no-repeat;background-size:100% 100%;margin:65px 20px 0 20px;padding-bottom:0;height:120px;color:#fff;overflow:hidden;">*}
+        {*{/if}*}
+        {*<div style="height:120px;width:100%;line-height:120px;text-align:center;">*}
+        {*<span style="font-size:32px;">{$wr->getNames()}</span>*}
+        {*</div>*}
+        {*</div>*}
+        {*{/if}*}
+        {*<div class="field-item" style="margin:5px 20px;">*}
+        {*<div class="field-item-title">*}
+        {*<h2 style="color:#7D7D80;margin:0;line-height:36px;font-size:16px;">{if !$wv}{$wr->getNames()}{else}{$wv['names']}{/if}</h2>*}
+        {*</div>*}
+        {*<div class="field-item-body">*}
+        {*<p class="one">奖励人：{$user->getFullName()}</p>*}
+        {*<p class="one">发奖人：{$fromUser->getFullName()}</p>*}
+        {*<p class="one">奖励原因：{$wr->getMemo()|noescape}</p>*}
+        {*{if $wv}*}
+        {*<p class="one">使用说明：{$wv['icon']}</p>*}
+        {*{/if}*}
+        {*</div>*}
+        {*</div>*}
+        {*<div class="field-item-between"></div>*}
+        {*<div style="overflow:hidden;margin-bottom:40px;">*}
+        {*{if $userId == $user->getId()}*}
+        {*<a>*}
+        {*<div class="content-block open-popup" data-popup=".dynamic-popup" style="width:95%;margin:auto;margin-top:1.75rem;">*}
+        {*<div class="col-95">*}
+        {*{if !$lists}*}
+        {*<div class="button button-big button-fill" id="bnts" style="background-color:#5CABFB;height:48px;line-height:48px">发表获奖感言</div>*}
+        {*{else}*}
+        {*<div class="button button-big button-fill" id="bnts" style="background-color:#5CABFB;height:48px;line-height:48px">评论</div>*}
+        {*{/if}*}
+        {*</div>*}
+        {*</div>*}
+        {*</a>*}
+        {*{else}*}
+        {*<a>*}
+        {*<div class="content-block open-popup" data-popup=".dynamic-popup" style="width:95%;margin:auto;margin-top:1.75rem;">*}
+        {*<div class="col-95">*}
+        {*<div class="button button-big button-fill" id="bnts" style="background-color:#5CABFB;height:48px;line-height:48px">评论</div>*}
+        {*</div>*}
+        {*</div>*}
+        {*</a>*}
+        {*{/if}*}
+        {*{if $userId == $user->getId() and $lists}*}
+        {*{if $wr->getStatus() == 0}*}
+        {*<a class="dynamic-receive" data-url="{url("mobileConsoles_welfare_getGift",array("id"=>$wr->getId()))}">*}
+        {*<div class="content-block" style="width:95%;float:left;font-size:14px;margin-left:0.8em;">*}
+        {*<div class="col-95">*}
+        {*<div class="button button-big button-fill" id="bnts" style="background-color:#0087E2;height:48px;line-height:48px">领取奖品</div>*}
+        {*</div>*}
+        {*</div>*}
+        {*</a>*}
+        {*{else}*}
+
+        {*<div class="content-block" style="width:50%;float:left;font-size:14px;">*}
+        {*<div class="col-95">*}
+        {*<div class="button button-big button-fill" id="bnts" style="background-color:rgba(187, 187, 187, 1);height:48px;line-height:48px">奖品已领取</div>*}
+        {*</div>*}
+        {*</div>*}
+        {*{/if}*}
+        {*{/if}*}
+
+        {*<a class="dynamic-listsRevoke" data-url="{url("mobileConsoles_welfare_listsRevoke",array("id"=>$wr->getId()))}">*}
+        {*<div class="content-block" style="{if !$lists}margin:auto;width:95%;margin-top:20px;{else}width:100%;float:left;margin:0;{/if}font-size:14px;">*}
+        {*<div class="col-95">*}
+        {*<div class="button button-big button-fill" id="bnts" style="background-color:#c61313;height:48px;line-height:48px">撤销物资奖</div>*}
+        {*</div>*}
+        {*</div>*}
+        {*</a>*}
+        {*{/if}*}
+        {*{/if}*}
+        {*</div>*}
+        {*</div>*}
+        {*{if !$lists}*}
+        {*<div class="field-item-between" style="height:8px;"></div>*}
+        {*{/if}*}
+        {*{if $lists}*}
+        {*<div class="chat">*}
+        {*<ul>*}
+        {*{if $lists}*}
+        {*<li style="height:48px;width:100%;background:#e0e0e0;">*}
+        {*<p style="line-height:48px;margin:0;font-size:14px;color:#444;font-weight:700;padding-left:20px;">评论({count($lists)})</p>*}
+        {*</li>*}
+        {*{/if}*}
+        {*{foreach $lists as $k=>$v}*}
+        {*{if $k<5}*}
+        {*<li style="overflow:hidden;padding:20px 10px;border-bottom:#f0f0f0 1px solid;width:90%;margin-left:5%;">*}
+        {*<div class="respont-left" style="float:left;width:48px;">*}
+        {*<img src="{path('[MobileConsoles]/img/i-form-comment.png')}" alt="" style="width:48px;border-radius:100%;">*}
+        {*</div>*}
+        {*<div class="respont-right" style="float:left;width:75%;margin-left:5%;">*}
+        {*<div style="overflow:hidden;"><span style="float:left;font-size:14px;color:#444;">{$v['fullName']}</span><span style="float:right;font-size:14px;color:#444;">{$v['wc_addTime']->format('Y-m-d')}</span></div>*}
+        {*<p style="font-size:14px;color:#444;">{$v['wc_chat']|noescape}</p>*}
+        {*<a class="pinglun" style="display:block;width:100%;overflow:hidden;"><span style="float: right;margin-right:20px;color:#101010;">(666)</span><img src="{path('[MobileConsoles]/img/comment.png')}" style="width:24px;float:right;margin-right:10px;" /></a>*}
+        {*</div>*}
+        {*</li>*}
+        {*{/if}*}
+        {*{if $k==5}*}
+        {*<li style="height:50px;">*}
+        {*<p><a href="javascript:void(0)" style="display:block;width:100%;text-align:center;color:#444;">查看全部评论(198)</a></p>*}
+        {*</li>*}
+        {*{/if}*}
+        {*{/foreach}*}
+        {*</ul>*}
+        {*</div>*}
+        {*{else}*}
+        {*<div style="margin-top:30px;text-align:center;padding-bottom:40px;">*}
+        {*<div style="color:#999;">温馨提示：发表获奖感言后，才能领取奖品哦~</div>*}
+        {*<img src="{path('[MobileConsoles]/img/null.png')}" alt="" class="" style="width:60%; height:100%; margin: 0 20%; display:block;">*}
+        {*<div style="color:#999;">暂无发言</div>*}
+        {*</div>*}
+        {*{/if}*}
+        {*<div id="shareBox" data-status="show" data-url="{url('mobileConsoles_index_share',array("eventid"=>$wr->getId(),"template"=>"GET_GIFT"))}" style="position: fixed;right: -1px;bottom: 120px;border:1px solid #0087e1;width:62px;height:62px;color: #fff;z-index: 5;display: block;background:#FFF;border-radius:100%;">*}
+        {*<img src="{path('[MobileConsoles]/img/shares.png')}" style="display: block;width: 26px;height: 26px;margin: auto;margin-top:5px;">*}
+        {*<p style="line-height: 14px;text-align:center;color: #0087e2;margin-top:10px;">分享</p>*}
+        {*</div>*}
+    </div>
+    <div class="bodys">
+        <div class="quan">
+            {if $wr->getStatus() == 0 and $wv and !$lists}
+                <div class="quan_more" style="background:url({path('[MobileConsoles]/img/material-coupon.png')})">
+                    <div class="left_more">
+                        <p><span>￥</span>{$wv['acorn']}</p>
+                    </div>
+                    <div class="right_more">
+                        <p>{$wv['names']}</p>
+                        <span>随时有效，可叠加</span>
+                    </div>
+                </div>
+            {elseif $wr->getStatus() == 0 and $lists and $wv}
+                <div class="quan_more" style="background:url({path('[MobileConsoles]/img/material-coupon.png')})">
+                    <div class="left_more">
+                        <p><span>￥</span>{$wv['acorn']}</p>
+                    </div>
+                    <div class="right_more">
+                        <p>{$wv['names']}</p>
+                        <span>随时有效，可叠加</span>
+                    </div>
+                </div>
+            {elseif $wr->getStatus() != 0 and $lists and $wv}
+                <div class="quan_more" style="background:url({path('[MobileConsoles]/img/material-couponed.png')})">
+                    <div class="left_more">
+                        <p><span>￥</span>{$wv['acorn']}</p>
+                    </div>
+                    <div class="right_more">
+                        <p>{$wv['names']}</p>
+                        <span>随时有效，可叠加</span>
+                    </div>
+                </div>
+            {/if}
+            {if $wr->getStatus() == 0 and !$wv and !$lists}
+                <div class="quan_more" style="background:url({path('[MobileConsoles]/img/material-food.png')})">
+                    <p>
+                        {$wr->getNames()}
+                    </p>
+                </div>
+            {elseif  $wr->getStatus() == 0 and !$wv and $lists}
+                <div class="quan_more" style="background:url({path('[MobileConsoles]/img/material-food.png')})">
+                    <p>
+                        {$wr->getNames()}
+                    </p>
+                </div>
+            {elseif  $wr->getStatus() != 0 and !$wv and $lists}
+                <div class="quan_more" style="background:url({path('[MobileConsoles]/img/material-fooded.png')})">
+                    <p>
+                        {$wr->getNames()}
+                    </p>
+                </div>
+            {/if}
+        </div>
+        <div class="quan_info">
+            <div class="rewarder">
+                <p><span>奖励人：</span>{$user->getFullName()}</p>
+            </div>
+            <div class="rewardReson">
+                <p><span>奖励原因：</span>{$wr->getMemo()|noescape}</p>
+            </div>
+            {if $wv['icon']}
+                <div class="rewardMemo">
+                <p><span>使用说明：</span>{$wv['icon']}</p>
+                </div>
+            {/if}
+            <div class="sender">
+                <p><span>发奖人：{$fromUser->getFullName()}</span></p>
+            </div>
+        </div>
+    </div>
+    <div class="btns">
+        {if $wr->getStatus()==0 and !$lists and $user->getId()==$userId}
+            <div class="content-block open-popup" data-popup=".dynamic-popup" style="width:95%;margin:auto;margin-top:1.75rem;">
+                <a href="javascript:void(0)" class="button button-big button-fill" id="bnts">发表获奖感言</a>
+            </div>
+        {elseif $wr->getStatus()==0 and $lists and $user->getId()==$userId}
+            <a href="javascript:void(0)" class="button button-big button-fill allow" id="bnts" style="width:90%;margin-left:5%;">领取奖励</a>
+        {/if}
+        <div id="shareBox" data-status="show" data-url="{url('mobileConsoles_index_share',array("eventid"=>$wr->getId(),"template"=>"GET_GIFT"))}">
+            分享
+        </div>
+    </div>
+    <div class="gray">
+    </div>
+    {if $lists}
+        <div class="comment">
+        <div class="sendComment">
+            <div class="open-popup addComment" data-popup=".dynamic-popup" style="">
+                输入评论内容
+            </div>
+        </div>
+        <div class="commentTitle">
+            <p>
+                评论列表({count($lists)}{if count($lists)>10}+{/if})
+            </p>
+        </div>
+        <div class="commentLists">
+            <ul>
+                {foreach $lists as $key=>$val}
+                    <li>
+                        <p class="comtitle">{$val['fullName']}<span>{if $val['wc_addTime']}{$val['wc_addTime']->format('Y-m-d')}{/if}</span></p>
+                        <p class="comText">{$val['wc_chat']|noescape}</p>
+                    </li>
+                {/foreach}
+            </ul>
+            <a href="javascript:void(0)" class="more">已经到底啦</a>
+        </div>
+        </div>
+    {/if}
+    <p class="mask" style="position:fixed;background:#000;color:#FFF;left: 45%;top:45%;padding:10px;opacity:0.5;width:76px;font-size:14px;display:none;">
+        撤销成功
+    </p>
+{/block}
+

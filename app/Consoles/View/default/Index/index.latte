@@ -1,0 +1,100 @@
+{layout '../Public/layoutIndex.latte'}
+
+{block private_css}
+    <style>
+        .tableoptions.searchForm input.search-keyword{
+            width:300px !important;
+            height:22px;
+            padding-left:5px;
+        }
+
+        .tableoptions.searchForm input.green{
+            background:#0087e1;
+            width:80px;
+            height:23px;
+            box-sizing:content-box;
+            margin-left:5px;
+        }
+
+        .tableoptions.searchForm select{
+            padding:4px 5px 6px 5px
+        }
+
+    </style>
+{/block}
+
+{block private_js}
+    <a href="{url('consoles_add','con=task&types=temp')}" id="rewardAddKeyboard" style="display:none;" data-side-form>发布任务</a>
+    <script>
+        $(function () {
+            var url = "index/#a123";
+
+            var arr = url.match(/#([1-9]+)$/);
+            console.log(arr);
+
+            // alert(123);return
+            $('#formSubmit').submit(function () {
+                var url = $(this).attr('action');
+                var codeNo = $('#searchTask').val();
+
+                $.ajax({
+                    url: url,
+                    type: "POST",
+                    dataType: "json",
+                    data: {
+                        codeNo: codeNo
+                    },
+                    success: function (res) {
+                        if (res.status === "n") {
+                            layer.msg(res.info)
+                            $('#searchTask').val("");
+                        } else {
+                            var fromUrl = location.hash;
+
+
+                            if (fromUrl && fromUrl.length > 1) fromUrl = fromUrl.substring(1);
+                            setUrl(res.url);
+                            getPage(res.url, function () {
+                                $('#searchTask').val("");
+                            }, null, fromUrl);
+                        }
+                    }
+                });
+                return false
+            })
+            var value = '';
+            var vabue = '';
+            $(document).on("keydown", function (event) {  //event.which
+                // console.log(event.keyCode);
+
+                if (event.altKey) {
+                    event.preventDefault();
+                    if (event.altKey && event.keyCode == 49) {
+                        var pass = {url('consoles_acorn_apply')};
+                        setUrl(pass);
+                        getPage(pass);
+                        return;
+                        {*//申请积分*}
+                    }
+                    if (event.altKey && event.keyCode == 50) {
+                        $("#rewardAddKeyboard").trigger("click");
+                        return;
+                        {*//发布任务*}
+                    }
+                    if (event.altKey && event.keyCode == 81) {
+                        var move = {url('consoles_lists',array('con'=>'TaskMe'))};
+                        setUrl(move);
+                        getPage(move);
+                        return;
+                        {*//申请积分*}
+                    }
+                }
+            });
+        })
+    </script>
+    <script>
+        $(function () {
+
+        });
+    </script>
+{/block}

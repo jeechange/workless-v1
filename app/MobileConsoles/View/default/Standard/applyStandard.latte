@@ -1,0 +1,176 @@
+{layout "../Layout/layout.latte"}
+{block headTitle}申请标准{/block}
+{block private_js}
+    <script type="text/javascript">
+        $(function () {
+            $("#acorn").hide();
+            $("#bnt").click(function () {
+                $.ajax({
+                    type: "post",
+                    url: $("#formArticle").attr("action"),
+                    data: $("#formArticle").serialize(),
+                    cache: false,
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.status == "n") {
+                            $.toast(data.info);
+                            return false;
+                        } else {
+                            // $.toast(data.info);
+                            // setTimeout(function () {
+                            //     location.replace(data.url);
+                            // }, 2000);
+                            $.confirm('分享可以赚取积分哦~', '申请已提交',
+                                    function () {
+                                        location.replace(data.shareUrl)
+                                    },
+                                    function () {
+                                        location.replace(data.url)
+                                    }
+                            );
+                        }
+                    }
+                });
+            });
+            $(".acorn-show").click(function () {
+                var buttons1 = [
+                    {
+                        text: '请选择',
+                        label: true
+                    },
+                    {
+                        text: '预设',
+                        bold: true,
+                        color: 'danger',
+                        onClick: function () {
+                            $.alert("你选择了“预设“");
+                            $("#acorn").show();
+                            $(".acorn-show").html('预设');
+                            $("input[name='acornTypes']").val(0);
+                        }
+                    },
+                    {
+                        text: '不预设',
+                        onClick: function () {
+                            $.alert("你选择了“不预设“");
+                            $("#acorn").hide();
+                            $(".acorn-show").html('不预设');
+                            $("input[name='acornTypes']").val(1);
+                        }
+                    }
+                ];
+                var buttons2 = [
+                    {
+                        text: '取消',
+                        bg: 'danger'
+                    }
+                ];
+                var groups = [buttons1, buttons2];
+                $.actions(groups);
+            });
+        });
+    </script>
+{/block}
+{block private_css}
+    <style type="text/css">
+        .list-block{
+            margin-top:0;
+        }
+    </style>
+{/block}
+{block content}
+    <form id="formArticle" class="stdform mform" method="post" action="" onsubmit="return false">
+        <div class="list-block">
+            <ul>
+                <!-- Text inputs -->
+                <li>
+                    <div class="item-content">
+                        <div class="item-media"><i class="icon icon-form-name"></i></div>
+                        <div class="item-inner">
+                            <div class="item-title label">名称</div>
+                            <div class="item-input">
+                                <input type="text" placeholder="标准名称" name="names">
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="item-content">
+                        <div class="item-media"><i class="icon icon-form-email"></i></div>
+                        <div class="item-inner">
+                            <div class="item-title label">类型</div>
+                            <div class="item-input">
+                                <select id="pid" name="pid">
+                                    {foreach $options as $key=>$item}
+                                        <option value="{$item['id']}">{$item['names']}</option>
+                                    {/foreach}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="item-content">
+                        <div class="item-media"><i class="icon icon-form-email"></i></div>
+                        <div class="item-inner">
+                            <div class="item-title label">积分</div>
+                            <div class="item-input">
+                                <p style="margin-left: 4px;"><a href="#" class="acorn-show">是否预设</a></p>
+                                <div id="acorn">
+                                    <input type="text" placeholder="积分" name="acorn" style="width:80%;float:left"><i class="icon al-icon al-icon-influence" style="width:20%;line-height: 35px;"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li style="display:none;">
+                    <div class="item-content">
+                        <div class="item-media"><i class="icon icon-form-email"></i></div>
+                        <div class="item-inner">
+                            <div class="item-title label">发放方式</div>
+                            <div class="item-input">
+                                <select id="methods" name="methods">
+                                    {foreach $methods as $key=>$item}
+                                        <option value="{$key}" {if $key==2}selected{/if}>{$item}</option>
+                                    {/foreach}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li style="display:none;">
+                    <div class="item-content">
+                        <div class="item-media"><i class="icon icon-form-email"></i></div>
+                        <div class="item-inner">
+                            <div class="item-title label">发放频率</div>
+                            <div class="item-input">
+                                <select id="cycle" name="cycle">
+                                    {foreach $cycle as $k=>$values}
+                                        <option value="{$k}">{$values}</option>
+                                    {/foreach}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="item-content">
+                        <div class="item-media"><i class="icon icon-form-email"></i></div>
+                        <div class="item-inner">
+                            <div class="item-title label">标准说明</div>
+                            <div class="item-input">
+                                <textarea name="memo" data-toggle="rich"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <input type="hidden" name="acornTypes" value="-1">
+    </form>
+    <div class="content-block">
+        <div class="col-95">
+            <div class="button button-big button-fill" id="bnt">提交申请</div>
+        </div>
+    </div>
+{/block}

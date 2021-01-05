@@ -1,0 +1,26 @@
+.progress-bar{
+    height: 6px;
+    background:#e4e4e4;
+    border: 1px solid #fb855c;
+}
+.progress-bar .after{
+    height:6px;
+    background:#fb855c
+}
+
+::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+    font-size:12px;
+    padding-left:5px;
+}
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+    font-size:12px;
+    padding-left:5px;
+}
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+    font-size:5px;
+    padding-left:5px;
+}
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+    font-size:12px;
+    padding-left:5px;
+}

@@ -1,0 +1,45 @@
+{block private_css}{/block}
+<div class="headNavT">
+    <div class="headNavMark"></div>
+    <span class="headNavT-title">{block title}{/block}</span>
+    <div class="head-action-tab">{block actionstab}{/block}</div>
+    <div class="head-action tableoptions">{block actions}{/block}</div>
+</div>
+<div class="cbox cbox-list">
+    {block selectButton}{/block}
+    {block searchForm}
+        {if $searchForm}
+            <div class="tableoptions searchForm">
+                {$searchForm|noescape}
+            </div>
+        {/if}
+    {/block}
+
+    <div><input type="text" value="" id="keyboard" style="display:none;">
+    </div>
+    <form class="currencyForm" action="{$formUrl}" method="post" onsubmit="return searchListsForm(this);">
+        {block content}{/block}
+        {if $pageBar && $pageBar["p"]}
+            <div class="list-action-bar">
+                <div class="list-page-bar">
+                    {$pageBar["p"]|noescape}
+                </div>
+                <div class="list-more-action">
+                    {block checkbox}
+                        <div class="list-more-action-check-all"><label><input type="checkbox" data-class='checkall_1' class="check-all"/>全选</label></span></div>
+                    {/block}
+                    {block actions2}{/block}
+                </div>
+            </div>
+        {/if}
+    </form>
+    {block sub_content}{/block}
+</div>
+<script type="text/javascript">
+    init.ready(function () {
+        init.suplyId = {$sid};
+        initList('{Q()->server->get("REQUEST_URI")|noescape}');
+        uploader.initPreview(".img-uploader-preview");
+    });
+</script>
+{block private_js}{/block}

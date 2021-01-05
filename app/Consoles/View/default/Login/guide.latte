@@ -1,0 +1,210 @@
+<!DOCTYPE HTML>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
+    <title>WorkLess-引导页</title>
+    <link type="text/css" rel="stylesheet" href="{path('[Jeechange]/metroUI/css/login.css')}"/>
+    <!--[if lte IE 8]>
+    <link rel="stylesheet" type="text/css" href="{path('[Jeechange]/metroUI/css/ie8.css')}"/>
+    <link rel="icon" href="{path('[Home]/images/xiangshuyunIcon.png')}">
+    <![endif]-->
+    <style type="text/css">
+        a:hover{
+            text-decoration:none;
+            color:#fff;
+            overflow:hidden;
+        }
+
+        #cover{
+            width:100%;
+            height:100%;
+            background:#000;
+            opacity:0.5;
+            position:absolute;
+            top:0;
+            left:0;
+            z-index:99;
+        }
+
+        #guideBox{
+            width:auto;
+            height:auto;
+            background:#fff;
+            position:absolute;
+            top:50%;
+            left:50%;
+            transform:translate(-50%, -50%);
+            border-radius:0.625rem;
+            z-index:99;
+        }
+
+        #guideIcon{
+            width:300px;
+            height:300px;
+            margin:-10% auto 5%;
+        }
+
+        .guideBtn{
+            width:150px;
+            margin:0 50px;
+            background:#009AE2;
+            color:#fff;
+            border-radius:50%;
+            display:block;
+            height:150px;
+            text-decoration:none;
+            line-height:150px;
+            text-align:center;
+            font-size:16px;
+            z-index:999;
+            position:relative;
+        }
+
+        .guideText{
+            text-align:center;
+            font-size:0.75rem;
+            color:#666;
+            margin-top:20px;
+        }
+
+        #forCancel{
+            width:100%;
+            height:100%;
+            position:absolute;
+            top:0;
+            left:0;
+            z-index:99;
+        }
+
+        #cancelBtn{
+            position:absolute;
+            top:0.5rem;
+            right:0.55rem;
+            margin:0;
+            font-size:0.75rem;
+            color:#666;
+            z-index:999;
+        }
+
+        .aui-col-xs{
+            overflow:hidden;
+            float:left;
+        }
+    </style>
+    <script type="text/javascript" src="{path('[Jeechange]/js/jquery-1.8.3.min.js')}"></script>
+    <script type="text/javascript" src="{path('[Core]/layer/layer.js')}"></script><!-- 弹出层 -->
+    <script type="text/javascript">
+        $(function () {
+            $('#joinTeam').on("click", function () {
+                var url = $(this).attr("href");
+                var ctof = $(this).attr("data-ctof");
+                if (ctof == 1) {
+                    url = $(this).attr("href") + "?types=1&cc=" + $('#changeCompany').attr('value');
+                } else if (ctof == 2) {
+                    url = $(this).attr("href") + "?types=1&cc=" + $('#companyNames').attr('data-code');
+                }
+
+                $.ajax({
+                    type: "post",
+                    url: url,
+                    cache: false,
+                    dataType: "json",
+                    success: function (res) {
+                        layer.alert(res.info);
+                        if (res.status == "y") {
+                            setTimeout(function () {
+                                location.replace(res.url);
+//                                getPage(res.url);
+                            }, 1000);
+                        } else if (res.status == "n") {
+                            if (res.info == "尚未收到邀请") {
+                                $("#joinTeamText").css("color", "red");
+                                $("#joinTeam").text("重新检验");
+                                $("#joinTeam").css("background", "red");
+                                $("#joinTeam").css("border", "1px solid red");
+                                $("#joinTeamText").text('尚未收到邀请,请提醒同事发出邀请')
+                            } else if (res.info == "审核未通过") {
+                                $("#joinTeamText").css("color", "red");
+                                $("#joinTeam").text("重新检验");
+                                $("#joinTeam").css("background", "red");
+                                $("#joinTeam").css("border", "1px solid red");
+                                $("#joinTeamText").text('您的审核未通过...请稍后再试')
+                            } else if (res.info == "正在审核中...") {
+                                $("#joinTeamText").css("color", "red");
+                                $("#joinTeam").text("重新检验");
+                                $("#joinTeam").css("background", "red");
+                                $("#joinTeam").css("border", "1px solid red");
+                                $("#joinTeamText").text('正在审核您的资料中...')
+                            }
+                        }
+                    }
+                });
+                return false;
+            });
+
+            $('#guideBox *').not($("#joinTeam")).click(function () {
+                $("#joinTeamText").text('接受团队成员的邀请即可加入');
+                $("#joinTeamText").css("color", "#666");
+                $("#joinTeam").css("background", "#009AE2");
+                $("#joinTeam").css("border", "none");
+                $("#joinTeam").text("加入团队/企业");
+            });
+
+            $('#ayes').on("click", function () {
+                var url = $('#ayes').attr("data-url");
+                window.location.href = url;
+
+                setTimeout(function () {
+                    window.location.reload(url);
+                }, 1000)
+
+            });
+
+            // $('#newTeam').click(function () {
+            //     alert("暂无此功能")
+            // })
+        })
+    </script>
+</head>
+<body class="login">
+<div id="cover"></div>
+<div id="guideBox">
+    {*<div id="forCancel"></div>*}
+    <div id="guideIcon"><img src="{path('[Consoles]/images/guideIcon.png')}" style="display: block;width:100%;height: 100%;"/></div>
+    {if $companyNames}
+        <div id="companyNames" data-code="{$cCodeNo}" style="box-sizing:border-box; margin:0; padding:15px; width:100%; min-width:500px; height:50px; line-height:20px; text-align:center; font-size:1.2rem;">{$companyNames} 邀请您加入</div>
+    {else}
+        {if $mlists}
+            <select id="changeCompany" name="changeCompany" style="padding:15px; width:100%; height:50px; line-height:20px;">
+                {foreach $mlists as $v}
+                    <option value="{$v['m_id']}">
+                        <div style="box-sizing:border-box; margin:0; padding:15px; width:100%; min-width:500px; height:50px; line-height:20px; text-align:center; font-size:1.2rem;">{$v['c_names']} 邀请您加入</div>
+                    </option>
+                {/foreach}
+            </select>
+        {else}
+            <div style="box-sizing:border-box; margin:0; padding:15px; width:100%; min-width:500px; height:50px; line-height:20px; text-align:center; font-size:1.2rem;">暂无邀请</div>
+        {/if}
+    {/if}
+    <div style="display: flex; margin: 15px 0;justify-content: center;">
+        <div class="aui-col-xs">
+            <a href="{url('~consoles_login_guide')}" data-ctof="{$CTOF}" id="joinTeam" class="button button-big guideBtn">加入团队/企业</a>
+            <p class="guideText" id="joinTeamText">接受团队成员的邀请即可加入</p>
+        </div>
+        {if !$companyNames}
+            <div class="aui-col-xs">
+                <a href="{url("consoles_company_addTeam")}" id="newTeam" class="button button-big guideBtn">创建团队/企业</a>
+                <p class="guideText" id="newTeamText">一分钟创建团队，开启全新体验</p>
+            </div>
+        {/if}
+        {if $different=='yes'}
+            <div class="aui-col-xs">
+                <a id="ayes" class="button button-big guideBtn right-exchange" style="cursor:pointer " data-url="{url("consoles_index_index")}#{url("consoles_lists", "con=ExternalRelations&&different=yes")}">外部联系入口</a>
+                <p class="guideText">外部联系入口，查看任务情况</p>
+            </div>
+        {/if}
+    </div>
+    {*<a id="cancelBtn" href="{url("consoles_login_logout",array("type"=>"guideLogout"))}">重新登录</a>*}
+    <a id="cancelBtn" data-href="{url('consoles_login_logout')}" href="##" onclick="location.href = this.getAttribute('data-href');">重新登录</a>
+</div>
+</body>
+</html>

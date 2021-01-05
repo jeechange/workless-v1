@@ -1,0 +1,9 @@
+{*{foreach $title2 as $item}*}
+{*<a href="{url('consoles_lists','con=Standard&types='.$types.'&active='.$item['namesEn'])}" {if $active==$item['namesEn']}class="selected"{/if}>{$item['names']}</a>*}
+{*{/foreach}*}
+
+{if $active == "Achievements" || $types == "yeji" || $types == "renwu" || $types == "huibao"}
+    <a href="{url('consoles_index_waiting_for_development',"con=Standard&&types=yeji")}" {if $types=="yeji"}class="selected"{/if}>业绩</a>
+    <a href="{url('consoles_index_waiting_for_development',"con=Standard&&types=renwu")}" {if $types=="renwu"}class="selected"{/if}>任务</a>
+    <a href="{url('consoles_index_waiting_for_development',"con=Standard&&types=huibao")}" {if $types=="huibao"}class="selected"{/if}>汇报</a>
+{/if}

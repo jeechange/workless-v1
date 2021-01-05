@@ -1,0 +1,26 @@
+{foreach $lists as $item}
+    <div class="reward-item {if $item['tremain']<=0}reward-draw{/if}">
+        <div class="reward-bg">赏</div>
+        <div class="item-name">
+            {if $item["groupName"]}<span class="item-group-name">{$item["groupName"]}</span>{/if} {$item['t_names']}
+        </div>
+        <div class="item-times">
+            <span class="al-icon al-icon-shengyushijian1"></span>
+
+
+            {if $item["t_status"]==0}
+                <span class="deadline" data-deadline="{$item["t_deadline"]|totime}"></span>
+            {else}
+                <span class="deadline">{$item["statusMemo"]}</span>
+            {/if}
+        </div>
+        <div class="item-acorn">{$item['t_acorn']} <span class="al-icon al-icon-influence"></span></div>
+
+        {if $item['tremain']>0}
+            <div class="item-draw" data-url="{url('mobileConsoles_taskreceive',array("id"=>$item["t_id"]))}">领取</div>
+        {else}
+            <div class="item-draw">已领取</div>
+        {/if}
+
+    </div>
+{/foreach}

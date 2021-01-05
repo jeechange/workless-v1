@@ -1,0 +1,303 @@
+{layout "../Layout/layout.latte"}
+{block private_js}
+    <script type="text/javascript">
+        $(function () {
+            if ($("input[name='acorn']").val() == 0) {
+                $("#acorn").hide();
+                $(".acorn-show").html('不预设');
+                $("input[name='acornTypes']").val(1);
+            } else {
+                $("#acorn").show();
+                $(".acorn-show").html('预设');
+                $("input[name='acornTypes']").val(0);
+            }
+            $("#bnt").click(function () {
+                $.ajax({
+                    type: "post",
+                    url: $("#formArticle").attr("action"),
+                    data: $("#formArticle").serialize(),
+                    cache: false,
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.status == "n") {
+                            $.toast(data.info);
+                            return false;
+                        } else {
+                            $.toast(data.info);
+                            setTimeout(function () {
+                                $.showPreloader();
+                                location.replace(data.url);
+                            }, 2000);
+                        }
+                    }
+                });
+            });
+            $(".acorn-show").click(function () {
+                var buttons1 = [
+                    {
+                        text: '请选择',
+                        label: true
+                    },
+                    {
+                        text: '预设',
+                        bold: true,
+                        color: 'danger',
+                        onClick: function () {
+                            $.alert("你选择了“预设“");
+                            $("#acorn").show();
+                            $(".acorn-show").html('预设');
+                            $("input[name='acornTypes']").val(0);
+                            var val = $('#classify').val();
+                            if (val == 4) {
+                                $('#workload-show').show();
+                            } else {
+                                $('#workload-show').hide();
+                            }
+                        }
+                    },
+                    {
+                        text: '不预设',
+                        onClick: function () {
+                            $.alert("你选择了“不预设“");
+                            $("#acorn").hide();
+                            $(".acorn-show").html('不预设');
+                            $("input[name='acornTypes']").val(1);
+                            $('#workload-show').hide();
+                        }
+                    }
+                ];
+                var buttons2 = [
+                    {
+                        text: '取消',
+                        bg: 'danger'
+                    }
+                ];
+                var groups = [buttons1, buttons2];
+                $.actions(groups);
+            });
+        });
+
+        function deleteAdr(atr) {
+            $.confirm('是否确认删除?', function () {
+                var dele = $(atr);
+                $.ajax({
+                    type: "post",
+                    url: dele.attr("data-url"),
+                    data: " ",
+                    cache: false,
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.status == "n") {
+                            $.toast(data.info);
+                            return false;
+                        } else {
+                            $.toast(data.info);
+                            setTimeout(function () {
+                                $.showPreloader();
+                                location.replace(data.url);
+                            }, 2000);
+                        }
+                    }
+                });
+            });
+        }
+
+        $(function () {
+            $('#classify').on('change', function () {
+                var val = $(this).val();
+                var values = $("input[name='acornTypes']").val();
+                if (val == 4 && values == 0) {
+                    $('#workload-show').show();
+                } else {
+                    $('#workload-show').hide();
+                }
+            });
+        });
+
+        $(function () {
+            $("input[name='acornTypes']").on('click', function () {
+                var val = $('#classify').val();
+                var values = $("input[name='acornTypes']").val();
+                if (val == 4 && values == 0) {
+                    $('#workload-show').show();
+                } else {
+                    $('#workload-show').hide();
+                }
+            })
+        });
+
+        $(function () {
+            var val = $('#classify').val();
+            var values = $("input[name='acornTypes']").val();
+            if (val == 4 && values == 0) {
+                $('#workload-show').show();
+            } else {
+                $('#workload-show').hide();
+            }
+        })
+    </script>
+{/block}
+{block private_css}
+    <style type="text/css">
+        .list-block{
+            margin:0;
+        }
+    </style>
+{/block}
+{block content}
+    <form id="formArticle" class="stdform mform" method="post" action="" onsubmit="return false">
+        <div class="list-block">
+            <ul>
+                <!-- Text inputs -->
+                <li>
+                    <div class="item-content">
+                        <div class="item-media"><i class="icon icon-form-name"></i></div>
+                        <div class="item-inner">
+                            <div class="item-title label">名称</div>
+                            <div class="item-input">
+                                <input type="text" placeholder="标准名称" name="names" value="{$lists['s_names']}">
+                            </div>
+                        </div>
+                    </div>
+                </li>
+
+                <li>
+                    <div class="item-content">
+                        <div class="item-media"><i class="icon icon-form-email"></i></div>
+                        <div class="item-inner">
+                            <div class="item-title label">类型</div>
+                            <div class="item-input">
+                                <select id="classify" name="classify">
+                                    <option value="{$lists['sc_id']}">{$lists['sc_names']}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="item-content">
+                        <div class="item-media"><i class="icon icon-form-email"></i></div>
+                        <div class="item-inner">
+                            <div class="item-title label">积分</div>
+                            <div class="item-input">
+                                <p style="margin-left: 4px;"><a href="#" class="acorn-show">是否预设</a></p>
+                                <div id="acorn">
+                                    <input type="text" placeholder="积分" name="acorn" style="width:80%;float:left" value="{$lists['s_acorn']}"><i class="icon al-icon al-icon-influence" style="width:20%;line-height: 35px;"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                {if $lists['s_classify'] == 4 && $lists['s_acorn'] != 0}
+                    <li id="workload-show">
+                        <div class="item-content">
+                            <div class="item-media"><i class="icon icon-form-name"></i></div>
+                            <div class="item-inner">
+                                <div class="item-title label">任务量</div>
+                                <div class="item-input">
+                                    {*<input type="text" name="workload" value="">*}
+                                    <div style="float:left;width:25%;overflow:hidden;">
+                                        <input name="acceptDay" id="acceptDay" style="line-height:33px;padding-left:10px;float:left;width:70%;border:none;" value="{$workload[0]?:0}"/> <span style="line-height:35px;">天</span>
+                                    </div>
+                                    {*，如0.1，1，3.5，7等*}
+                                    <select name="acceptHour" id="acceptHour" style="height:35px;padding-left:10px;width:37.5%;float:left">
+                                        <option {if $workload[1]== 0}selected{/if} value="0">0小时</option>
+                                        <option {if $workload[1]== 1}selected{/if} value="1">1小时</option>
+                                        <option {if $workload[1]== 2}selected{/if} value="2">2小时</option>
+                                        <option {if $workload[1]== 3}selected{/if} value="3">3小时</option>
+                                        <option {if $workload[1]== 4}selected{/if} value="4">4小时</option>
+                                        <option {if $workload[1]== 5}selected{/if} value="5">5小时</option>
+                                        <option {if $workload[1]== 6}selected{/if} value="6">6小时</option>
+                                        <option {if $workload[1]== 7}selected{/if} value="7">7小时</option>
+                                    </select>
+                                    <select name="acceptMinute" id="acceptMinute" style="height:35px;padding-left:10px;width:37.5%;float:left">
+                                        <option {if $workload[2]== 0}selected{/if} value="0">0分</option>
+                                        <option {if $workload[2]== 15}selected{/if} value="15">15分</option>
+                                        <option {if $workload[2]== 30}selected{/if} value="30">30分</option>
+                                        <option {if $workload[2]== 45}selected{/if} value="45">45分</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                {/if}
+                <li>
+                    <div class="item-content">
+                        <div class="item-media"><i class="icon icon-form-name"></i></div>
+                        <div class="item-inner">
+                            <div class="item-title label">标准热度</div>
+                            <div class="item-input">
+                                <input type="text" placeholder="标准热度" name="hot" value="{$lists['s_hot']}">
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li style="display:none;">
+                    <div class="item-content">
+                        <div class="item-media"><i class="icon icon-form-email"></i></div>
+                        <div class="item-inner">
+                            <div class="item-title label">发放方式</div>
+                            <div class="item-input">
+                                <select id="methods" name="methods">
+                                    {foreach $methods as $key=>$item}
+                                        <option value="{$key}" {if $lists['s_methods']==$key}selected{/if} >{$item}</option>
+                                    {/foreach}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li style="display:none;">
+                    <div class="item-content">
+                        <div class="item-media"><i class="icon icon-form-email"></i></div>
+                        <div class="item-inner">
+                            <div class="item-title label">发放频率</div>
+                            <div class="item-input">
+                                <select id="cycle" name="cycle">
+                                    {foreach $cycle as $k=>$values}
+                                        <option value="{$k}" {if $lists['s_cycle']==$k}selected{/if}>{$values}</option>
+                                    {/foreach}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="item-content">
+                        <div class="item-media"><i class="icon icon-form-email"></i></div>
+                        <div class="item-inner">
+                            <div class="item-title label">标准说明</div>
+                            <div class="item-input">
+                                <textarea name="memo" data-toggle="rich">{$lists['s_memo']}</textarea>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="item-content">
+                        <div class="item-media"><i class="icon icon-form-email"></i></div>
+                        <div class="item-inner">
+                            <div class="item-title label">状态</div>
+                            <div class="item-input">
+                                <input name='status' type="radio" value='1' {if $lists['s_status']==1}checked{/if}>启用
+                                <input name='status' type="radio" value='0' {if $lists['s_status']==0}checked{/if}>停用
+                            </div>
+                        </div>
+                    </div>
+                </li>
+
+            </ul>
+        </div>
+        <input type="hidden" name="acornTypes" value="">
+    </form>
+    <div class="content-block">
+        <div class="row">
+            <div class="col-50">
+                <a href="#" class="button button-big button-fill button-danger" data-url="{url('mobileConsoles_standard_delete',array("id"=>$lists['s_id']))}" onclick="deleteAdr($(this))">删除</a>
+            </div>
+            <div class="col-50">
+                <a href="#" class="button button-big button-fill" id="bnt">提交</a>
+            </div>
+        </div>
+    </div>
+{/block}

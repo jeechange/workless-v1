@@ -1,0 +1,130 @@
+Admin\Entity\Supplier:
+  type: entity
+  table: supplier
+  id:
+    id:
+      type: integer
+      nullable: false
+      unsigned: false
+      comment: ''
+      id: true
+      generator:
+        strategy: IDENTITY
+  fields:
+    userName:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+      column: user_name
+    phone:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    roleName:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+      column: role_name
+    fullName:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+      column: full_name
+    pwd:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    pwd2:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    rid:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+    addTime:
+      type: datetime
+      nullable: true
+      comment: ''
+      column: add_time
+    status:
+      type: smallint
+      nullable: true
+      unsigned: false
+      comment: ''
+    photo:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    qq:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+    email:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    birthday:
+      type: datetime
+      nullable: true
+      comment: ''
+    sex:
+      type: smallint
+      nullable: true
+      unsigned: false
+      comment: ''
+    area:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    sNames:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+      column: s_names
+    expireTime:
+      type: datetime
+      nullable: true
+      comment: ''
+      column: expire_time
+    memo:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    industry:
+      type: smallint
+      nullable: true
+      unsigned: false
+      comment: ''
+    userCode:
+      type: string
+      nullable: true
+      length: 50
+      fixed: false
+      comment: ''
+      column: user_code
+  lifecycleCallbacks: {  }

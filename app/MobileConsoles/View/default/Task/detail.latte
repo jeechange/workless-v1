@@ -1,0 +1,529 @@
+{layout "../Layout/layout.latte"}
+
+{block private_css}
+    <style>
+
+        .worker-added-item{
+            display:inline-block;
+            width:40px;
+            height:40px;
+            background:#f6f6f6;
+            color:#aaa;
+            text-align:center;
+            line-height:40px;
+            font-size:12px;
+            border-radius:50%;
+            margin-right:15px;
+            position:relative;
+            margin-top:10px;
+            vertical-align:bottom;
+        }
+
+        .worker-added-item-remove{
+            display:none;
+        }
+
+        .content{
+            background:#fff;
+        }
+
+        .field-item{
+            margin:5px 10px;
+            padding-bottom:10px;
+        }
+
+        .field-item .field-item-title{
+            color:#101010;
+            font-size:14px;
+            vertical-align:bottom;
+        }
+
+        .field-item .field-item-title .required{
+            color:#e51c23;
+            font-weight:400;
+        }
+
+        .field-item .field-item-body{
+            position:relative;
+            padding-top:5px;
+        }
+
+        .field-item .field-item-body input[type=text]{
+            display:block;
+            position:relative;
+            border-bottom:#e7e7e7 1px solid;
+        }
+
+        .field-item .field-item-body .field-item-tag{
+            position:absolute;
+            right:0.5rem;
+            background:#8BC34A;
+            padding:3px 10px;
+            font-size:12px;
+            margin-left:5px;
+            top:3px;
+            color:#fff;
+        }
+
+        .priority-input{
+            display:inline-block;
+            width:35px;
+            height:35px;
+            line-height:35px;
+            text-align:center;
+            margin-right:15px;
+            color:#fff !important;
+            border:2px solid #fff;
+        }
+
+        .priority-input span{
+            margin:auto !important;
+            display:block;
+            width:30px;
+            height:30px;
+            line-height:30px;
+            border-radius:50%;
+            cursor:pointer;
+        }
+
+        .priority-input input{
+            display:none !important;
+        }
+
+        .priority-A span{
+            background:#FB855C;
+        }
+
+        .priority-B span{
+            background:#FFBA00;
+        }
+
+        .priority-C span{
+            background:#305AAE;
+        }
+
+        .priority-D span{
+            background:#5CABFB;
+        }
+
+        .priority-input.selected{
+            font-weight:900 !important;
+            border:2px solid #009DD9;
+            background:#d7d7d7;
+        }
+
+        .field-item-body textarea{
+            border:#e7e7e7 1px solid;
+        }
+
+        .field-item-body .field-item-member-box{
+            padding:10px 0;
+            border-bottom:2px solid #ddd;
+        }
+
+        .field-item-body .field-member{
+            display:inline-block;
+            border-radius:15px;
+            padding:3px 10px;
+            border:#e7e7e7 1px solid;
+        }
+
+        .field-item-body .field-item-score-box{
+            padding:10px 0;
+        }
+
+        .field-item-body .field-score{
+            display:inline-block;
+            padding:5px 15px;
+            border:#e7e7e7 1px solid;
+            margin-top:5px;
+        }
+
+        .field-item-between{
+            background:rgba(170, 170, 170, 0.07);
+            height:8px;
+        }
+
+        .medal-item{
+            border:1px solid #ddd;
+            display:inline-block;
+            vertical-align:middle;
+            min-width:80px;
+            padding:3px 8px;
+            margin-right:5px;
+            height:35px;
+            line-height:35px;
+            text-align:center;
+            cursor:pointer;
+            box-sizing:content-box;
+            margin-top:5px;
+        }
+
+        .medal-item img{
+            width:30px;
+            height:30px;
+            vertical-align:middle;
+        }
+
+        .medal-item.medal-item-selected, .field-score.field-score-selected{
+            border:1px solid #009DD9;
+        }
+
+        .dynamic-block{
+            background:#eee;
+        }
+
+        .dynamic-title{
+            text-align:center;
+            font-size:16px;
+            padding-top:15px;
+        }
+
+        .dynamic-item{
+            margin-top:15px;
+            padding:10px .75rem;
+            background:#fff;
+        }
+
+        .dynamic-item .dynamic-item-names{
+            color:#009dd9;
+            border-bottom:2px dashed #dfdfdf;
+            position:relative;
+        }
+
+        .dynamic-item-time{
+            position:absolute;
+            right:0;top:0;
+            color:#666;
+        }
+
+        .dynamic-item-body{
+            padding:.5rem 0.25rem;
+        }
+
+        .dynamic-item-thumbs img{
+            width:60px;
+            height:60px;margin:5px 8px 0 0;
+        }
+
+        .dynamic-item-tools{
+            text-align:right;
+            border-top:1px dashed #dfdfdf;
+            padding-top:.25rem;
+        }
+
+        .dynamic-item-reply{
+            margin-right:.75rem;
+        }
+
+        .dynamic-comment-dd ul, .dynamic-comment-dd li{
+            margin:0;padding:0;
+            list-style-type:none;
+        }
+
+        .dynamic-comment-dd ul{
+            background:#f2f2f2;
+            padding-left:5px;
+            padding-bottom:5px;
+            width:100%;
+        }
+
+        .dynamic-comment-dd li span{
+            line-height:20px;
+            cursor:pointer;
+        }
+
+        .dynamic-comment-dd li textarea{
+            width:400px;
+            height:70px;
+        }
+
+        .dynamic-comment-dd li .dynamic-comment-say{
+            color:#009dd9;
+        }
+
+        .dynamic-comment-dd li .dynamic-comment-say .dynamic-comment-reply{
+            color:#666; margin:0 5px;
+        }
+
+        .dynamic-comment-reply-input input{
+            display:block;
+            height:30px;
+            line-height:30px;
+            margin-top:5px;
+            margin-bottom:5px;
+            padding:0 30px;
+        }
+
+        .dynamic-item dd.dynamic-reply-dd, .dynamic-item dd.dynamic-comment-dd{
+            display:none;
+        }
+
+        .study-item{
+            display:inline-block;
+            min-width:40px;
+            height:40px;
+            background:#fff;
+            border:1px solid #f6f6f6;
+            color:#aaa;
+            text-align:center;
+            line-height:40px;
+            font-size:12px;
+            border-radius:5px;
+            margin-right:15px;
+            position:relative;
+            margin-top:10px;
+            padding-left:5px;
+            padding-right:5px;
+            vertical-align:middle;
+        }
+
+        .study-item img{
+            width:30px;
+            height:30px;
+            background:#f6f6f6;
+            vertical-align:middle;
+        }
+
+    </style>
+{/block}
+
+{block private_js}
+    <script>
+        function postPages(toUrl, data) {
+            $.showPreloader('正在提交，请稍候...');
+            $.ajax({
+                type: "POST",
+                dataType: "json",
+                url: toUrl,
+                data: data,
+                success: function (res) {
+                    $.hidePreloader();
+                    try {
+                        if (res.status === "y") {
+                            $.toast(res.info);
+                            setTimeout(function () {
+                                location.reload(true);
+                            }, 2000)
+                        } else {
+                            $.toast(res.info);
+                        }
+                    } catch (e) {
+                        $.toast(e.message);
+                    }
+                }
+            });
+        }
+
+        function countDown(endTimes) {
+            var times = (new Date(endTimes)) - (new Date());
+            if (times <= 0) return 0;
+            var day = 0,
+                hour = 0,
+                minute = 0,
+                second = 0;//时间默认值
+            if (times > 0) {
+                day = Math.floor(times / 1000 / 60 / 60 / 24);
+                hour = Math.floor(times / 1000 / 60 / 60 % 24);
+                minute = Math.floor(times / 1000 / 60 % 60);
+                second = Math.floor(times / 1000 % 60);
+            }
+            var $return = "";
+            if (day > 0) $return += day + "天";
+            if (hour > 0) $return += hour + "小时";
+            if (minute > 0) $return += minute + "分";
+            return $return + second + "秒";
+        }
+
+        $(function () {
+            window.timerdeadline = setInterval(function () {
+                var endTimes = $("[data-deadline]").attr("data-deadline");
+                var cTime = countDown(endTimes);
+                if (cTime === 0) {
+                    $("[data-deadline]").text("已过期");
+                } else {
+                    $("[data-deadline]").text("剩余:" + cTime);
+                }
+            }, 1000);
+
+            $(".dynamic-item-comment").on("click", function () {
+                var dd = $(this).parent(".dynamic-item-tools").siblings(".dynamic-comment-dd");
+                dd.toggleClass("visible");
+                if (dd.hasClass("visible")) {
+                    dd.show();
+                } else {
+                    dd.hide();
+                }
+            });
+            $(".dynamic-comment-button").on("click", function () {
+                var url = $(this).attr("data-url");
+                var relId = $(this).attr("data-rel");
+                var content = $(this).siblings("textarea").val();
+                var sendData = {
+                    relId: relId,
+                    content: content
+                };
+                postPages(url, sendData);
+            });
+
+            $("#shareBox").live('click', function () {
+                var url = $(this).attr('data-url');
+                location.replace(url);
+            })
+
+        })
+    </script>
+{/block}
+
+
+{block tabs_content}
+    {include "./tabs.latte"}
+    {include "./tabs_lobby.latte"}
+{/block}
+
+{block content}
+    <div class="list-block" style="margin-top: 2.3rem;">
+        <div class="field-item">
+            <div class="field-item-title">
+                任务名称 <span class="required">*</span>
+            </div>
+            <div class="field-item-body">
+                <input type="text" placeholder="请输入任务名称" disabled value="{$task->getNames()}"/>
+                {*<span class="field-item-tag">好客联盟</span>*}
+            </div>
+        </div>
+        <div class="field-item">
+            <div class="field-item-title">
+                任务项目
+            </div>
+            <div class="field-item-body">
+                <div class="item-content" style="padding-left: 0;">
+                    <div class="item-inner selected-group-show">{$groupName}</div>
+                </div>
+            </div>
+        </div>
+        <div class="field-item">
+            <div class="field-item-title">
+                优先级 <span class="required">*</span>
+            </div>
+            <div class="field-item-body">
+                {foreach $priorityMemo as $priority =>$priorityM}
+                    <label class="priority-input priority-{$priorityM} {if $task->getPriority()==$priority}selected{/if}">
+                        <span><input type="radio" name="priority" value="{$priority}" {if $iterator->isFirst()}checked{/if}>{$priorityM}</span>
+                    </label>
+                {/foreach}
+            </div>
+        </div>
+        <div class="field-item">
+            <div class="field-item-title">
+                任务内容 <span class="required">*</span>
+            </div>
+            <div class="field-item-body">
+                <textarea disabled>{$task->getContent()}</textarea>
+            </div>
+        </div>
+        <div class="field-item">
+            <div class="field-item-title">
+                图片 <span class="required">*</span>
+            </div>
+            <div class="field-item-body">
+                {foreach $thumbs as $thumb}
+                    <img src="{$cdnThumbBase}{$thumb}" alt="">
+                {/foreach}
+            </div>
+        </div>
+        <div class="field-item-between"></div>
+        <div class="field-item">
+            <div class="field-item-title">
+                验收人 <span class="required">*</span>
+            </div>
+            <div class="field-item-body">
+                <div class="field-item-member-box">
+                    {$accept["selected"]|noescape}
+                </div>
+            </div>
+        </div>
+        <div class="field-item">
+            <div class="field-item-title">
+                执行人 <span class="required">*</span>
+            </div>
+            <div class="field-item-body">
+                <div class="field-item-member-box">
+                    {$executors["selected"]|noescape}
+                </div>
+            </div>
+        </div>
+        <div class="field-item">
+            <div class="field-item-title">
+                期限 <span class="required">*</span>
+            </div>
+            <div class="field-item-body">
+                <div style="display: flex;justify-content: space-between;font-size:0.65rem">
+                    <span>{$task->getDeadline()|totime}之前</span>
+                    <span class="data-deadline" data-deadline="{$task->getDeadline()|totime}">目前还剩下：1天12小时50分</span>
+                </div>
+            </div>
+        </div>
+        <div class="field-item-between"></div>
+        <div class="field-item">
+            <div class="field-item-title">
+                积分 <span class="required">*</span>
+            </div>
+            <div class="field-item-body">
+                <input type="text" disabled value="{$task->getAcorn()}"/>
+            </div>
+        </div>
+        <div class="field-item-between"></div>
+        {if $studies}
+            <div class="field-item">
+                <div class="field-item-title">
+                    检验学习
+                </div>
+                <div class="field-item-body">
+                    {$studies|noescape}
+                </div>
+            </div>
+        {/if}
+        <div class="field-item-between"></div>
+
+        <div class="dynamic-block">
+            <div class="dynamic-title">动态</div>
+
+            {foreach $dynamics as $dynamic}
+                <div class="dynamic-item">
+                    <div class="dynamic-item-names">{$dynamic["userName"]} {if $dynamic["ruserId"]}<span class="dynamic-reply">回复</span>{$dynamic["ruserName"]}{/if}
+                        <div class="dynamic-item-time">{$dynamic["addTime"]|totime}</div>
+                    </div>
+                    <div class="dynamic-item-body">
+                        {$dynamic["content"]}
+                    </div>
+                    <div class="dynamic-item-thumbs">
+                        {foreach $dynamic["thumbs"] as $thumb}
+                            <img src="https://cdn.itmakes.com/thumbs/{$thumb}" alt="">
+                        {/foreach}
+                    </div>
+
+                    <div class="dynamic-item-tools">
+                        <span class="dynamic-item-reply">回复</span>
+                        <span class="dynamic-item-comment">评论({count($comments[$dynamic["id"]])})</span>
+                    </div>
+                    <dd class="dynamic-comment-dd">
+                        <ul>
+                            {foreach $comments[$dynamic["id"]] as $comment}
+                                <li data-rel-id="{$userId==$comment["userId"]?$comment["replyId"]:$comment["userId"]}" data-names="{$userId==$comment["userId"]?$comment["ruserName"]:$comment["userName"]}">
+                                    <span class="dynamic-comment-say">{$comment["userName"]} {if $comment["replyId"]}<span class="dynamic-comment-reply">回复</span> {$comment["ruserName"]}{/if}：</span>
+                                    <span>{$comment["content"]}</span>
+                                </li>
+                            {/foreach}
+                        </ul>
+                    </dd>
+                </div>
+            {/foreach}
+        </div>
+    </div>
+
+    <div id="shareBox" data-status="show" data-url="{url('mobileConsoles_index_share',array("eventid"=>$task->getId(),"template"=>"RELEASE_TASK"))}" style="position: fixed;right: -1px;bottom: 50px;border:1px solid #0087e1;padding: 5px 5px 5px 10px;border-top-left-radius: 20px;border-bottom-left-radius: 20px;color: #fff;z-index: 9999;display: block;">
+        <img src="{path('[MobileConsoles]/img/shareIcon.png')}" style="float: left;display: block;width: 20px;height: 20px;">
+        <p style="float: left;line-height: 14px;margin: 3px;color: #0087e2;">分享</p>
+    </div>
+{/block}

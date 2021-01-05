@@ -1,0 +1,103 @@
+{layout '../Public/sideForm.latte'}
+{block title}{$title}{/block}
+
+{block submits}
+    <div class="contenteditsSubmits">
+        <div class="contenteditsSubmit">保存</div>
+    </div>
+{/block}
+{block private_css}
+    <style type="text/css">
+        .bnt{
+            width:15rem;
+            height:3rem;
+            border:1px solid #ccc;
+            line-height:3rem;
+            text-align:center;
+            font-size:25px;
+            cursor:pointer;
+        }
+    </style>
+{/block}
+
+{block private_js}
+    <script type="text/javascript">
+        init.ready(function () {
+            var total = 0;
+            var reg = '^[0-9]*$';
+            $("input.acorn1").each(function (index, element) {
+                total += parseInt($(this).val());
+            });
+            $(".addSubmit").unbind().bind("click", function () {
+                var str = '<div class="input-group input-auto-find" style="margin-bottom: 20px;">' +
+                        '<input type="text" name="names[]"  value="" style="width: 300px;">&nbsp;&nbsp;&nbsp;' +
+                        '<input type="text" class="acorn1" name="acorn1[]" value="" maxlength="10" ' +
+                        'style="width: 170px;">&nbsp;&nbsp;分' +
+                        '<a class="user-delete">删除</a></div>';
+                $("#last").before(str);
+            });
+            $(".user-delete").live("click", function () {
+                $(this).parents("div .input-group").remove();
+                if (!$(this).val().match(reg)) {
+                    total = 0;
+                    $("input.acorn1").each(function (index, element) {
+                        total += parseInt($(this).val() ? $(this).val() : 0);
+                    });
+                }
+                $("#total").html(total);
+            });
+            $("input.acorn1").live('input propertychange', function () {
+                if (!$(this).val().match(reg)) {
+                    layer.msg("请输入正确的数字");
+                    return false;
+                }
+                if ($(this).val()) {
+                    total = 0;
+                    $("input.acorn1").each(function (index, element) {
+                        total += parseInt($(this).val() ? $(this).val() : 0);
+                    });
+                    $("#total").html(total);
+                } else {
+                    total = 0;
+                    $("input.acorn1").each(function (index, element) {
+                        total += parseInt($(this).val() ? $(this).val() : 0);
+                    });
+                    $("#total").html(total);
+                }
+            });
+            $("#total").html(total);
+            $("#contentedits").attr("data-old-url", "");
+
+        });
+    </script>
+{/block}
+{block content}
+    <a href="{url('consoles_standard_modifyStandards',"active=".$active)}" id="formArticleReload" style="display:none;" data-side-form></a>
+    <form id="formArticle" class="stdform mform" method="post" action="" onsubmit="return false">
+        <table cellpadding="0" cellspacing="0" border="0" id="frmtable" class="formtable">
+            <thead>
+            <tr>
+                <td><label></label></td>
+                <td>
+                    <div class="field control-group">
+                        <div style="color:red;font-size: 16px;">各项总分必须100分,目前<span id="total"></span>分</div>
+                        {foreach $lists as $key=>$item}
+                            <div class="input-group input-auto-find">
+                                <input type="hidden" class="listsId" id='listsId[{$key}]' value="{$item['s_acorn']}">
+                                <input type="text" name="names[{$item['s_id']}]" value="{$item['s_names']}" style="width: 300px;">&nbsp;&nbsp;&nbsp;
+                                <input type="text" class="acorn1" name="acorn1[{$item['s_id']}]" value="{$item['s_acorn']}"  maxlength="10" style="width: 170px;">&nbsp;&nbsp;分
+                                <a href="{url('consoles_delete','con=Standard&id='.$item['s_id'].'&active='.$active.'&types=1')}" data-confirm="您确定要删除该项吗?">删除</a>
+                            </div>
+                            <div style="margin-bottom: 15px;"></div>
+                        {/foreach}
+                        <div class="input-group input-auto-find" id="last" style="margin-left: 326px">
+                            <div class="addSubmit bnt">+</div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            </thead>
+        </table>
+        <input type="hidden" id="active" name="active" value="{$active}">
+    </form>
+{/block}

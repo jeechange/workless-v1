@@ -1,0 +1,18 @@
+{if $sdk_types=="dingtalk"}
+    <script src="https://g.alicdn.com/dingding/dingtalk-jsapi/2.0.72/dingtalk.open.js"></script>
+    {block dingReady}
+        <script>
+            dd.config({$sdk_config});
+        </script>
+    {/block}
+{/if}
+
+{if $sdk_types=="wxwork"}
+    {block wxworkReady}
+        <script src="https://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+        <script src="//res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+        <script>
+            wx.config({$sdk_config});
+        </script>
+    {/block}
+{/if}

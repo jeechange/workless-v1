@@ -1,0 +1,49 @@
+{layout '../Public/layoutList.latte'} {*继承layoutList模板*}
+{block title}项目文档{/block}
+{block actions}<a href="{url('consoles_taskGroup_create_doc',"id={$id}")}" data-side-form class="icon-adds">创建文档</a>{/block}
+{block actionstab}
+    {include "./detailTab.latte"}
+{/block}
+{block private_css}
+    <style>
+        .list-more-action{
+            display:none;
+        }
+    </style>
+{/block}
+{block content}
+    {if $lists}
+        <table cellpadding="0" cellspacing="0" border="0" class="stdtable">
+            <thead>
+            <tr>
+                <th data-sort="t.code_no"><span class="table-head">标题</span></th> {*在th加入 data-sort 可对数据库进行排序*}
+                <th data-sort="t.priority"><span class="table-head">发布人</span></th> {*在th加入 data-sort 可对数据库进行排序*}
+                <th data-sort="t.types"><span class="table-head">最后更改人</span></th>
+                <th data-sort="t.names"><span class="table-head">发布时间</span></th>
+                <th data-sort="u.full_name"><span class="table-head">最后更改时间</span></th>
+                <th><span class="table-head">操作</span></th>
+            </tr>
+            </thead>
+            <tbody>
+            {foreach $lists as $k=>$item}
+                <tr>
+                    <td class="wid-auto">{$item['title']}</td>
+                    <td class="wid-auto">{$item["userFullName"]}</td>
+                    <td class="wid-auto">{$item["lastUserFullName"]}</td>
+                    <td class="wid-auto">{$item['addTime']|totime}</td>
+                    <td class="wid-auto">{$item['lastTime']|totime}</td>
+                    <td>
+                        <a class="right-exchange" href="{url('consoles_taskGroup_modify_doc','id='.$item["id"])}" data-side-form>编辑</a>
+                        <a class="right-exchange" href="{url('consoles_taskGroup_delete_doc',array("id"=>$item["id"],"beforeUrl"=>$beforeUrl))}" data-confirm="确定删除文档吗？">删除</a>
+                    </td>
+                </tr>
+            {/foreach}
+            </tbody>
+        </table>
+    {else}
+        <div style="position:relative; width:100%; line-height:50px; display:block; text-align:center;">
+            <img src="{path('[MobileConsoles]/img/null.png')}" alt="" class="" style="width:300px; height:300px; margin:50px auto 0; display:block;">
+            <div style="width:100%; color:#999; text-align:center; font-size:1.5rem;">查询为空</div>
+        </div>
+    {/if}
+{/block}

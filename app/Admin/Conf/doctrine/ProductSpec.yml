@@ -1,0 +1,50 @@
+Admin\Entity\ProductSpec:
+  type: entity
+  table: product_spec
+  id:
+    id:
+      type: integer
+      nullable: false
+      unsigned: false
+      comment: ''
+      id: true
+      generator:
+        strategy: IDENTITY
+  fields:
+    title:
+      type: string
+      nullable: true
+      length: 50
+      fixed: false
+      comment: ''
+    spec1:
+      type: string
+      nullable: true
+      length: 50
+      fixed: false
+      comment: ''
+    spec2:
+      type: string
+      nullable: true
+      length: 50
+      fixed: false
+      comment: ''
+    spec3:
+      type: string
+      nullable: true
+      length: 50
+      fixed: false
+      comment: ''
+    spec4:
+      type: string
+      nullable: true
+      length: 50
+      fixed: false
+      comment: ''
+    spec5:
+      type: string
+      nullable: true
+      length: 50
+      fixed: false
+      comment: ''
+  lifecycleCallbacks: {  }

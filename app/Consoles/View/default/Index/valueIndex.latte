@@ -1,0 +1,140 @@
+{layout '../Public/layoutList.latte'} {*继承layoutList模板*}
+{block title}价值分析{/block}
+{block private_css}
+{/block}
+{block private_js}
+    <script>
+        var myChart = echarts.init(document.getElementById('main'));
+        option = {
+            title: {
+                text: ''
+            },
+            tooltip: {
+                trigger: 'axis'
+            },
+            // title : {
+            //     text: '个人价值指数'
+            // },
+
+            // tooltip : {
+            //     trigger: 'axis'
+            // },
+            // color:['#fd9c9c'],
+            // legend: {
+            //     x : 'center',
+            //     bottom : '0',
+            //     data:['个人价值指数']
+            // },
+            {*toolbox: {*}
+            {*show : true,*}
+            {*feature : {*}
+            {*mark : {show: true},*}
+            {*dataView : {show: true, readOnly: false},*}
+            {*restore : {show: true},*}
+            {*saveAsImage : {show: true}*}
+            {*}*}
+            {*},*}
+            // calculable : true,
+            xAxis: {
+                type: 'category',
+                boundaryGap: false,
+                axisLabel: {
+                    interval: 0,
+                },
+                data: {$month}
+            },
+            yAxis: {
+                type: 'value'
+            },
+            series: [{
+                data: {$valueIndex},
+                type: 'line'
+            }]
+
+        };
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+        //雷达图
+
+        var myChartRadar = echarts.init(document.getElementById('Radar'));
+
+        Radaroption = {
+            title: {
+                text: ''
+            },
+            tooltip: {},
+            color: ['#fd9c9c', '#95beda'],
+            legend: {
+                x: 'center',
+                bottom: '0',
+                data: ['我的', '公司']
+            },
+            calculable: true,
+            polar: [
+                {
+                    shape: 'circle',
+                    name: {
+                        textStyle: {
+                            color: '#999',
+                            backgroundColor: '#fff',
+                            borderRadius: 3,
+                            padding: [3, 5]
+
+                        }
+                    },
+                    indicator: {$max},
+                    center: ['50%', '50%'],
+                    radius: 150
+                }
+            ],
+            series: [
+                {
+                    name: '我的 vs 公司',
+                    type: 'radar',
+                    itemStyle: {
+                        normal: {
+                            areaStyle: {
+                                type: 'default'
+                            }
+                        }
+                    },
+                    data: [
+                        {
+                            value: {$myavg},
+                            name: '我的'
+                        },
+                        {
+                            value: {$avg},
+                            name: '公司'
+                        }
+                    ]
+                }
+            ]
+        };
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChartRadar.setOption(Radaroption);
+    </script>
+{/block}
+{block content}
+    <div class="details">
+        <div id="main" style="width:70%;height:400px;margin:0 auto;"></div>
+        {*{if $lists}*}
+        {*<div id="main" style="width:320px;height:380px;margin:0 auto;margin-bottom:40px;margin-top:-10px;"></div>*}
+        {*{else}*}
+        {*<div style="margin-top:50px;margin-bottom:30px;text-align:center">*}
+        {*<img src="{path('[MobileConsoles]/img/null.png')}" alt="" class="" style="width:60%; height:100%; margin: 0 20%; display:block;">*}
+        {*<div style="color:#999;">暂无数据</div>*}
+        {*</div>*}
+        {*{/if}*}
+        <div style="font-size:1.5rem;text-align:center;">个人价值指数 = 个人当月积分 / 公司当月人均积分 * 100</div>
+        {*<p style="margin-top:10px;">雷达图</p>*}
+        <div id="Radar" style="width:80%;height:400px;margin:0 auto;margin-bottom:20px;margin-top:40px;"></div>
+    </div>
+    {*<div id="main" style="width:360px;height:380px;margin:0 auto;margin-bottom:40px;"></div>*}
+{/block}
+
+
+
+

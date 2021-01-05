@@ -1,0 +1,81 @@
+Admin\Entity\PaymentWx:
+  type: entity
+  table: payment_wx
+  id:
+    id:
+      type: integer
+      nullable: false
+      unsigned: false
+      comment: ''
+      id: true
+      generator:
+        strategy: IDENTITY
+  fields:
+    tradeNo:
+      type: string
+      nullable: true
+      length: 32
+      fixed: false
+      comment: ''
+      column: trade_no
+    sid:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+    userId:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: user_id
+    openid:
+      type: string
+      nullable: true
+      length: 50
+      fixed: false
+      comment: ''
+    relateTable:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+      column: relate_table
+    relateId:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: relate_id
+    addTime:
+      type: datetime
+      nullable: true
+      comment: ''
+      column: add_time
+    money:
+      type: decimal
+      nullable: true
+      precision: 10
+      scale: 2
+      comment: ''
+    tradeId:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+      column: trade_id
+    tradeCode:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+      column: trade_code
+    status:
+      type: smallint
+      nullable: true
+      unsigned: false
+      comment: ''
+  lifecycleCallbacks: {  }

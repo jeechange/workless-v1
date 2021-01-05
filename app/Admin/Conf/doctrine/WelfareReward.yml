@@ -1,0 +1,69 @@
+Admin\Entity\WelfareReward:
+  type: entity
+  table: welfare_reward
+  id:
+    id:
+      type: integer
+      nullable: false
+      unsigned: false
+      comment: ''
+      id: true
+      generator:
+        strategy: IDENTITY
+  fields:
+    sid:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+    userId:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: user_id
+    fromUser:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: from_user
+    names:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    memo:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    status:
+      type: smallint
+      nullable: true
+      unsigned: false
+      comment: ''
+    types:
+      type: smallint
+      nullable: true
+      unsigned: false
+      comment: ''
+    addTime:
+      type: datetime
+      nullable: true
+      comment: ''
+      column: add_time
+    useTime:
+      type: datetime
+      nullable: true
+      comment: ''
+      column: use_time
+    wvId:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: wv_id
+  lifecycleCallbacks: {  }

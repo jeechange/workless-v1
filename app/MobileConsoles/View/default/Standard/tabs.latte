@@ -1,0 +1,26 @@
+{*第一版本*}
+<div class="tabs" style="display:none">
+    <div style="width:90%;float:left;overflow-y: auto;white-space: nowrap;display: inline-block;">
+        <a href="{url("mobileConsoles_standard_lists",array("active"=>"all"))}" class="tabs-link {if $active=="all"}active{/if}" style="margin-left: 6px;">热门</a>
+        <a href="{url("mobileConsoles_standard_lists",array("active"=>"SocialIdentity"))}" class="tabs-link {if $active=="SocialIdentity"}active{/if}">社会</a>
+        <a href="{url("mobileConsoles_standard_lists",array("active"=>"GoodFeeling"))}" class="tabs-link {if $active=="GoodFeeling"}active{/if}">好感</a>
+        <a href="{url("mobileConsoles_standard_lists",array("active"=>"Rare"))}" class="tabs-link {if $active=="Rare"}active{/if}">稀缺</a>
+        <a href="{url("mobileConsoles_standard_lists",array("active"=>"Task"))}" class="tabs-link {if $active=="Task"}active{/if}">任务</a>
+        <a href="{url("mobileConsoles_standard_lists",array("active"=>"TrainAndLearn"))}" class="tabs-link {if $active=="TrainAndLearn"}active{/if}">学习</a>
+        <a href="{url("mobileConsoles_standard_lists",array("active"=>"Content"))}" class="tabs-link {if $active=="Content"}active{/if}">内容</a>
+    </div>
+    <div style="width:10%;float:left;display:none">
+        <a href="{url("mobileConsoles_standard_add")}" class="tabs-link tabs-link-plus" style="right: 0.3rem !important;">
+            <span>&plus;</span>
+        </a>
+    </div>
+</div>
+{*最新版本*}
+<div class="tabs">
+    <div style="width:90%;float:left;overflow-y: auto;white-space: nowrap;display: inline-block;">
+        <a href="{url("mobileConsoles_standard_lists",array("active"=>"Achievements"))}" class="tabs-link {if $active=="Achievements"}active{/if}" style="margin-left: 6px;">成果</a>
+        <a href="{url("mobileConsoles_standard_lists",array("active"=>"Action"))}" class="tabs-link {if $active=="Action"}active{/if}">行为</a>
+        <a href="{url("mobileConsoles_standard_lists",array("active"=>"Ability"))}" class="tabs-link {if $active=="Ability"}active{/if}">能力</a>
+        <a href="{url("mobileConsoles_standard_lists",array("active"=>"MentalityAndCulture"))}" class="tabs-link {if $active=="MentalityAndCulture"}active{/if}">心态和文化</a>
+    </div>
+</div>

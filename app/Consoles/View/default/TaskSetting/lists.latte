@@ -1,0 +1,287 @@
+{layout '../Public/layoutForm.latte'} {*继承layoutList模板*}
+{block title}任务设置{/block}
+{block return_actions}{/block}
+{block actions}
+    <a href="{url('consoles_add','con=taskSetting&types=1')}" class="icon-adds" data-side-form>添加任务完成情况</a>
+    <a href="{url('consoles_add','con=taskSetting&types=2')}" class="icon-adds" data-side-form>添加勋章</a>
+{/block}
+{block formtable}
+    <table class='formtable btntable'>
+        <tfoot>
+        <tr>
+            <td colspan="2">
+                <div class="input-group" style="margin-left:30px">
+                    <input type="button" class="btn submit submit-mform" value="保 存"/>
+                </div>
+            </td>
+        </tr>
+        </tfoot>
+    </table>
+{/block}
+
+{block private_js}
+    <script>
+        init.ready(function () {
+            $(".list7_1_names").unbind().bind("click", function () {
+                var $val = $(this).val();
+                if ($val == 0) {
+                    $(".list7_2_names,.list7_3_names,.list7_4_names").attr("disabled", true);
+                    return;
+                }
+                if ($val == 1) {
+                    $(".list7_2_names,.list7_3_names,.list7_4_names").attr("disabled", true);
+                    $(".list7_2_names").removeAttr("disabled");
+                    return;
+                }
+                if ($val == 2) {
+                    $(".list7_2_names,.list7_3_names,.list7_4_names").attr("disabled", true);
+                    $(".list7_2_names,.list7_3_names").removeAttr("disabled");
+                    return;
+                }
+                if ($val == 3) {
+                    $(".list7_2_names,.list7_3_names,.list7_4_names").removeAttr("disabled");
+                    return;
+                }
+            });
+            $(".list7_1_names:checked").trigger("click");
+        })
+    </script>
+{/block}
+
+{block private_css}
+    <style>
+        #frmtable td:first-child{
+            width:120px;
+            text-align:left;
+        }
+
+        .completion-status, .medal-list{
+            padding-left:30px;
+            padding-top:50px;
+        }
+
+        .completion-status .completion-head, .medal-list .medal-head{
+            font-size:20px;
+            margin-bottom:20px;
+        }
+
+        .completion-status .completion-body a{
+            display:inline-block;
+            vertical-align:bottom;
+            height:50px;
+            line-height:50px;
+            text-decoration:none;
+            border:1px solid #ddd;
+            text-align:center;
+            padding:0 60px;
+            font-size:14px;
+            margin-right:10px;
+        }
+
+        .medal-list .medal-body a{
+            display:inline-block;
+            vertical-align:bottom;
+            text-decoration:none;
+            text-align:center;
+            font-size:14px;
+            margin-right:10px;
+        }
+
+        .medal-list .medal-body a .medal-name{
+            height:50px;
+            line-height:50px;
+            border:1px solid #ddd;
+            padding:0 60px;
+            display:block;
+            font-size:14px;
+        }
+
+        .medal-list .medal-body a .medal-img{
+            display:block;
+            margin-top:20px;
+        }
+
+        .medal-list .medal-body a .medal-img img{
+            width:135px;
+            height:135px;
+        }
+
+    </style>
+{/block}
+{block content}
+    <div class="completion-status">
+        <div class="completion-body">
+            <form id="formArticle" class="stdform mform" method="post" action="{url("consoles_taskSetting_settings")}">
+                <div class="completion-head">计件设置</div>
+                <table cellpadding="0" cellspacing="0" border="0" id="frmtable" class="formtable">
+                    <thead>
+                    <tr>
+                        <td><label>计件验收分比例(%)</label></td>
+                        <td>
+                            <div class="field control-group">
+                                <div class="input-group">
+                                    <input type="text" name="list6_0_names" class="smallinput" value="{$lists6[0]["names"]}" style="width:60px"/>
+                                    <span style="color:red;margin-left:15px">( 建议10%~20% )</span>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label>完成质量(计件)(%)</label></td>
+                        <td>
+                            <div class="field control-group">
+                                <div class="input-group">
+                                    <input type="text" name="list6_1_names" class="smallinput" value="{$lists6[1]["names"]}" style="width:60px"/> -
+                                    <input type="text" name="list6_2_names" class="smallinput" value="{$lists6[2]["names"]}" style="width:60px"/>
+
+                                    <span style="color:red;margin-left:15px">( 建议60~130 )</span>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="padding-left:130px">
+                            说明：每件得分和完成数量在验收时填写。<br>
+                            执行人任务得分 = 每件得分 &times; 完成质量(计件) &times; 完成数量<br>
+                            验收人验收得分 = 执行人任务得分 &times; 计件验收分比例
+                        </td>
+                    </tr>
+                    </thead>
+                </table>
+                <div class="completion-head">计时设置</div>
+                <table cellpadding="0" cellspacing="0" border="0" id="frmtable" class="formtable">
+                    <thead>
+                    <tr>
+                        <td><label>计时日基础分</label></td>
+                        <td>
+                            <div class="field control-group">
+                                <div class="input-group">
+                                    <input type="text" name="list3_0_names" class="smallinput" value="{$lists3[0]["names"]}" style="width:60px"/>
+                                    <span style="color:red;margin-left:15px">( 建议30~50 )</span>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label>计时验收日基础分</label></td>
+                        <td>
+                            <div class="field control-group">
+                                <div class="input-group">
+                                    任务日基础分 &times; <input type="text" name="list3_1_names" class="smallinput" value="{$lists3[1]["names"]}" style="width:60px"/> % = <span>4</span>
+                                    <span style="color:red;margin-left:15px">( 建议10%~20% )</span>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><label>计时难度系数</label></td>
+                        <td>
+                            <div class="field control-group">
+                                <div class="input-group">
+                                    <input type="text" name="list4_0_names" class="smallinput" value="{$lists4[0]["names"]}" style="width:60px"/> -
+                                    <input type="text" name="list4_1_names" class="smallinput" value="{$lists4[1]["names"]}" style="width:60px"/>
+                                    <span style="color:red;margin-left:15px">( 建议0.6~1.5 )</span>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label>完成质量(计时)(%)</label></td>
+                        <td>
+                            <div class="field control-group">
+                                <div class="input-group">
+                                    <input type="text" name="list5_0_names" class="smallinput" value="{$lists5[0]["names"]}" style="width:60px"/> -
+                                    <input type="text" name="list5_1_names" class="smallinput" value="{$lists5[1]["names"]}" style="width:60px"/>
+
+                                    <span style="color:red;margin-left:15px">( 建议60~130 )</span>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td colspan="2" style="padding-left:130px">
+                            说明：难度系数和完成质量在任务验收时确定。<br>
+                            执行人任务得分 = 任务日基础分 &times; 难度系数 &times; 完成质量(计时) &times; 任务量 <br>
+                            验收人验收得分 = 验收日基础分 &times; 任务量
+                        </td>
+                    </tr>
+                    </thead>
+                </table>
+                <div class="completion-head">超时设置</div>
+                <table cellpadding="0" cellspacing="0" border="0" id="frmtable" class="formtable">
+                    <thead>
+                    <tr>
+                        <td><label>超时日基础分</label></td>
+                        <td>
+                            <div class="field control-group">
+                                <div class="input-group">
+                                    <input type="text" name="list7_0_names" class="smallinput" value="{$lists7[0]["names"]}" style="width:60px"/>
+                                    <span style="color:red;margin-left:15px">( 建议30~50 )</span>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label>连带责任</label></td>
+                        <td>
+                            <div class="field control-group">
+                                <div class="input-group">
+                                    <label class='radio'><input class="list7_1_names" name='list7_1_names' {if $lists7[1]["names"]==0}checked{/if} type="radio" value='0'>不连带责任</label>
+                                    <label class='radio'><input class="list7_1_names" name='list7_1_names' {if $lists7[1]["names"]==1}checked{/if} type="radio" value='1'>一级直线经理</label>
+                                    <label class='radio'><input class="list7_1_names" name='list7_1_names' {if $lists7[1]["names"]==2}checked{/if} type="radio" value='2'>二级直线经理</label>
+                                    <label class='radio'><input class="list7_1_names" name='list7_1_names' {if $lists7[1]["names"]==3}checked{/if} type="radio" value='3'>三级直线经理</label>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label>连带责任比例(%)</label></td>
+                        <td>
+                            <div class="field control-group">
+                                <div class="input-group">
+                                    一级直线经理：<input type="text" class="list7_2_names" name="list7_2_names" class="smallinput" value="{$lists7[2]["names"]}" style="width:60px"/> <br>
+                                    二级直线经理：<input type="text" class="list7_3_names" name="list7_3_names" class="smallinput" value="{$lists7[3]["names"]}" style="width:60px"/> <br>
+                                    三级直线经理：<input type="text" class="list7_4_names" name="list7_4_names" class="smallinput" value="{$lists7[4]["names"]}" style="width:60px"/> <br>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="padding-left:130px">
+                            说明：执行A类任务超时将会扣取一定积分作为惩罚。<br>
+                            执行人扣取积分 = 超时日基础分 &times; 超时天数 <br>
+                            直线经理扣取积分 = 超时日基础分 &times; 超时天数 &times; 责任比例
+                        </td>
+                    </tr>
+                    </thead>
+                </table>
+            </form>
+        </div>
+    </div>
+    <div class="completion-status">
+        <div class="completion-head">任务完成情况设置</div>
+        <div class="completion-body">
+            {foreach $lists1 as $q}
+                <a href="{url('consoles_mod','con=taskSetting&types=1&id='.$q["id"])}" data-side-form>{$q["names"]}</a>
+            {/foreach}
+        </div>
+    </div>
+    {*下面是设置勋章*}
+    {*<div class="medal-list">*}
+    {*<div class="medal-head">任务完成情况设置</div>*}
+    {*<div class="medal-body">*}
+    {*{foreach $lists2 as $q}*}
+    {*<a href="{url('consoles_mod','con=taskSetting&types=2&id='.$q["id"])}" data-side-form>*}
+    {*<span class="medal-name">{$q["names"]}</span>*}
+    {*<span class="medal-img"><img src="https://cdn.itmakes.com/thumbs{$q["icon"]}" alt=""></span>*}
+    {*</a>*}
+    {*{/foreach}*}
+    {*</div>*}
+    {*</div>*}
+{/block}
+
+
+
+

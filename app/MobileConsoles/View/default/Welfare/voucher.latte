@@ -1,0 +1,283 @@
+{layout "../Layout/layoutBoth.latte"}
+
+{block tabs_content}
+    {include "./tabs.latte"}
+{/block}
+{block private_css}
+    <style>
+        .content{
+            background:#fff;
+        }
+
+        .field-item{
+            margin:5px 10px;
+            padding-bottom:10px;
+        }
+
+        .field-item .field-item-title{
+            color:#101010;
+            font-size:14px;
+            vertical-align:bottom;
+        }
+
+        .field-item .field-item-body{
+            position:relative;
+            padding-top:5px;
+        }
+
+        .field-item-body .field-item-score-box{
+            padding:10px 0;
+        }
+
+        .field-item-body .field-score{
+            display:inline-block;
+            padding:5px 15px;
+            border:#e7e7e7 1px solid;
+            margin-top:5px;
+        }
+
+        .addSetting{
+            float:right;
+            margin-top:-5%;
+            margin-right:5%;
+        }
+
+        .quan:first-child{
+            margin-top:0px;
+        }
+
+        .quan{
+            margin-top:20px;
+        }
+
+        .quan .more > p{
+            line-height:140px;
+            text-align:center;
+            font-size:36px;
+            color:#FFF;
+        }
+
+        .quan .quan_more{
+            width:100%;
+            height:9em;
+            margin:auto;
+            background-size:100% 100% !important;
+            background-repeat:no-repeat !important;
+            overflow:hidden;
+        }
+
+        .quan .left_more{
+            float:left;
+            width:37%;
+            margin-left:10%;
+            line-height:9em;
+        }
+
+        .quan .left_more p{
+            margin:0 !important;
+            font-size:2.4em;
+            color:#FFF;
+            overflow:hidden;
+            width:100%;
+            text-align:center;
+        }
+
+        .quan .left_more span{
+            font-size:0.4em !important;
+        }
+
+        .quan .right_more{
+            float:left;
+            /*line-height:0em !important;*/
+            width:45%;
+            margin-top:3.1em;
+            margin-left:1em;
+            /*margin-right:1em;*/
+        }
+
+        .quan .right_more p{
+            margin:0 !important;
+            font-size:16px;
+            color:#FFF;
+            line-height:20px !important;
+            margin-bottom:3px !important;
+        }
+
+        .quan_more span{
+            font-size:14px;
+            color:#FFF;
+        }
+
+        .quan_more > p{
+            margin-top:1em;
+            line-height:3em;
+            /*line-height:inherit;*/
+            font-size:1.8em;
+            text-align:center;
+            color:#FFF;
+            width:100%;
+            overflow:hidden;
+        }
+
+        .coupon:before{
+            height:0 !important;
+        }
+
+        .coupon:after{
+            height:0 !important;
+        }
+
+        .create-actions{
+            bottom:15px;
+        }
+    </style>
+{/block}
+
+{block content}
+    <div class="list-block">
+        <div class="list-block" style="margin-top: 2.3rem;">
+            <div class="field-item">
+                <div class="field-item-title">
+                    抵扣券管理
+                </div>
+                <a class="addSetting" href="{url("mobileConsoles_welfare_addVoucher")}">
+                    添加抵扣券
+                </a>
+                <div class="field-item-body">
+                    <div class="field-item-score-box">
+                        <ul class="coupon">
+                            {foreach $lists as $v}
+                                <li class="quan">
+                                    <div class="quan_more" style="background:url({path('[MobileConsoles]/img/material-coupon.png')})">
+                                        <div class="left_more">
+                                            <p><span>￥</span>{$v['acorn']}</p>
+                                        </div>
+                                        <div class="right_more" style="overflow:hidden">
+                                            <p>{$v['names']}</p>
+                                        </div>
+                                        <div style="overflow:hidden;border:0;width:50%;position:fixed;left:46%;margin-top:5.4rem;">
+                                            <a href="{url("mobileConsoles_welfare_voucherModify",array("id"=>$v['id']))}" class="acorn-edit">
+                                                <div class="content-block" style="width:50%;float:left;font-size:14px;margin:0;padding:0;">
+                                                    <div class="col-95" style="width:85%;margin:auto;">
+                                                        <div class="button button-big button-fill" id="bnt" style="background-color:#FFFFFF;height:28px;line-height:28px;border-radius:50px;color:#0894ec;filter:alpha(opacity:80); opacity:0.8;  -moz-opacity:0.8;-khtml-opacity: 0.8;">编 辑</div>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                            <a data-url="{url("mobileConsoles_welfare_voucherDelete",array("id"=>$v['id']))}" class="acorn-cancel">
+                                                <div class="content-block" style="width:50%;float:left;font-size:14px;margin:0;padding:0;">
+                                                    <div class="col-95" style="width:85%;margin:auto;">
+                                                        <div class="button button-big button-fill" id="bnt" style="background-color:#FFFFFF;height:28px;line-height:28px;border-radius:50px;color:#E51C23;border:#E51C23 1px solid;filter:alpha(opacity:80); opacity:0.8;  -moz-opacity:0.8;-khtml-opacity: 0.8;">删 除</div>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </li>
+                            {/foreach}
+                        </ul>
+                        {*<a href="{url("mobileConsoles_welfare_voucherModify",array("id"=>$v[id]))}" class="field-score field-score-selected" {if $v['status'] == 0}style="color:red;" {/if}>{$v['names']}</a>*}
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {if $isSuper}
+        <div>
+            <span data-settingUrl="{url("mobileConsoles_welfare_bonus_setting")}" data-welfareAddUrl="{url("mobileConsoles_welfare_add")}" data-welfareAddTypesUrl="{url("mobileConsoles_welfare_voucher")}" data-settingName="设置" data-welfareAddName="发放物资福利" class="create-actions">管理</span>
+        </div>
+    {/if}
+{/block}
+
+{block private_js}
+    {include "../Public/H5Upload.latte"}
+    <script>
+        $(document).on("pageInit", function () {
+            $(document).on('refresh', '.pull-to-refresh-content', function (e) {
+                setTimeout(function () {
+
+                    $.pullToRefreshDone('.pull-to-refresh-content');
+                }, 2000);
+            });
+
+            $(document).on('infinite', '.infinite-scroll-bottom', function () {
+                $('.infinite-scroll-preloader').remove();
+                // $.refreshScroller(); //刷新滚动
+            });
+            $('.infinite-scroll-preloader').remove();
+        });
+
+        $(document).on('click', '.acorn-cancel', function () {
+            var url = $(this).attr("data-url");
+
+            $.confirm('你确定要删除该抵扣券吗?', function () {
+                // $.alert('');
+                var data = {
+                    id: {$lists[0]['id']}
+                };
+                getPages(url, data);
+            });
+        });
+
+        function getPages(toUrl, data) {
+            $.showPreloader('正在进行操作中，请稍候...');
+            $.ajax({
+                type: "GET",
+                dataType: "json",
+                url: toUrl,
+                data: data,
+                success: function (res) {
+                    $.hidePreloader();
+                    try {
+                        if (res.status === "y") {
+                            $.toast(res.info);
+                            setTimeout(function () {
+                                location = (res.url);
+                            }, 2000)
+                        } else {
+                            $.toast(res.info);
+                        }
+                    } catch (e) {
+                        $.toast(e.message);
+                    }
+                }
+            });
+        }
+
+        $(".create-actions").click(function () {
+            var settingName = $(this).attr("data-settingName");
+            var settingUrl = $(this).attr("data-settingUrl");
+            var welfareAddName = $(this).attr("data-welfareAddName");
+            var welfareAddUrl = $(this).attr("data-welfareAddUrl");
+            var buttons1 = [
+                {
+                    text: '请选择',
+                    label: true
+                },
+                {
+                    text: welfareAddName,
+                    onClick: function () {
+                        window.location.href = welfareAddUrl;
+                    }
+                },
+                {
+                    text: settingName,
+                    onClick: function () {
+                        window.location.href = settingUrl;
+                    }
+                },
+
+            ];
+            var buttons2 = [
+                {
+                    text: '取消',
+                    bg: 'danger'
+                }
+            ];
+            var groups = [buttons1, buttons2];
+            $.actions(groups);
+        });
+
+
+    </script>
+{/block}

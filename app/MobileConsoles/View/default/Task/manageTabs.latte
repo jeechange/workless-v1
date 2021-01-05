@@ -1,0 +1,25 @@
+<div class="tabs">
+    <a href="{url('mobileConsoles_task_changeTask')}" class="tabs-link {if $curTabs=="manageTemp"}active{/if} {if $redDot['task']['todo'] > 0}redDotTwo{/if}" style="margin-left:10px;">普通任务</a>
+    <a href="{url('mobileConsoles_taskcycle')}" class="tabs-link {if $curTabs=="manageCycle"}active{/if}">周期任务</a>
+    <a href="{url('mobileConsoles_manageReward')}" class="tabs-link {if $curTabs=="manageReward"}active{/if} {if $redDot['task']['accept'] > 0}redDotTwo{/if}">悬赏</a>
+    <a href="{url('mobileConsoles_taskStatistics_lists')}" class="tabs-link {if $curTabs=="statistics"}active{/if}">统计分析</a>
+    <a href="{url('mobileConsoles_task_settings')}" class="tabs-link {if $curTabs=="settings"}active{/if}" style="margin-left: 6px;">设置</a>
+    {*<a href="{url('mobileConsoles_task_settings')}" class="tabs-link tabs-link-settings"><span class="icon icon-settings"></span></a>*}
+</div>
+
+{if $taskId != 0}
+    <span class="issue-action" data-cancel-url="{url("mobileConsoles_taskme_cancel",array("id"=>$taskId ? $taskId : 0))}">操作</span>
+{/if}
+
+<style>
+    .bar{
+        background-color:#efeff4
+    }
+
+    .bar .searchbar{
+        background:rgb(255, 255, 255);
+        border:1px solid #ddd;
+        border-radius:25px;
+    }
+</style>
+

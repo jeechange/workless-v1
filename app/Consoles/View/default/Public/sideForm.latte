@@ -1,0 +1,31 @@
+{block private_css}{/block}
+{block title_top}{/block}
+<div class="headNavT">{block title}{/block} <span class="close" onclick="hideSideForm()">&times;</span></div>
+<div class="cbox cbox-list">
+    {block content}{/block}
+</div>
+
+{block submits}
+    <div class="contenteditsSubmits">
+        <div class="contenteditsSubmit">提交</div>
+    </div>
+{/block}
+<script type="text/javascript">
+    init.ready(function () {
+        initSideFrom("mform", '{Q()->server->get("REQUEST_URI")|noescape}');
+        uploader.init(".img-uploader", {
+            apply: "xiangshuyun",
+            sid: {$sid},
+        });
+        uploader.initMul(".img-uploader-mul", {
+            apply: "xiangshuyun",
+            sid: {$sid},
+        });
+        uploader.initFile(".img-uploader-file", {
+            apply: "xiangshuyun",
+            sid: {$sid},
+            file_base_url: "https://cdn.itmakes.com/uploads",
+        });
+    })
+</script>
+{block private_js}{/block}

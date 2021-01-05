@@ -1,0 +1,73 @@
+{layout "../Layout/layoutBoth.latte"}
+
+{block tabs_content}
+    {include "./tabs.latte"}
+{/block}
+{block private_css}
+    <style>
+        .tabs_two{
+            background:#fff;
+            border-bottom:1px #faf9f9 solid;
+        }
+
+        .tabs_two a{
+            display:inline-block;
+            font-size:14px;
+            line-height:2.2rem;
+            color:#101010;
+            padding:0 2.25%;
+        }
+
+        .actives{
+            color:#0894ec !important;
+        }
+
+        .list-block{
+            margin:.5rem 0;
+        }
+    </style>
+{/block}
+{block private_js}
+    <script>
+        $(document).on("pageInit", function () {
+            $(document).on('refresh', '.pull-to-refresh-content', function (e) {
+                setTimeout(function () {
+
+                    $.pullToRefreshDone('.pull-to-refresh-content');
+                }, 2000);
+            });
+
+            $(document).on('infinite', '.infinite-scroll-bottom', function () {
+                $('.infinite-scroll-preloader').remove();
+                // $.refreshScroller(); //刷新滚动
+            });
+            $('.infinite-scroll-preloader').remove();
+        })
+
+    </script>
+{/block}
+
+{block content}
+    <div class="bar bar-header-secondary">
+        <div class="searchbar">
+            <a class="searchbar-cancel">取消</a>
+            <div class="search-input">
+                <label class="icon icon-search" for="search"></label>
+                <input type="search" id='search' placeholder='输入关键字...'/>
+            </div>
+        </div>
+    </div>
+    <div class="list-block">
+        <ul class="list">
+            <li>
+                <a class="item-content" href="">
+                    <div class="item-inner">
+                        <div class="item-name sui-ellipsis-1" style="line-height: 15px; {if $item['s_acorn']>=0}color:#3d4145;{else}color:red;{/if}"></div>
+                        <div class="item-src"
+                        <i class="icon al-icon al-icon-influence sui-font-size-rem-0-8"></i></div>
+                    <div class="item-src"></div>
+                </a>
+            </li>
+        </ul>
+    </div>
+{/block}

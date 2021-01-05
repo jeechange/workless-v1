@@ -1,0 +1,55 @@
+Admin\Entity\TargetOthers:
+  type: entity
+  table: target_others
+  id:
+    id:
+      type: integer
+      nullable: false
+      unsigned: false
+      comment: ''
+      id: true
+      generator:
+        strategy: IDENTITY
+  fields:
+    userId:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: user_id
+    tdId:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: td_id
+    score:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    addTime:
+      type: datetime
+      nullable: true
+      comment: ''
+      column: add_time
+    status:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    content:
+      type: text
+      nullable: true
+      length: null
+      fixed: false
+      comment: ''
+    mId:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: m_id
+  lifecycleCallbacks: {  }

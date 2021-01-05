@@ -1,0 +1,65 @@
+{layout '../Public/layoutList.latte'} {*继承layoutList模板*}
+{block title}积分审核{/block}
+{block actionstab}
+    {include "./auditsTab.latte"}
+{/block}
+{block content}
+    <table cellpadding="0" cellspacing="0" border="0" class="stdtable">
+        <thead>
+        <tr>
+            <th></th>
+            <th><span class="table-head">申请时间</span></th>
+            <th><span class="table-head">标准</span></th>
+            <th data-sort="s.acorn"><span class="table-head">积分<i class="icon al-icon al-icon-influence" style="color:#0087e1"></i></span></th>
+            <th data-sort="s.names"><span class="table-head">申请人</span></th> {*在th加入 data-sort 可对数据库进行排序*}
+            <th data-sort="s.id"><span class="table-head">被申请人</span></th>
+            <th data-sort="s.status"><span class="table-head">审核人</span></th>
+            <th><span class="table-head">审核时间</span></th>
+            <th><span class="table-head">状态</span></th>
+            <th><span class="table-head">操作</span></th>
+        </tr>
+        </thead>
+        <tbody>
+        {foreach $lists as $k=>$item}
+            <tr>
+                <td style="width: 60px;"><input type="checkbox" name='ids[]' class="checkall_1 checkall-item" value="{$item['aa_id']}"/></td>
+                <td class="wid-auto">{$item["aa_addTime"]|totime}</td>
+                <td class="wid-auto">[{$item['names']}]{$item['sNames']}{if preg_match('/^\d+$/',$item['aa_sysMemo'])}<span style="color:red">[#{$item['aa_sysMemo']}]</span>{/if}</td>
+                </td>
+                {if $item['aa_acorn'] == 0}
+                    <td class="wid-auto">不预设</td>
+                {else}
+                    <td class="wid-auto">{$item['aa_acorn']}</td>
+                {/if}
+                <td class="wid-auto">{$item['fullName']}</td>
+                <td class="wid-auto">{$item['toUser']}</td>
+                <td class="center">{$item["fullNames"]}</td>
+                <td class="wid-auto">{$item["aa_auditTime"]?$item["aa_auditTime"]:'--'|totime}</td>
+                <td class="wid-auto">{$item["statusMemo"]}</td>
+                <td>
+                    {*<a href="{url("consoles_detail","con=Acorn&&id=".$item['aa_id'])}" data-side-form>详情</a>*}
+                    <a href="{url('consoles_index_sharePage',"share={$item['share']}")}" data-popup=",720px,600px">
+                        分享
+                    </a>
+                    {if $item['aa_status'] == 1}
+
+                    {elseif  $item['aa_status'] == 0}
+                        <a href="{url('consoles_acorn_cancel',array('id'=>$item['aa_id']))}" data-confirm="是否确定取消吗？" style="color:#0087E1">取消</a>
+                    {else}
+                        <a href="{url('consoles_acorn_cancel',array('id'=>$item['aa_id']))}" data-confirm="是否确定删除吗？" style="color:#FF0000">删除</a>
+                    {/if}
+                </td>
+            </tr>
+            <tr class="memo" hidden>
+                <td colspan="12" width="100%">{$item['aa_memo']|noescape}</td>
+            </tr>
+        {/foreach}
+        </tbody>
+    </table>
+{/block}
+{block private_js}
+{/block}
+{block private_css}
+{/block}
+
+

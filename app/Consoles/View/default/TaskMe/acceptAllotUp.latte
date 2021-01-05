@@ -1,0 +1,27 @@
+<div style="height:50px;line-height:50px;color:red;text-align:center">您审核的分数上限为{$myMaxAcorn}分，高于{$myMaxAcorn}分需要提交给更高级别的人员审核</div>
+
+
+<table cellpadding="0" cellspacing="0" border="0" class="stdtable">
+    <thead>
+    <tr>
+        <th style="text-align:center"><span class="table-head">姓名</span></th> {*在th加入 data-sort 可对数据库进行排序*}
+        <th style="text-align:center"><span class="table-head">部门</span></th>
+        <th style="text-align:center"><span class="table-head">职位</span></th>
+        <th style="text-align:center"><span class="table-head">审核上限</span></th>
+        <th style="text-align:center"><span class="table-head">操作</span></th>
+    </tr>
+    </thead>
+    <tbody>
+    {foreach $lists as $k=>$item}
+        <tr>
+            <td style="text-align:center;padding:7px 0;">{$item["s_fullName"]}</td>
+            <td style="text-align:center;padding:7px 0;">{$item["d_names"]}</td>
+            <td style="text-align:center;padding:7px 0;">{$item['ss_names']}</td>
+            <td style="text-align:center;padding:7px 0;">{$item['ss_limitAcorn']==1?$item['ss_riseAcorn']:"不限制"}</td>
+            <td style="text-align:center;padding:7px 0;">
+                <div style="cursor:pointer;text-decoration:underline;color:#009DD9" onclick="submitAccept.call(this,{$item['s_id']});" data-posts="{json_encode($posts)}">交给TA审核</div>
+            </td>
+        </tr>
+    {/foreach}
+    </tbody>
+</table>

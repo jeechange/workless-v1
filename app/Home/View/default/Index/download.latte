@@ -1,0 +1,142 @@
+{layout '../Layout/layout.latte'}
+{block private_css}
+    <link type="text/css" rel="stylesheet" href="{path('[Home]/css/download.css')}">
+    <style>
+
+    </style>
+{/block}
+{block private_content}
+
+    {*myOrder导航*}
+    <div class="my_order">
+        <div class="my_order_nav">
+            <ul>
+                <li><a href="{url('home_index_helps')}">帮助中心</a></li>
+                <li><a href="{url('home_index_logs')}">产品日志</a></li>
+                {*<li class="on"><a href="{url('home_index_download')}">下载客户端</a></li>*}
+                <li><a href="{url('home_index_skill')}">协作技巧</a></li>
+
+            </ul>
+        </div>
+    </div>
+    {*下载客户端*}
+    <div class="download">
+        <div class="download_mb">
+            <p>下载workless，让你零距离在线沟通，随时随地与团队写作</p>
+            <ul>
+                <li class="on">
+                    <div class="title">
+                        <p class="tle" style="">ios下载</p>
+                    </div>
+                    <div class="img">
+                        <img class="show" id="shows" src="{path('[Home]/img/ewm.png')}" alt="">
+                    </div>
+                </li>
+                <li>
+                    <div class="title">
+                        <p>Android下载</p>
+                    </div>
+                    <div class="img">
+                        <img src="{path('[Home]/img/ewm.png')}" alt="">
+                    </div>
+                </li>
+                <li>
+                    <div class="title">
+                        <p>微信访问</p>
+                    </div>
+                    <div class="img">
+                        <img src="{path('[Home]/img/ewm.png')}" alt="">
+                    </div>
+                </li>
+                <li>
+                    <div class="title">
+                        <p>MaxOS</p>
+                    </div>
+                    <div class="img">
+                        <img src="{path('[Home]/img/ewm.png')}" alt="">
+                    </div>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+    <script>
+        $(function () {
+            function windowWidth() {
+                var body = $('body').width();
+                if (body > 425) {
+                    return 'pc';
+                }
+                else {
+                    return 'phone';
+                }
+            }
+
+            if (windowWidth() == 'pc') {
+                $('.download ul li.on .img').css('display', 'block');
+            }
+
+            $('.download ul li.on .img').css('display', 'block');
+
+            $('.download ul li .title').on('click', function () {
+                $('.download ul li.on .img').stop().slideToggle();
+                $(this).parent().find('.img').stop().slideToggle();
+                $('.download ul li').removeClass('on');
+                $(this).parent().addClass('on');
+            })
+
+
+        })
+    </script>
+{/block}
+{block private_js}{/block}
+
+
+
+
+
+
+{*  <script>
+        $(function () {
+            $(".title p").hover(function () {
+                $('.title p').removeClass('tle');
+                $(this).addClass('tle');
+            },function(){
+                $(this).removeClass('tle')
+            });
+
+            $(".title p").hover(function () {
+                $('.title p').removeClass('show');
+                $(this).addClass('show');
+            },function(){
+                $(this).removeClass('show')
+            })
+
+
+           function windowWidth() {
+               var body = $('body').width();
+               if (body>425){
+                   return 'pc';
+               }
+               else{
+                   return 'phone';
+               }
+           }
+
+           if(windowWidth()!='pc'){
+               $('.download ul li.on .img').css('display','block');
+           }
+
+           $('.download ul li .title').on('click',function(){
+               if (windowWidth()!='pc') {
+                   var index = $(this).parent().index();
+                   $('.download ul li.on .img').stop().slideToggle();
+                   $('.download ul li').eq(index).find('.img').stop().slideToggle();
+                   $('.download ul li').removeClass('on');
+                   $(this).parent().addClass('on');
+               }
+           })
+
+
+        })
+    </script>*}

@@ -1,0 +1,178 @@
+{layout "../Layout/layout.latte"}
+{block tabs_content}
+    {*{include "./panelRight.latte"}*}
+{/block}
+{block custom}
+    {include "../Public/custom.latte" , title1=>"选择执行人", title2=>"选择验收人"}
+{/block}
+{block private_js}
+    <script type="text/javascript">
+        $(function () {
+            $("#bnt").click(function () {
+                $.ajax({
+                    type: "post",
+                    url: $("#formArticle").attr("action"),
+                    data: $("#formArticle").serialize(),
+                    cache: false,
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.status == "n") {
+                            $.toast(data.info);
+                            return false;
+                        } else {
+                            $.toast("添加成功");
+                            setTimeout(function () {
+                                // $.showPreloader();
+                                location.replace(data.url);
+                            }, 2000);
+                        }
+                    }
+                });
+            });
+        });
+
+        setInterval(function () {
+            var str = $("input[class='weiyiceshi']:checked").length;
+            $('#ICBCount').html(str);
+        }, 500);
+
+        $(function () {
+            $(".create-actions").click(function () {
+                var name = $(this).attr("data-name");
+                var toUrl = $(this).attr("data-url");
+                var buttons1 = [
+                    {
+                        text: '请选择',
+                        label: true
+                    },
+                    {
+                        text: name,
+                        onClick: function () {
+                            window.location.href = toUrl;
+                        }
+                    }
+                ];
+                var buttons2 = [
+                    {
+                        text: '取消',
+                        bg: 'danger'
+                    }
+                ];
+                var groups = [buttons1, buttons2];
+                $.actions(groups);
+            });
+        })
+    </script>
+    {include "../Public/customJs.latte"}
+{/block}
+{block private_css}
+    <style>
+        .item-title, input{ font-size:0.9rem !important; }
+
+        .staff-add{ margin:10px 0; }
+
+        .worker-added-item{ margin:10px 10px 10px 0; float:left; display:unset; margin-right:unset; margin-top:unset; }
+
+        .theme-dark .label-switch .checkbox{ background:#fff; }
+
+        .theme-dark .label-switch .checkbox:before{ background:#fff; }
+
+        .create-actions{
+            position:fixed;
+            background:rgba(24, 28, 31, 0.6);
+            width:44px;
+            height:44px;
+            line-height:44px;
+            z-index:9999;
+            bottom:65px;
+            right:15px;
+            text-align:center;
+            color:#fff;
+            border-radius:50px;
+        }
+    </style>
+{/block}
+{block content}
+    <form id="formArticle" class="stdform mform" method="post" action="" onsubmit="return false">
+        <div class="list-block">
+            <ul>
+                <li>
+                    <div class="item-content">
+                        <div class="item-media"><i class="icon icon-form-name"></i></div>
+                        <div class="item-inner">
+                            <div class="item-title label">手机号</div>
+                            <div class="item-input">
+                                <input type="text" placeholder="手机号" name="phone" style="border:1px solid #f6f6f6;"/>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="item-content">
+                        <div class="item-media"><i class="icon icon-form-name"></i></div>
+                        <div class="item-inner">
+                            <div class="item-title label">选择项目</div>
+                            <div class="item-input">
+                                <div class="field-item-body">
+                                    <div class="field-item-member-box">
+                                        <p><a href="#" class="button button-fill open-panel" data-panel='#panel-right-demo'>已选择：<span id="ICBCount">0</span></a></p>
+                                    </div>
+                                    <div class="panel-overlay"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="item-content">
+                        <div class="item-media"><i class="icon icon-form-name"></i></div>
+                        <div class="item-inner">
+                            <div class="item-title label">备注</div>
+                            <div class="item-input">
+                                <textarea name="memo" style="border:1px solid #f6f6f6;"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        {*侧边栏*}
+        <div class="panel-overlay"></div>
+        <!-- Left Panel with Reveal effect -->
+        <div class="panel panel-right panel-cover theme-dark" id='panel-right-demo' style="width:80%; background:white; border-left:1px solid #f2f2f2;">
+            <div class="content-block">
+                <p>请选择项目</p>
+            </div>
+            <div class="list-block" style="padding:10px;">
+                {foreach $TGLists as $v}
+                    <div class="item-inner" style="box-sizing:border-box; padding:0 10px; background:#f2f2f2;">
+                        <div class="item-title label" style="width:80%;">{$v['names']}</div>
+                        <div class="item-input" style="display:inline;">
+                            <label class="label-switch">
+                                <input class="weiyiceshi" type="checkbox" oninput="OnInput(event)" onpropertychange="OnPropChanged(event)" name="tgId[{$v['id']}]">
+                                <div class="checkbox"></div>
+                            </label>
+                        </div>
+                    </div>
+                {/foreach}
+            </div>
+        </div>
+        {*侧边栏*}
+    </form>
+    <div class="content-block">
+        <div class="col-95">
+            <div class="button button-big button-fill" id="bnt">提交</div>
+        </div>
+    </div>
+    <div class="content-block">
+        <div class="col-95">
+            <a href="#" onclick="javascript:location.replace({url("mobileConsoles_user_company", array("active" => "WBLXR"))})" style="text-align: center;display: block;">返回</a>
+        </div>
+    </div>
+    {if $isSuper}
+        <div>
+            <span data-url="{url("mobileConsoles_company_addStaffstation")}" data-name="添加职位" class="create-actions">管理</span>
+        </div>
+    {/if}
+{/block}

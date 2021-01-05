@@ -1,0 +1,240 @@
+{layout "../Layout/layout.latte"}
+{block private_js}
+    <script type="text/javascript" src="//g.alicdn.com/msui/sm/0.6.2/js/sm-city-picker.min.js" charset="utf-8"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#bnt").click(function () {
+                $.ajax({
+                    type: "post",
+                    url: $("#formArticle").attr("action"),
+                    data: $("#formArticle").serialize(),
+                    cache: false,
+                    dataType: "json",
+                    success: function (data) {
+                        $.toast(data.info);
+                        if (data.status == "n") {
+                            return false;
+                        } else {
+                            setTimeout(function () {
+                                location.replace(data.url);
+                            }, 1000);
+                        }
+                    }
+                });
+            })
+
+            $("#city-picker").cityPicker({
+                toolbarTemplate: '<header class="bar bar-nav">\
+                <button class="button button-link pull-right close-picker">确定</button>\
+                <h1 class="title">选择收货地址</h1>\
+                </header>'
+            });
+
+            window.industry = new Array();
+            industry.push("选择行业");
+            industry = industry.concat({$industryNames});
+            $("#industryPicker").picker({
+                toolbarTemplate: '<header class="bar bar-nav">\
+                <button class="button button-link pull-right close-picker">确定</button>\
+                <h1 class="title">选择行业</h1>\
+                </header>',
+                cols: [
+                    {
+                        textAlign: 'center',
+                        values: industry
+                    }
+                ]
+            });
+            window.scale = new Array();
+            scale.push("选择规模");
+            scale = scale.concat({$scalesNames});
+            $("#scalePicker").picker({
+                toolbarTemplate: '<header class="bar bar-nav">\
+                <button class="button button-link pull-right close-picker">确定</button>\
+                <h1 class="title">选择规模</h1>\
+                </header>',
+                cols: [
+                    {
+                        textAlign: 'left',
+                        values: scale
+                    }
+                ]
+            });
+            window.source = new Array();
+            source.push("选择途径");
+            source = source.concat({$sourceNames});
+            $("#sourcePicker").picker({
+                toolbarTemplate: '<header class="bar bar-nav">\
+                <button class="button button-link pull-right close-picker">确定</button>\
+                <h1 class="title">选择途径</h1>\
+                </header>',
+                cols: [
+                    {
+                        textAlign: 'center',
+                        values: source
+                    }
+                ]
+            });
+            window.template = new Array();
+            template.push("选择模板");
+            template = template.concat({$templateNames});
+            $("#templatePicker").picker({
+                toolbarTemplate: '<header class="bar bar-nav">\
+                <button class="button button-link pull-right close-picker">确定</button>\
+                <h1 class="title">选择模板</h1>\
+                </header>',
+                cols: [
+                    {
+                        textAlign: 'center',
+                        values: template
+                    }
+                ]
+            });
+
+        });
+
+
+
+
+
+
+
+    </script>
+    {include "../Public/customJs.latte"}
+{/block}
+{block private_css}
+    <style>
+        .item-title, input{ font-size:0.9rem !important; }
+        .staff-add { margin: 10px 0;}
+        .worker-added-item { margin: 10px 10px 10px 0;float: left;display: unset;margin-right: unset;margin-top: unset;}
+        ul li{ line-height: 2.2rem;}
+    </style>
+{/block}
+{block content}
+    <form id="formArticle" class="stdform mform" method="post" action="" onsubmit="return false">
+        <div class="list-block">
+            <ul>
+                <li>
+                    <div class="item-content">
+                        <div class="item-media"><i class="icon icon-form-name"></i></div>
+                        <div class="item-inner">
+                            <div class="item-title label">企业名称</div>
+                            <div class="item-input">
+                                <input type="text" placeholder="企业名称" name="names">
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="item-content">
+                        <div class="item-media"><i class="icon icon-form-name"></i></div>
+                        <div class="item-inner">
+                            <div class="item-title label">行业</div>
+                            <div class="item-input">
+                                <input type="text" id='industryPicker' value="选择行业" name="industry"/>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="item-content">
+                        <div class="item-media"><i class="icon icon-form-name"></i></div>
+                        <div class="item-inner">
+                            <div class="item-title label">企业规模</div>
+                            <div class="item-input">
+                                <input type="text" id='scalePicker' value="选择规模" name="scale"/>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="item-content">
+                        <div class="item-media"><i class="icon icon-form-name"></i></div>
+                        <div class="item-inner">
+                            <div class="item-title label">联系人姓名</div>
+                            <div class="item-input">
+                                <input type="text" placeholder="联系人姓名" name="contact">
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="item-content">
+                        <div class="item-media"><i class="icon icon-form-name"></i></div>
+                        <div class="item-inner">
+                            <div class="item-title label">联系人手机</div>
+                            <div class="item-input">
+                                <input type="text" placeholder="联系人手机" name="contactPhone">
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="item-content">
+                        <div class="item-media"><i class="icon icon-form-name"></i></div>
+                        <div class="item-inner">
+                            <div class="item-title label">联系人邮箱</div>
+                            <div class="item-input">
+                                <input type="text" placeholder="联系人邮箱" name="email">
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="item-content">
+                        <div class="item-media"><i class="icon icon-form-name"></i></div>
+                        <div class="item-inner">
+                            <div class="item-title label">地区</div>
+                            <div class="item-input">
+                                <input type="text" id='city-picker' value="广西 南宁 青秀区" name="adds"/>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="item-content">
+                        <div class="item-media"><i class="icon icon-form-name"></i></div>
+                        <div class="item-inner">
+                            <div class="item-title label">详细地址</div>
+                            <div class="item-input">
+                                <input type="text" placeholder="详细地址" name="address">
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="item-content">
+                        <div class="item-media"><i class="icon icon-form-name"></i></div>
+                        <div class="item-inner">
+                            <div class="item-title label">发现我们途径</div>
+                            <div class="item-input">
+                                <input type="text" id='sourcePicker' value="选择途径" name="source"/>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="item-content">
+                        <div class="item-media"><i class="icon icon-form-name"></i></div>
+                        <div class="item-inner">
+                            <div class="item-title label">标准模板</div>
+                            <div class="item-input">
+                                <input type="text" id='templatePicker' value="选择模板" name="template"/>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </form>
+    <div class="content-block">
+        <div class="col-95">
+            <div class="button button-big button-fill" id="bnt">提交</div>
+        </div>
+    </div>
+    <div class="content-block">
+        <div class="col-95">
+            <a onclick="javascript: location.replace({url("mobileConsoles_user_guide")})" style="text-align: center;display: block;">返回</a>
+        </div>
+    </div>
+{/block}

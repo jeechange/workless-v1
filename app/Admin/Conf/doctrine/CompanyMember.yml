@@ -1,0 +1,148 @@
+Admin\Entity\CompanyMember:
+  type: entity
+  table: company_member
+  id:
+    id:
+      type: integer
+      nullable: false
+      unsigned: false
+      comment: ''
+      id: true
+      generator:
+        strategy: IDENTITY
+  fields:
+    userId:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: user_id
+    sid:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+    addTime:
+      type: datetime
+      nullable: true
+      comment: ''
+      column: add_time
+    intoTime:
+      type: datetime
+      nullable: true
+      comment: ''
+      column: into_time
+    types:
+      type: smallint
+      nullable: true
+      unsigned: false
+      comment: ''
+    status:
+      type: smallint
+      nullable: true
+      unsigned: false
+      comment: ''
+    phone:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    recId:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: rec_id
+    acorn:
+      type: decimal
+      nullable: true
+      precision: 20
+      scale: 0
+      comment: ''
+    snackNum:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: snack_num
+    wxwork:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    ding:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    leftTime:
+      type: datetime
+      nullable: true
+      comment: ''
+      column: left_time
+    surveyAcorn:
+      type: decimal
+      nullable: true
+      precision: 20
+      scale: 0
+      comment: ''
+      column: survey_acorn
+    targetAcorn:
+      type: decimal
+      nullable: true
+      precision: 20
+      scale: 0
+      comment: ''
+      column: target_acorn
+    leader:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+    leaderName:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+      column: leader_name
+    money:
+      type: decimal
+      nullable: true
+      precision: 20
+      scale: 2
+      comment: ''
+    bonus:
+      type: decimal
+      nullable: true
+      precision: 20
+      scale: 0
+      comment: ''
+    inviteInfo:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+      column: invite_info
+    fullName:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+      column: full_name
+    department:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+    station:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+  lifecycleCallbacks: {  }

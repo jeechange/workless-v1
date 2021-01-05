@@ -1,0 +1,186 @@
+<script>
+    function countDown(endTimes) {
+        endTimes = endTimes.replace(/\-+/g, ":");
+        endTimes = endTimes.replace(/\s+/g, ":");
+        var endTimesArr = endTimes.split(/:/g);
+        var endTimeDate = new Date(endTimesArr[0], endTimesArr[1] - 1, endTimesArr[2], endTimesArr[3], endTimesArr[4]);
+        var times = endTimeDate.getTime() - (new Date().getTime());
+
+        var day = 0,
+            hour = 0,
+            minute = 0,
+            second = 0;//时间默认值
+        if (times > 0) {
+            day = Math.floor(times / 1000 / 60 / 60 / 24);
+            hour = Math.floor(times / 1000 / 60 / 60 % 24);
+            minute = Math.floor(times / 1000 / 60 % 60);
+            second = Math.floor(times / 1000 % 60);
+        }
+        var $return = "";
+        if (day > 0) $return += day + "天";
+        if (hour > 0) $return += hour + "小时";
+        if (minute > 0) $return += minute + "分";
+        return $return + second + "秒";
+    }
+
+    var oldEndTims = "";
+    $(function () {
+        $(".priority-input").unbind().bind("click", function () {
+            $(this).siblings(".selected").removeClass("selected");
+            $(this).addClass("selected");
+        });
+        $(".shortcut-deadline").unbind().bind("click", function () {
+            $(this).addClass("selected").siblings(".shortcut-deadline.selected").removeClass("selected");
+            var val = $(this).attr("data-val");
+            $("#deadline").val(val);
+        });
+        window.timerdeadline = setInterval(function () {
+            var endTimes = $("#deadline").val();
+            if ($("#deadline").length === 0) {
+                clearInterval(window.timerdeadline);
+                return;
+            }
+            if (endTimes !== oldEndTims) {
+                var today = $(".shortcut-deadline[data-type='today']").attr("data-val");
+                var tomorrow = $(".shortcut-deadline[data-type='tomorrow']").attr("data-val");
+                var week = $(".shortcut-deadline[data-type='week']").attr("data-val");
+
+                if (today === endTimes) {
+                    $(".shortcut-deadline[data-type='today']").addClass("selected");
+                } else {
+                    $(".shortcut-deadline[data-type='today']").removeClass("selected");
+                }
+                if (tomorrow === endTimes) {
+                    $(".shortcut-deadline[data-type='tomorrow']").addClass("selected");
+                } else {
+                    $(".shortcut-deadline[data-type='tomorrow']").removeClass("selected");
+                }
+                if (week === endTimes) {
+                    $(".shortcut-deadline[data-type='week']").addClass("selected");
+                } else {
+                    $(".shortcut-deadline[data-type='week']").removeClass("selected");
+                }
+                var times = (new Date(endTimes)) - (new Date());
+                if (times) {
+                    var day = Math.floor(times / 1000 / 60 / 60 / 24);
+                    if (day >= 7) {
+                        $.alert("任务周期超过7天，建议细分任务，让任务更具体");
+                        $("#deadline,#deadlineRemain").addClass("warning");
+                    } else {
+                        $("#deadline,#deadlineRemain").removeClass("warning");
+                    }
+                } else {
+                    $("#deadline,#deadlineRemain").removeClass("warning");
+                }
+                oldEndTims = endTimes;
+            }
+            var cTime = countDown(endTimes);
+            $("#deadlineRemain").text("剩余：" + cTime);
+        }, 1000);
+        $("#deadline").datetimePicker({
+            value:{$defaultDeadline}
+        });
+
+        $(".submit-form").on("click", function () {
+            $.showPreloader('正在提交，请稍候...');
+
+            var standardTypes = $("input[name='standardTypes']").val();
+            if (standardTypes != 2) {
+                var workloads = $("#picker-workload").val();
+
+                var workloadsArr = workloads.match(/\d+/g);
+
+                $("#workload").val(workloadsArr.join(","));
+            } else {
+                $("#workload").val($("#input-workload").val());
+            }
+
+            $.ajax({
+                url: $(this).attr("data-url"),
+                type: "POST",
+                data: $("#my-form").serialize(),
+                dataType: "json",
+                success: function (res) {
+                    $.hidePreloader();
+                    if (res.status === "n") {
+                        $.toast(res.info);
+                        return;
+                    }
+                    $.toast("添加成功");
+                    setTimeout(function () {
+                        location.href = res.data;
+                    }, 1000)
+                }
+            });
+        });
+        // if (typeof window.selectDefaultStandard === "function") {
+        //     window.selectDefaultStandard();
+        // }
+
+        $("#picker-workload").picker({
+            toolbarTemplate: '<header class="bar bar-nav">\
+  <button class="button button-link pull-right close-picker">确定</button>\
+  <h1 class="title">请设置任务量</h1>\
+  </header>',
+            cols: [
+                {
+                    textAlign: 'center',
+                    values: ["0天", "1天", "2天", "3天", "4天", "5天", "6天", "7天", "8天", "9天", "10天", "11天", "12天", "13天", "14天", "15天"]
+                },
+                {
+                    textAlign: 'center',
+                    values: ["0小时", "1小时", "2小时", "3小时", "4小时", "5小时", "6小时", "7小时"],
+                },
+                {
+                    textAlign: 'center',
+                    values: ["0分钟", "15分钟", "30分钟", "45分钟"],
+                }
+            ]
+        });
+        $("#picker-visibility").picker({
+            toolbarTemplate: '<header class="bar bar-nav">\
+  <button class="button button-link pull-right close-picker">确定</button>\
+  <h1 class="title">请选择可见性</h1>\
+  </header>',
+            cols: [
+                {
+                    textAlign: 'center',
+                    values:{$visibilityMemo}
+                },
+            ],
+            onClose: function () {
+                var $visibilityMemo = {$visibilityMemo};
+                var visibility = $("#picker-visibility").val();
+                $("input[name='visibility']").val($visibilityMemo.indexOf(visibility));
+            }
+        });
+        $("#picker-standardTypes").picker({
+            toolbarTemplate: '<header class="bar bar-nav">\
+  <button class="button button-link pull-right close-picker">确定</button>\
+  <h1 class="title">请选择任务模型</h1>\
+  </header>',
+            cols: [
+                {
+                    textAlign: 'center',
+                    values: ["计时模型", "计件模型"]
+                },
+            ],
+            onClose: function () {
+                var standardTypes = $(this.input).val();
+                var val = ["计时模型", "计件模型"].indexOf(standardTypes) + 1;
+
+                if (val == 1) {
+                    $("#picker-workload").show();
+                    $("#input-workload").hide();
+                } else {
+                    $("#picker-workload").hide();
+                    $("#input-workload").show();
+                }
+                $("input[name='standardTypes']").val(val);
+            }
+        });
+
+
+    })
+
+</script>

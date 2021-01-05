@@ -1,0 +1,302 @@
+{layout "../Layout/layoutBoth.latte"}
+{block headTitle}{if $sTypes==1}加分统计{elseif $sTypes==2}扣分统计{else}得分统计{/if}{/block}
+{block tabs_content}
+    {include "./statisticsTab.latte"}
+{/block}
+{block private_js}
+    <script type="text/javascript">
+        $(document).on("pageInit", function () {
+            $(document).on('refresh', '.pull-to-refresh-content', function (e) {
+                setTimeout(function () {
+                    $.pullToRefreshDone('.pull-to-refresh-content');
+                }, 2000);
+            });
+
+            $(document).on('infinite', '.infinite-scroll-bottom', function () {
+                $('.infinite-scroll-preloader').remove();
+                // $.refreshScroller(); //刷新滚动
+            });
+            $('.infinite-scroll-preloader').remove();
+        });
+        $(".acorn-show").click(function () {
+            var buttons1 = [
+                {
+                    text: '1月',
+                    onClick: function () {
+                        $.showPreloader('加载中...');
+                        location.replace({url("mobileConsoles_sort_effect_deduction",array("sTypes"=>$sTypes,"types"=>$types,"bTypes"=>1))});
+                    }
+                },
+                {
+                    text: '2月',
+                    onClick: function () {
+                        $.showPreloader('加载中...');
+                        location.replace({url("mobileConsoles_sort_effect_deduction",array("sTypes"=>$sTypes,"types"=>$types,"bTypes"=>2))});
+                    }
+                },
+                {
+                    text: '3月',
+                    onClick: function () {
+                        $.showPreloader('加载中...');
+                        location.replace({url("mobileConsoles_sort_effect_deduction",array("sTypes"=>$sTypes,"types"=>$types,"bTypes"=>3))});
+
+                    }
+                },
+                {
+                    text: '4月',
+                    onClick: function () {
+                        $.showPreloader('加载中...');
+                        location.replace({url("mobileConsoles_sort_effect_deduction",array("sTypes"=>$sTypes,"types"=>$types,"bTypes"=>4))});
+
+                    }
+                },
+                {
+                    text: '5月',
+                    onClick: function () {
+                        $.showPreloader('加载中...');
+                        location.replace({url("mobileConsoles_sort_effect_deduction",array("sTypes"=>1,"types"=>$types,"bTypes"=>5))});
+
+                    }
+                },
+                {
+                    text: '6月',
+                    onClick: function () {
+                        $.showPreloader('加载中...');
+                        location.replace({url("mobileConsoles_sort_effect_deduction",array("sTypes"=>1,"types"=>$types,"bTypes"=>6))});
+
+                    }
+                },
+                {
+                    text: '7月',
+                    onClick: function () {
+                        $.showPreloader('加载中...');
+                        location.replace({url("mobileConsoles_sort_effect_deduction",array("sTypes"=>$sTypes,"types"=>$types,"bTypes"=>7))});
+
+                    }
+                },
+                {
+                    text: '8月',
+                    onClick: function () {
+                        $.showPreloader('加载中...');
+                        location.replace({url("mobileConsoles_sort_effect_deduction",array("sTypes"=>$sTypes,"types"=>$types,"bTypes"=>8))});
+
+                    }
+                },
+                {
+                    text: '9月',
+                    onClick: function () {
+                        $.showPreloader('加载中...');
+                        location.replace({url("mobileConsoles_sort_effect_deduction",array("sTypes"=>$sTypes,"types"=>$types,"bTypes"=>9))});
+
+                    }
+                },
+                {
+                    text: '10月',
+                    onClick: function () {
+                        $.showPreloader('加载中...');
+                        location.replace({url("mobileConsoles_sort_effect_deduction",array("sTypes"=>$sTypes,"types"=>$types,"bTypes"=>10))});
+
+                    }
+                },
+                {
+                    text: '11月',
+                    onClick: function () {
+                        $.showPreloader('加载中...');
+                        location.replace({url("mobileConsoles_sort_effect_deduction",array("sTypes"=>$sTypes,"types"=>$types,"bTypes"=>11))});
+
+                    }
+                },
+                {
+                    text: '12月',
+                    onClick: function () {
+                        $.showPreloader('加载中...');
+                        location.replace({url("mobileConsoles_sort_effect_deduction",array("sTypes"=>$sTypes,"types"=>$types,"bTypes"=>12))});
+
+                    }
+                }
+            ];
+            var buttons2 = [
+                {
+                    text: '取消',
+                    bg: 'danger'
+                }
+            ];
+            var groups = [buttons1, buttons2];
+            $.actions(groups);
+        });
+        function findACorn() {
+            var val = $(this).val().toString().replace(/^\s+|\s+$/gm, '');
+            var lists = $(".details-body").find("li[data-names-keyword]");
+            if (!val) {
+                $(".details-body").find("li").css("display", "flex");
+                for (var i = 0; i < lists.length; i++) {
+                    var text = $(lists[i]).find(".item-memo").text();
+                    $(lists[i]).find(".item-memo").html(text);
+                }
+                return true;
+            }
+            for (var i = 0; i < lists.length; i++) {
+                var text = $(lists[i]).attr("data-names-keyword");
+                var values = $(lists[i]).attr("data-values");
+                var indexOf = text.indexOf(val);
+                var JJ = '';
+                if (values > 0) {
+                    var JJ = '+';
+                }
+                if (indexOf === -1) {
+                    $(lists[i]).find(".item-memo").html(text);
+                    $(lists[i]).css("display", "none");
+                    continue;
+                }
+                var newHtml = "";
+                if (indexOf === 0) {
+                    newHtml = '<span class="highlight">' + val + '<\/span>' + text.substring(val.length);
+                }
+                if (indexOf > 0) {
+                    newHtml = text.substring(0, indexOf) + '<span class="highlight">' + val + '<\/span>' + text.substring(val.length + indexOf);
+                }
+                $(lists[i]).find(".item-memo").html(newHtml);
+                $(lists[i]).css("display", "flex");
+            }
+        }
+
+    </script>
+{/block}
+{block private_css}
+    <style>
+        .pull-to-refresh-layer{
+            height:3rem !important;
+        }
+
+        .details{
+            min-height:100%;
+            padding:0 0.5rem;
+            background:#fff;
+        }
+
+        .details-body ul{
+            padding:0;
+            margin:0;
+        }
+
+        .details-body li{
+            display:flex;
+            width:100%;
+            min-height:3rem;
+            line-height:3rem;
+            padding:0 1rem;
+            border-bottom:1px solid #eee;
+        }
+
+        .details-body li:nth-child(2n){
+            background:#f9f9f9;
+        }
+
+        .details-body li .item-memo{
+            width:35%;
+            text-align:left;
+            float:left;
+        }
+
+        .details-body li .item-task{
+            text-align:right;
+            float:right;
+        }
+
+        .details-body li .item-last{
+            width:20%;
+            text-align:right;
+            float:left;
+        }
+
+        .bar{
+            background-color:#efeff4
+        }
+
+        .bar .searchbar{
+            background:rgb(255, 255, 255);
+            border:1px solid #fafafa;
+            border-radius:25px;
+        }
+
+        .tabs{
+            height:3rem !important;
+        }
+
+        .tabs .tabs-link{
+            height:3rem;
+            line-height:3rem;
+        }
+
+        .searchbar .search-input input{
+            height:2rem;
+        }
+
+        .searchbar .searchbar-cancel{
+            line-height:2rem;
+        }
+
+        .search-input input{
+            border:none;
+        }
+
+        .searchbar{
+            padding:4px 0;
+            height:2.5rem;
+        }
+        .actions-modal{
+            height: 100%;
+            overflow-y: scroll;
+        }
+    </style>
+{/block}
+
+{block content}
+    <div style="width:100%;display: inline-block;padding: 5px;">
+        <div style="background-color:#ffffff;height: 2.5rem;line-height: 2.5em;padding: 5px 10px;width: 40%;float: left;">
+            <div class="item-content">
+                <div class="item-inner acorn-show">
+                    <div class="item-title" style="color: #24a0ed;">{$bTypes}月<span class="icon icon-down" style="color: #24a0ed;float:right"></span></div>
+                </div>
+            </div>
+        </div>
+        <div style="background-color:#ffffff;height: 2.5rem;line-height: 2.5em; width: 58%;float: left;margin-left: 5px;">
+            <div class="searchbar">
+                <form action="" method="get">
+                    <a class="searchbar-cancel">取消</a>
+                    <div class="search-input">
+                        <label class="icon icon-search" for="search"></label>
+                        <input type="search" id='search' oninput="findACorn.call(this)" placeholder='输入关键字...'/>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="details" style=" margin-top: -5px;">
+        {if $lists}
+            <div class="details-body">
+                {foreach $lists as  $k=>$v}
+                    <a href="{url('mobileConsoles_sort_detailStatistics',array('id'=>$v['userId'],'sTypes'=>$sTypes,"bTypes"=>$bTypes,'t'=>$types))}" style="color: #666666;">
+                        <ul>
+                            <li data-names-keyword="{$v['userName']}" data-values="{$v['acorn']}" data-id="{$v['id']}">
+                                <div style="width:100%">
+                                    <div class="item-memo sui-ellipsis-1">{$v['userName']}</div>
+                                    <div class="item-task sui-ellipsis-1">
+                                        {if $v['acorn'] > 0}+{/if}{$v['acorn']}
+                                        <i class="icon al-icon al-icon-influence sui-font-size-rem-0-8"></i>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </a>
+                {/foreach}
+
+            </div>
+        {else}
+            <div style="margin-bottom:10px;text-align:center">
+                <img src="{path('[MobileConsoles]/img/null.png')}" alt="" class="" style="width:60%; height:100%; margin: 0 20%; display:block;">
+                <div style="color:#999;">暂无数据</div>
+            </div>
+        {/if}
+    </div>
+{/block}

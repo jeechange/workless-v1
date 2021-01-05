@@ -1,0 +1,501 @@
+{layout '../Public/layoutList.latte'} {*继承layoutList模板*}
+{block title}我参与的{/block}
+{block actions}
+{/block}
+{block actionstab}
+    {include "./detailTab.latte"}
+{/block}
+{block private_css}
+    <style type="text/css">
+        .box-width-70{
+            width:70%;
+            float:left
+        }
+
+        .box-width-60{
+            width:60%;
+            float:left
+        }
+
+        .box-width-50{
+            float:left;
+            width:50%;
+        }
+
+        .box-width-40{
+            float:left;
+            width:40%;
+        }
+
+        .box-width-33{
+            float:left;
+            width:33.33%;
+        }
+
+        .box-width-30{
+            float:left;
+            width:30%;
+        }
+
+        .box-width-20{
+            float:left;
+            width:20%;
+        }
+
+        .box-font-18{
+            font-size:18px;
+        }
+
+        .box-border-right{
+            border-right:1px solid #d1d1d1;
+            height:800px;
+        }
+
+        .box-h-300{
+            height:300px;
+        }
+
+        .box-h-412{
+            height:412px;
+        }
+
+        .box-h-400{
+            height:400px;
+        }
+
+        .box-h-200{
+            height:200px;
+        }
+
+        .box-h-100{
+            height:100px;
+        }
+
+        .box-p-20{
+            padding:5px 20px;
+        }
+
+        .box-h-50{
+            height:50px;
+        }
+
+        .box-h-35{
+            line-height:35px;
+        }
+
+        .box-line-50{
+            line-height:50px;
+        }
+
+        .box-line-35{
+            line-height:35px;
+        }
+
+        .box-btn{
+            border:1px solid #ccc;
+            line-height:35px;
+            height:35px;
+            text-align:center;
+            width:35%;
+            padding:10px 20px;
+        }
+
+        .box-rate-progress{
+            border:4px solid #666666;
+            border-radius:10rem;
+            line-height:4rem;
+            padding:24px;
+            width:4rem;
+            height:4rem;
+            text-align:center;
+        }
+
+        .circleChart_text{
+            position:absolute;
+            line-height:100px;
+            width:80%;
+            top:0px;
+            margin:0px;
+            padding:0px;
+            text-align:center;
+            font-size:12px;
+            font-weight:normal;
+        }
+
+        /*动态*/
+        .dynamic-section-content{
+            width:100%;
+            height:150px;
+        }
+
+        .dynamic-item dt{
+            border-bottom:1px dashed #dfdfdf;
+            line-height:30px;
+            height:30px;
+        }
+
+        .dynamic-item dt .dynamic-names{
+            float:left;
+            color:#009dd9;
+            font-size:14px;
+        }
+
+        .dynamic-item dt .dynamic-time{
+            float:right;
+            color:#666;
+        }
+
+        .dynamic-item dd{
+            padding-top:15px;
+            color:#666;
+            font-size:14px;
+            line-height:30px;
+        }
+
+        .dynamic-item dt .dynamic-reply{
+            color:#666;
+            font-size:14px;
+            margin:0 5px;
+        }
+
+        .dynamic-item dt .dynamic-time-comment, .dynamic-item dt .dynamic-time-reply{
+            color:#666;
+            font-size:12px;
+            cursor:pointer;
+            margin:0 5px;
+        }
+
+        .dynamic-item dt .dynamic-time-comment:hover, .dynamic-item dt .dynamic-time-reply:hover{
+            text-decoration:underline;
+            color:#009dd9;
+        }
+
+        .dynamic-item dd.dynamic-reply-dd, .dynamic-item dd.dynamic-comment-dd{
+            display:none;
+        }
+
+        .dynamic-comment-dd ul, .dynamic-comment-dd li{
+            margin:0; padding:0;
+            list-style-type:none;
+        }
+
+        .dynamic-comment-dd ul{
+            background:#f2f2f2;
+            padding-left:5px;
+            padding-bottom:5px;
+            width:100%;
+        }
+
+        .dynamic-comment-dd li span{
+            line-height:20px;
+            cursor:pointer;
+        }
+
+        .dynamic-comment-dd li textarea{
+            width:400px;
+            height:70px;
+        }
+
+        .dynamic-comment-dd li .dynamic-comment-say{
+            color:#009dd9;
+        }
+
+        .dynamic-comment-dd li .dynamic-comment-say .dynamic-comment-reply{
+            color:#666; margin:0 5px;
+        }
+
+        .dynamic-comment-reply-input input{
+            display:block;
+            height:30px;
+            line-height:30px;
+            margin-top:5px;
+            margin-bottom:5px;
+            padding:0 30px;
+        }
+
+        /*备忘录*/
+        .anythingContent{
+            height:250px;
+            overflow:hidden;
+        }
+
+        .anything-task-group{
+            font-size:12px;
+            border:1px solid #ccc;
+            padding:2px;
+        }
+
+        .anythingContent li{
+            list-style:none;
+            overflow:hidden;
+            padding:20px 0;
+            position:relative;
+        }
+
+        .anythingContent li > p{
+            float:left;
+            font-size:14px;
+            line-height:22px;
+            width:70%;
+        }
+
+        .anythingContent li a{
+            display:block;
+            padding:5px;
+            background:#74afd6;
+            color:#fff;
+            font-size:12px;
+            line-height:12px;
+            width:40px;
+            text-align:center;
+            position:absolute;
+            top:50%;
+            transform:translateY(-50%);
+            right:10%;
+        }
+
+        .anythingContent li a:last-child{
+            right:0;
+            background:#de5252;
+        }
+
+        .anythingContent li div p{
+            font-size:14px;
+            float:left;
+            line-height:20px;
+        }
+
+        .anythingContent li a:hover{
+            cursor:pointer;
+        }
+
+        .text-overflow-ellipsis-1{
+            overflow:hidden;
+            text-overflow:ellipsis;
+            display:-webkit-box;
+            -webkit-box-orient:vertical;
+            -webkit-line-clamp:1;
+        }
+
+        .text-overflow-ellipsis-2{
+            overflow:hidden;
+            text-overflow:ellipsis;
+            display:-webkit-box;
+            -webkit-box-orient:vertical;
+            -webkit-line-clamp:2;
+        }
+
+    </style>
+{/block}
+
+{block private_js}
+    <script type="text/javascript" src="{path('[Consoles]/js/circleChart.min.js')}"></script>
+    <script type="text/javascript">
+        $(function () {
+            $(".circleChart").each(function () {
+                var circleChartId = ".circleChart#" + $(this).attr("data-id");
+                $(circleChartId).circleChart({
+                    size: 300,
+                    color: "#00cc00",
+                    backgroundColor: "#666666",
+                    background: true,
+                    speed: 2000,
+                    widthRatio: 0.1,
+                    unit: 'percent',
+                    counterclockwise: false,
+                    startAngle: 0,
+                    animate: true,
+                    backgroundFix: true,
+                    lineCap: "round",
+                    animation: "easeInOutCubic",
+                    text: false,
+                    redraw: false,
+                    cAngle: 0,
+                    textCenter: true,
+                    textSize: false,
+                    textWeight: 'normal',
+                    textFamily: 'sans-serif',
+                    autoCss: true,
+                    onDraw: false
+                });
+            });
+        });
+
+    </script>
+{/block}
+
+{block content}
+    <div style="width:100%;">
+        <div class="box-width-50">
+            <div class="box-border-right" >
+                <div class="box-h-100 box-p-20">
+                    <div class="box-h-50 box-line-50">
+                        <div class="box-width-60 box-font-18">{$lists['g_names']}</div>
+                        <div class="box-width-40" style="text-align:right">进行中（{$lists['g_progress']|default:0}%）
+                            <span style="margin-left:5%">负责人：{$lists['g_responsible']|default:"无"}</span>
+                        </div>
+                    </div>
+                    <div class="box-h-50">
+                        <p class="text-overflow-ellipsis-2">{$lists['g_memo']}</p>
+                    </div>
+                </div>
+                <div class="box-h-300 box-p-20">
+                    <div class="box-h-50 box-line-50">
+                        <div class="box-width-70 box-font-18">讨论</div>
+                        <div class="box-width-30 box-line-50" style="text-align:right">
+                            <a href="{url("consoles_taskGroup_groupDiscus",array("id"=>$id))}" data-side-form>更多讨论</a>
+                        </div>
+                    </div>
+                    <div style="overflow:hidden;height: 235px;">
+                        {if $taskGroupDiscuss}
+                            <div class="dynamic-section-content">
+                                {foreach $taskGroupDiscuss as $dynamic}
+                                    <dl class="dynamic-item">
+                                        <dt>
+                                            <span class="dynamic-names">{$dynamic["gd_userName"]} :</span>
+                                            <span class="dynamic-time"><span>{$dynamic["gd_addTime"]|totime}</span>
+                                                {*<span class="dynamic-time-comment">评论({count($comments[$dynamic["gd_id"]])})</span>*}
+                                        </span>
+                                        </dt>
+                                        <dd>{str_replace(array("\r\n","\n","\r"),"<br>",$dynamic["gd_content"])|noescape}</dd>
+
+                                        {if $dynamic["gd_thumbs"]}
+                                            <dd>
+                                                {foreach $dynamic["gd_thumbs"] as $thumb}
+                                                    {if $thumb["type"]=="img"}
+                                                        <img class="layer-photos" layer-pid="" layer-src="{$thumb['src']}" style="max-width:150px;max-height:150px;cursor:pointer" src="{$cdnThumbBase}{$thumb['val']}" alt="{$thumb['name']}">
+                                                    {else}
+                                                        <a href="{$thumb['src']}" title="{$thumb['val']}" target="_blank">{$thumb['name']}</a>
+                                                    {/if}
+                                                {/foreach}
+                                            </dd>
+                                        {/if}
+                                        <dd class="dynamic-reply-dd">
+                                            <textarea id="rich_reply_{$dynamic["gd_id"]}" name="reply_{$dynamic["gd_id"]}" data-toggle="rich" style="width: 500px; height: 250px"></textarea>
+                                            <input type="button" class="dynamic-reply-button" data-rel="{$dynamic["gd_id"]}" value="回复" data-url="{url("consoles_task_dynamic_reply",array("types"=>"temp","id"=>$dynamic["gd_id"]))}"/>
+                                        </dd>
+                                        <dd class="dynamic-comment-dd">
+                                            <ul>
+                                                {foreach $comments[$dynamic["gd_id"]] as $comment}
+                                                    <li data-rel-id="{$userId==$comment["userId"]?$comment["replyId"]:$comment["userId"]}" data-names="{$userId==$comment["userId"]?$comment["ruserName"]:$comment["userName"]}">
+                                                        <span class="dynamic-comment-say">{$comment["userName"]} {if $comment["replyId"]}<span class="dynamic-comment-reply">回复</span> {$comment["ruserName"]}{/if}：</span>
+                                                        <span>{$comment["content"]}</span>
+                                                    </li>
+                                                {/foreach}
+                                                <li class="dynamic-comment-reply-input">
+                                                    <textarea name="dynamic_comment_{$dynamic["gd_id"]}" style="margin-top: 10px;width: 300px;height: 60px;"></textarea>
+                                                    <input type="button" data-url="{url("consoles_taskGroup_discuss_comment",array("id"=>$dynamic["gd_id"]))}" class="dynamic-comment-button" value="评论" data-rel="0"/>
+                                                </li>
+                                            </ul>
+                                        </dd>
+                                    </dl>
+                                {/foreach}
+                            </div>
+                        {else}
+                            <div style="position:relative; width:100%; line-height:50px; display:block; text-align:center;">
+                                <img src="{path('[MobileConsoles]/img/null.png')}" alt="" class="" style="margin: auto; width:170px; height:170px; display:block;">
+                                <div style="width:100%; color:#999; text-align:center; font-size:1.3rem;">暂时没有讨论记录哦！</div>
+                            </div>
+                        {/if}
+                    </div>
+                </div>
+                <div class="box-h-300 box-p-20">
+                    <div class="box-h-50 box-line-50">
+                        <div class="box-width-70 box-font-18">备忘</div>
+                        <div class="box-width-30 box-line-50" style="text-align:right">
+                            {*<a href="{url("consoles_anything_anythingAdd")}" data-side-form="600px">创建备忘</a> &nbsp; &nbsp; &nbsp;*}
+                            <a href="{url("consoles_anything_anythingLists")}" data-side-form>更多备忘</a>
+                        </div>
+                    </div>
+                    {if  $anyThing}
+                        <div class="anythingContent">
+                            <ul>
+                                {foreach $anyThing as $key=>$item}
+                                    <li>
+                                        <p class="text-overflow-ellipsis-1">{if $item['tgId']}
+                                                <span class="anything-task-group">{$item['tgNames']}</span>
+                                            {/if}
+                                            {$item['content']}
+                                        </p>
+                                        <a href="{url("consoles_anything_anythingCheck",array("id"=>$item['id']))}" confirm="确定完成？">完成</a>
+                                        <a href="{url("consoles_anything_anythingDelete",array("id"=>$item['id']))}" confirm="确定删除？">删除</a>
+                                    </li>
+                                {/foreach}
+                            </ul>
+                        </div>
+                    {else}
+                        <div style="position:relative; width:100%; line-height:50px; display:block; text-align:center;">
+                            <img src="{path('[MobileConsoles]/img/null.png')}" alt="" class="" style="margin:50px auto 0; width:170px; height:170px; display:block;">
+                            <div style="width:100%; color:#999; text-align:center; font-size:1.3rem;">暂时没有备忘哦！</div>
+                        </div>
+                    {/if}
+                </div>
+            </div>
+        </div>
+        <div class="box-width-50">
+            <div class="box-h-412 box-p-20">
+                <div class="box-h-50 box-line-50">
+                    <div class="box-width-70 box-font-18">文档</div>
+                    <div class="box-width-30 box-line-50" style="text-align:right">
+                        <a href="{url('consoles_taskGroup_create_doc',"id={$id}")}" data-side-form>创建文档</a>
+                    </div>
+                </div>
+
+                {if $docs}
+                    {foreach $docs as $doc}
+                        <a href="{url("consoles_taskGroup_modify_doc",array("id"=>$doc['id']))}" data-side-form>
+                            <div class="box-width-33" style="height: 320px;overflow: hidden;">
+                                <div style="margin: 5px;">
+                                    <div style="border:1px solid #fcf4dc;background:#fcf4dc;padding:10px;text-align:center">
+                                        <div style="font-size:16px;font-weight:400;min-height: 30px;line-height: 30px;" class="text-overflow-ellipsis-1">【{$doc["title"]}】</div>
+                                        <div style="">{$doc["addTime"]|todate}</div>
+                                        <div style="height: 245px;width: 100%; overflow:hidden;">{$doc["content"]|noescape}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    {/foreach}
+                {else}
+                    <div style="position:relative; width:100%; line-height:50px; display:block; text-align:center;">
+                        <img src="{path('[MobileConsoles]/img/null.png')}" alt="" class="" style="margin:50px auto 0; width:170px; height:170px; display:block;">
+                        <div style="width:100%; color:#999; text-align:center;font-size:1.3rem;">暂时没有文件哦！</div>
+                    </div>
+                {/if}
+            </div>
+            <div class="box-h-300 box-p-20">
+                <div class="box-h-50 box-line-50">
+                    <div class="box-width-70 box-font-18">文件</div>
+                    <div class="box-width-30 box-line-50" style="text-align:right">
+                        <a href="{url('consoles_taskGroup_uploadFiles',"gid={$gid}&fid={$fid}")}" class="icon-adds" data-side-form>上传文件</a>
+                    </div>
+                </div>
+                {if $files}
+                    {foreach $files as $file}
+                        <div class="box-width-33">
+                            <div style="margin:5px;">
+                                <div style="height: 80px;border:1px solid #fcf4dc;background:#fcf4dc;padding:10px;text-align:center">
+                                    <div style="font-size:16px;font-weight:400;height: 30px;line-height: 30px;" class="text-overflow-ellipsis-1">{$file["names"]}</div>
+                                    {*<div style="">{$file["memo"]}</div>*}
+                                    <div style="overflow: hidden;height: 50px;">
+                                        {if $file["types"]==0}
+                                            <a href="{url("consoles_detail","con=taskGroup&id=$id&active=5&pid={$file["id"]}")}">查看</a>
+                                        {else}
+                                            <a href="{$cdnBase}{$file["filePath"]}" target="_blank">下载</a>
+                                        {/if}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {/foreach}
+                {else}
+                    <div style="position:relative; width:100%; line-height:50px; display:block; text-align:center;">
+                        <img src="{path('[MobileConsoles]/img/null.png')}" alt="" class="" style="margin:50px auto 0; width:170px; height:170px; display:block;">
+                        <div style="width:100%; color:#999; text-align:center; font-size:1.3rem;">暂时没有文档哦！</div>
+                    </div>
+                {/if}
+
+            </div>
+        </div>
+    </div>
+{/block}
+

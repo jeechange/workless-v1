@@ -1,0 +1,152 @@
+{layout '../Public/layoutList.latte'} {*继承layoutList模板*}
+{block title}扣分统计{/block}
+{block actionstab}
+    {include "./actionstab.latte"}
+{/block}
+
+{block private_css}
+    <style type="text/css">
+        .item-search-box{
+            width:30%;
+            float:left;
+        }
+
+        .item-search-box .item-search-border{
+            margin:10px;
+            padding:20px;
+            border:1px solid #dddddd;
+        }
+
+        .item-search-bar{
+            width:100%;
+            margin-bottom:20px;
+        }
+
+        .item-search-input{
+            width: 100%;
+            height:25px;
+            line-height:25px;
+        }
+
+        .item-inner{
+            width:100%;
+            margin:0.1rem;
+        }
+
+        .item-inner .item-title-depament{
+            padding:0.5rem;
+            background:#f7f7f7;
+        }
+    </style>
+{/block}
+{block private_js}
+    <script type="text/javascript">
+        function addlists(e) {
+            var idname = 'addDlists' + e;
+            var getDisplay = $('#' + idname).css('display');
+            if (getDisplay === 'none') {
+                $("#" + idname).css('display', 'block');
+
+                $.ajax({
+                    url: {$Dajax} +"?did=" + e,
+                    dataType: 'json',
+                    success: function (ret) {
+                        $('#' + idname).html(ret['DAjaxLists']);
+                    }
+                });
+            } else {
+                $("#" + idname).css('display', 'none');
+            }
+        }
+        function GetUserData(e) {
+            var popup = ".open-popup-" + e;
+            $("input[name='search']").val($(popup).attr("data-name"));
+
+            $.ajax({
+                url: {$url}+"?id=" + e,
+                data: {
+                    id: e,
+                    types:1
+                },
+                dataType: 'json',
+                success: function (ret) {
+                    if (ret['status'] == 'n') {
+                        alert(ret['info']);
+                    } else {
+                        if (ret['status'] == 'n') {
+                            alert(ret['info']);
+                        } else {
+                            $(".stdtable").html(ret['custom']);
+                        }
+                    }
+                },
+                error: function (ret) {
+                    alert(ret['info']);
+                }
+            });
+        }
+    </script>
+{/block}
+{block content}
+    <div class="item-search-box">
+        <div class="item-search-border">
+            <div class="item-search-bar">
+                <input type="text" placeholder="输入关键字" name="search" class="item-search-input" value="">
+            </div>
+            <ul style="list-style: none;">
+                {foreach $department as $k => $v}
+                    <li>
+                        <a class="item-content item-link" onclick="addlists({$v['id']})">
+                            <div class="item-inner">
+                                <div class="item-title-depament">
+                                    {$v['names']} <span style="float:right;color: #999;">{$v['count']}人</span>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <li style="margin:0; padding:0;">
+                        <div id="addDlists{$v['id']}" style="margin:0; padding:0; display:none;"></div>
+                    </li>
+                {/foreach}
+                {if $staff}
+                    {foreach $staff as $kk=>$vv}
+                        <a class="item-content item-link open-popup-{$v['s_userId']}" data-popup=".info-popup" onclick="GetUserData({$v['s_userId']})" style="border-bottom:1px solid #eee;" data-name="{$vv['fullName']}">
+                            <div style="width:95%;">
+                                <div class="item-title" style="padding:0.5rem 0;">
+                                    <div style="width:75%; float:left;">
+                                        <p style="margin:0 25px;">{$vv['fullName']} {$vv['phone']}</p>
+                                    </div>
+                                </div>
+                                <div style="clear:both;"></div>
+                            </div>
+                        </a>
+                    {/foreach}
+                {/if}
+            </ul>
+        </div>
+    </div>
+    <table cellpadding="0" cellspacing="0" border="0" class="stdtable" style="width:70%;float:left">
+        <thead>
+        <tr>
+            <th></th>
+            <th data-sort="s.names"><span class="table-head">姓名</span></th> {*在th加入 data-sort 可对数据库进行排序*}
+            <th data-sort="s.id"><span class="table-head">日期</span></th>
+            <th><span class="table-head">总扣分</span></th>
+        </tr>
+        </thead>
+        <tbody>
+        {foreach $lists as $k=>$item}
+            <tr>
+                <td style="width: 60px;"><input type="checkbox" name='ids[]' class="checkall_1 checkall-item" value="{$item['s_id']}"/></td>
+                <td class="wid-auto">{$item['userName']}</td>
+                <td class="wid-auto">{$item['week']}</td>
+                <td class="wid-auto">{$item['acorn']}</td>
+            </tr>
+        {/foreach}
+        </tbody>
+    </table>
+{/block}
+
+
+
+

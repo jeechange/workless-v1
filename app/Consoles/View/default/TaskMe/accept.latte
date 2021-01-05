@@ -1,0 +1,273 @@
+{layout '../Public/sideForm.latte'}
+{block title}验收任务{/block}
+
+{block submits}{/block}
+
+{block private_css}
+    <style>
+        .medal-item{
+            border:1px solid #ddd;
+            display:inline-block;
+            vertical-align:middle;
+            min-width:80px;
+            padding:3px 8px;
+            margin-right:5px;
+            height:35px;
+            line-height:35px;
+            text-align:center;
+            cursor:pointer;
+        }
+
+        .jslider table, .jslider table tr td{
+            padding:0;
+        }
+
+        .medal-item img{
+            width:30px;
+            height:30px;
+            vertical-align:middle;
+        }
+
+        .medal-item.medal-item-selected{
+            border:2px solid #009DD9;
+        }
+
+        .accept-detail:hover, .accept-detail td:hover, .accept-detail.selected td, .accept-detail.selected{
+            background:#fdfdfd;
+        }
+
+        .accept-submit{
+            line-height:30px;padding:0 25px;height:30px;cursor:pointer;
+        }
+
+        .accept-detail{
+            display:none;
+        }
+
+        .toggleMore{
+            cursor:pointer;
+        }
+
+        .grade-item{
+            margin-bottom:10px;
+        }
+
+        .grade-item span{
+            display:inline-block;
+            width:80px;
+        }
+
+        .grade-item .smallinput{
+            line-height:30px;
+            margin-left:5px;
+            padding-left:15px;
+        }
+
+        .accept-detail[disabled] .medal-item{
+            background:rgb(235, 235, 228);
+            cursor:default;
+        }
+
+
+    </style>
+{/block}
+{block private_js}
+    <script>
+        var dayBase = {floatval($lists3[0]["names"])};
+        var hardrange = [{floatval($lists4[0]["names"])}, {floatval($lists4[1]["names"])}];
+        var qualityrange = [{floatval($lists5[0]["names"])}, {floatval($lists5[1]["names"])}];
+
+        function toggleMore(id) {
+            $("[data-rel-id='" + id + "']").slideToggle(300);
+        }
+
+        init.ready(function () {
+
+
+            $(".accept-detail:not([disabled]) .medal-item").unbind().bind("click", function () {
+                $(this).siblings(".medal-item-selected").removeClass("medal-item-selected");
+                $(this).addClass("medal-item-selected");
+            });
+            $("[name='acceptDay']:not([disabled]),[name='acceptHard']:not([disabled]),[name='acceptQuality']:not([disabled])").unbind().bind("keyup", function () {
+                var dataId = $(this).attr("data-id");
+                var day = $("[name='acceptDay'][data-id='" + dataId + "']").val();
+                var hard = $("[name='acceptHard'][data-id='" + dataId + "']").val();
+                var quality = $("[name='acceptQuality'][data-id='" + dataId + "']").val();
+                if (day * 10 % 1 !== 0) day = 0;
+                if (hard < hardrange[0] || hard > hardrange[1]) hard = 0;
+                if (quality < qualityrange[0] || quality > qualityrange[1]) quality = 0;
+                var acorn = Math.round(dayBase * day * hard * quality / 100);
+                $("[name='acorn'][data-id='" + dataId + "']").val(acorn);
+            });
+
+            $(".accept-detail:not([disabled]) .accept-submit").unbind().bind("click", function () {
+                var dataId = $(this).attr("data-id");
+                var formData = {
+                    acorn: $("[name='acorn'][data-id='" + dataId + "']").val(),
+                    acceptDay: $("[name='acceptDay'][data-id='" + dataId + "']").val(),
+                    acceptHard: $("[name='acceptHard'][data-id='" + dataId + "']").val(),
+                    acceptQuality: $("[name='acceptQuality'][data-id='" + dataId + "']").val(),
+                    learns: new Object()
+                }
+                var dataSelects = $("[data-id='" + dataId + "'].medal-item-selected");
+                for (var i = 0; i < dataSelects.length; i++) {
+                    var names = $(dataSelects[i]).attr("data-name");
+                    var val = $(dataSelects[i]).attr("data-val");
+                    var nameid = $(dataSelects[i]).attr("data-name-id");
+                    if (names !== "learns") {
+                        formData[names] = val;
+                    } else {
+                        formData.learns[nameid] = val;
+                    }
+                }
+
+                var msgIndex = layer.msg("正在提交", {
+                    offset: 't',
+                    time: 0,
+                    icon: 16
+                });
+                $.ajax({
+                    type: "POST",
+                    dataType: "html",
+                    url: $(this).attr("data-url"),
+                    data: formData,
+                    complete: function (request) {
+                        layer.close(msgIndex);
+                        try {
+                            var res = $.parseJSON(request.responseText);
+                            if (res.status === "y") {
+                                layer.msg(res.info, {
+                                    time: 2000
+                                }, function () {
+                                    var url = res.url;
+                                    $.ajax({
+                                        type: "GET",
+                                        dataType: "html",
+                                        headers: {
+                                            ajaxExtraMethod: "SideForm"
+                                        },
+                                        url: url,
+                                        beforeSend: function () {
+                                            init.clearReady();
+                                            $("#contenteditsdiv").html("");
+                                            $("#contenteditslodingpercentage").animate({
+                                                width: "20%",
+                                            }, 100);
+                                        },
+                                        complete: function (request) {
+                                            $("#contenteditslodingpercentage").animate({
+                                                width: "100%",
+                                            }, 300, function () {
+                                                $("#contenteditslodingpercentage").css("width", 0);
+                                            });
+                                            $("#contenteditsdiv").html(request.responseText).load(function () {
+                                            });
+                                            if (request.status === 200 && !(/content-method: dump/.test(request.getAllResponseHeaders()))) {
+                                                $("#contentedits").attr("data-old-url", url);
+                                            } else {
+                                                $("#contentedits").attr("data-old-url", "");
+                                            }
+                                            init.commit();
+                                        }
+                                    });
+                                });
+                            } else {
+                                layer.alert(res.info);
+                            }
+                        } catch (e) {
+                            layer.alert(e.message);
+                        }
+                    }
+                });
+
+            });
+
+        })
+    </script>
+{/block}
+
+
+
+{block content}
+    <table cellpadding="0" cellspacing="0" border="0" class="stdtable">
+        <thead>
+        <tr>
+            <th><span class="table-head">执行人</span></th> {*在th加入 data-sort 可对数据库进行排序*}
+            <th><span class="table-head">指派类型</span></th>
+            <th><span class="table-head">指派人</span></th>
+            <th><span class="table-head">指派时间</span></th>
+            <th><span class="table-head">计划完成时间</span></th>
+            <th><span class="table-head">实际完成时间</span></th>
+            <th><span class="table-head">状态</span></th>
+            <th><span class="table-head">操作</span></th>
+        </tr>
+        </thead>
+        <tbody>
+        {foreach $lists as $k=>$item}
+            <tr>
+                <td class="wid-auto">{$item["userName"]}</td>
+                <td class="wid-auto">{$item["typesMemo"]}</td>
+                <td class="wid-auto">{$item['fromUserName']}</td>
+                <td class="wid-auto">{$item['addTime']|totime}</td>
+                <td class="wid-auto">{$item['endTime']|totime}</td>
+                <td class="wid-auto">{$item['doneTime']|totime}</td>
+                <td class="wid-auto">{$item['statusMemo']}</td>
+                <td>
+                    <a class="toggleMore" onclick="toggleMore({$item["id"]})">验收详情</a>
+                </td>
+            </tr>
+            <tr class="accept-detail" data-rel-id="{$item["id"]}" {if $item["accept"]}disabled{/if}>
+                <td colspan="8">
+
+                    {if !$standard || $standard->getAcorn()==0}
+                        <div style="margin-bottom: 15px;margin-top: 20px;">
+                            <div class="grade">
+                                <div class="grade-item">
+                                    <span>任务量：</span><input type="text" data-id="{$item["id"]}" {if $item["accept"]}disabled{/if} name="acceptDay" value="{$item["acceptDay"]}" class="smallinput"/> 天， 区间：0.1天到7天
+                                </div>
+                                <div class="grade-item">
+                                    <span>难度系数：</span><input type="text" data-id="{$item["id"]}" {if $item["accept"]}disabled{/if} name="acceptHard" value="{$item["acceptHard"]}" class="smallinput"/> 区间：{$lists4[0]["names"]}~{$lists4[1]["names"]}
+                                </div>
+                                <div class="grade-item">
+                                    <span>完成质量：</span><input type="text" data-id="{$item["id"]}" {if $item["accept"]}disabled{/if} name="acceptQuality" value="{$item["acceptQuality"]}" class="smallinput"/> %，区间：{$lists5[0]["names"]}%~{$lists5[1]["names"]}%
+                                </div>
+                                <div class="grade-item">
+                                    <span>实得分数：</span><input type="text" id="acorn" data-id="{$item["id"]}" name="acorn" {if $item["accept"]}disabled{else}readonly{/if} value="{$item["acorn"]}" class="smallinput"/> 说明：任务分 = 日基础分（{$lists3[0]["names"]}） &times; 难度系数 &times; 完成质量 &times; 天数
+                                </div>
+                            </div>
+                        </div>
+                    {else}
+                        <div style="margin-bottom: 15px;margin-top: 20px;">
+                            <div class="grade-item">
+                                <span style="display: inline-block;width: 80px;">实得分数：</span>
+                                <input type="text" id="acorn" data-id="{$item["id"]}" name="acorn" {if $item["accept"]}disabled value="{$item["acorn"]}"{else} value="{$standard->getAcorn()}"{/if} class="smallinput" style="margin-left:0"/>
+                                <span style="width:auto">参考标准：{$standard->getNames()}({$standard->getAcorn()})</span>
+                            </div>
+                        </div>
+                    {/if}
+                    <div>
+                        <span style="display: inline-block;width: 80px;">评价：</span>
+                        {foreach $lists1 as $q}
+                            <label data-name="rating" data-id="{$item["id"]}" class="medal-item{if $item["rating"]==$q["id"]} medal-item-selected{/if}" data-val="{$q["id"]}">{$q["names"]}</label>
+                        {/foreach}
+
+                    </div>
+
+                    <div style="padding: 15px 0;">
+                        <span style="display: inline-block;width: 80px;">勋章：</span>
+
+                        {foreach $lists2 as $q}
+                            <label data-name="medal" data-id="{$item["id"]}" class="medal-item{if $item["medal"]==$q["id"]} medal-item-selected{/if}" data-val="{$q["id"]}"><img src="https://cdn.itmakes.com/thumbs{$q["icon"]}" alt="">{$q["names"]}</label>
+                        {/foreach}
+                        <label data-name="medal" data-id="{$item["id"]}" class="medal-item{if $item["medal"]==0} medal-item-selected{/if}" data-val="0">无勋章</label>
+                    </div>
+                    <div style="text-align: left;padding-left: 84px;margin-bottom:15px">
+                        <input data-url="{url("consoles_taskMe_accept_allot",array('id'=>$item["id"]))}" data-id="{$item["id"]}" {if $item["accept"]}disabled{/if} type="button" value="{$item["accept"]?"已验收":"提交验收结果"}" class="accept-submit {if $item["accept"]}accept-submit-disabled{/if}"/>
+                    </div>
+
+                </td>
+            </tr>
+        {/foreach}
+        </tbody>
+    </table>
+{/block}

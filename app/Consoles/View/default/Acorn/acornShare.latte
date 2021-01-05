@@ -1,0 +1,87 @@
+{layout '../Public/layoutList.latte'} {*继承layoutList模板*}
+{block title}分享申请事项{/block}
+{block private_js}
+    <script type="text/javascript">
+        function copy(message) {
+            var input = document.createElement("input");
+            input.value = message;
+            document.body.appendChild(input);
+            input.select();
+            input.setSelectionRange(0, input.value.length), document.execCommand('Copy');
+            document.body.removeChild(input);
+            alert('复制成功');
+        }
+    </script>
+{/block}
+{block private_css}
+    <style>
+        .con{
+            width:100%;
+            margin:auto;
+            margin-top:3.2rem;
+            text-align:center;
+            line-height:26px;
+            font-size:16px;
+        }
+
+        .copyCopy{
+            margin:auto;
+            text-align:center;
+            margin-top:30px;
+        }
+
+        .return{
+            margin:auto;
+            text-align:center;
+            margin-top:30px;
+        }
+
+        .bnt{
+            background-color:#FFBA00;
+            height:68px;
+            line-height:68px;
+            color:#333;
+            font-size:24px;
+            border-radius:5px;
+            -moz-border-radius:5px;
+        }
+
+        a:hover{
+            text-decoration:none
+        }
+    </style>
+{/block}
+{block content}
+    <div class="con">
+        <div style="color:#009688;margin-top:150px;font-size: 18px;">
+            成功申请!
+        </div>
+        <div>请耐心等待审核</div>
+        <div style="font-size:14px;color:#BBBBBB;">分享您申请的积分事项，可赚取积分哦~</div>
+    </div>
+    <div class="copyCopy" style="width:25%;">
+        <a href="javascript:;" onclick="copy({$url_host});">
+            <div>
+                <div id="bnts" class="bnt" style="color:#fff">复制链接</div>
+            </div>
+        </a>
+    </div>
+    <div class="copyCopy" style="width:25%;">
+        <a>
+            <div>
+                <div id="bnts" class="bnt" style="background-color:#3f96f2;;color:#fff">分享到钉钉</div>
+            </div>
+        </a>
+    </div>
+    <div class="return" style="width:25%;font-size:16px;">
+        <a href="{url('consoles_acorn_applyLists','types=my')}">
+            <div>
+                <div id="bnts" class="bnt" style="background: #fff;">返回</div>
+            </div>
+        </a>
+    </div>
+{/block}
+
+
+
+

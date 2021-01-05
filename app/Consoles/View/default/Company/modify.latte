@@ -1,0 +1,277 @@
+{layout '../Public/sideForm.latte'}
+{block title}团队/企业信息{/block}
+{*申请企业认证*}
+{block private_js}
+    <script>
+        init.ready(function () {
+            addressInit("province", "city", "area",{$auth->getProvince()},{$auth->getCity()},{$auth->getArea()})
+        })
+    </script>
+{/block}
+
+{block content}
+    <form id="formArticle" class="stdform mform" method="post" action="" onsubmit="return false">
+        <table cellpadding="0" cellspacing="0" border="0" id="frmtable" class="formtable">
+            <thead>
+            <tr>
+                <td colspan="2">
+                    <div class="split-line">基础信息</div>
+                </td>
+            </tr>
+            <tr>
+                <td><label>企业名称</label></td>
+                <td>
+                    <div class="control-group ">
+                        <div class="field input-group">
+                            <input type="text" id="frm_names" class="smallinput" name="names" value="{$auth->getNames()}"/>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td><label>企业法人</label></td>
+                <td>
+                    <div class="control-group ">
+                        <div class="field input-group">
+                            <input type="text" id="frm_legal" class="smallinput" name="legal" value="{$auth->getLegal()}">
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td><label>行业</label></td>
+                <td>
+                    <div class="control-group ">
+                        <div class="field input-group">
+                            <select id="industry" name="industry">
+                                {$industry|noescape}
+                            </select>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td><label>企业规模</label></td>
+                <td>
+                    <div class="field control-group">
+                        <div class="input-group">
+                            <select name="scales">
+                                <option value="0">==企业规模==</option>
+                                {foreach $scales as $scale=>$scalesMemo}
+                                    <option value="{$scale}" {if $auth->getScales()==$scale}selected{/if}>{$scalesMemo}</option>
+                                {/foreach}
+                            </select>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+
+            {*<tr>*}
+            {*<td colspan="2">*}
+            {*<div class="split-line">法人信息</div>*}
+            {*</td>*}
+            {*</tr>*}
+            {*<tr>*}
+            {*<td><label>法人姓名</label></td>*}
+            {*<td>*}
+            {*<div class="control-group ">*}
+            {*<div class="field input-group">*}
+            {*<input type="text" id="frm_legal" class="smallinput" name="legal" value="{$auth->getLegal()}"/>*}
+            {*</div>*}
+            {*</div>*}
+            {*</td>*}
+            {*</tr>*}
+            {*<tr>*}
+            {*<td><label>法人身份证号码</label></td>*}
+            {*<td>*}
+            {*<div class="control-group ">*}
+            {*<div class="field input-group">*}
+            {*<input type="text" id="frm_legal_identity" class="smallinput" name="legalIdentity" value="{$auth->getLegalIdentity()}"/>*}
+            {*</div>*}
+            {*</div>*}
+            {*</td>*}
+            {*</tr>*}
+            {*<tr>*}
+            {*<td><label>法人身份证正面</label></td>*}
+            {*<td>*}
+            {*<div class="control-group ">*}
+            {*<div class="field input-group">*}
+            {*<div class="img-uploader" data-name="legalIdentityPic" data-options="papers" data-val="{$auth->getLegalIdentityPic()}"></div>*}
+            {*</div>*}
+            {*</div>*}
+            {*</td>*}
+            {*</tr>*}
+            {*<tr>*}
+            {*<td><label>法人身份证背面</label></td>*}
+            {*<td>*}
+            {*<div class="control-group ">*}
+            {*<div class="field input-group">*}
+            {*<div class="img-uploader" data-name="legalIdentityBack" data-options="papers" data-val="{$auth->getLegalIdentityBack()}"></div>*}
+            {*</div>*}
+            {*</div>*}
+            {*</td>*}
+            {*</tr>*}
+
+            {*<tr>*}
+            {*<td colspan="2">*}
+            {*<div class="split-line">营业执照信息</div>*}
+            {*</td>*}
+            {*</tr>*}
+            {*<tr>*}
+            {*<td><label>统一社会信用代码</label></td>*}
+            {*<td>*}
+            {*<div class="control-group ">*}
+            {*<div class="field input-group">*}
+            {*<input type="text" id="frm_license_code" class="smallinput" name="licenseCode" value="{$auth->getLicenseCode()}"/>*}
+            {*</div>*}
+            {*</div>*}
+            {*</td>*}
+            {*</tr>*}
+            {*<tr>*}
+            {*<td><label>注册资金</label></td>*}
+            {*<td>*}
+            {*<div class="control-group ">*}
+            {*<div class="field input-group">*}
+            {*<input type="text" id="frm_licenseRegisterMoney" class="smallinput" name="licenseRegisterMoney" value="{$auth->getLicenseRegisterMoney()}"/>*}
+            {*</div>*}
+            {*</div>*}
+            {*</td>*}
+            {*</tr>*}
+            {*<tr>*}
+            {*<td><label>公司总股份额</label></td>*}
+            {*<td>*}
+            {*<div class="control-group ">*}
+            {*<div class="field input-group">*}
+            {*<input type="text" id="frm_bonus" class="smallinput" name="bonus" value="{$com->getBonus()}"/>*}
+            {*</div>*}
+            {*</div>*}
+            {*</td>*}
+            {*</tr>*}
+            {*<tr>*}
+            {*<td><label>注册日期</label></td>*}
+            {*<td>*}
+            {*<div class="control-group ">*}
+            {*<div class="field input-group">*}
+            {*<input type="text" id="frm_license_register_date" format="YYYY-MM-DD" class="smallinput laydate laydate-icon" name="licenseRegisterDate" readonly value="{if $auth->getLicenseRegisterDate()}{$auth->getLicenseRegisterDate()|todate}{/if}"/>*}
+            {*</div>*}
+            {*</div>*}
+            {*</td>*}
+            {*</tr>*}
+            {*<tr>*}
+            {*<td><label>营业期限</label></td>*}
+            {*<td>*}
+            {*<div class="control-group ">*}
+            {*<div class="field input-group">*}
+            {*<input type="text" id="frm_licenseRegisterExpiry" format="YYYY-MM-DD" class="smallinput laydate laydate-icon" readonly name="licenseRegisterExpiry" value="{if $auth->getLicenseRegisterExpiry()}{$auth->getLicenseRegisterExpiry()|todate}{/if}"/> 留空表示不限期*}
+            {*</div>*}
+            {*</div>*}
+            {*</td>*}
+            {*</tr>*}
+            {*<tr>*}
+            {*<td><label>营业执照</label></td>*}
+            {*<td>*}
+            {*<div class="control-group ">*}
+            {*<div class="field input-group">*}
+            {*<div class="img-uploader" data-name="licensePic" data-options="papers" data-val="{$auth->getLicensePic()}"></div>*}
+            {*</div>*}
+            {*</div>*}
+            {*</td>*}
+            {*</tr>*}
+
+            <tr>
+                <td colspan="2">
+                    <div class="split-line">联系人信息</div>
+                </td>
+            </tr>
+            <tr>
+                <td><label>联系人姓名</label></td>
+                <td>
+                    <div class="control-group ">
+                        <div class="field input-group">
+                            <input type="text" id="frm_contact" class="smallinput" name="contact" value="{$auth->getContact()}"/>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td><label>联系人手机</label></td>
+                <td>
+                    <div class="control-group ">
+                        <div class="field input-group">
+                            <input type="text" id="frm_contactPhone" class="smallinput" name="contactPhone" value="{$auth->getContactPhone()}"/>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td><label>联系人邮箱</label></td>
+                <td>
+                    <div class="control-group ">
+                        <div class="field input-group">
+                            <input type="text" id="frm_email" class="smallinput" name="email" value="{$auth->getEmail()}"/>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <div class="split-line">其他信息</div>
+                </td>
+            </tr>
+            <tr>
+                <td><label>地区</label></td>
+                <td>
+                    <div class="control-group ">
+                        <div class="field input-group">
+                            <select name="province" id="province"></select>
+                            <select name="city" id="city"></select>
+                            <select name="area" id="area"></select>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td><label>详细地址</label></td>
+                <td>
+                    <div class="control-group ">
+                        <div class="field input-group">
+                            <input type="text" id="frm_address" class="smallinput" name="address" value="{$auth->getAddress()}"/>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td><label>通过何种途径<br>了解到WorkLess</label></td>
+                <td>
+                    <div class="control-group ">
+                        <div class="field input-group">
+                            <select id="source" name="source">
+                                {foreach $source as $k=>$sourceMemo}
+                                    <option value="{$source}" {if $com->getSource()==$k}selected{/if}>{$sourceMemo}</option>
+                                {/foreach}
+                            </select>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td><label>企业模板<br>一经确定无法更改</label></td>
+                <td>
+                    <div class="control-group ">
+                        <div class="field input-group">
+                            <select id="template" name="template" disabled="disabled">
+                                {foreach $curTem as $k=>$v}
+                                    <option value="{$v[0]}">{$v[1]}</option>
+                                {/foreach}
+                            </select>
+                            <span style="color:#999;margin-left:10px;">需要更改企业模板请联系管理员</span>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+
+            </thead>
+        </table>
+        <div style="margin-bottom: 40px;"></div>
+    </form>
+{/block}

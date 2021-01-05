@@ -1,0 +1,124 @@
+Admin\Entity\User:
+  type: entity
+  table: user
+  id:
+    id:
+      type: integer
+      nullable: false
+      unsigned: false
+      comment: ''
+      id: true
+      generator:
+        strategy: IDENTITY
+  fields:
+    sid:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+    userName:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+      column: user_name
+    phone:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    roleName:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+      column: role_name
+    fullName:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+      column: full_name
+    nickName:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+      column: nick_name
+    pwd:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    pwd2:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    rid:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+    levels:
+      type: smallint
+      nullable: true
+      unsigned: false
+      comment: ''
+    addTime:
+      type: datetime
+      nullable: true
+      comment: ''
+      column: add_time
+    status:
+      type: smallint
+      nullable: true
+      unsigned: false
+      comment: ''
+    photo:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    qq:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+    email:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    birthday:
+      type: datetime
+      nullable: true
+      comment: ''
+    sex:
+      type: smallint
+      nullable: true
+      unsigned: false
+      comment: ''
+    area:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    useRecord:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+      column: use_record
+  lifecycleCallbacks: {  }

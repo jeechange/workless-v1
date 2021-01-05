@@ -1,0 +1,2 @@
+<?php
+//MobileConsoles function

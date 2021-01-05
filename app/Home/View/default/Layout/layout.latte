@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>{$title} | WorkLess - 可量化的任务协作软件,团队协作系统源码,任务协作系统源码,免费任务协作系统</title>
+    <meta name="keywords" content="任务协作系统源码,团队协作系统源码,团队协作软件,免费任务协作软件,敏捷开发,项目管理,项目协作"/>
+    <meta name="description" content="WorkLess是一款可量化的任务协作软件，通过积分来衡量每个任务的任务量、难度和完成质量，最终合理量化每个协作创造的价值是WorkLess的核心思想，诠释了精准协作创造价值的理念。"/>
+    {*<meta name="viewport" content="initial-scale=1, maximum-scale=1">*}
+    {*<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">*}
+    {*<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>*}
+    <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <script type="text/javascript" src="{path('[Home]/js/jquery.js')}"></script>
+    <script type="text/javascript" src="{path('[Home]/js/pagebar.js')}"></script>
+    <script type="text/javascript" src="{path('[Home]/js/public.js')}"></script>
+    <link type="text/css" rel="stylesheet" href="{path('[Home]/css/public.css')}">
+    <link type="text/css" rel="stylesheet" href="{path('[Home]/css/public_top.css')}">
+
+    {block private_css}
+    {/block}
+
+</head>
+<body>
+{*头部导航*}
+<div class="nav" id="show" style="">
+    <div class="nav_navigation">
+        <a href="{url('home_index_index')}"><img src="{path('[Home]/img/logo.png')}" alt=""></a>
+        <p data-isshow="0" class="navphone">导航菜单</p>
+        <div data-isshow="0" class="inter">
+            <ul>
+                <li>
+                    <a href="{url('home_index_index')}">
+                        <img src="{path('[Home]/img/sy.png')}" alt="">
+                        <span>产品</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{url('home_index_price')}">
+                        <img src="{path('[Home]/img/jg.png')}" alt="">
+                        <span>价格</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{url('home_index_logs')}">
+                        <img src="{path('[Home]/img/zy.png')}" alt="">
+                        <span>资源</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="log">
+            <ul>
+                {*<li><a target="_blank" href="https://console.xiangshuyun.com/login">注册</a></li>*}
+                <li><a target="_blank" href="http://60.205.186.160">登录/注册</a></li>
+            </ul>
+        </div>
+        <div class="menu">
+            <img src="{path('[Home]/img/menu.png')}" alt="">
+        </div>
+    </div>
+</div>
+{block private_content}{/block}
+{block private_js}{/block}
+{*底部*}
+<div class="footer">
+    <div class="bottom">
+        <ul>
+            <li>热线： 0755-32914822</li>
+            <li>客服QQ：2294730290</li>
+            <li>邮箱：change@jeechange.com</li>
+        </ul>
+
+        <div class="bots">
+            <div class="icons">
+                <a target="_blank" href="http://p.qiao.baidu.com/cps2/chatIndex?reqParam=%7B%22from%22%3A0%2C%22sid%22%3A%22-100%22%2C%22tid%22%3A%22-1%22%2C%22ttype%22%3A1%2C%22siteId%22%3A%2213227066%22%2C%22userId%22%3A%2210577487%22%2C%22pageId%22%3A0%7D">
+                    <img src="{path('[Home]/img/call.png')}" alt="">
+                    <p>在线客服</p>
+                </a>
+            </div>
+            <div class="icons">
+                <img src="{path('[Home]/img/qrcode.png')}" alt="">
+                <p>公众号</p>
+            </div>
+        </div>
+    </div>
+
+</div>
+<div class="copyRight">
+    <p class="copy">版权所有 © 九程软件 软件著作权登记证号:2015SR124609 <a target="_blank" href="http://www.beian.miit.gov.cn">备案号:粤ICP备18074019号-3</a></p>
+
+</div>
+<div class="top">
+    <img src="{path('[Home]/img/top.png')}" alt="">
+</div>
+<div class="navs">
+    <p>导航菜单</p>
+    <ul>
+        <li>
+            <a href="{url('home_index_index')}">
+                <img src="{path('[Home]/img/sy.png')}" alt="">
+                <span>产品</span>
+            </a>
+        </li>
+        <li>
+            <a href="{url('home_index_price')}">
+                <img src="{path('[Home]/img/jg.png')}" alt="">
+                <span>价格</span>
+            </a>
+        </li>
+        <li>
+            <a href="{url('home_index_logs')}">
+                <img src="{path('[Home]/img/zy.png')}" alt="">
+                <span>资源</span>
+            </a>
+        </li>
+        <li>
+            <a href="https://console.workless.cn/mobileConsoles/">
+                <img src="{path('[Home]/img/denglu.png')}" alt="">
+                <span>登录</span>
+            </a>
+        </li>
+    </ul>
+</div>
+</body>
+</html>

@@ -1,0 +1,54 @@
+Admin\Entity\CompanyStockLog:
+  type: entity
+  table: company_stock_log
+  id:
+    id:
+      type: integer
+      nullable: false
+      unsigned: false
+      comment: ''
+      id: true
+      generator:
+        strategy: IDENTITY
+  fields:
+    sid:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+    types:
+      type: smallint
+      nullable: true
+      unsigned: false
+      comment: ''
+    addTime:
+      type: datetime
+      nullable: true
+      comment: ''
+      column: add_time
+    oldVal:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+      column: old_val
+    newVal:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+      column: new_val
+    memo:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    status:
+      type: smallint
+      nullable: true
+      unsigned: false
+      comment: ''
+  lifecycleCallbacks: {  }

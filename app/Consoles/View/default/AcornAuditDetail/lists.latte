@@ -1,0 +1,83 @@
+{layout '../Public/layoutList.latte'} {*继承layoutList模板*}
+{block title}积分审核{/block}
+{block actionstab}
+    {include "../Acorn/auditsTab.latte"}
+{/block}
+{block actions}
+{/block}
+{block content}
+    {if $lists}
+        <table cellpadding="0" cellspacing="0" border="0" class="stdtable">
+            <thead>
+            <tr>
+                <th><span class="table-head">时间</span></th>
+                <th><span class="table-head">标准</span></th>
+                <th><span class="table-head">积分<i class="icon al-icon al-icon-influence" style="color:#0087e1"></i></span></th>
+                <th><span class="table-head">申请人</span></th>
+                <th><span class="table-head">类型</span></th>
+                <th><span class="table-head">状态</span></th>
+                <th><span class="table-head">操作</span></th>
+            </tr>
+            </thead>
+            <tbody>
+            {foreach $lists as $k=>$item}
+                <tr>
+                    <td class="wid-auto">{$item["ad_addTime"]|totime}</td>
+                    <td class="wid-auto">[{$item['ad_sNames']}]{$item['ad_scNames']}</td>
+                    <td class="wid-auto">{if $item['ad_acorn']==0}不预设{else}{$item['ad_acorn']}{/if}</td>
+                    <td class="wid-auto">{$item['ad_fromUser']}</td>
+                    <td class="wid-auto">{$item['typeMemo']}</td>
+                    <td class="wid-auto">
+                        {if $item['ad_status']==0}
+                            {if $item['ad_types']==0}
+                                审核中
+                            {else}
+                                未阅读
+                            {/if}
+                        {/if}
+                        {if $item['ad_status']==1}
+                            {if $item['ad_types']==0}
+                                已审核
+                            {else}
+                                已阅读
+                            {/if}
+                        {/if}
+                    </td>
+                    <td class="wid-auto">
+                        <a href="{url("consoles_detail","con=Acorn&&id=".$item['aa_id'])}" data-side-form>详情</a>
+                        {if $item['ad_status']==0}
+                            {if $item['ad_types']==0}  <a href="{url('consoles_acorn_audits',array('id'=>$item['ad_id']))}" data-side-form style="color:#0087E1">审核</a>{/if}
+                            {if $item['ad_types']==1}  <a href="{url('consoles_acorn_audits',array('id'=>$item['ad_id']))}" data-side-form style="color:#0087E1">阅读</a>{/if}
+                        {/if}
+                    </td>
+                </tr>
+            {/foreach}
+            </tbody>
+        </table>
+    {else}
+        {if $params == 1}
+            <div style="position:relative; width:100%; line-height:50px; display:block; text-align:center;">
+                <img src="{path('[MobileConsoles]/img/null.png')}" alt="" class="" style="width:300px; height:100%; margin:50px auto 0; display:block;">
+                <div style="width:100%; color:#999; text-align:center; font-size:1.5rem;">查询为空</div>
+            </div>
+        {else}
+            <div style="position:relative; width:100%; line-height:50px; display:block; text-align:center;">
+                <img src="{path('[MobileConsoles]/img/null.png')}" alt="" class="" style="width:300px; height:100%; margin:50px auto 0; display:block;">
+                <div style="width:100%; color:#999; text-align:center; font-size:1.5rem;">暂时没有明细哦！</div>
+            </div>
+        {/if}
+    {/if}
+{/block}
+{block private_js}
+
+{/block}
+{block private_css}
+    <style>
+        .list-more-action{
+            display:none;
+        }
+    </style>
+{/block}
+
+
+

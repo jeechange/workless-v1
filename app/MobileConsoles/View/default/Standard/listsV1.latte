@@ -1,0 +1,216 @@
+{layout "../Layout/layoutBoth.latte"}
+{block headTitle}标准{/block}
+{block tabs_content}
+    {include "./tabs.latte"}
+{/block}
+{block custom}
+    {if $isSuper=="true"}
+        <span class="create-actions create" data-url="{url("mobileConsoles_standard_add")}">管理</span>
+    {else}
+        <span class="create-actions apply" data-url="{url("mobileConsoles_standard_applyStandard")}">申请</span>
+    {/if}
+{/block}
+{block private_js}
+    <script type="text/javascript">
+        $(document).on("pageInit", function () {
+            $(document).on('refresh', '.pull-to-refresh-content', function (e) {
+                setTimeout(function () {
+
+                    $.pullToRefreshDone('.pull-to-refresh-content');
+                }, 2000);
+            });
+
+            $(document).on('infinite', '.infinite-scroll-bottom', function () {
+                $('.infinite-scroll-preloader').remove();
+                // $.refreshScroller(); //刷新滚动
+            });
+            $('.infinite-scroll-preloader').remove();
+        });
+        $(function () {
+            $(".create").click(function () {
+                var buttons1 = [
+                    {
+                        text: '请选择',
+                        label: true
+                    },
+                    {
+                        text: '添加标准',
+                        onClick: function () {
+                            var toUrl = $(".create").attr("data-url");
+                            $.showPreloader('加载中...');
+                            window.location.href = toUrl;
+                        }
+                    },
+                    {
+                        text: '我的审核',
+                        onClick: function () {
+                            $.showPreloader('加载中...');
+                            window.location.href =  {url('mobileConsoles_standard_applyLists')};
+                        }
+                    }
+                ];
+                var buttons2 = [
+                    {
+                        text: '取消',
+                        bg: 'danger'
+                    }
+                ];
+                var groups = [buttons1, buttons2];
+                $.actions(groups);
+            });
+            $(".apply").click(function () {
+                var buttons1 = [
+                    {
+                        text: '请选择',
+                        label: true
+                    },
+                    {
+                        text: '申请标准',
+                        onClick: function () {
+                            var toUrl = $(".apply").attr("data-url");
+                            $.showPreloader('加载中...');
+                            window.location.href = toUrl;
+                        }
+                    },
+                    {
+                        text: '我的申请',
+                        onClick: function () {
+                            $.showPreloader('加载中...');
+                            window.location.href =  {url('mobileConsoles_standard_applyLists')};
+                        }
+                    }
+                ];
+                var buttons2 = [
+                    {
+                        text: '取消',
+                        bg: 'danger'
+                    }
+                ];
+                var groups = [buttons1, buttons2];
+                $.actions(groups);
+            });
+        })
+        function findStandard() {
+            var val = $(this).val().toString().replace(/^\s+|\s+$/gm, '');
+            var lists = $(".list-block").find("li[data-names-keyword]");
+            if (!val) {
+                $(".list-block").find("li").css("display", "flex");
+                for (var i = 0; i < lists.length; i++) {
+                    var text = $(lists[i]).find(".item-memo").text();
+                    $(lists[i]).find(".item-memo").html(text);
+                }
+                return true;
+            }
+            for (var i = 0; i < lists.length; i++) {
+                var text = $(lists[i]).attr("data-names-keyword");
+                var values = $(lists[i]).attr("data-values");
+                var indexOf = text.indexOf(val);
+                if (indexOf === -1) {
+                    $(lists[i]).find(".item-memo").html(text);
+                    $(lists[i]).css("display", "none");
+                    continue;
+                }
+                var newHtml = "";
+                if (indexOf === 0) {
+                    newHtml = '<span class="highlight">' + val + '<\/span>' + text.substring(val.length);
+                }
+                if (indexOf > 0) {
+                    newHtml = text.substring(0, indexOf) + '<span class="highlight">' + val + '<\/span>' + text.substring(val.length + indexOf);
+                }
+                $(lists[i]).find(".item-memo").html(newHtml);
+                $(lists[i]).css("display", "flex");
+            }
+        }
+
+    </script>
+{/block}
+{block private_css}
+    <style type="text/css">
+        .sui-text-font{
+            color:red;
+        }
+
+        .bar{
+            background-color:#efeff4
+        }
+
+        .bar .searchbar{
+            background:rgb(255, 255, 255);
+            border:1px solid #ddd;
+            border-radius:25px;
+        }
+
+        .tabs{
+            height:3rem !important;
+        }
+
+        .tabs .tabs-link{
+            height:3rem;
+            line-height:3rem;
+        }
+
+        .create-actions{
+            position:fixed;
+            background:rgba(24, 28, 31, 0.6);
+            width:44px;
+            height:44px;
+            line-height:44px;
+            z-index:9999;
+            bottom:65px;
+            right:15px;
+            text-align:center;
+            color:#fff;
+            border-radius:50px;
+        }
+    </style>
+{/block}
+{block content}
+    <div class="bar bar-header-secondary" style="margin-top:1.1rem">
+        <div class="searchbar">
+            <form action="" method="get">
+                <a class="searchbar-cancel">取消</a>
+                <div class="search-input">
+                    <label class="icon icon-search" for="search"></label>
+                    <input type="search" id='search' oninput="findStandard.call(this)" placeholder='输入关键字...'/>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="list-block" style="margin-top: 3.7rem;">
+        {if $lists}
+            <ul class="list">
+                {foreach $lists as $k=>$item}
+                    <li data-names-keyword="{$item['s_names']}">
+                        <a class="item-content item-link" href="{url('mobileConsoles_standard_detail',array('id'=>$item['s_id']))}">
+                            <div class="item-inner {if $item['s_status']==0}sui-text-font{/if}">
+                                <div class="item-name sui-ellipsis-1">{$item['sc_names']}</div>
+                                <div class="item-memo sui-ellipsis-1" style="line-height: 18px;">{$item['s_names']}</span></div>
+                                <div class="item-src">
+                                    {if $item['s_acorn']!=0}
+                                        {if $item['s_acorn']<0}
+                                            <span style="color:red">{$item['s_acorn']}</span>
+                                        {else}
+                                            {$item['s_acorn']}
+                                        {/if}
+                                        <i class="icon al-icon al-icon-influence sui-font-size-rem-0-8"></i>
+                                    {else}
+                                        <span style="color:red">不预设</span>
+                                    {/if}
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                {/foreach}
+            </ul>
+        {else}
+            <div style="margin-top:100px;text-align:center">
+                <img src="{path('[MobileConsoles]/img/null.png')}" alt="" class="" style="width:60%; height:100%; margin: 0 20%; display:block;">
+                <div style="color:#999;">暂无内容</div>
+            </div>
+        {/if}
+    </div>
+{/block}
+
+
+
+

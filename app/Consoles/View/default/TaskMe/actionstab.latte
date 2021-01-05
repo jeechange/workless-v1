@@ -1,0 +1,5 @@
+<a href="{url('consoles_lists','con=Todo')}" class="{if $active=="myTodo"}selected{/if} {if $redDot["任务"]['count'] > 0}redDotTwo{/if}">我的TODO</a>
+<a href="{url('consoles_taskMe_myIssue')}" class="{if $active=="myIssue"}selected{/if}">我发布的</a>
+<a href="{url('consoles_taskMe_myAccept')}" class="{if $active=="myAccept"}selected{/if} {if $redDot["任务"]['count3'] > 0}redDotTwo{/if}">我验收的</a>
+<a href="{url('consoles_taskMe_allotMe')}" class="{if $active=="allotMe"}selected{/if}">我执行的</a>
+{*<a href="{url('consoles_taskMe_cycles')}" class="{if $active=="cycles"}selected{/if}">我的周期</a>*}

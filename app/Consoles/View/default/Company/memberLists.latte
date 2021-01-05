@@ -1,0 +1,107 @@
+{layout '../Public/layoutList.latte'} {*继承layoutList模板*}
+{block title}组织架构{/block}
+
+{block actionstab}
+    {include "../Department/actionstab.latte"}
+{/block}
+
+{block private_js}
+    <script>
+        $(function () {
+            $("#sendMessage").click(function () {
+                var url = $(this).attr("data-url");
+                var phone = $("input[name='phone']").val();
+                var vcode = $("input[name='vcode']").val();
+                // var postData = new FormData();
+                // postData.append("phone",phone);
+                var postData = {
+                    "phone": phone,
+                    "vcode": vcode
+                };
+                $.ajax({
+                    url: url,
+                    type: "POST",
+                    data: postData,
+                    dataType: "json",
+                    success: function (res) {
+                        layer.alert(res.info);
+                        if (res.status == "n") {
+                            return false;
+                        } else {
+                            getVerify({url('consoles_myuser_verify')});
+                            location.reload();
+                        }
+                    }
+                });
+                return false;
+            });
+        });
+
+        function getVerify(url) {
+            var url = url + "?r=";
+            var src = url + Math.random();
+            $("#imgVerify").attr("src", src);
+        }
+    </script>
+{/block}
+
+{block content}
+    {*<table cellpadding="0" cellspacing="0" border="0" class="stdtable">*}
+    {*<thead>*}
+    {*<tr>*}
+    {*<th data-sort="s.names"><span class="table-head">用户名</span></th> *}{*在th加入 data-sort 可对数据库进行排序*}
+    {*<th data-sort="s.names"><span class="table-head">手机号</span></th> *}{*在th加入 data-sort 可对数据库进行排序*}
+    {*<th data-sort="s.names"><span class="table-head">姓名</span></th> *}{*在th加入 data-sort 可对数据库进行排序*}
+    {*<th data-sort="d.id"><span class="table-head">邀请时间</span></th>*}
+    {*<th><span class="table-head">操作</span></th>*}
+    {*</tr>*}
+    {*</thead>*}
+    {*<tbody>*}
+    {*{foreach $lists as $k=>$item}*}
+    {*<tr>*}
+    {*<td class="wid-auto">{$item['u_userName']}</td>*}
+    {*<td class="wid-auto">{$item['u_phone']}</td>*}
+    {*<td class="wid-auto">{$item['u_fullName']}</td>*}
+    {*<td class="wid-auto">{$item["m_addTime"]|totime}</td>*}
+    {*<td>*}
+    {*<a href="{url('consoles_company_memberinvite_del','id='.$item['m_id'])}" data-confirm="确定删除邀请吗">删除邀请</a>*}
+    {*</td>*}
+    {*</tr>*}
+    {*{/foreach}*}
+    {*</tbody>*}
+    {*</table>*}
+    <table cellpadding="0" cellspacing="0" border="0" class="stdtable">
+        <thead>
+        <tr>
+            <th><span class="table-head">内容</span></th>
+            <th><span class="table-head">操作</span></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            {*<td class="wid-auto">{url('~consoles_company_memberinvite',"code=".$codeNo)}</td>*}
+            <td class="wid-auto">{$companyUrl}</td>
+            <td>手动复制邀请链接</td>
+        </tr>
+        <tr style="background: none repeat scroll 0 0 #4d91e46b">
+            <td>
+                <input type="text" name="vcode" placeholder="输入右图验证码" style="float: left;margin-top: 7px;"/>
+                <img src="{url('consoles_myuser_verify')}" onclick="getVerify({url('consoles_myuser_verify')})"
+                     title="看不清，换一张" id="imgVerify" style="float: left;margin-left: 5px;height: 35px;"/>
+            </td>
+            <td>输入图像验证码后才能发送短信</td>
+        </tr>
+        <tr style="background: none repeat scroll 0 0 #4d91e46b">
+            <td class="wid-auto">
+                <input type="text" name="phone" placeholder="被邀请人手机号"
+                       style="clear: both;margin-top: 7px;display: block;"/>
+            </td>
+            <td><a href="javascript:void(0)" data-url="{url("consoles_company_memberLists")}" id="sendMessage">发送邀请短信</a></td>
+        </tr>
+        </tbody>
+    </table>
+{/block}
+
+
+
+

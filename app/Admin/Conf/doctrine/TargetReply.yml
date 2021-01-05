@@ -1,0 +1,49 @@
+Admin\Entity\TargetReply:
+  type: entity
+  table: target_reply
+  id:
+    id:
+      type: integer
+      nullable: false
+      unsigned: false
+      comment: ''
+      id: true
+      generator:
+        strategy: IDENTITY
+  fields:
+    tdId:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: td_id
+    teId:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: te_id
+    userId:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: user_id
+    replyId:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: reply_id
+    content:
+      type: string
+      nullable: true
+      length: 2048
+      fixed: false
+      comment: ''
+    addTime:
+      type: datetime
+      nullable: true
+      comment: ''
+      column: add_time
+  lifecycleCallbacks: {  }

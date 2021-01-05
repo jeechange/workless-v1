@@ -1,0 +1,35 @@
+/**
+弹出框尖箭头
+
+向上示例
+        <span class="dec dec-top"><s class="dec1">&#9670;</s><s class="dec2">&#9670;</s></span> 
+        <span class="dec dec-top" style="left:偏移量"><s class="dec1">&#9670;</s><s class="dec2">&#9670;</s></span> 
+向右示例
+        <span class="dec dec-right"><s class="dec1">&#9670;</s><s class="dec2">&#9670;</s></span> 
+        <span class="dec dec-right" style="top:偏移量"><s class="dec1">&#9670;</s><s class="dec2">&#9670;</s></span> 
+向下示例
+        <span class="dec dec-bottom"><s class="dec1">&#9670;</s><s class="dec2">&#9670;</s></span> 
+        <span class="dec dec-bottom" style="left:偏移量"><s class="dec1">&#9670;</s><s class="dec2">&#9670;</s></span> 
+向左示例
+        <span class="dec dec-left"><s class="dec1">&#9670;</s><s class="dec2">&#9670;</s></span>
+        <span class="dec dec-left" style="top:偏移量"><s class="dec1">&#9670;</s><s class="dec2">&#9670;</s></span>
+
+改变箭头边颜色
+<span class="dec dec-left"><s class="dec1" style="color:颜色值">&#9670;</s><s class="dec2">&#9670;</s></span>
+
+改变箭头背景颜色
+<span class="dec dec-left"><s class="dec1">&#9670;</s><s class="dec2" style="color:颜色值">&#9670;</s></span>
+
+*/
+.dec {display: block;height: 17px;overflow: hidden;position: absolute;width: 17px;}
+.dec.dec-top {top: -9px;left: 10px;height: 9px;}
+.dec.dec-right {top: 10px;right: -10px;width: 17px;}
+.dec.dec-bottom {left:  10px;bottom: -8px;}
+.dec.dec-left{top: 10px;left: -8px;width: 8px;}
+.dec s {font-family: simsun;font-size: 16px;height: 19px;left: 0;line-height: 21px;position: absolute;text-decoration: none;top: 0;width: 17px;}
+.dec .dec1 {color: #f2f2f2;}
+.dec .dec2 {color: #fff;}
+.dec.dec-top .dec2{top:1px;}
+.dec.dec-right .dec2{left: -1px;}
+.dec.dec-bottom .dec2{top: -1px;}
+.dec.dec-left .dec2{left:1px;}

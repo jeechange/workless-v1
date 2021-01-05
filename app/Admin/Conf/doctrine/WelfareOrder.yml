@@ -1,0 +1,78 @@
+Admin\Entity\WelfareOrder:
+  type: entity
+  table: welfare_order
+  id:
+    id:
+      type: integer
+      nullable: false
+      unsigned: false
+      comment: ''
+      id: true
+      generator:
+        strategy: IDENTITY
+  fields:
+    sid:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+    userId:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: user_id
+    snackId:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: snack_id
+    acorn:
+      type: decimal
+      nullable: true
+      precision: 20
+      scale: 0
+      comment: ''
+    addTime:
+      type: datetime
+      nullable: true
+      comment: ''
+      column: add_time
+    autoTime:
+      type: datetime
+      nullable: true
+      comment: ''
+      column: auto_time
+    status:
+      type: smallint
+      nullable: true
+      unsigned: false
+      comment: ''
+    types:
+      type: smallint
+      nullable: true
+      unsigned: false
+      comment: ''
+    orderNo:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+      column: order_no
+    auditorName:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+      column: auditor_name
+    everyNum:
+      type: decimal
+      nullable: true
+      precision: 20
+      scale: 0
+      comment: ''
+      column: every_num
+  lifecycleCallbacks: {  }

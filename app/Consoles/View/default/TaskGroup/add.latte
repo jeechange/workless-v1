@@ -1,0 +1,94 @@
+{layout '../Public/sideForm.latte'}
+{block title}新建项目{/block}
+{block private_css}
+{/block}
+{block private_js}
+{/block}
+{block content}
+    <form id="formArticle" class="stdform mform" method="post" action="">
+        <table cellpadding="0" cellspacing="0" border="0" id="frmtable" class="formtable">
+            <thead>
+            <tr>
+                <td><label>项目名称：</label></td>
+                <td>
+                    <div class="field control-group">
+                        <div class="input-group">
+                            <input type="text" id="frm_names" name="names" class="smallinput"/>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td><label>负责人：</label></td>
+                <td>
+                    <div class="field control-group">
+                        {$leader|noescape}
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td><label>成员：</label></td>
+                <td>
+                    <div class="field control-group">
+                        {$members|noescape}
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td><label>期限：</label></td>
+                <td>
+                    <div class="field control-group">
+                        <div class="input-group">
+                            <input type="text" class="laydate" name="startTime" id="one" format="YYYY-MM-DD" style="width:180px;"> — <input type="text" class="laydate" name="endTime" id="two" format="YYYY-MM-DD" style="width:180px;">
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td><label>阶段：</label></td>
+                <td>
+                    <div class="field control-group">
+                        <div class="input-group">
+                            <select name="status" id="status">
+                                {foreach $status as $key=>$item}
+                                    <option value="{$key}">{$item}</option>
+                                {/foreach}
+                            </select>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td><label>阶段进度：</label></td>
+                <td>
+                    <div class="field control-group">
+                        <div class="input-group">
+                          <input type="number" name="progress" value="0" style="width:100px">%
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td><label>排序：</label></td>
+                <td>
+                    <div class="field control-group">
+                        <div class="input-group">
+                            <input type="text" id="frm_sort" name="sort" class="smallinput" value="0"/>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td><label>项目简介：</label></td>
+                <td>
+                    <div class="field control-group">
+                        <div class="input-group">
+                            <textarea id="frm_memo" name="memo"></textarea>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            </thead>
+        </table>
+    </form>
+{/block}

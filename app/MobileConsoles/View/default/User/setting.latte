@@ -1,0 +1,263 @@
+{layout "../Layout/layout.latte"}
+{block headTitle}设置{/block}
+{block private_css}
+    <style>
+        .item-title{
+            font-size:14px;
+        }
+
+        .item-title .icon{
+            font-size:25px;
+        }
+
+        .anything{
+            width:100%;
+            opacity:0.6;
+            padding:0.3rem 0;
+            background:#0087E2;
+            font-family:Arial;
+            font-style:normal;
+            font-size:14px;
+            text-align:center;
+            line-height:31px;
+            color:#fff;
+            clear:both;
+        }
+
+        .anything span{
+            display:inline-block;
+            vertical-align:middle;
+        }
+
+        .anything .badge{
+            background:#fff;
+            vertical-align:middle;
+            color:#FF4081;
+        }
+
+        .anything .close{
+            float:right;
+            margin-right:10px;
+        }
+
+        .user-info{
+            box-sizing:border-box;
+            height:130px;
+            background:#fafafa;
+            padding:15px 30px;
+            vertical-align:bottom;
+            color:#aaa;
+            position:relative;
+        }
+
+        .user-info .headerImg{
+            position:absolute;
+            top:0;
+            left:0;
+            z-index:3;
+            width:100%;
+            height:100%;
+            display:block;
+        }
+
+        .headerSZ{
+            position:relative;
+            display:block;
+            width:100%;
+            height:30px;
+            z-index:5;
+        }
+
+        .user-info .user-overview{
+            width:65%;
+            float:left;
+            padding-top:5px;
+            position:absolute;
+            z-index:5;
+            color:white;
+        }
+
+        .user-info .user-overview .user-names{
+            /*color:#101010;*/
+            font-size:18px;
+            line-height:26px;
+            font-weight:bold;
+            display:inline-block;
+        }
+
+        .user-info .user-overview .user-acorn{
+            height:23px;
+            line-height:20px;
+            /*color:rgba(16, 16, 16, 1);*/
+            font-size:14px;
+            text-align:center;
+            display:inline-block;
+            margin-left:30px;
+        }
+
+        .user-base{
+            padding:0px 10px 5px;
+        }
+
+        .user-info .user-overview .user-company{
+            display:block;
+            height:40px;
+            line-height:20px;
+            /*color:rgba(16, 16, 16, 1);*/
+            color:white;
+            font-size:14px;
+            padding:5px 10px;
+        }
+
+        .user-info .user-head{
+            position:absolute;
+            z-index:5;
+            right:10px;
+            width:35%;
+            float:right;
+            text-align:center;
+        }
+
+        .user-info .user-head img{
+            display:block;
+            margin:0 auto;
+            width:70px;
+            height:70px;
+            border-radius:50%;
+        }
+
+        .user-info .user-head span{
+            color:#0087E2;
+            font-size:12px;
+            line-height:17px;
+        }
+
+        .mlrLogo{
+            margin:0 0.8rem 0 0.5rem;
+            color:#0087E2;
+        }
+
+        .influence{
+            width:100%;
+            padding:0.5rem 0;
+            display:block;
+            background:#fff;
+        }
+
+        .boxOne{
+            position:relative;
+            float:left;
+            width:33.333%;
+            text-align:center;
+        }
+
+        .boxOne:after{
+            position:absolute;
+            content:'';
+            top:30%;
+            left:0;
+            width:1px;
+            height:40%;
+            background:#0087E2;
+        }
+
+        .boxOne:first-child:after{
+            position:absolute;
+            content:'';
+            top:30%;
+            left:0;
+            width:1px;
+            height:40%;
+            background:none !important;
+        }
+
+        .fraction{
+            color:#0087E2;
+            font-size:1.1rem;
+            margin:0.05rem 0;
+        }
+
+        .words{
+            font-size:0.75rem;
+            margin:0.05rem 0;
+        }
+
+        .Abtn{
+            box-sizing:border-box;
+            margin:30px 0 20px;
+            width:100%;
+            height:2.4rem;
+            line-height:2.4rem;
+            display:block;
+            background:#fff;
+            color:#333;
+        }
+
+        .signOut{
+            width:100%;
+            height:2.4rem;
+            line-height:2.4rem;
+            text-align:center;
+        }
+    </style>
+{/block}
+{block content}
+    <div class="list-block" style="margin: 0;">
+        <ul>
+
+            {if $user['sid']==0}
+                <li>
+                    <a href="{url('mobileConsoles_user_userInfo',"different={$different}")}" class="item-content item-link">
+                        <div class="item-inner">
+                            <div class="item-title"><i class="icon al-icon al-icon-personalcenter mlrLogo"></i> 账号信息</div>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="{url('mobileConsoles_user_modifyPWD',"different={$different}")}" class="item-content item-link">
+                        <div class="item-inner">
+                            <div class="item-title"><i class="icon al-icon al-icon-xiugaimima mlrLogo"></i> 修改密码</div>
+                        </div>
+                    </a>
+                </li>
+            {else}
+                <li>
+                    <a href="{url('mobileConsoles_user_userInfo')}" class="item-content item-link">
+                        <div class="item-inner">
+                            <div class="item-title"><i class="icon al-icon al-icon-personalcenter mlrLogo"></i> 账号信息</div>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="{url('mobileConsoles_user_modifyPWD')}" class="item-content item-link">
+                        <div class="item-inner">
+                            <div class="item-title"><i class="icon al-icon al-icon-xiugaimima mlrLogo"></i> 修改密码</div>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="{url('mobileConsoles_user_education')}" class="item-content item-link">
+                        <div class="item-inner">
+                            <div class="item-title"><i class="icon al-icon al-icon-education mlrLogo"></i> 学历信息</div>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="{url('mobileConsoles_user_workExp')}" class="item-content item-link">
+                        <div class="item-inner">
+                            <div class="item-title"><i class="icon al-icon al-icon-gongzuojingyan mlrLogo"></i> 工作经验</div>
+                        </div>
+                    </a>
+                </li>
+            {/if}
+        </ul>
+    </div>
+    <a href="{url('mobileConsoles_login_logout')}" class="Abtn">
+        <div class="signOut">退出登录</div>
+    </a>
+{/block}
+{block footer}
+    {if $sid!=0}
+        {control MobileConsoles:Layout:footer}
+    {/if}
+{/block}

@@ -1,0 +1,67 @@
+<script>
+    function countDown(endTimes) {
+        var times = (new Date(endTimes)) - (new Date());
+        var day = 0,
+            hour = 0,
+            minute = 0,
+            second = 0;//时间默认值
+        if (times > 0) {
+            day = Math.floor(times / 1000 / 60 / 60 / 24);
+            hour = Math.floor(times / 1000 / 60 / 60 % 24);
+            minute = Math.floor(times / 1000 / 60 % 60);
+            second = Math.floor(times / 1000 % 60);
+        }
+        var $return = "";
+        if (day > 0) $return += day + "天";
+        if (hour > 0) $return += hour + "小时";
+        if (minute > 0) $return += minute + "分";
+        return $return + second + "秒";
+    }
+
+    $(function () {
+        $(".priority-input").unbind().bind("click", function () {
+            $(this).siblings(".selected").removeClass("selected");
+            $(this).addClass("selected");
+        });
+        window.timerdeadline = setInterval(function () {
+            var endTimes = $("#deadline").val();
+            var cTime = countDown(endTimes);
+            $("#deadlineRemain").text("目前还剩下：" + cTime);
+        }, 1000);
+        $("#deadline").datetimePicker({
+            value: ["2018", "08", "30", "12", "30"]
+        });
+        $(".pic-add").on("change", "[type='file']", function () {
+            var oFile = this.files[0];
+            if (oFile === undefined) return;
+            var iMaxFilesize = 2097152;
+            if (oFile.size > iMaxFilesize) {
+                $.toast("图片大小不能超过2M");
+                return;
+            }
+
+        });
+
+        $(".submit-form").on("click", function () {
+            $.showPreloader('正在提交，请稍候...');
+            $.ajax({
+                url: $(this).attr("data-url"),
+                type: "POST",
+                data: $("#my-form").serialize(),
+                dataType: "json",
+                success: function (res) {
+                    $.hidePreloader();
+                    if (res.status === "n") {
+                        $.toast(res.info);
+                        return;
+                    }
+                    $.toast("添加成功");
+                    setTimeout(function () {
+                        location.href = res.data;
+                    }, 1000)
+                }
+            });
+        })
+    })
+
+</script>

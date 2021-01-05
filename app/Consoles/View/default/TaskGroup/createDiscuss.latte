@@ -1,0 +1,74 @@
+{layout '../Public/layoutDetail.latte'}
+{block title}发起讨论{/block}
+{block private_css}
+{/block}
+{block private_js}
+    <script type="text/javascript">
+        function postPages(toUrl, data, callback) {
+            console.log(toUrl);
+            var msgIndex = layer.msg("正在提交", {
+                offset: 't',
+                time: 0,
+                icon: 16
+            });
+            $.ajax({
+                type: "POST",
+                dataType: "json",
+                url: toUrl,
+                data: data,
+                complete: function (request) {
+                    layer.close(msgIndex);
+                    try {
+                        var res = $.parseJSON(request.responseText);
+                        if (res.status === "y") {
+                            layer.msg(res.info, {
+                                time: 2000
+                            }, function () {
+                                getPage(res.url, null, null,{Q()->server->get("HTTP_AJAX_REFERER")?:url("consoles_detail", "con=taskGroup&id=" . $id)});
+                                hideSideForm(false);
+                            });
+                            callback && callback();
+                        } else {
+                            layer.alert(res.info);
+                        }
+                    } catch (e) {
+                        layer.alert(e.message);
+                    }
+                }
+            });
+        }
+        init.ready(function () {
+            $(".submit-data").unbind().bind("click", function () {
+                var types = $(this).attr("data-types");
+                var url = {url("consoles_taskGroup_createDiscuss",array("id"=>$id))};
+                var dynamicMemo = $("#dynamic-content").val();
+
+                var sendData = {
+                    dynamicMemo: dynamicMemo,
+                    types: types
+                };
+                if (types === "dynamic") {
+                    if (!sendData["dynamicMemo"]) {
+                        layer.alert("动态内容不能为空");
+                        return;
+                    }
+                }
+                if (types === "dynamic") {
+                    postPages(url, sendData);
+                } else if (typeof  titles[types] !== "undefined") {
+                    layer.confirm(titles[types], function () {
+                        postPages(url, sendData);
+                    });
+                } else {
+                    layer.alert("操作出错，请刷新页面重试");
+                }
+            });
+        });
+    </script>
+{/block}
+{block content}
+    <div class="task-detail-section task-detail-section2">
+        <textarea id="dynamic-content" style="width:80%;height:80px;margin-left:13px"></textarea><br>
+        <input type="button" class="btn submit-data" value="发布动态" data-types="dynamic" data-url="{url("consoles_taskGroup_details",array("id"=>$id))}" style="margin-left:13px"/>
+    </div>
+{/block}

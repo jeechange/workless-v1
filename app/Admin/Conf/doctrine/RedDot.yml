@@ -1,0 +1,43 @@
+Admin\Entity\RedDot:
+  type: entity
+  table: red_dot
+  id:
+    id:
+      type: integer
+      nullable: false
+      unsigned: false
+      comment: ''
+      id: true
+      generator:
+        strategy: IDENTITY
+  fields:
+    userId:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: user_id
+    sid:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+    formId:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: form_id
+    formName:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+      column: form_name
+    status:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+  lifecycleCallbacks: {  }

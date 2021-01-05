@@ -1,0 +1,14 @@
+{foreach $lists as $item}
+    <li class="item-content">
+        <div class="item-media"><span>{$item['fullName']}</span></div>
+        <div class="item-inner">
+            <div class="item-row">
+                <div class="item-title item-title-bold">{$item['b_addTime']|totime}</div>
+                <div class="item-after item-bonus">+{$item["b_bonus"]|coin}</div>
+            </div>
+            <div class="item-row">
+                <div class="item-title">{$item['b_memo']}</div>
+            </div>
+        </div>
+    </li>
+{/foreach}

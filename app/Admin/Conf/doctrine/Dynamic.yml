@@ -1,0 +1,84 @@
+Admin\Entity\Dynamic:
+  type: entity
+  table: dynamic
+  id:
+    id:
+      type: integer
+      nullable: false
+      unsigned: false
+      comment: ''
+      id: true
+      generator:
+        strategy: IDENTITY
+  fields:
+    sid:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+    did:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+    userId:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: user_id
+    replyId:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: reply_id
+    ats:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    relateUser:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+      column: relate_user
+    unreads:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    addTime:
+      type: datetime
+      nullable: true
+      comment: ''
+      column: add_time
+    content:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    linkTo:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+      column: link_to
+    likes:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    types:
+      type: smallint
+      nullable: true
+      unsigned: false
+      comment: ''
+  lifecycleCallbacks: {  }

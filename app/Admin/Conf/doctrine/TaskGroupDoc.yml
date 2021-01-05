@@ -1,0 +1,69 @@
+Admin\Entity\TaskGroupDoc:
+  type: entity
+  table: task_group_doc
+  id:
+    id:
+      type: integer
+      nullable: false
+      unsigned: false
+      comment: ''
+      id: true
+      generator:
+        strategy: IDENTITY
+  fields:
+    sid:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+    gid:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+    userId:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: user_id
+    title:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    keywords:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    content:
+      type: text
+      nullable: true
+      length: null
+      fixed: false
+      comment: ''
+    addTime:
+      type: datetime
+      nullable: true
+      comment: ''
+      column: add_time
+    lastTime:
+      type: datetime
+      nullable: true
+      comment: ''
+      column: last_time
+    lastUserId:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: last_user_id
+    status:
+      type: smallint
+      nullable: true
+      unsigned: false
+      comment: ''
+  lifecycleCallbacks: {  }

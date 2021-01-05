@@ -1,0 +1,453 @@
+{layout "../Layout/layout.latte"}
+{block headTitle}备忘录{/block}
+{block private_css}
+    <style>
+        a:hover {
+            text-decoration: none;
+        }
+
+        .anythingNav {
+            overflow: hidden;
+        }
+
+        .anythingNav li {
+            width: 33.33%;
+            float: left;
+            list-style: none;
+
+        }
+
+        .anythingNav li a {
+            font-size: 16px;
+            text-align: center;
+            line-height: 16px;
+            display: block;
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .anythingNav li:hover {
+            cursor: pointer;
+        }
+
+        .anythingNav li.current a {
+            color: #0087e1;
+            font-size: 16px;
+            border-bottom: 1px solid #0087e1;
+        }
+
+        .anythingContent {
+            padding: 0;
+            overflow: hidden;
+            /*border: 1px solid #fafafa;*/
+        }
+
+        .anythingContent li {
+            list-style: none;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .anythingContent li > p {
+            float: left;
+            font-size: 14px;
+            line-height: 24px;
+            padding: 1rem;
+            width: 70%;
+            margin: 0;
+        }
+
+        .anythingContent li a {
+            float: right;
+            display: block;
+            padding: 5px;
+            background: #0087e1;
+            color: #fff;
+            font-size: 14px;
+            line-height: 14px;
+            width: 52px;
+            text-align: center;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            right: 1rem;
+        }
+
+        .anythingContent li div p {
+            line-height: 20px;
+            float: left;
+            margin: 1rem 0.5rem;
+        }
+
+        .anythingContent li div img {
+            width: 20px;
+            height: 20px;
+            margin: 1rem 0;
+        }
+
+        .anythingContent li a:hover {
+            cursor: pointer;
+        }
+
+        .anythingContent li:nth-of-type(odd) {
+            background: #fff;
+        }
+
+        .buttons-tab .button {
+            height: 2.5rem !important;
+            line-height: 2.5rem !important;
+        }
+
+        .operate {
+            position: fixed;
+            background: rgba(24, 28, 31, 0.6);
+            width: 44px;
+            height: 44px;
+            line-height: 44px;
+            z-index: 9999;
+            bottom: 65px;
+            right: 15px;
+            text-align: center;
+            color: #fff;
+            border-radius: 50px;
+        }
+
+        .bar {
+            background: #fff !important;
+        }
+
+    </style>
+{/block}
+{block private_js}
+    {include "../Task/listsJs.latte"}
+    <script type="text/javascript">
+        $(".check").click(function () {
+            var url = $(this).attr("href");
+            var id = $(this).attr("data-id");
+            var formData = {
+                anythingid: id
+            }
+            $.ajax({
+                type: "post",
+                url: url,
+                data: formData,
+                cache: false,
+                dataType: "json",
+                success: function (data) {
+                    $.toast(data.info);
+                    if (data.status == "n") {
+                        return false;
+                    } else {
+                        setTimeout(function () {
+                            location.reload();
+                        }, 1000);
+                    }
+                }
+            });
+            return false;
+        });
+
+
+        $(".revoke").click(function () {
+            var url = $(this).attr("href");
+            var id = $(this).attr("data-id");
+            var formData = {
+                anythingid: id
+            }
+            $.ajax({
+                type: "post",
+                url: url,
+                data: formData,
+                cache: false,
+                dataType: "json",
+                success: function (data) {
+                    $.toast(data.info);
+                    if (data.status == "n") {
+                        return false;
+                    } else {
+                        setTimeout(function () {
+                            location.reload();
+                        }, 1000);
+                    }
+                }
+            });
+            return false;
+        });
+
+        $(document).on('click', '.handle', function () {
+            var name = $(this).attr("data-name");
+            var url = $(this).attr("data-url");
+            var deleteUrl = $(this).attr("data-deleteUrl");
+
+            var id = $(this).attr("data-id");
+
+            var buttons1 = [
+                {
+                    text: '请选择',
+                    label: true
+                },
+                {
+                    text: name,
+                    bold: true,
+                    onClick: function () {
+                        if (name == "完成") {
+							var formData = {
+								anythingid: id
+							}
+							$.ajax({
+								type: "post",
+								url: url,
+								data: formData,
+								cache: false,
+								dataType: "json",
+								success: function (data) {
+									if (data.status == "n") {
+										$.toast(data.info)
+										return false;
+									} else {
+										$.showPreloader(data.info)
+										setTimeout(function () {
+											location.reload();
+											$.hidePreloader();
+										}, 1000);
+									}
+								}
+							});
+                        } else {
+                            $.confirm('确定撤回？', function () {
+                                var formData = {
+                                    anythingid: id
+                                }
+                                $.ajax({
+                                    type: "post",
+                                    url: url,
+                                    data: formData,
+                                    cache: false,
+                                    dataType: "json",
+                                    success: function (data) {
+                                        if (data.status == "n") {
+                                            $.toast(data.info)
+                                            return false;
+                                        } else {
+                                            $.showPreloader(data.info)
+                                            setTimeout(function () {
+                                                location.reload();
+                                                $.hidePreloader();
+                                            }, 1000);
+                                        }
+                                    }
+                                });
+                            });
+
+                        }
+
+                    }
+                },
+                {
+                    text: '删除',
+                    onClick: function () {
+                        $.confirm('确定删除？', function () {
+                            var formData = {
+                                anythingid: id
+                            }
+                            $.ajax({
+                                type: "post",
+                                url: deleteUrl,
+                                data: formData,
+                                cache: false,
+                                dataType: "json",
+                                success: function (data) {
+                                    if (data.status == "n") {
+                                        $.toast(data.info)
+                                        return false;
+                                    } else {
+                                        $.showPreloader(data.info)
+                                        setTimeout(function () {
+                                            location.reload();
+                                            $.hidePreloader();
+                                        }, 1000);
+                                    }
+                                }
+                            });
+                        });
+                    }
+                }
+            ];
+            var buttons2 = [
+                {
+                    text: '取消',
+                    bg: 'danger'
+                }
+            ];
+            var groups = [buttons1, buttons2];
+            $.actions(groups);
+        });
+
+    </script>
+{/block}
+{block content}
+    <div class="content">
+        <div class="buttons-tab">
+            <a href="{url('mobileConsoles_anything_anythingLists',array('types'=>'today'))}"
+               class="tabs-link button {if $current=='today'}active{/if}">今天</a>
+            <a href="{url('mobileConsoles_anything_anythingLists',array('types'=>'someday'))}"
+               class="tabs-link button {if $current=='someday'}active{/if}">某天</a>
+            <a href="{url('mobileConsoles_anything_anythingLists',array('types'=>'log'))}"
+               class="tabs-link button {if $current=='log'}active{/if}">日志</a>
+        </div>
+        <ul class="anythingContent">
+            {if $current=='today'}
+                {if $todayLists}
+                    {foreach $todayLists as $k=>$v}
+                        <li>
+                            <p>{$v['content']}</p>
+                            <a href="#" class="handle" {if $v['status'] == 0}data-name="完成"
+                               data-url="{url("mobileConsoles_anything_anythingCheck")}" {else}data-name="撤回"
+                               data-url="{url("mobileConsoles_anything_anythingRevoke")}"
+                               style="background: #ddd;" {/if}
+                               data-id="{$v['id']}"
+                               data-deleteUrl="{url("mobileConsoles_anything_anythingDelete")}">{if $v['status'] == 0}操作{else}已完成{/if}</a>
+                        </li>
+                    {/foreach}
+                {else}
+                    <div style="margin-top:50px;margin-bottom:30px;text-align:center">
+                        <img src="{path('[MobileConsoles]/img/null.png')}" alt="" class=""
+                             style="width:60%; height:100%; margin: 0 20%; display:block;">
+                        <div style="color:#999;">暂无备忘</div>
+                    </div>
+                {/if}
+            {/if}
+            {if $current=='someday'}
+                {if $somedayLists}
+                    {foreach $somedayLists as $k=>$v}
+                        <li>
+                            <p>{$v['content']}</p>
+                            <a href="#" class="handle" {if $v['status'] == 0}data-name="完成"
+                               data-url="{url("mobileConsoles_anything_anythingCheck")}" {else}data-name="撤回"
+                               data-url="{url("mobileConsoles_anything_anythingRevoke")}"
+                               style="background: #ddd;" {/if}
+                               data-id="{$v['id']}"
+                               data-deleteUrl="{url("mobileConsoles_anything_anythingDelete")}">{if $v['status'] == 0}操作{else}已完成{/if}</a>
+                        </li>
+                    {/foreach}
+                {else}
+                    <div style="margin-top:50px;margin-bottom:30px;text-align:center">
+                        <img src="{path('[MobileConsoles]/img/null.png')}" alt="" class=""
+                             style="width:60%; height:100%; margin: 0 20%; display:block;">
+                        <div style="color:#999;">暂无备忘</div>
+                    </div>
+                {/if}
+            {/if}
+            {if $current=='log'}
+                {if $logLists}
+                    {if $todayArr}
+                        <li>
+                            <div style="overflow:hidden;margin: 0 auto;width: fit-content;line-height: 0;">
+                                <p>今天</p>
+                                <img src="{path('[Consoles]/images/today.png')}"/>
+                            </div>
+                        </li>
+                        {foreach $todayArr as $k=>$v}
+                            <li>
+                                <p>{$v['content']}</p>
+                                <a href="#" class="handle" {if $v['status'] == 0}data-name="完成"
+                                   data-url="{url("mobileConsoles_anything_anythingCheck")}" {else}data-name="撤回"
+                                   data-url="{url("mobileConsoles_anything_anythingRevoke")}"
+                                   style="background: #ddd;" {/if}
+                                   data-id="{$v['id']}"
+                                   data-deleteUrl="{url("mobileConsoles_anything_anythingDelete")}">{if $v['status'] == 0}操作{else}已完成{/if}</a>
+                            </li>
+                        {/foreach}
+                    {/if}
+
+                    {if $yesterdayArr}
+                        <li>
+                            <div style="overflow:hidden;margin: 0 auto;width: fit-content;line-height: 0;">
+                                <p>昨天</p>
+                                <img src="{path('[Consoles]/images/yesterday.png')}"/>
+                            </div>
+                        </li>
+                        {foreach $yesterdayArr as $k=>$v}
+                            <li>
+                                <p>{$v['content']}</p>
+                                <a href="#" class="handle" {if $v['status'] == 0}data-name="完成"
+                                   data-url="{url("mobileConsoles_anything_anythingCheck")}" {else}data-name="撤回"
+                                   data-url="{url("mobileConsoles_anything_anythingRevoke")}"
+                                   style="background: #ddd;" {/if}
+                                   data-id="{$v['id']}"
+                                   data-deleteUrl="{url("mobileConsoles_anything_anythingDelete")}">{if $v['status'] == 0}操作{else}已完成{/if}</a>
+                            </li>
+                        {/foreach}
+                    {/if}
+
+                    {if $tomorrowArr}
+                        <li>
+                            <div style="overflow:hidden;margin: 0 auto;width: fit-content;line-height: 0;">
+                                <p>明天</p>
+                                <img src="{path('[Consoles]/images/tomorrow.png')}"/>
+                            </div>
+                        </li>
+                        {foreach $tomorrowArr as $k=>$v}
+                            <li>
+                                <p>{$v['content']}</p>
+                                <a href="#" class="handle" {if $v['status'] == 0}data-name="完成"
+                                   data-url="{url("mobileConsoles_anything_anythingCheck")}" {else}data-name="撤回"
+                                   data-url="{url("mobileConsoles_anything_anythingRevoke")}"
+                                   style="background: #ddd;" {/if}
+                                   data-id="{$v['id']}"
+                                   data-deleteUrl="{url("mobileConsoles_anything_anythingDelete")}">{if $v['status'] == 0}操作{else}已完成{/if}</a>
+                            </li>
+                        {/foreach}
+                    {/if}
+
+                    {if $somedayArr}
+                        <li>
+                            <div style="overflow:hidden;margin: 0 auto;width: fit-content;line-height: 0;">
+                                <p>某天</p>
+                                <img src="{path('[Consoles]/images/someday.png')}"/>
+                            </div>
+                        </li>
+                        {foreach $somedayArr as $k=>$v}
+                            <li>
+                                <p>{$v['content']}</p>
+                                <a href="#" class="handle" {if $v['status'] == 0}data-name="完成"
+                                   data-url="{url("mobileConsoles_anything_anythingCheck")}" {else}data-name="撤回"
+                                   data-url="{url("mobileConsoles_anything_anythingRevoke")}"
+                                   style="background: #ddd;" {/if}
+                                   data-id="{$v['id']}"
+                                   data-deleteUrl="{url("mobileConsoles_anything_anythingDelete")}">{if $v['status'] == 0}操作{else}已完成{/if}</a>
+                            </li>
+                        {/foreach}
+                    {/if}
+
+                    {if $otherArr}
+                        <li>
+                            <div style="overflow:hidden;margin: 0 auto;width: fit-content;line-height: 0;">
+                                <p>其它</p>
+                                <img src="{path('[Consoles]/images/other.png')}"/>
+                            </div>
+                        </li>
+                        {foreach $otherArr as $k=>$v}
+                            <li>
+                                <p>{$v['content']}</p>
+                                <a href="#" class="handle" {if $v['status'] == 0}data-name="完成"
+                                   data-url="{url("mobileConsoles_anything_anythingCheck")}" {else}data-name="撤回"
+                                   data-url="{url("mobileConsoles_anything_anythingRevoke")}"
+                                   style="background: #ddd;" {/if}
+                                   data-id="{$v['id']}"
+                                   data-deleteUrl="{url("mobileConsoles_anything_anythingDelete")}">{if $v['status'] == 0}操作{else}已完成{/if}</a>
+                            </li>
+                        {/foreach}
+                    {/if}
+                {else}
+                    <div style="margin-top:50px;margin-bottom:30px;text-align:center">
+                        <img src="{path('[MobileConsoles]/img/null.png')}" alt="" class=""
+                             style="width:60%; height:100%; margin: 0 20%; display:block;">
+                        <div style="color:#999;">暂无备忘</div>
+                    </div>
+                {/if}
+            {/if}
+        </ul>
+        <a class="operate" href="{url('mobileConsoles_anything_anythingAdd')}">添加</a>
+    </div>
+{/block}

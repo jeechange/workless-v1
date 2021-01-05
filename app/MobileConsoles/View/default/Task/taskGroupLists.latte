@@ -1,0 +1,45 @@
+{layout "../Layout/layoutBoth.latte"}
+{block headTitle}{$titles}任务项目{/block}
+{block tabs_content}
+    {include "./manageTabs.latte"}
+{/block}
+{block private_css}
+    <style type="text/css">
+        .item-content{
+            min-height:3rem !important;
+        }
+    </style>
+{/block}
+{block private_js}
+    {include "./listsJs.latte"}
+{/block}
+{block custom}
+    {if $isSuper}
+        <span class="create-actions create-actions1" data-url="{url('mobileConsoles_task_settings')}">管理</span>
+    {/if}
+    <a class="create-actions" href="{url('mobileConsoles_task_addtaskGroup')}">添加</a>
+{/block}
+{block content}
+    <div class="list-block" style="margin-top: 3rem;">
+        {if $lists}
+            {foreach $lists as $item}
+                <a href="{url('mobileConsoles_task_groupModify',array("id"=>$item['id']))}">
+                    <ul class="listsItems">
+                        <li class="item-content">
+                            <div class="item-media"><i class="icon icon-f7"></i></div>
+                            <div class="item-inner">
+                                <div class="item-title">{$item['names']}</div>
+                                <div class="item-after">{$item['addTime']|totime}</div>
+                            </div>
+                        </li>
+                    </ul>
+                </a>
+            {/foreach}
+        {else}
+            <div style="margin-top:100px;text-align:center">
+                <img src="{path('[MobileConsoles]/img/null.png')}" alt="" class="" style="width:60%; height:100%; margin: 0 20%; display:block;">
+                <div style="color:#999;">暂无项目</div>
+            </div>
+        {/if}
+    </div>
+{/block}

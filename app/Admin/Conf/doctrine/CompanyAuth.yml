@@ -1,0 +1,148 @@
+Admin\Entity\CompanyAuth:
+  type: entity
+  table: company_auth
+  id:
+    id:
+      type: integer
+      nullable: false
+      unsigned: false
+      comment: ''
+      id: true
+      generator:
+        strategy: IDENTITY
+  fields:
+    sid:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+    userId:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: user_id
+    names:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    industry:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    scales:
+      type: smallint
+      nullable: true
+      unsigned: false
+      comment: ''
+    licenseCode:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+      column: license_code
+    licensePic:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+      column: license_pic
+    licenseRegisterMoney:
+      type: decimal
+      nullable: true
+      precision: 20
+      scale: 0
+      comment: ''
+      column: license_register_money
+    licenseRegisterDate:
+      type: datetime
+      nullable: true
+      comment: ''
+      column: license_register_date
+    licenseRegisterExpiry:
+      type: datetime
+      nullable: true
+      comment: ''
+      column: license_register_expiry
+    legal:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    legalIdentity:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+      column: legal_identity
+    legalIdentityPic:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+      column: legal_identity_pic
+    legalIdentityBack:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+      column: legal_identity_back
+    contact:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    contactPhone:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+      column: contact_phone
+    email:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    province:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    city:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    area:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    address:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    status:
+      type: smallint
+      nullable: true
+      unsigned: false
+      comment: ''
+  lifecycleCallbacks: {  }

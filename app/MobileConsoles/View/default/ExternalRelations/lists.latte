@@ -1,0 +1,201 @@
+{layout "../Layout/layoutBoth.latte"}
+{block headTitle}项目{/block}
+{block tabs_content}
+    {include "./tabs.latte"}
+    <div class="bar bar-header-secondary" style="height:3rem; top:3rem; padding-top:0.4rem; z-index:999;">
+        <form action="" method="get">
+            <div class="searchbar">
+                <a class="searchbar-cancel">取消</a>
+                <div class="search-input">
+                    <label class="icon icon-search" for="search"></label>
+                    <input type="search" id='search' name="keywords" placeholder='项目/任务名称/任务编号/姓名' value="{$keywords}"/>
+                    <input type="hidden" name="different" value="yes"/>
+                    <input type="hidden" name="tabs_sub" value="{$tabs_sub}"/>
+                </div>
+            </div>
+        </form>
+    </div>
+{/block}
+{block private_js}
+    {include '../Task/listsJs.latte'}
+    <script type="text/javascript">
+
+        $(function () {
+            $(".create").click(function () {
+                var buttons1 = [
+                    {
+                        text: '密码修改',
+                        onClick: function () {
+                            $.showPreloader('加载中...');
+                            window.location.href =  {url('mobileConsoles_user_modifyPWD',"different=yes")};
+                        }
+                    },
+                    {
+                        text: '我的账户',
+                        onClick: function () {
+                            $.showPreloader('加载中...');
+                            window.location.href =  {url('mobileConsoles_user_setting',"different=yes")};
+                        }
+                    }
+                ];
+                var buttons2 = [
+                    {
+                        text: '取消',
+                        bg: 'danger'
+                    }
+                ];
+                var groups = [buttons1, buttons2];
+                $.actions(groups);
+            });
+        });
+    </script>
+{/block}
+{block custom}
+    {if $sid==0}
+        <span class="create-actions create">管理</span>
+    {/if}
+{/block}
+{block private_css}
+    <style>
+        .tabs ~ .content{
+            top:0;
+        }
+
+        .item-content .item-media span, .item-content .types-memo{
+            color:#fff; border-radius:50%; width:40px; height:40px; text-align:center; display:block; line-height:40px;
+            font-size:24px;
+        }
+
+        .item-content .types-memo.types-memo-1{
+            background:#E51C23;
+        }
+
+        .item-content .types-memo.types-memo-3{
+            background:#259B24;
+        }
+
+        .item-content .item-media span.priority-1{
+            background:#FB855C;
+        }
+
+        .item-content .item-media span.priority-2{
+            background:#FFBA00;
+        }
+
+        .item-content .item-media span.priority-3{
+            background:#305AAE;
+        }
+
+        .item-content .item-media span.priority-4{
+            background:#5CABFB;
+        }
+
+        .item-content .item-inner{
+            display:block;
+        }
+
+        .item-content .item-inner:after{
+            display:none;
+        }
+
+        .item-content .item-inner .item-row{
+            display:flex; justify-content:space-between;
+            line-height:24px;
+        }
+
+        .item-content .item-inner .item-row .item-title .item-tag{
+            color:#fff;
+            background:#0087E2;
+            padding:3px 5px;
+            font-size:12px;
+            margin-right:5px;
+        }
+
+        .item-content .item-inner .item-row .item-after{
+            margin-right:0.1rem;
+            font-size:10px;
+        }
+
+        .item-content .item-inner .item-row .item-after.deadline{
+            font-size:.7rem;
+        }
+
+        .item-content.item-link:after{
+            content:'';
+            position:absolute;
+            left:0;
+            bottom:0;
+            right:auto;
+            top:auto;
+            height:1px;
+            width:100%;
+            background-color:#e7e7e7;
+            display:block;
+            z-index:15;
+            -webkit-transform-origin:50% 100%;
+            transform-origin:50% 100%;
+        }
+
+        .item-group-name{
+            border:1px solid #e7e7e7;
+            margin-right:5px;
+            padding:2px 5px;
+            font-size:12px;
+            border-radius:5px;
+        }
+
+
+    </style>
+{/block}
+
+{block content}
+    <div class="list-block" style="margin-top:3.7rem">
+        {if $lists}
+            <ul class="listsItems">
+                {foreach $lists as $item}
+                    <li style="padding:6px 0;">
+                        <a class="item-content item-link" href="{url("mobileConsoles_task_details","different=yes&id=".$item["t_id"])}">
+                            <div class="item-media">
+                                {if $item['t_types']==2}
+                                    <span class="priority-{$item['t_priority']}">{$priorityMemo[$item['t_priority']]}</span>
+                                {else}
+                                    <span class="types-memo types-memo-{$item['t_types']}">{$typesNames[$item['t_types']]}</span>
+                                {/if}
+                            </div>
+                            <div class="item-inner">
+                                <div class="item-row">
+                                    <div class="item-title item-title-bold" style="font-size:1rem;">{$item['t_names']}</div>
+                                    <div class="item-after">{$item['executorMemo']}</div>
+                                </div>
+                                <div class="item-row">
+                                    <div class="item-title" style="font-size:10px;">
+                                        <span style="font-size:12px; font-weight:bold;">#{$item['t_codeNo']}</span>
+                                        {if $item["groupName"]}<span class="item-group-name">{$item["groupName"]}</span>{/if}
+                                        {if $item['t_acorn']}{$item['t_acorn']}分{else}未预设积分{/if}</div>
+                                    <div class="item-after" {if $item["t_status"]==0}data-deadline="{$item["t_deadline"]|totime}"{/if}>{$item["statusMemo"]}</div>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                {/foreach}
+            </ul>
+        {else}
+            {if $params == 1}
+                <div style="position:relative; width:100%; line-height:50px; display:block; font-size:1rem; color:red; text-align:center;">
+                    <img src="{path('[MobileConsoles]/img/null.png')}" alt="" class="" style="width:60%; height:100%; margin:35% 20% 0; display:block;">
+                    <div style="width:100%; color:#999; text-align:center;">查询为空</div>
+                </div>
+            {else}
+                <div style="position:relative; width:100%; line-height:50px; display:block; font-size:1rem; color:red; text-align:center;">
+                    <img src="{path('[MobileConsoles]/img/null.png')}" alt="" class="" style="width:60%; height:100%; margin:35% 20% 0; display:block;">
+                    <div style="width:100%; color:#999; text-align:center;">暂无记录</div>
+                </div>
+            {/if}
+        {/if}
+    </div>
+{/block}
+{block footer}
+    {if $sid!=0}
+        {control MobileConsoles:Layout:footer}
+    {/if}
+{/block}

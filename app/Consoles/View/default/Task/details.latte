@@ -1,0 +1,1857 @@
+{layout '../Public/layoutDetail.latte'}
+
+{block title}
+    <a href="{Q()->server->get("HTTP_AJAX_REFERER")?:url('consoles_lists','con=TaskMe')}" style="margin-right: 10px;font-size:16px;color:#0a8acd">返回</a>
+    #{$task->getCodeNo()}{if $task->getTypes() == 3 && $task->getCycleUse() > 0}-{$task->getCycleUse()}{/if} {$task->getNames()}
+    {if $userId == $task->getIssueId() && $task->getStatus()<2}
+        <a href="{url("consoles_mod","con=Task&id=".$task->getId())}" style="margin-left: 10px;font-size:16px;color:#0a8acd" data-side-form>编辑</a>
+    {/if}
+    {*<a class="shareBtn" data-status="closed" href="{url('consoles_index_share')}" data-template="RELEASE_TASK" data-eventid="{$task->getId()}">分享</a>*}
+    {*<a href="javascript:void(0);" class="shareByDingding">分享到钉钉</a>*}
+    {*<a href="javascript:void(0);" class="shareByCopy">复制链接</a>*}
+    <a id="shareBtn" href="{url('consoles_index_sharePage',"share={$share}")}" data-popup=",720px,600px">
+        分享
+    </a>
+    {if $task->getTypes() == 3 && $listsCount>1}
+        <a href="{url("consoles_task_history","id=".$task->getId())}" class="task-history" data-side-form>历史任务</a>
+    {/if}
+
+{/block}
+{block private_css}
+    <style>
+        .task-history{
+            font-size:14px;
+            text-align:center;
+            float:right;
+            padding:0 10px;
+            border:1px solid #0087e1;
+            height:30px;
+            margin:10px 0 10px 10px;
+            line-height:30px;
+            border-radius:20px;
+            background:#0087e1;
+            color:#fff;
+            cursor:pointer;
+        }
+
+        .task-history:hover{
+            text-decoration:none;
+            color:#fff;
+        }
+
+        #shareBtn, .shareByDingding, .shareByCopy{
+            font-size:14px;
+            text-align:center;
+            float:right;
+            padding:0 10px;
+            border:1px solid #0087e1;
+            height:30px;
+            margin:10px 0 10px 10px;
+            line-height:30px;
+            border-radius:20px;
+            background:#0087e1;
+            color:#fff;
+        }
+
+        #shareBtn:hover, .shareByDingding:hover, .shareByCopy:hover{
+            text-decoration:none;
+            color:#fff;
+        }
+
+        .shareByDingding{
+            background:#14b9d9;
+            border:1px solid #14b9d9;
+            display:none;
+        }
+
+        .shareByCopy{
+            background:#35aa47;
+            border:1px solid #35aa47;
+            display:none;
+        }
+
+        .task-detail-box{
+            display:flex;
+            position:absolute;
+            bottom:5px;
+            top:55px;
+            right:18px;
+            left:15px;
+        }
+
+        .task-detail-section{
+            flex:1;
+            border-right:1px solid #ddd;
+            overflow:auto;
+        }
+
+        .task-detail-section2{
+            padding:15px;
+        }
+
+        .member-item{
+            text-align:center;
+            background:#009DD9;
+            height:40px;
+            padding:5px 0;
+            display:inline-block;
+            color:#fff;
+            margin-top:10px;
+            margin-left:15px;
+            vertical-align:bottom;
+            width:60px;
+        }
+
+        div.member-item{
+            line-height:40px;
+            height:40px;
+            background:#f9889a;
+            color:#fff !important;
+            width:60px;
+        }
+
+        .member-item dd, .member-item dt{
+            vertical-align:middle;
+            height:20px;
+            line-height:20px;
+        }
+
+        .member-item.member-item-1{
+            background:#87db61;
+        }
+
+        .member-item.member-item-2{
+            background:#ffdda7;
+        }
+
+        .priority-input{
+            display:inline-block;
+            width:35px;
+            height:35px;
+            line-height:35px;
+            text-align:center;
+            margin-right:15px;
+            color:#fff !important;
+            border:2px solid #fff;
+        }
+
+        .priority-input span{
+            margin:auto !important;
+            display:block;
+            width:30px;
+            height:30px;
+            line-height:30px;
+            border-radius:50%;
+            cursor:default;
+        }
+
+        .task-detail dl{
+            padding:10px;
+        }
+
+        .task-detail dt{
+            font-size:14px;
+        }
+
+        .task-detail .worker-box, #executors1allot .worker-box, .member-action-box .worker-box{
+            border:none;
+            padding:0;
+            width:100%;
+        }
+
+        .priority-input input{
+            display:none !important;
+        }
+
+        .priority-A span{
+            background:#FB855C;
+        }
+
+        .priority-B span{
+            background:#FFBA00;
+        }
+
+        .priority-C span{
+            background:#305AAE;
+        }
+
+        .priority-D span{
+            background:#5CABFB;
+        }
+
+        .priority-input.selected{
+            font-weight:900 !important;
+            border:2px solid #009DD9;
+            background:#d7d7d7;
+        }
+
+        .dynamic-item{
+            margin:15px 10px;
+        }
+
+        .dynamic-item dt{
+            border-bottom:1px dashed #dfdfdf;
+            line-height:30px;
+            height:30px;
+        }
+
+        .dynamic-item dt .dynamic-names{
+            float:left;
+            color:#009dd9;
+            font-size:14px;
+        }
+
+        .dynamic-item dt .dynamic-time{
+            float:right;
+            color:#666;
+        }
+
+        .dynamic-item dd{
+            padding-top:15px;
+            color:#666;
+            font-size:14px;
+            line-height:30px;
+        }
+
+        .dynamic-item dt .dynamic-reply{
+            color:#666;
+            font-size:14px;
+            margin:0 5px;
+        }
+
+        .dynamic-item dt .dynamic-time-comment, .dynamic-item dt .dynamic-time-reply{
+            color:#666;
+            font-size:12px;
+            cursor:pointer;
+            margin:0 5px;
+        }
+
+        .dynamic-item dt .dynamic-time-comment:hover, .dynamic-item dt .dynamic-time-reply:hover{
+            text-decoration:underline;
+            color:#009dd9;
+        }
+
+        .dynamic-item dd.dynamic-reply-dd, .dynamic-item dd.dynamic-comment-dd{
+            display:none;
+        }
+
+        .dynamic-comment-dd ul, .dynamic-comment-dd li{
+            margin:0; padding:0;
+            list-style-type:none;
+        }
+
+        .dynamic-comment-dd ul{
+            background:#f2f2f2;
+            padding-left:5px;
+            padding-bottom:5px;
+            width:100%;
+        }
+
+        .dynamic-comment-dd li span{
+            line-height:20px;
+            cursor:pointer;
+        }
+
+        .dynamic-comment-dd li textarea{
+            width:400px;
+            height:70px;
+        }
+
+        .dynamic-comment-dd li .dynamic-comment-say{
+            color:#009dd9;
+        }
+
+        .dynamic-comment-dd li .dynamic-comment-say .dynamic-comment-reply{
+            color:#666; margin:0 5px;
+        }
+
+        .dynamic-comment-reply-input input{
+            display:block;
+            height:30px;
+            line-height:30px;
+            margin-top:5px;
+            margin-bottom:5px;
+            padding:0 30px;
+        }
+
+        .member-action-item{
+            display:inline-block; *display:inline; *zoom:1;
+            border:1px solid #eee;
+            width:65px;
+            height:30px;
+            line-height:30px;
+            text-align:center;
+            margin-bottom:15px;
+            cursor:pointer;
+        }
+
+        .member-action-item.selected{
+            border:1px solid #009DD9;
+            color:#009DD9;
+        }
+
+        .member-action-box{
+            display:none;
+            margin:15px;
+        }
+
+        .member-action-box-on{
+            margin:15px;
+            background:#fafafa;
+            padding:5px 15px;
+        }
+
+        .member-action-box-on .member-action-body{
+            vertical-align:top;
+            display:inline-block;
+            line-height:30px;
+            font-weight:bold;
+        }
+
+        .medal-item{
+            border:1px solid #ddd;
+            display:inline-block;
+            vertical-align:middle;
+            min-width:40px;
+            width:15%;
+            padding:3px 0;
+            margin-right:5px;
+            height:35px;
+            line-height:35px;
+            text-align:center;
+            cursor:pointer;
+        }
+
+        .medal-item img{
+            width:30px;
+            height:30px;
+            vertical-align:middle;
+        }
+
+        .medal-item.medal-item-selected{
+            border:2px solid #009DD9;
+        }
+
+        .accept-detail:hover, .accept-detail td:hover, .accept-detail.selected td, .accept-detail.selected{
+            background:#fdfdfd;
+        }
+
+        .accept-submit{
+            line-height:30px; padding:0 25px; height:30px; cursor:pointer;
+        }
+
+        .accept-nopass-submit{
+            line-height:30px; padding:0 25px; height:30px; cursor:pointer;
+            color:red;
+        }
+
+        .accept-assign-submit{
+            line-height:30px; padding:0 25px; height:30px; cursor:pointer;
+            color:red;
+        }
+
+        .toggleMore{
+            cursor:pointer;
+            padding:7px 10px;
+            color:#fff;
+            border-radius:50px;
+            background:#fafafa;
+            border:1px solid #ddd;
+        }
+
+        .toggleMore:hover{
+            text-decoration:none;
+            background:#fff;
+            border:1px solid #ddd;
+        }
+
+        .member-action-box .submit{
+            margin-top:15px;
+            margin-left:66px;
+        }
+
+        .member-action-title{
+            display:inline-block; *display:inline; *zoom:1;
+            vertical-align:top;
+            /*width:80px;*/
+            line-height:30px;
+        }
+
+        .member-action-box .worker-box{
+            display:inline-block; *display:inline; *zoom:1;
+            width:200px;
+        }
+
+        .member-action-box textarea{
+            width:300px;
+            height:80px;
+        }
+
+        .member-action-box .input-group{
+            margin-bottom:25px;
+        }
+
+        .taskStatus{
+            padding:7px 10px;
+            color:#fff;
+            border-radius:50px;
+        }
+
+        .taskStatus-0{
+            background:#009DD9;
+        }
+
+        .taskStatus-1{
+            background:#87db61;
+        }
+
+        .taskStatus-2{
+            background:#ffdda7;
+        }
+
+        .taskStatus-3{
+            background:#87db61;
+        }
+
+        .member-action-item.member-action-disabled{
+            cursor:default;
+            color:graytext;
+            background-color:buttonface;
+        }
+
+        .accept-detail{
+            display:none;
+        }
+
+        .grade-item{
+            margin-bottom:10px;
+        }
+
+        .grade-item span{
+            display:inline-block;
+            width:80px;
+        }
+
+        .grade-item .smallinput{
+            line-height:30px;
+            margin-left:5px;
+            padding-left:15px;
+        }
+
+        .accept-detail[disabled] .medal-item{
+            background:rgb(235, 235, 228);
+            cursor:default;
+        }
+
+        .dt-title{
+            color:#999;
+        }
+
+        .workloadDay, .allotDay, .workloadHour, .workloadMinute, .allotHour, .allotMinute{
+            height:35px; padding-left:10px; width:90px
+        }
+
+        .allotMemo{
+            width:300px;
+            height:50px;
+        }
+
+        .allotAcorn{
+            margin-left:0; line-height:30px; padding-left:10px;
+        }
+
+        .input-group-row{
+            display:flex;
+        }
+
+        .input-group-row .input-group{
+            flex:1;
+        }
+
+
+    </style>
+{/block}
+{block private_js}
+    <script>
+        function postPages(toUrl, data, callback) {
+            var msgIndex = layer.msg("正在提交", {
+                offset: 't',
+                time: 0,
+                icon: 16
+            });
+            $.ajax({
+                type: "POST",
+                dataType: "json",
+                url: toUrl,
+                data: data,
+                complete: function (request) {
+                    layer.close(msgIndex);
+                    try {
+                        var res = $.parseJSON(request.responseText);
+                        if (res.status === "y") {
+                            layer.msg(res.info, {
+                                time: 2000
+                            }, function () {
+                                getPage(res.url, null, null,{Q()->server->get("HTTP_AJAX_REFERER")?:url('consoles_lists','con=TaskMe')})
+                            });
+                            callback && callback();
+                        } else {
+                            layer.alert(res.info);
+                        }
+                    } catch (e) {
+                        layer.alert(e.message);
+                    }
+                }
+            });
+        }
+
+        init.ready(function () {
+
+            uploader.initFile(".img-uploader-file", {
+                apply: "xiangshuyun",
+                sid: {$sid},
+                file_base_url: "https://cdn.itmakes.com/uploads",
+            });
+            initWorker();
+            if (typeof window.timerdeadline !== "undefined") {
+                clearInterval(window.timerdeadline);
+            }
+            window.timerdeadline = setInterval(function () {
+                var endTimes = $("#deadline").text();
+                var cTime = countDown(endTimes);
+                $("#deadlineRemain").text("目前还剩下：" + cTime);
+            }, 1000);
+
+            $(".accept-detail:not([disabled]) .medal-item").unbind().bind("click", function () {
+                $(this).siblings(".medal-item-selected").removeClass("medal-item-selected");
+                $(this).addClass("medal-item-selected");
+            });
+            $(".priority-input").unbind();
+            $(".dynamic-time-reply").unbind().bind("click", function () {
+                if ($(this).parents("dt").siblings(".dynamic-reply-dd").is(":visible")) {
+                    $(this).parents("dt").siblings(".dynamic-reply-dd").slideUp();
+                } else {
+                    $(".dynamic-item .dynamic-reply-dd,.dynamic-item .dynamic-comment-dd").hide();
+                    $(this).parents("dt").siblings(".dynamic-reply-dd").slideDown();
+                }
+            });
+            $(".dynamic-time-comment").unbind().bind("click", function () {
+                if ($(this).parents("dt").siblings(".dynamic-comment-dd").is(":visible")) {
+                    $(this).parents("dt").siblings(".dynamic-comment-dd").slideUp();
+                } else {
+                    $(".dynamic-item .dynamic-reply-dd,.dynamic-item .dynamic-comment-dd").hide();
+                    $(this).parents("dt").siblings(".dynamic-comment-dd").slideDown();
+                }
+            });
+            $(".dynamic-comment-dd li:not(.dynamic-comment-reply-input)").unbind().bind("click", function () {
+                var names = $(this).attr("data-names");
+                var relId = $(this).attr("data-rel-id");
+                if (relId > 0) {
+                    $(this).siblings(".dynamic-comment-reply-input").children("input").val("回复" + names).attr("data-rel", relId);
+                } else {
+                    $(this).siblings(".dynamic-comment-reply-input").children("input").val("评论").attr("data-rel", 0);
+                }
+            });
+            $(".dynamic-comment-button").unbind().bind("click", function () {
+                var url = $(this).attr("data-url");
+                var relId = $(this).attr("data-rel");
+                var content = $(this).siblings("textarea").val();
+                var sendData = {
+                    relId: relId,
+                    content: content
+                };
+                postPages(url, sendData);
+            });
+
+            $(".member-action-item").unbind().bind("click", function () {
+                if ($(this).hasClass("member-action-disabled")) return;
+
+                var targetId = $(this).attr("data-target");
+                $(".member-action-box[id!='" + targetId + "']").hide();
+                $("#" + targetId).show();
+                $(this).addClass("selected").siblings(".selected").removeClass("selected");
+            });
+            $(".member-action-item:not(.member-action-disabled):first").trigger("click");
+            $(".submit-data").unbind().bind("click", function () {
+                var types = $(this).attr("data-types");
+                var url = {url("consoles_task_dynamic_action",array("id"=>$task->getId()))};
+                {if $different=="yes"}
+                //非公司人发布
+                url = {url("consoles_task_external_relations",array("id"=>$task->getId(),"different"=>"yes"))};
+                {/if}
+
+                var acceptCyclesId = $("#cycles_id").val();
+                var acceptDay = $("#acceptDay").val();
+                var acceptHour = $("#acceptHour").val();
+                var acceptMinute = $("#acceptMinute").val();
+                var acceptNum = $("#acceptNum").val();
+                var acceptMemo = $("#accept-memo").val();
+
+                var redeployDay = $("#redeployDay").val();
+                var redeployHour = $("#redeployHour").val();
+                var redeployMinute = $("#redeployMinute").val();
+                var redeployNum = $("#redeployNum").val();
+                var redeployMemo = $("#redeployMemo").val();
+
+                var overMemo = $("#content-accept-over").val();
+
+
+                var cancelMemo = $("#content-accept-cancel").val();
+                var dynamicMemo = $("#dynamic-content").val();
+
+                var sendData = {
+                    cyclesId: acceptCyclesId,
+                    acceptDay: acceptDay,
+                    acceptHour: acceptHour,
+                    acceptMinute: acceptMinute,
+                    acceptMemo: acceptMemo,
+                    acceptNum: acceptNum,
+
+                    redeployDay: redeployDay,
+                    redeployHour: redeployHour,
+                    redeployMinute: redeployMinute,
+                    redeployMemo: redeployMemo,
+                    redeployNum: redeployNum,
+
+                    overMemo: overMemo,
+                    cancelMemo: cancelMemo,
+                    dynamicMemo: dynamicMemo,
+
+                    types: types
+                };
+                if (types === "allot") {
+                    var members = $("#executors1allot .worker-added-find-list .worker-member:checked");
+                    if (members.length === 0) {
+                        layer.alert("请选择要指派的人员");
+                        return;
+                    }
+
+
+                    sendData["executors1"] = [];
+                    for (var m = 0; m < members.length; m++) {
+                        sendData["executors1"].push($(members[m]).val());
+                    }
+                    sendData["executors1allotMemo"] = $("#executors1allotMemo").val();
+
+                }
+                if (types === "done") {
+                    if (sendData["acceptDay"] === "") {
+                        layer.alert("请填写耗时");
+                        return;
+                    }
+                    sendData["thumbs"] = [];
+                    sendData["thumbs_show"] = [];
+                    var uploaders = $(".file-uploader-item");
+                    for (var i = 0; i < uploaders.length; i++) {
+                        sendData["thumbs"][i] = $(uploaders[i]).find(".file-uploader-input").val();
+                        sendData["thumbs_show"][i] = $(uploaders[i]).find(".file-uploader-input-show").val();
+                    }
+                }
+
+                if (types === "cancel") {
+                    if (sendData["cancelMemo"] === "") {
+                        layer.alert("请填写取消原因");
+                        return;
+                    }
+                }
+
+                if (types === "over") {
+                    if (!sendData["overMemo"]) {
+                        layer.alert("请填结束说明");
+                        return;
+                    }
+                }
+                if (types === "dynamic") {
+                    if (!sendData["dynamicMemo"]) {
+                        layer.alert("动态内容不能为空");
+                        return;
+                    }
+                }
+                if (types === "redeploy") {
+                    if (!sendData["redeployMemo"]) {
+                        layer.alert("请填写转派原因");
+                        return;
+                    }
+                    var members = $("#executors2allot .worker-added-find-list .worker-member:checked");
+                    if (members.length === 0) {
+                        layer.alert("请选择要指派的人员");
+                        return;
+                    }
+                    sendData["executors2"] = [];
+                    for (var m = 0; m < members.length; m++) {
+                        sendData["executors2"].push($(members[m]).val());
+                    }
+                }
+
+
+                var titles = {
+                    allot: "任务进行中，确定额外增派其他人参与吗？",
+                    done: "确定交付任务吗？",
+                    cancel: "您将取消任务，确定吗？",
+                    over: "您将结束周期任务，确定吗？",
+                    redeploy: "您将不再执行任务，并指派其他人执行，确定吗？",
+                };
+
+                if (types == "done" && sendData.acceptDay == 0 && sendData.acceptHour == 0 && sendData.acceptMinute == 0) {
+                    titles["done"] = "您提交的耗时为0，确定交付吗？";
+                    if (!sendData.acceptMemo) {
+                        layer.alert("您提交的耗时为0,请填写说明");
+                        return;
+                    }
+                }
+
+                if (types === "dynamic") {
+                    postPages(url, sendData);
+                } else if (typeof  titles[types] !== "undefined") {
+                    layer.confirm(titles[types], function () {
+                        postPages(url, sendData);
+                    });
+                } else {
+                    layer.alert("操作出错，请刷新页面重试");
+                }
+            });
+
+            $('.shareBtn').on('click', function () {
+                var that = $(this)
+                if (that.attr('data-status') == 'closed') {
+                    that.attr('data-status', "opened")
+                    $('.shareByDingding').css('display', "block")
+                    $('.shareByCopy').css('display', "block")
+
+                    var url = that.attr('href');
+                    var eventid = that.attr('data-eventid')
+                    var template = that.attr('data-template')
+                    var postData = {
+                        eventid: eventid,
+                        template: template,
+                    };
+
+                    $.ajax({
+                        url: url,
+                        type: "POST",
+                        data: postData,
+                        dataType: "json",
+                        success: function (res) {
+                            if (res.status == "n") {
+                                return;
+                            } else {
+                                $('.shareByCopy').attr('onclick', 'copy(\'' + res.url + '\')');
+                                $('.shareByDingding').attr('onclick', 'DingdingShare(\'' + res.url + '\')');
+                            }
+                        }
+                    });
+                } else {
+                    that.attr('data-status', "closed")
+                    $('.shareByDingding').css('display', "none")
+                    $('.shareByCopy').css('display', "none")
+                }
+                return false
+            });
+
+            $(".layer-photos").unbind().bind("click", function () {
+                var src = $(this).attr("layer-src");
+                var up = uploader.initPreview("", null);
+                up.imgShow(src);
+            });
+
+            $(".task-item-action").unbind().bind("click", function () {
+                var toUrl = $(this).attr("data-url");
+                layer.confirm("您将领取此悬赏任务，确定吗？", function () {
+                    var msgIndex = layer.msg("正在处理", {
+                        offset: 't',
+                        time: 0,
+                        icon: 16
+                    });
+                    $.ajax({
+                        type: "GET",
+                        dataType: "json",
+                        url: toUrl,
+                        complete: function (request) {
+                            layer.close(msgIndex);
+                            try {
+                                var res = $.parseJSON(request.responseText);
+                                if (res.status === "n") {
+                                    layer.alert(res.info);
+                                } else {
+                                    layer.msg(res.info, {
+                                        time: 2000
+                                    }, function () {
+                                        getPage(res.detailUrl, null, null,{Q()->server->get("HTTP_AJAX_REFERER")?:url('consoles_lists','con=TaskMe')})
+                                    })
+                                }
+                            } catch (e) {
+                                layer.alert("未知错误");
+                            }
+                        }
+                    });
+                });
+            });
+
+            $(".reject-accept").unbind().bind("click", function () {
+                var id = $(this).attr("data-id");
+                $("#reject-accept-" + id).toggle();
+            });
+            $(".agree-accept").unbind().bind("click", function () {
+                var id = $(this).attr("data-id");
+                layer.confirm("一旦同意验收结果，将不能对验收结果进行申诉，确定吗？", function () {
+                    var sendData = {
+                        id: id
+                    };
+                    var url = {url('consoles_taskMe_confirmAcorn')};
+                    postPages(url, sendData);
+                });
+            });
+            $(".reject-submit").unbind().bind("click", function () {
+                var id = $(this).attr("data-id");
+                var rejectContent = $("#reject-content-" + id).val();
+                if (!$.trim(rejectContent)) {
+                    layer.alert("请输入申诉原因");
+                    return false;
+                }
+                layer.confirm("您提交审核后，验收人会重新审核，确定吗？", function () {
+                    var sendData = {
+                        id: id,
+                        content: rejectContent,
+                    };
+                    var url = {url('consoles_taskMe_rejectAcorn')};
+                    postPages(url, sendData);
+                });
+            });
+
+        });
+
+        function copy(message) {
+            var input = document.createElement("input");
+            input.value = message;
+            document.body.appendChild(input);
+            input.select();
+            input.setSelectionRange(0, input.value.length), document.execCommand('Copy');
+            document.body.removeChild(input);
+            layer.msg('复制成功')
+        }
+
+        function DingdingShare(message) {
+            $.ajax({
+                type: "POST",
+                dataType: "json",
+                data: {
+                    shareid: {$task->getId()},
+                    contentAndShareUrl: message,
+                },
+                url: {url("consoles_index_share_ding_webhook")},
+                complete: function (request) {
+                    try {
+                        var res = $.parseJSON(request.responseText);
+                        layer.alert(res.info);
+                    } catch (e) {
+                        layer.alert("未知错误");
+                    }
+                }
+            });
+        }
+    </script>
+    {if $userId ==$task->getAcceptId() || $recheckAllots}
+        <script>
+
+            function toggleMore(id) {
+
+                if (!$(this).attr("data-html")) {
+                    $(this).attr("data-html", $(this).html());
+                    $(this).attr("data-on", "0");
+                }
+                if ($(this).attr("data-on") === "0") {
+                    $("[data-rel-id='" + id + "']").slideDown(300);
+                    $(this).html("<span style='color:#14b9d6'>收起</span>");
+                    $(this).attr("data-on", "1");
+                } else {
+                    $("[data-rel-id='" + id + "']").slideUp(300);
+                    $(this).html($(this).attr("data-html"));
+                    $(this).attr("data-on", "0");
+                }
+            }
+
+            function submitAccept(id) {
+                var formData = JSON.parse($(this).attr("data-posts"));
+                var url = {url("consoles_taskMe_accept_allot_up_submit")};
+                formData["id"] = id;
+                layer.confirm("验收结果关系到个人积分，是否验收提交审核", function () {
+                    postPages(url, formData, function () {
+                        layer.closeAll();
+                    });
+                });
+            }
+
+            var dayBase = {floatval($lists3[0]["names"])};
+            var hardrange = [{floatval($lists4[0]["names"])}, {floatval($lists4[1]["names"])}];
+            var qualityrange = [{floatval($lists5[0]["names"])}, {floatval($lists5[1]["names"])}];
+
+            var myMaxAcorn ={$myMaxAcorn};
+            var standardTypes ={$task->getStandardTypes()?:1};
+
+            init.ready(function () {
+                $(".calculate .allotHard,.calculate .allotQuality").unbind().bind("keyup", function () {
+                    var dataId = $(this).attr("data-id");
+                    if (standardTypes == 2) {
+                        $(".workloadNum[data-id='" + dataId + "']").trigger("keyup")
+                    } else {
+                        $(".workloadDay[data-id='" + dataId + "']").trigger("change");
+                    }
+                });
+                $(".calculate .workloadDay,.calculate .workloadHour,.calculate .workloadMinute").unbind().bind("change", function () {
+                    var dataId = $(this).attr("data-id");
+                    var day = $(".workloadDay[data-id='" + dataId + "']").val();
+                    var hour = $(".workloadHour[data-id='" + dataId + "']").val();
+                    var minute = $(".workloadMinute[data-id='" + dataId + "']").val();
+                    var hard = $(".allotHard[data-id='" + dataId + "']").val();
+                    var quality = $(".allotQuality[data-id='" + dataId + "']").val();
+
+                    var realDay = /^([0-9]|[1-9][0-9]*)$/.test(day) ? parseInt(day) + (hour / 8) + (minute / 480) : 0;
+                    if (hard < hardrange[0] || hard > hardrange[1]) hard = 0;
+                    if (quality < qualityrange[0] || quality > qualityrange[1]) quality = 0;
+                    var acorn = Math.round(dayBase * realDay * hard * quality / 100);
+                    $(".allotAcorn[data-id='" + dataId + "']").val(acorn);
+
+                });
+                $(".calculate .workloadDay").trigger("change");
+
+                $(".calculate .workloadNum,.calculate .eachAcorn").unbind().bind("keyup", function () {
+                    var dataId = $(this).attr("data-id");
+                    var workloadNum = $(".workloadNum[data-id='" + dataId + "']").val();
+                    var eachAcorn = $(".eachAcorn[data-id='" + dataId + "']").val();
+                    var quality = $(".allotQuality[data-id='" + dataId + "']").val();
+
+
+                    if (!/^[1-9][0-9]*$/.test(workloadNum)) workloadNum = 0;
+                    if (!/^(0|[1-9][0-9]*)(\.[0-9]*)?$/.test(eachAcorn)) eachAcorn = 0;
+
+                    if (quality < qualityrange[0] || quality > qualityrange[1]) quality = 0;
+                    var acorn = Math.round(eachAcorn * workloadNum * quality / 100);
+                    $(".allotAcorn[data-id='" + dataId + "']").val(acorn);
+                });
+                $(".calculate .workloadNum").trigger("keyup");
+
+                $(".accept-detail:not([disabled]) .accept-submit").unbind().bind("click", function () {
+                    var dataId = $(this).attr("data-id");
+                    var formData = {
+                        dataId: dataId,
+                        day: $(".workloadDay[data-id='" + dataId + "']").val(),
+                        hour: $(".workloadHour[data-id='" + dataId + "']").val(),
+                        minute: $(".workloadMinute[data-id='" + dataId + "']").val(),
+                        eachAcorn: $(".eachAcorn[data-id='" + dataId + "']").val(),
+                        workloadNum: $(".workloadNum[data-id='" + dataId + "']").val(),
+
+                        aday: $(".allotDay[data-id='" + dataId + "']").val(),
+                        ahour: $(".allotHour[data-id='" + dataId + "']").val(),
+                        aminute: $(".allotMinute[data-id='" + dataId + "']").val(),
+                        allotNum: $(".allotNum[data-id='" + dataId + "']").val(),
+
+                        hard: $(".allotHard[data-id='" + dataId + "']").val(),
+                        quality: $(".allotQuality[data-id='" + dataId + "']").val(),
+                        acorn: $(".allotAcorn[data-id='" + dataId + "']").val(),
+                        memo: $(".allotMemo[data-id='" + dataId + "']").val(),
+                        learns: new Object()
+                    };
+                    var dataSelects = $("[data-id='" + dataId + "'].medal-item-selected");
+                    for (var i = 0; i < dataSelects.length; i++) {
+                        var names = $(dataSelects[i]).attr("data-name");
+                        var val = $(dataSelects[i]).attr("data-val");
+                        var nameid = $(dataSelects[i]).attr("data-name-id");
+                        if (names !== "learns") {
+                            formData[names] = val;
+                        } else {
+                            formData.learns[nameid] = val;
+                        }
+                    }
+                    var url = $(this).attr("data-url");
+                    if (myMaxAcorn != 0 && formData.acorn > myMaxAcorn) {
+                        if (!formData.memo) {
+                            layer.alert("您的验收上限为" + myMaxAcorn + "分，请填写验收说明再提交。");
+                            return;
+                        }
+                        var msgIndex = layer.msg("正在提交", {
+                            offset: 't',
+                            time: 0,
+                            icon: 16
+                        });
+                        $.ajax({
+                            type: "POST",
+                            dataType: "JSON",
+                            data: formData,
+                            url:{url("consoles_taskMe_accept_allot_up","id={$task->getId()}")},
+                            success: function (request) {
+                                layer.close(msgIndex);
+                                if (request.status == "y") {
+                                    layer.open({
+                                        title: "验收审核", type: 1, closeBtn: 1, shadeClose: true, shade: 0.3,
+                                        skin: 'layui-layer-rim', //加上边框
+                                        area: ["500px", "500px"], //宽高
+                                        content: request.html, //这里content是一个普通的String
+                                        btn: ["关闭"]
+                                    });
+                                } else {
+                                    layer.alert(request.info);
+                                }
+                                return false;
+                            }, error: function () {
+                                return false;
+                            }
+                        });
+                    } else {
+                        layer.confirm("验收结果关系到个人积分，是否验收", function () {
+                            postPages(url, formData);
+                        });
+                    }
+                });
+
+                $(".accept-nopass-submit").unbind().bind("click", function () {
+                    var url = $(this).attr("data-url");
+                    var dataId = $(this).attr("data-id");
+                    var sendData = {
+                        dataId: dataId,
+                        memo: $(".allotMemo[data-id='" + dataId + "']").val(),
+                    };
+                    layer.confirm("验收不通过的任务，将会重新变回执行中状态，确定吗？", function () {
+                        postPages(url, sendData);
+                    });
+                });
+
+                $(".accept-assign-submit").unbind().bind("click", function () {
+                    var url = $(this).attr("data-url");
+                    var dataId = $(this).attr("data-id");
+                    var sendData = {
+                        dataId: dataId,
+                        memo: $(".allotMemo[data-id='" + dataId + "']").val(),
+                    };
+                    layer.confirm("这个任务的验收将全部转给他人，确定么？", function () {
+                        postPages(url, sendData);
+                    });
+                });
+
+            })
+        </script>
+    {/if}
+{/block}
+{block content}
+    <div style="" class="task-detail-box">
+        <div class="task-detail-section">
+            <div class="task-detail">
+                <dl>
+                    <dt style="font-size:16px">
+                        {foreach $priorityMemo as $priority =>$priorityM}
+                            {if $priority==$task->getPriority()}
+                                <label class="priority-input priority-{$priorityM}" style="margin-right:0;width:30px;height:30px;border:none;">
+                                    <span>{$priorityM}</span>
+                                </label>
+                            {/if}
+                        {/foreach}
+                        <span class="taskStatus taskStatus-0">{$taskTypesMemo}</span>
+                        <span class="taskStatus-{$task->getStatus()} taskStatus">{$taskStatusMemo}</span>
+                        {if $groupName}
+                            <span style="padding:7px 10px; margin-left:3px; border-radius:50px; background:red;">
+                                <a href="{url('consoles_task_group',array('pid'=>$task->getPid() ?:0))}" style="color:white;">{$groupName}</a>
+                            </span>
+                        {/if}
+
+                        {if $rewardMemo}
+                            {if $rewardMemo[0]>0 && $rewardMemo[2]==0}
+                                <span class="taskStatus taskStatus-1 task-item-action" data-url="{url('consoles_task_receive',array("id"=>$task->getId()))}" style="cursor:pointer">{$rewardMemo[1]}</span>
+                            {else}
+                                <span class="taskStatus taskStatus-1">{$rewardMemo[1]}</span>
+                            {/if}
+                        {/if}
+                    </dt>
+                </dl>
+                <dl>
+                    <dt><span class="dt-title">执行人</span></dt>
+                    <dd>
+                        {$executors|noescape}
+                    </dd>
+                </dl>
+                <dl>
+                    <dt><span class="dt-title">验收人</span></dt>
+                    <dd>
+                        {$accept|noescape}
+                    </dd>
+                </dl>
+                <dl>
+                    <dt><span class="dt-title">期 限:</span><span id="deadline" style="margin-left:15px">{$task->getDeadline()|totime}</span>之前</dt>
+                    <dd>
+                        <span style="display: inline-block;vertical-align: bottom;border:1px solid #D7D7D7 ;padding: 3px 10px;" id="deadlineRemain">目前还剩下:0秒</span>
+                    </dd>
+                </dl>
+                {if $task->getTypes()==3}
+                    <dl>
+                        <dt><span class="dt-title">重复执行</span><span style="margin-left:15px">{$taskCycleMemo}</span></dt>
+                    </dl>
+                {/if}
+                <dl>
+                    {if !$standard || $standard->getAcorn()==0}
+                        {if $task->getStandardTypes()!=2}
+                            <dt>积分 = 日基础分&times;难度系数&times;完成质量&times;任务量</dt>
+                        {else}
+                            <dt>积分 = 每件基础分 &times; 件数 &times; 完成质量</dt>
+                        {/if}
+                    {else}
+                        <dt>积分: 参考标准：{$standard->getNames()}({$standard->getAcorn()})</dt>
+                    {/if}
+                    <dd>
+                    <dd>
+
+                    </dd>
+                </dl>
+                <dl>
+                    <dt><span class="dt-title">任务内容</span></dt>
+                    <dd style="font-size:14px">
+                        {str_replace(array("\r\n","\n","\r"),"<br>",$task->getContent())|noescape}
+                    </dd>
+                </dl>
+                <dl>
+                    <dt><span class="dt-title">附 件</span></dt>
+                    <dd style="font-size:14px">
+                        {if !$thumbs}无
+                        {else}
+                            {foreach $thumbs as $thumb}
+                                {if $thumb["type"]=="img"}
+                                    <img class="layer-photos" layer-pid="" layer-src="{$thumb['src']}" style="max-width:150px;max-height:150px;cursor:pointer" src="{$cdnThumbBase}{$thumb['val']}" alt="{$thumb['name']}">
+                                {else}
+                                    <a href="{$thumb['src']}" title="{$thumb['val']}" target="_blank">{$thumb['name']}</a>
+                                {/if}
+                            {/foreach}
+                        {/if}
+                    </dd>
+                </dl>
+            </div>
+        </div>
+
+        <div class="task-detail-section" style="flex:1.5">
+            <dl class="member-item">
+                <dd>{mb_substr($issueUser,0,4,"utf8")}</dd>
+                <dt>发布人</dt>
+            </dl>
+            {foreach $executorslist as $user}
+                <dl class="member-item member-item-{$user["status"]["class"]}">
+                    <dd>{$user["fullName"]}</dd>
+                    <dt>{$user["status"]["memo"]}</dt>
+                </dl>
+            {/foreach}
+
+            {if $task->getStatus()>0}
+                <div class="taskStatus-{$task->getStatus()} member-item">{$taskStatusMemo}</div>
+            {/if}
+            <div style="border-bottom:1px solid #ddd; margin: 15px;"></div>
+
+            <div class="member-action" style="margin: 15px 15px 0 15px;">
+                <span class="member-action-title">操作：</span>
+                {if in_array($userId,explode(",",$task->getExecutors()))}
+                    <div class="member-action-item {if !$executorsCanDo}member-action-disabled{/if}" data-target="member-action-done">交付任务</div>
+                    <div class="member-action-item {if !$executorsCanDo}member-action-disabled{/if}" data-target="member-action-redeploy">转派他人</div>
+                {/if}
+                {if $userId == $task->getAcceptId()}
+                    <div class="member-action-item" data-target="member-action-accept">验收任务</div>
+                    {*{if $task->getTypes()==3}*}
+                    {*<div class="member-action-item {if $task->getStatus()>0}member-action-disabled{/if}" data-target="member-action-accept-over">结束周期</div>*}
+                    {*{/if}*}
+                {/if}
+                {if $userId == $task->getAcceptId() ||$userId == $task->getIssueId()}
+                    <div class="member-action-item {if $task->getStatus()>1|| ($task->getStatus()>0 && $userId == $task->getAcceptId() && $userId != $task->getIssueId())}member-action-disabled{/if}" data-target="member-action-allot">指派新成员</div>
+                {/if}
+                {if $userId == $task->getIssueId() }
+                    <div class="member-action-item {if $task->getStatus()>0}member-action-disabled{/if}" data-target="member-action-cancel">取消任务</div>
+                {/if}
+            </div>
+            <div class="member-action" style="margin: 0 15px 15px 15px;">
+                <span class="member-action-title">预估任务量：</span>
+                <span class="member-action-title" style="font-size:12px;font-weight:bold;width:auto">{$workloadMemo}</span>
+            </div>
+            {if $myAllots}
+                {foreach $myAllots as $k=>$item}
+                    <div class="member-action-box-on">
+                        <div class="input-group-row">
+                            <div class="input-group">
+                                <span class="member-action-title">指派时间：{$item['addTime']|totime:"m/d H:i"}</span>
+                            </div>
+                            <div class="input-group">
+                                <span class="member-action-title">计划完成：{$item['endTime']|totime:"m/d H:i"}</span>
+                            </div>
+                            <div class="input-group">
+                                <span class="member-action-title">实际完成：{$item['doneTime']|totime:"m/d H:i"}</span>
+                            </div>
+                        </div>
+                        <div class="input-group-row">
+                            <div class="input-group">
+                                <span class="member-action-title">耗时：
+                                    {if $item["acceptDay"]=="0,0,0"}
+                                        0分钟
+                                    {else}
+                                        {var $acceptDay=explode(",",$item["acceptDay"])}
+                                        {if $acceptDay[0]}{$acceptDay[0]}天{/if}
+                                        {if $acceptDay[1]}{$acceptDay[1]}小时{/if}
+                                        {if $acceptDay[2]}{$acceptDay[2]}分钟{/if}
+                                    {/if}
+                                </span>
+                            </div>
+                            <div class="input-group">
+                                <span class="member-action-title">核准任务量：
+
+                                    {if $task->getStandardTypes()==2}
+                                        {var $allotWorkloads=$item["accept"]?explode(",",$item["workload"]):$taskWorkload}
+                                        {var $iii= end($allotWorkloads)}
+                                        {current($allotWorkloads)} 件
+                                        {if !$item["accept"]}<span style="color:red">未验收</span>{/if}
+                                        {if $item["accept"]==2}<span style="color:red">验收审核中</span>{/if}
+                                        {if $item["accept"]==3}<span style="color:red">验收 结果确认中</span>{/if}
+                                    {else}
+                                        {if $item["workload"]=="0,0,0" && $item["accept"]}
+                                        0分钟
+                                    {else}
+                                        {var $allotWorkloads=$item["accept"]?explode(",",$item["workload"]):$taskWorkload}
+                                        {if $allotWorkloads[0]}{$allotWorkloads[0]}天{/if}
+                                        {if $allotWorkloads[1]}{$allotWorkloads[1]}小时{/if}
+                                        {if $allotWorkloads[2]}{$allotWorkloads[2]}分钟{/if}
+                                        {if !$item["accept"]}<span style="color:red">未验收</span>{/if}
+                                        {if $item["accept"]==2}<span style="color:red">验收审核中</span>{/if}
+                                        {if $item["accept"]==3}<span style="color:red">验收结果确认中</span>{/if}
+                                    {/if}
+                                    {/if}
+                                </span>
+
+                            </div>
+                            <div class="input-group"></div>
+                        </div>
+                        <div class="input-group-row">
+                            <div class="input-group">
+                                <span class="member-action-title">实得分数：
+                                    {if !$item["accept"]}<span style="color:red">未验收</span>{else}{$item["acorn"]|default:0}{/if}
+                                    {if $item["accept"]==3}<span style="color:red">验收结果确认中</span>{/if}
+                                </span>
+                            </div>
+                            <div class="input-group">
+                                <span class="member-action-title">评价：
+                                    {if !$item["accept"]}
+                                        <span style="color:red">未验收</span>
+                                    {/if}
+                                    {if $item["accept"]}
+                                        {foreach $lists1 as $q}
+                                            {if $item["rating"]==$q["id"]}{$q["names"]}{/if}
+                                        {/foreach}
+                                        {if $item["accept"]==3}
+                                            <span style="color:red">验收结果确认中</span>
+                                        {/if}
+                                    {/if}
+                                </span>
+                            </div>
+                            <div class="input-group">
+                                <span class="member-action-title">状态：
+                                    {if $item["accept"]==3}
+                                        <span style="color:red">验收结果确认中</span>
+                                    {/if}
+                                    {if $item['accept']==1}{$item['statusMemo']},已验收{/if}
+                                    {if !$item['accept']}
+                                        <span style="color:red">{$item['statusMemo']},未验收</span>
+                                    {/if}
+                                </span>
+                            </div>
+                        </div>
+                        {if $item["accept"]==3}
+                            <div class="input-group-row" style="margin-top:15px;margin-bottom:5px">
+                                <div class="input-group">
+                                    <span class="member-action-title agree-accept" data-id="{$item["id"]}" style="cursor:pointer;color:#fff;background:#00d95a; padding:5px 10px">同意验收结果</span>
+                                    <span class="member-action-title reject-accept" style="cursor:pointer;color:#fff;background:red;padding:5px 10px" data-id="{$item["id"]}">不同意验收结果</span>
+                                </div>
+                                <div class="input-group" >
+
+                                </div>
+
+                            </div>
+                            <div class="input-group-row" style="display:none;margin-top:10px" id="reject-accept-{$item["id"]}">
+                                <div class="input-group" style="display:flex">
+                                    <textarea placeholder="申诉原因" style="flex:1;height:50px" id="reject-content-{$item["id"]}"></textarea>
+                                        <input data-id="{$item["id"]}" type="button" class="btn reject-submit" value="申诉" style="margin-left:13px;bottom:2px;">
+
+                                </div>
+                            </div>
+                        {/if}
+
+                    </div>
+                {/foreach}
+            {/if}
+            {if $doneAllots}
+                {foreach $doneAllots as $k=>$item}
+                    <div class="member-action-box-on">
+                        <div class="input-group-row">
+                            <div class="input-group">
+                                <span class="member-action-title">执行人：{$item["userName"]}</span>
+                            </div>
+                        </div>
+                        <div class="input-group-row">
+                            <div class="input-group">
+                                <span class="member-action-title">指派时间：{$item['addTime']|totime:"m/d H:i"}</span>
+                            </div>
+                            <div class="input-group">
+                                <span class="member-action-title">计划完成：{$item['endTime']|totime:"m/d H:i"}</span>
+                            </div>
+                            <div class="input-group">
+                                <span class="member-action-title">实际完成：{$item['doneTime']|totime:"m/d H:i"}</span>
+                            </div>
+                        </div>
+                        <div class="input-group-row">
+                            <div class="input-group">
+                                <span class="member-action-title">耗时：
+                                    {if $item["acceptDay"]=="0,0,0"}
+                                        0分钟
+                                    {else}
+                                        {var $acceptDay=explode(",",$item["acceptDay"])}
+                                        {if $acceptDay[0]}{$acceptDay[0]}天{/if}
+                                        {if $acceptDay[1]}{$acceptDay[1]}小时{/if}
+                                        {if $acceptDay[2]}{$acceptDay[2]}分钟{/if}
+                                    {/if}
+                                </span>
+                            </div>
+                            <div class="input-group">
+                                <span class="member-action-title">核准任务量：
+                                    {if $task->getStandardTypes()==2}
+                                        {var $allotWorkloads=$item["accept"]?explode(",",$item["workload"]):$taskWorkload}
+                                        {var $iii= end($allotWorkloads)}
+                                        {current($allotWorkloads)} 件
+                                        {if !$item["accept"]}<span style="color:red">未验收</span>{/if}
+                                        {if $item["accept"]==2}<span style="color:red">验收审核中</span>{/if}
+                                    {else}
+                                        {if $item["workload"]=="0,0,0" && $item["accept"]}
+                                        0分钟
+                                    {else}
+                                        {var $allotWorkloads=$item["accept"]?explode(",",$item["workload"]):$taskWorkload}
+                                        {if $allotWorkloads[0]}{$allotWorkloads[0]}天{/if}
+                                        {if $allotWorkloads[1]}{$allotWorkloads[1]}小时{/if}
+                                        {if $allotWorkloads[2]}{$allotWorkloads[2]}分钟{/if}
+                                        {if !$item["accept"]}<span style="color:red">未验收</span>{/if}
+                                        {if $item["accept"]==2}<span style="color:red">验收审核中</span>{/if}
+                                    {/if}
+                                    {/if}
+                                </span>
+
+                            </div>
+                            <div class="input-group"></div>
+                        </div>
+                        <div class="input-group-row">
+                            <div class="input-group">
+                                <span class="member-action-title">实得分数：
+                                    {if !$item["accept"]}<span style="color:red">未验收</span>{elseif $item["accept"]==2}验收审核中{else}{$item["acorn"]|default:0}{/if}
+                                </span>
+                            </div>
+                            <div class="input-group">
+                                <span class="member-action-title">评价：
+                                    {if !$item["accept"]}
+                                        <span style="color:red">未验收</span>
+                                    {else}
+                                        {foreach $lists1 as $q}
+                                            {if $item["rating"]==$q["id"]}{$q["names"]}{/if}
+                                        {/foreach}
+                                    {/if}
+                                </span>
+                            </div>
+                            <div class="input-group">
+                                <span class="member-action-title">状态：
+                                    {if $item['accept']}
+                                        {$item['statusMemo']},已验收
+                                    {else}
+                                        <span style="color:red">{$item['statusMemo']},未验收</span>
+                                    {/if}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                {/foreach}
+            {/if}
+
+            {if $recheckAllots}
+                <div class="member-action-box-on">
+                    <table cellpadding="0" cellspacing="0" border="0" class="stdtable">
+                        <thead>
+                        <tr>
+                            <th><span class="table-head">执行人</span></th> {*在th加入 data-sort 可对数据库进行排序*}
+                            <th><span class="table-head">时间</span></th>
+                            <th><span class="table-head">状态/验收</span></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {foreach $recheckAllots as $k=>$item}
+                            {var $allotWorkloads=$item["accept"]?explode(",",$item["workload"]):$taskWorkload}
+                            {var $acceptDay=explode(",",$item["acceptDay"])}
+                            <tr>
+                                <td class="wid-auto">{$item["userName"]}</td>
+                                <td class="wid-auto">
+                                    指派：{$item['addTime']|totime:"m/d H:i"}<br>
+                                    计划：{$item['endTime']|totime:"m/d H:i"}<br>
+                                    完成：{$item['doneTime']|totime:"m/d H:i"}
+                                </td>
+                                <td class="wid-auto">
+                                    {if $item["status"]>0}
+                                        <a class="toggleMore" onclick="toggleMore.call(this,{$item["id"]})">
+                                            {if $item['accept']==1}<span style="color:#14b9d6">{$item['statusMemo']},已验收</span>{else}
+                                                <span style="color:red">{$item['statusMemo']},点击验收</span>
+                                            {/if}
+                                        </a>
+                                    {else}
+                                        <span style="color:#009DD9">{$item['statusMemo']}</span>
+                                    {/if}
+                                </td>
+                            </tr>
+                            <tr class="accept-detail" data-rel-id="{$item["id"]}" {if $item["accept"]==1}disabled{/if}>
+                                <td colspan="3">
+                                    <div style="margin-bottom: 15px;margin-top: 20px;" {if (!$standard || $standard->getAcorn()==0) && $item["accept"]==2}class="calculate"{/if}>
+                                        <div class="grade">
+
+                                            <div class="grade-item">
+                                                <span>耗时：</span>
+                                                {*<input type="text" data-id="{$item["id"]}" disabled value="{$acceptDay[0]}" class="smallinput allotDay" data-id="{$item["id"]}" style="padding-left:10px"/> 天*}
+
+                                                <select id="redeployDay" disabled name="acceptDay" class="allotDay" data-id="{$item["id"]}">
+                                                    {for $i=0;$i<16;$i++}
+                                                        <option {if $i==$acceptDay[0]}selected{/if} value="{$i}">{$i}天</option>
+                                                    {/for}
+                                                </select>
+
+                                                <select disabled class="allotHour" data-id="{$item["id"]}">
+                                                    {for $i=0;$i<8;$i++}
+                                                        <option {if $i==$acceptDay[1]}selected{/if} value="{$i}">{$i}小时</option>
+                                                    {/for}
+                                                </select>
+                                                <select disabled class="allotMinute" data-id="{$item["id"]}">
+                                                    {for $i=0;$i<60;$i=$i+15}
+                                                        <option {if $i==$acceptDay[2]}selected{/if} value="{$i}">{$i}分钟</option>
+                                                    {/for}
+                                                </select>
+                                            </div>
+                                            {if $task->getStandardTypes()==2}
+                                                <div class="grade-item">
+                                                    <span>完成数量：</span>
+
+                                                    <input type="text" data-id="{$item["id"]}" disabled value="{$acceptDay[3]}" class="smallinput allotNum" style="line-height:30px;padding-left:10px;width:60px;margin-left:0;"/> 件
+
+                                                </div>
+                                                <div class="grade-item">
+                                                    <span>核准数量：</span>
+
+                                                    <input type="text" data-id="{$item["id"]}" {if $item["accept"]==1}disabled{/if} value="{isset($allotWorkloads[3])?$allotWorkloads[3]:0}" class="smallinput workloadNum" style="line-height:30px;padding-left:10px;width:60px;margin-left:0;border:1px solid red;"/> 件
+
+                                                </div>
+                                                <div class="grade-item">
+                                                    <span>每件积分：</span>
+
+                                                    <input type="text" data-id="{$item["id"]}" {if $item["accept"]==1}disabled{/if} value="{floatval($item["acceptHard"])}" class="smallinput eachAcorn" style="line-height:30px;padding-left:10px;width:60px;margin-left:0;border:1px solid red;"/> 分
+
+                                                </div>
+                                            {else}
+                                                <div class="grade-item">
+                                                    <span>核准任务量：</span>
+                                                    {*<input type="text" data-id="{$item["id"]}" {if $item["accept"]}disabled{/if} value="{$allotWorkloads[0]}" class="smallinput workloadDay" style="padding-left:10px;border:1px solid red;"/> 天*}
+
+                                                    <select {if $item["accept"]==1}disabled{/if} data-id="{$item["id"]}" class="workloadDay" style="border-color:red;">
+                                                        {for $i=0;$i<16;$i++}
+                                                            <option {if $i==$allotWorkloads[0]}selected{/if} value="{$i}">{$i}天</option>
+                                                        {/for}
+                                                    </select>
+
+                                                    <select {if $item["accept"]==1}disabled{/if} data-id="{$item["id"]}" class="workloadHour" style="border-color:red;">
+                                                        {for $i=0;$i<8;$i++}
+                                                            <option {if $i==$allotWorkloads[1]}selected{/if} value="{$i}">{$i}小时</option>
+                                                        {/for}
+                                                    </select>
+                                                    <select {if $item["accept"]==1}disabled{/if} data-id="{$item["id"]}" class="workloadMinute" style="border-color:red;">
+                                                        {for $i=0;$i<60;$i=$i+15}
+                                                            <option {if $i==$allotWorkloads[2]}selected{/if} value="{$i}">{$i}分钟</option>
+                                                        {/for}
+                                                    </select>
+                                                    <span style="color:red;width:auto;font-size:14px">根据耗时和预估任务量填写</span>
+                                                </div>
+                                            {/if}
+                                            {if !$standard || $standard->getAcorn()==0}
+                                                {if $task->getStandardTypes()!=2}
+                                                    <div class="grade-item">
+                                                        <span>难度系数：</span><input type="text" data-id="{$item["id"]}" {if $item["accept"]==1}disabled value="{$item["acceptHard"]}" {else}value="{$defaultAcceptHard}"{/if} class="smallinput allotHard" style="line-height:30px;padding-left:10px;width:60px"/> 区间：{$lists4[0]["names"]}~{$lists4[1]["names"]}，转派的任务可以不填写
+                                                    </div>
+                                                {/if}
+                                                <div class="grade-item">
+                                                    <span>完成质量：</span><input type="text" data-id="{$item["id"]}" {if $item["accept"]==1}disabled value="{(float)$item["acceptQuality"]}" {else}value="{(float)$defaultAcceptQuality}"{/if} class="smallinput allotQuality" style="line-height:30px;padding-left:10px;width:60px"/> %，区间：{$lists5[0]["names"]}%~{$lists5[1]["names"]}%，转派的任务可以不填写
+                                                </div>
+                                                <div class="grade-item">
+                                                    <span>实得分数：</span><input type="text" data-id="{$item["id"]}" {if $item["accept"]==1}disabled{else}readonly{/if} value="{$item["acorn"]}" class="smallinput allotAcorn" style="padding-left:10px;width:60px"/> 说明：任务分 = 日基础分（{$lists3[0]["names"]}） &times; 难度系数 &times; 完成质量 &times; 任务量
+                                                </div>
+                                            {else}
+                                                <div class="grade-item">
+                                                    <span style="display: inline-block;width: 80px;">实得分数：</span>
+                                                    <input type="text" data-id="{$item["id"]}" {if $item["accept"]==1}disabled value="{$item["acorn"]}"{else} value="{$standard->getAcorn()}"{/if} class="smallinput allotAcorn" style="padding-left:10px;width:60px"/>
+                                                    <span style="width:auto">参考标准：{$standard->getNames()}({$standard->getAcorn()})</span>
+                                                </div>
+                                            {/if}
+                                        </div>
+                                    </div>
+
+                                    <div style="padding: 0 0 15px 0;">
+                                        <span style="display: inline-block;width: 80px;">评价：</span>
+                                        {if $item["rating"]}
+                                            {foreach $lists1 as $q}
+                                                <label data-name="rating" data-id="{$item["id"]}" class="medal-item{if $item["rating"]==$q["id"]} medal-item-selected{/if}" data-val="{$q["id"]}">{$q["names"]}</label>
+                                            {/foreach}
+                                        {else}
+                                            {foreach $lists1 as $q}
+                                                <label data-name="rating" data-id="{$item["id"]}" class="medal-item{if $iterator->getCounter()==2} medal-item-selected{/if}" data-val="{$q["id"]}">{$q["names"]}</label>
+                                            {/foreach}
+                                        {/if}
+                                    </div>
+                                    <div style="padding: 0 0 15px 0;">
+                                        <span style="display: inline-block;width: 80px;vertical-align:top;">验收说明：</span>
+                                        <textarea {if $item["accept"]==1}disabled{/if} class="allotMemo" data-id="{$item["id"]}"></textarea>
+                                    </div>
+                                    <div style="text-align: left;padding-left: 84px;margin-bottom:15px">
+                                        <input data-url="{url("consoles_taskMe_accept_allot_recheck",array('id'=>$item["id"]))}" data-id="{$item["id"]}" {if $item["accept"]==1}disabled{/if} type="button" value="{$item["accept"]==1?"已通过审核":"通过验收"}" class="accept-submit {if $item["accept"]}accept-submit-disabled{/if}"/>
+                                        {if $item["accept"]!=1 && $item["status"]==1}
+                                            <input data-url="{url("consoles_taskMe_accept_allot_nopass",array('id'=>$item["id"]))}" data-id="{$item["id"]}" type="button" value="验收不通过" class="accept-nopass-submit"/>
+                                        {/if}
+                                    </div>
+                                </td>
+                            </tr>
+                        {/foreach}
+                        </tbody>
+                    </table>
+                </div>
+            {/if}
+
+            <div class="member-action-box" id="member-action-done">
+                <div class="input-group">
+                    <span class="member-action-title">耗时：</span>
+                    <select id="acceptDay" name="acceptDay" style="height:35px;padding-left:10px;width:90px">
+                        {for $i=0;$i<16;$i++}
+                            <option value="{$i}">{$i}天</option>
+                        {/for}
+                    </select>
+                    {*，如0.1，1，3.5，7等*}
+                    <select style="height:35px;padding-left:10px;width:90px" name="acceptHour" id="acceptHour">
+                        {for $i=0;$i<8;$i++}
+                            <option value="{$i}">{$i}小时</option>
+                        {/for}
+                    </select>
+                    <select style="height:35px;padding-left:10px;width:90px" name="acceptMinute" id="acceptMinute">
+                        {for $i=0;$i<60;$i=$i+15}
+                            <option value="{$i}">{$i}分钟</option>
+                        {/for}
+                    </select>
+                </div>
+                {if $task->getStandardTypes()==2}
+                    <div class="input-group">
+                        <span class="member-action-title">完成数量：</span>
+                        <input type="text" name="acceptNum" id="acceptNum" class="smallinput" value="0"/> 件
+                    </div>
+                {/if}
+                <div class="input-group">
+                    <span class="member-action-title">说明：</span>
+                    <textarea id="accept-memo"></textarea>
+                </div>
+                <div class="input-group" style="display:flex">
+                    <span class="member-action-title">附件：</span>
+                    <div class="field control-group" style="flex:1">
+                        <div class="img-uploader-file" data-name="thumbs" data-options="other"></div>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <input type="button" class="btn submit submit-data" value="提 交" data-types="done"/>
+                </div>
+            </div>
+            <div class="member-action-box" id="member-action-redeploy">
+                <div class="input-group">
+                    <span class="member-action-title">耗时：</span>
+                    <select id="redeployDay" name="acceptDay" style="height:35px;padding-left:10px;width:90px">
+                        {for $i=0;$i<16;$i++}
+                            <option value="{$i}">{$i}天</option>
+                        {/for}
+                    </select>
+                    {*，如0.1，1，3.5，7等*}
+                    <select style="height:35px;padding-left:10px;width:90px" name="redeployHour" id="redeployHour">
+                        {for $i=0;$i<8;$i++}
+                            <option value="{$i}">{$i}小时</option>
+                        {/for}
+                    </select>
+                    <select style="height:35px;padding-left:10px;width:90px" name="redeployMinute" id="redeployMinute">
+                        {for $i=0;$i<60;$i=$i+15}
+                            <option value="{$i}">{$i}分钟</option>
+                        {/for}
+                    </select>
+                </div>
+                {if $task->getStandardTypes()==2}
+                    <div class="input-group">
+                        <span class="member-action-title">完成数量：</span>
+                        <input type="text" name="redeployNum" id="redeployNum" class="smallinput" value="0"/> 件
+                    </div>
+                {/if}
+                <div class="input-group">
+                    <span class="member-action-title">转派原因：</span>
+                    <textarea id="redeployMemo"></textarea>
+                </div>
+                <div class="input-group" id="executors2allot" style="display:flex;">
+                    <span class="member-action-title">新成员：</span>
+                    <div style="flex:1">{$executors2|noescape}</div>
+                </div>
+                <div class="input-group">
+                    <input type="button" class="btn submit submit-data" value="提 交" data-types="redeploy"/>
+                </div>
+            </div>
+            {if $userId == $task->getAcceptId()}
+                <div class="member-action-box" id="member-action-accept">
+                    <table cellpadding="0" cellspacing="0" border="0" class="stdtable">
+                        <thead>
+                        <tr>
+                            <th><span class="table-head">执行人</span></th> {*在th加入 data-sort 可对数据库进行排序*}
+                            <th><span class="table-head">时间</span></th>
+                            <th><span class="table-head">状态/验收</span></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {foreach $allots as $k=>$item}
+                            {var $allotWorkloads=$item["accept"]?explode(",",$item["workload"]):$taskWorkload}
+                            {var $acceptDay=explode(",",$item["acceptDay"])}
+                            <tr>
+                                <td class="wid-auto">{$item["userName"]}</td>
+                                <td class="wid-auto">
+                                    指派：{$item['addTime']|totime:"m/d H:i"}<br>
+                                    计划：{$item['endTime']|totime:"m/d H:i"}<br>
+                                    完成：{$item['doneTime']|totime:"m/d H:i"}
+                                </td>
+                                <td class="wid-auto">
+                                    {if $item["status"]>0}
+                                        <a class="toggleMore" onclick="toggleMore.call(this,{$item["id"]})">
+                                            {if $item['accept']}<span style="color:#14b9d6">{$item['statusMemo']},{if$item['accept']==2}等待验收审核{else}已验收{/if}</span>{else}<span style="color:red">{$item['statusMemo']}点击验收</span>{/if}
+                                        </a>
+                                    {else}
+                                        <span style="color:#009DD9">{$item['statusMemo']}</span>
+                                    {/if}
+                                </td>
+
+                            </tr>
+                            <tr class="accept-detail" data-rel-id="{$item["id"]}" {if $item["accept"]}disabled{/if}>
+                                <td colspan="3">
+                                    <div style="margin-bottom: 15px;margin-top: 20px;" {if (!$standard || $standard->getAcorn()==0) && !$item["accept"]}class="calculate"{/if}>
+                                        <div class="grade">
+
+                                            <div class="grade-item">
+                                                <span>耗时：</span>
+                                                {*<input type="text" data-id="{$item["id"]}" disabled value="{$acceptDay[0]}" class="smallinput allotDay" data-id="{$item["id"]}" style="padding-left:10px"/> 天*}
+
+                                                <select id="redeployDay" disabled name="acceptDay" class="allotDay" data-id="{$item["id"]}">
+                                                    {for $i=0;$i<16;$i++}
+                                                        <option {if $i==$acceptDay[0]}selected{/if} value="{$i}">{$i}天</option>
+                                                    {/for}
+                                                </select>
+
+                                                <select disabled class="allotHour" data-id="{$item["id"]}">
+                                                    {for $i=0;$i<8;$i++}
+                                                        <option {if $i==$acceptDay[1]}selected{/if} value="{$i}">{$i}小时</option>
+                                                    {/for}
+                                                </select>
+                                                <select disabled class="allotMinute" data-id="{$item["id"]}">
+                                                    {for $i=0;$i<60;$i=$i+15}
+                                                        <option {if $i==$acceptDay[2]}selected{/if} value="{$i}">{$i}分钟</option>
+                                                    {/for}
+                                                </select>
+                                            </div>
+                                            {if $task->getStandardTypes()==2}
+                                                <div class="grade-item">
+                                                    <span>完成数量：</span>
+
+                                                    <input type="text" data-id="{$item["id"]}" disabled value="{$acceptDay[3]}" class="smallinput allotNum" style="line-height:30px;padding-left:10px;width:60px;margin-left:0;"/> 件
+
+                                                </div>
+                                                <div class="grade-item">
+                                                    <span>核准数量：</span>
+
+                                                    <input type="text" data-id="{$item["id"]}" {if $item["accept"]}disabled{/if} value="{isset($allotWorkloads[3])?$allotWorkloads[3]:0}" class="smallinput workloadNum" style="line-height:30px;padding-left:10px;width:60px;margin-left:0;border:1px solid red;"/> 件
+
+                                                </div>
+                                                <div class="grade-item">
+                                                    <span>每件积分：</span>
+
+                                                    <input type="text" data-id="{$item["id"]}" {if $item["accept"]}disabled{/if} value="{floatval($item["acceptHard"])}" class="smallinput eachAcorn" style="line-height:30px;padding-left:10px;width:60px;margin-left:0;border:1px solid red;"/> 分
+
+                                                </div>
+                                            {else}
+                                                <div class="grade-item">
+                                                    <span>核准任务量：</span>
+                                                    {*<input type="text" data-id="{$item["id"]}" {if $item["accept"]}disabled{/if} value="{$allotWorkloads[0]}" class="smallinput workloadDay" style="padding-left:10px;border:1px solid red;"/> 天*}
+
+                                                    <select {if $item["accept"]}disabled{/if} data-id="{$item["id"]}" class="workloadDay" style="border-color:red;">
+                                                        {for $i=0;$i<16;$i++}
+                                                            <option {if $i==$allotWorkloads[0]}selected{/if} value="{$i}">{$i}天</option>
+                                                        {/for}
+                                                    </select>
+
+
+                                                    <select {if $item["accept"]}disabled{/if} data-id="{$item["id"]}" class="workloadHour" style="border-color:red;">
+                                                        {for $i=0;$i<8;$i++}
+                                                            <option {if $i==$allotWorkloads[1]}selected{/if} value="{$i}">{$i}小时</option>
+                                                        {/for}
+                                                    </select>
+                                                    <select {if $item["accept"]}disabled{/if} data-id="{$item["id"]}" class="workloadMinute" style="border-color:red;">
+                                                        {for $i=0;$i<60;$i=$i+15}
+                                                            <option {if $i==$allotWorkloads[2]}selected{/if} value="{$i}">{$i}分钟</option>
+                                                        {/for}
+                                                    </select>
+                                                    <span style="color:red;width:auto;font-size:14px">根据耗时和预估任务量填写</span>
+                                                </div>
+                                            {/if}
+                                            {if !$standard || $standard->getAcorn()==0}
+                                                {if $task->getStandardTypes()!=2}
+                                                    <div class="grade-item">
+                                                        <span>难度系数：</span><input type="text" data-id="{$item["id"]}" {if $item["accept"]}disabled value="{$item["acceptHard"]}" {else}value="{$defaultAcceptHard}"{/if} class="smallinput allotHard" style="line-height:30px;padding-left:10px;width:60px"/> 区间：{$lists4[0]["names"]}~{$lists4[1]["names"]}，转派的任务可以不填写
+                                                    </div>
+                                                {/if}
+                                                <div class="grade-item">
+                                                    <span>完成质量：</span><input type="text" data-id="{$item["id"]}" {if $item["accept"]}disabled value="{(float)$item["acceptQuality"]}" {else}value="{(float)$defaultAcceptQuality}"{/if} class="smallinput allotQuality" style="line-height:30px;padding-left:10px;width:60px"/> %，区间：{$lists5[0]["names"]}%~{$lists5[1]["names"]}%，转派的任务可以不填写
+                                                </div>
+                                                <div class="grade-item">
+                                                    <span>实得分数：</span><input type="text" data-id="{$item["id"]}" {if $item["accept"]}disabled{else}readonly{/if} value="{$item["acorn"]}" class="smallinput allotAcorn" style="padding-left:10px;width:60px"/>
+                                                    {if $task->getStandardTypes()!=2}说明：任务分 = 日基础分（{$lists3[0]["names"]}） &times; 难度系数 &times; 完成质量 &times; 任务量
+                                                    {else}
+                                                        说明：任务分 =  每件基础分 &times; 件数 &times; 完成质量
+                                                    {/if}
+                                                </div>
+                                            {else}
+                                                <div class="grade-item">
+                                                    <span style="display: inline-block;width: 80px;">实得分数：</span>
+                                                    <input type="text" data-id="{$item["id"]}" {if $item["accept"]}disabled value="{$item["acorn"]}"{else} value="{$standard->getAcorn()}"{/if} class="smallinput allotAcorn" style="padding-left:10px;width:60px"/>
+                                                    <span style="width:auto">参考标准：{$standard->getNames()}({$standard->getAcorn()})</span>
+                                                </div>
+                                            {/if}
+                                        </div>
+                                    </div>
+
+                                    <div style="padding: 0 0 15px 0;">
+                                        <span style="display: inline-block;width: 80px;">评价：</span>
+                                        {if $item["rating"]}
+                                            {foreach $lists1 as $q}
+                                                <label data-name="rating" data-id="{$item["id"]}" class="medal-item{if $item["rating"]==$q["id"]} medal-item-selected{/if}" data-val="{$q["id"]}">{$q["names"]}</label>
+                                            {/foreach}
+                                        {else}
+                                            {foreach $lists1 as $q}
+                                                <label data-name="rating" data-id="{$item["id"]}" class="medal-item{if $iterator->getCounter()==2} medal-item-selected{/if}" data-val="{$q["id"]}">{$q["names"]}</label>
+                                            {/foreach}
+                                        {/if}
+                                    </div>
+
+                                    {*<div style="padding: 15px 0;">*}
+                                    {*<span style="display: inline-block;width: 80px;">勋章：</span>*}
+
+                                    {*{foreach $lists2 as $q}*}
+                                    {*<label data-name="medal" data-id="{$item["id"]}" class="medal-item{if $item["medal"]==$q["id"]} medal-item-selected{/if}" data-val="{$q["id"]}"><img src="https://cdn.itmakes.com/thumbs{$q["icon"]}" alt="">{$q["names"]}</label>*}
+                                    {*{/foreach}*}
+                                    {*<label data-name="medal" data-id="{$item["id"]}" class="medal-item{if $item["medal"]==0} medal-item-selected{/if}" data-val="0">无勋章</label>*}
+                                    {*</div>*}
+
+
+                                    <div style="padding: 0 0 15px 0;">
+                                        <span style="display: inline-block;width: 80px;vertical-align:top;">验收说明：</span>
+                                        <textarea {if $item["accept"]}disabled{/if} class="allotMemo" data-id="{$item["id"]}"></textarea>
+                                    </div>
+                                    <div style="text-align: left;padding-left: 84px;margin-bottom:15px">
+                                        {if $item["accept"]!=2}
+                                            <input data-url="{url("consoles_taskMe_accept_allot",array('id'=>$item["id"]))}" data-id="{$item["id"]}" {if $item["accept"]}disabled{/if} type="button" value="{$item["accept"]?"已验收":"验收通过"}" class="accept-submit {if $item["accept"]}accept-submit-disabled{/if}"/>
+                                        {else}
+                                            <input disabled type="button" value="等待验收审核" class="accept-submit accept-submit-disabled"/>
+                                        {/if}
+                                        {if !$item["accept"] && $item["status"]==1}
+                                            <input data-url="{url("consoles_taskMe_accept_allot_nopass",array('id'=>$item["id"]))}" data-id="{$item["id"]}" type="button" value="验收不通过" class="accept-nopass-submit"/>
+                                        {/if}
+                                    </div>
+                                </td>
+                            </tr>
+                        {/foreach}
+                        </tbody>
+                    </table>
+                </div>
+            {/if}
+            {if $task->getTypes()==3 && $userId == $task->getAcceptId()}
+                <div class="member-action-box" id="member-action-accept-over">
+                    <div class="input-group">
+                        <span class="member-action-title">结束说明：</span>
+                        <textarea id="content-accept-over"></textarea>
+                    </div>
+                    <div class="input-group">
+                        <input type="button" class="btn submit submit-data" value="提 交" data-types="over"/>
+                    </div>
+                </div>
+            {/if}
+            <div class="member-action-box" id="member-action-allot">
+                <div class="input-group">
+                    <span class="member-action-title">指派说明：</span>
+                    <textarea id="executors1allotMemo"></textarea>
+                </div>
+                <div class="input-group" id="executors1allot" style="display:flex;">
+                    <span class="member-action-title">新成员：</span>
+                    <div style="flex:1">{$executors1|noescape}</div>
+                </div>
+                <div class="input-group">
+                    <input type="button" class="btn submit submit-data" value="提 交" data-types="allot"/>
+                </div>
+            </div>
+            <div class="member-action-box" id="member-action-cancel">
+                <div class="input-group">
+                    <span class="member-action-title">取消原因：</span>
+                    <textarea id="content-accept-cancel"></textarea>
+                </div>
+                <div class="input-group">
+                    <input type="button" class="btn submit submit-data" value="提 交" data-types="cancel"/>
+                </div>
+            </div>
+
+        </div>
+        <div class="task-detail-section task-detail-section2">
+            {foreach $dynamics as $dynamic}
+                <dl class="dynamic-item">
+                    <dt>
+                        <span class="dynamic-names">{$dynamic["userName"]} :</span>
+                        <span class="dynamic-time">
+                        <span>{$dynamic["addTime"]|totime}</span>
+                            {*<span class="dynamic-time-reply">回复</span>*}
+                            <span class="dynamic-time-comment">评论({count($comments[$dynamic["id"]])})</span>
+                    </span>
+                    </dt>
+                    <dd>{str_replace(array("\r\n","\n","\r"),"<br>",$dynamic["content"])|noescape}</dd>
+
+                    {if $dynamic["thumbs"]}
+                        <dd>
+                            {foreach $dynamic["thumbs"] as $thumb}
+                                {if $thumb["type"]=="img"}
+                                    <img class="layer-photos" layer-pid="" layer-src="{$thumb['src']}" style="max-width:150px;max-height:150px;cursor:pointer" src="{$cdnThumbBase}{$thumb['val']}" alt="{$thumb['name']}">
+                                {else}
+                                    <a href="{$thumb['src']}" title="{$thumb['val']}" target="_blank">{$thumb['name']}</a>
+                                {/if}
+                            {/foreach}
+                        </dd>
+                    {/if}
+
+
+                    <dd class="dynamic-reply-dd">
+                        <textarea id="rich_reply_{$dynamic["id"]}" name="reply_{$dynamic["id"]}" data-toggle="rich" style="width: 500px; height: 250px"></textarea>
+                        <input type="button" class="dynamic-reply-button" data-rel="{$dynamic["id"]}" value="回复" data-url="{url("consoles_task_dynamic_reply",array("types"=>"temp","id"=>$dynamic["id"]))}"/>
+                    </dd>
+                    <dd class="dynamic-comment-dd">
+                        <ul>
+                            {foreach $comments[$dynamic["id"]] as $comment}
+                                <li data-rel-id="{$userId==$comment["userId"]?$comment["replyId"]:$comment["userId"]}" data-names="{$userId==$comment["userId"]?$comment["ruserName"]:$comment["userName"]}">
+                                    <span class="dynamic-comment-say">{$comment["userName"]} {if $comment["replyId"]}<span class="dynamic-comment-reply">回复</span> {$comment["ruserName"]}{/if}：</span>
+                                    <span>{$comment["content"]}</span>
+                                </li>
+                            {/foreach}
+                            <li class="dynamic-comment-reply-input">
+                                <textarea name="dynamic_comment_{$dynamic["id"]}" style="margin-top: 10px;width: 300px;height: 60px;"></textarea>
+                                <input type="button" data-url="{url("consoles_task_dynamic_comment",array("types"=>"temp","id"=>$dynamic["id"]))}" class="dynamic-comment-button" value="评论" data-rel="0"/>
+                            </li>
+                        </ul>
+                    </dd>
+                </dl>
+            {/foreach}
+
+            <textarea id="dynamic-content" style="width:80%;height:80px;margin-left:13px"></textarea><br>
+            <input type="button" class="btn submit-data" value="发布动态" data-types="dynamic" style="margin-left:13px"/>
+        </div>
+
+    </div>
+{/block}

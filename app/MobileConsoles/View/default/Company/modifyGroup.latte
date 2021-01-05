@@ -1,0 +1,152 @@
+{layout "../Layout/layout.latte"}
+{block tabs_content}
+    {*{include "./tabs.latte"}*}
+{/block}
+{block custom}
+    {include "../Public/custom.latte" , title1=>"选择执行人", title2=>"选择验收人"}
+{/block}
+{block private_js}
+    <script type="text/javascript">
+        $(function () {
+            $("#bnt").click(function () {
+                $.ajax({
+                    type: "post",
+                    url: $("#formArticle").attr("action"),
+                    data: $("#formArticle").serialize(),
+                    cache: false,
+                    dataType: "json",
+                    success: function (data) {
+                        console.log(data);
+                        if (data.status == "n") {
+                            $.toast(data.info);
+                            return false;
+                        } else {
+                            $.toast("添加成功");
+                            setTimeout(function () {
+                                $.showPreloader();
+                                location.replace(data.data);
+                            }, 2000);
+                        }
+                    }
+                });
+            })
+        });
+    </script>
+    {include "../Public/customJs.latte"}
+{/block}
+{block private_css}
+    <style>
+        .item-title, input{ font-size:0.9rem !important; }
+        .staff-add { margin: 10px 0;}
+        .worker-added-item {     margin: 10px 10px 10px 0;float: left;display: unset;margin-right: unset;margin-top: unset;}
+    </style>
+{/block}
+{block content}
+    <form id="formArticle" class="stdform mform" method="post" action="" onsubmit="return false">
+        <div class="list-block">
+            <ul>
+                <li>
+                    <div class="item-content">
+                        <div class="item-media"><i class="icon icon-form-name"></i></div>
+                        <div class="item-inner">
+                            <div class="item-title label">小组名称</div>
+                            <div class="item-input">
+                                <input type="text" placeholder="小组名称" name="names" value="{$curGroup['names']}">
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="item-content">
+                        <div class="item-media"><i class="icon icon-form-name"></i></div>
+                        <div class="item-inner">
+                            <div class="item-title label">口号</div>
+                            <div class="item-input">
+                                <textarea name="subject">{$curGroup['subject']}</textarea>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="item-content">
+                        <div class="item-media"><i class="icon icon-form-name"></i></div>
+                        <div class="item-inner">
+                            <div class="item-title label">组长</div>
+                            <div class="item-input">
+                                <div class="field-item-body">
+                                    <div class="field-item-member-box">
+                                        {if $curGroup['leaders']}
+                                            <div class="worker-added-item">
+                                                <span class="worker-added-item-result">{$curGroup['leaders']['fullName']}</span>
+                                                <span class="worker-added-item-remove" onclick="removeWorkerItem.call(this,{$curGroup['leader']['id']})">×</span>
+                                            </div>
+                                        {/if}
+                                        <span class="staff-add open-popup open-worker-added-box" data-popup=".acceptA-popup" id="acceptA">&plus;</span>
+                                        <input type="hidden" name="acceptA" value="{$curGroup['leaders']['id']}">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="item-content">
+                        <div class="item-media"><i class="icon icon-form-name"></i></div>
+                        <div class="item-inner">
+                            <div class="item-title label">副组长</div>
+                            <div class="item-input">
+                                <div class="field-item-body">
+                                    <div class="field-item-member-box">
+                                        {*{$acceptHtml[1]|noescape}*}
+                                        {if $curGroup['helpers']}
+                                        <div class="worker-added-item">
+                                            <span class="worker-added-item-result">{$curGroup['helpers']['fullName']}</span>
+                                            <span class="worker-added-item-remove" onclick="removeWorkerItem.call(this,{$curGroup['helper']['id']})">×</span>
+                                        </div>
+                                        {/if}
+                                        <span class="staff-add open-popup open-worker-added-box" data-popup=".acceptB-popup" id="acceptB">&plus;</span>
+                                        <input type="hidden" name="acceptB" value="{$curGroup['helpers']['id']}">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="item-content">
+                        <div class="item-media"><i class="icon icon-form-name"></i></div>
+                        <div class="item-inner">
+                            <div class="item-title label">组员</div>
+                            <div class="item-input">
+                                <div class="field-item-body">
+                                    <div class="field-item-member-box">
+                                        {if $curGroup['membersArr']}
+                                        {foreach $curGroup['membersArr'] as $k=>$v}
+                                        <div class="worker-added-item">
+                                            <span class="worker-added-item-result">{$v['fullName']}</span>
+                                            <span class="worker-added-item-remove" onclick="removeWorkerItem.call(this,{$v['id']})">×</span>
+                                        </div>
+                                        {/foreach}
+                                        {/if}
+                                        <span class="staff-add open-popup open-worker-added-box" data-popup=".acceptC-popup" id="acceptC">&plus;</span>
+                                        <input type="hidden" name="acceptC" value="{$curGroup['members']}">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </form>
+    <div class="content-block">
+        <div class="col-95">
+            <div class="button button-big button-fill" id="bnt">提交</div>
+        </div>
+    </div>
+    <div class="content-block">
+        <div class="col-95">
+            <a onclick="javascript: location.replace({url("mobileConsoles_company_groupLists")})" style="text-align: center;display: block;">返回</a>
+        </div>
+    </div>
+{/block}

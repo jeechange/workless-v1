@@ -1,0 +1,46 @@
+{layout '../Public/layoutList.latte'} {*继承layoutList模板*}
+{block title}组织架构{/block}
+{block actions}<a href="{url('consoles_company_addWBLXR')}" class="icon-adds" data-side-form>添加外部联系人</a>{/block}
+{block actionstab}
+    {include "../Department/actionstab.latte"}
+{/block}
+{*选中记录的操作按钮*}
+{block actions2}
+    {*<div class="list-more-action-item" style="" data-url="{url('consoles_company_deleteWBXLR')}">删除外部联系人</div>*}
+{/block}
+
+{block content}
+    <table cellpadding="0" cellspacing="0" border="0" class="stdtable">
+        <thead>
+        <tr>
+            <th></th>
+            <th data-sort="{$item['u_phone'] ? 'u.phone' : 'e.phone'}"><span class="table-head">手机号</span></th>
+            <th data-sort="u.fullName"><span class="table-head">真实姓名</span></th>
+            <th><span class="table-head">备注</span></th>
+            <th><span class="table-head">可查看项目</span></th>
+            <th data-sort="e.status"><span class="table-head">状态</span></th>
+            <th><span class="table-head">操作</span></th>
+        </tr>
+        </thead>
+        <tbody>
+        {foreach $lists as $item}
+            <tr>
+                <td style="width:60px;"><input type="checkbox" name='ids[]' class="checkall_1 checkall-item" value="{$item['e_id']}"/></td>
+                <td class="wid-auto">{$item['u_phone'] ? $item['u_phone'] : $item['e_phone']}</td>
+                <td class="wid-auto">{$item['u_fullName']}</td>
+                <td class="wid-auto">{$item['e_memo']}</td>
+                <td class="wid-auto">{$item['tgMemo']}</td>
+                <td class="center" style="{if $item['e_status'] != 1}color:red;{/if}">{$item["statusMemo"]}</td>
+                <td>
+                    <a href="{url('consoles_company_modifyWBLXR','id='.$item['e_id'])}" data-side-form>编辑</a>
+                    <a href="{url('consoles_company_deleteWBLXR','id='.$item['e_id'])}">删除</a>
+                </td>
+            </tr>
+        {/foreach}
+        </tbody>
+    </table>
+{/block}
+
+
+
+

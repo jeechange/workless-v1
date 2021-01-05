@@ -1,0 +1,458 @@
+*{
+    margin:0;
+    padding:0;
+}
+li{
+    list-style:none;
+}
+img{
+    image-rendering: -moz-crisp-edges;         /* Firefox */
+    image-rendering:   -o-crisp-edges;         /* Opera */
+    image-rendering: -webkit-optimize-contrast;/* Webkit (non-standard naming) */
+    image-rendering: crisp-edges;
+    display:block;
+}
+a{
+    text-decoration:none;
+}
+
+/*主体内容*/
+@media screen and (min-width:426px){
+    .conts p span{
+        display:none;
+    }
+
+    p.liText{
+        display:none;
+    }
+
+    .phoneNav{
+        display:none;
+    }
+
+    .text{
+        width:1200px;
+        overflow:hidden;
+        margin:auto;
+        margin-top:110px;
+    }
+
+    .text p{
+        font-size:24px;
+        font-family:Microsoft YaHei;
+        font-weight:400;
+        line-height:40px;
+        color:rgba(45, 45, 45, 1);
+        opacity:1;
+        text-align:center;
+    }
+
+    .content{
+        width:1440px;
+        overflow:hidden;
+        margin:auto;
+        margin-top:110px;
+        position:relative;
+    }
+
+    .content ul{
+        overflow:hidden;
+        margin-left:155px;
+    }
+
+    .content ul li{
+        overflow:hidden;
+        width:340px;
+        float:left;
+        padding:2px;
+        margin-right:66px;
+    }
+
+    .content ul li:last-child{
+        margin-right:0px;
+    }
+
+    .content ul li .liCont{
+        background:rgba(255, 255, 255, 1);
+        box-shadow:0px 3px 6px rgba(0, 0, 0, 0.16);
+        opacity:1;
+        overflow:hidden;
+    }
+
+    .content ul li h6{
+        font-size:20px;
+        font-family:Microsoft YaHei;
+        font-weight:bold;
+        line-height:40px;
+        color:rgba(45, 45, 45, 1);
+        opacity:1;
+        text-align:center;
+        margin-top:20px;
+        width:100%;
+        margin-bottom:20px;
+        margin-top:20px;
+    }
+
+    .content ul li p.money{
+        font-size:54px;
+        font-family:Microsoft YaHei;
+        font-weight:bold;
+        color:rgba(40, 85, 156, 1);
+        opacity:1;
+        text-align:center;
+    }
+
+    .content ul li p.money span{
+        font-size:18px;
+        font-family:Microsoft YaHei;
+        font-weight:400;
+        color:rgba(40, 85, 156, 1);
+        opacity:1;
+    }
+
+    .content ul li p.man{
+        font-size:16px;
+        font-family:Microsoft YaHei;
+        font-weight:400;
+        line-height:40px;
+        color:rgba(45, 45, 45, 1);
+        opacity:1;
+        text-align:center;
+        margin-top:20px;
+    }
+
+    .content ul li a{
+        display:block;
+        width:160px;
+        height:40px;
+        background:rgba(255, 255, 255, 1);
+        border:2px solid rgba(40, 85, 156, 1);
+        opacity:1;
+        text-align:center;
+        margin:auto;
+        font-size:18px;
+        font-family:Microsoft YaHei;
+        font-weight:400;
+        line-height:40px;
+        color:rgba(40, 85, 156, 1);
+        margin-top:32px;
+        margin-bottom:65px;
+    }
+
+    .content ul li .line{
+        height:615px;
+        width:99.5%;
+        /*border:#fff 1px solid;*/
+        /*border-top:none;*/
+        /*border-bottom:none;*/
+        background:unset;
+    }
+
+    .content ul li:hover .liCont{
+        background:#28559c;
+    }
+
+    .content ul li:hover h6, .content ul li:hover p, .content ul li:hover a, .content ul li:hover p span{
+        color:#fff;
+    }
+
+    .content ul li:hover a{
+        border-color:#fff;
+        background:#28559c;
+    }
+
+    .content ul li:hover .line{
+        /*border-color:#f06;*/
+        background:#28559c;
+        opacity:0.1;
+    }
+
+    .content ol{
+        position:absolute;
+        width:100%;
+        height:1107px;
+        top:400px;
+        left:20px;
+        z-index:-1;
+    }
+
+    .content ol li{
+        overflow:hidden;
+    }
+    .content ol li h6{
+        font-size:20px;
+        font-family:Microsoft YaHei;
+        font-weight:bold;
+        color:rgba(40, 85, 156, 1);
+        opacity:1;
+        float:left;
+        margin-right:13px;
+        line-height:80px;
+    }
+
+    .content ol li div.conts{
+        width:1205px;
+        float:left;
+        overflow:hidden;
+        border-top:#000 dashed 1px;
+        height:80px;
+    }
+
+    .content .conts p{
+        width:384px;
+        float:left;
+        margin-right:26px;
+        text-align:center;
+        line-height:80px;
+        font-size:18px;
+        font-family:Microsoft YaHei;
+        font-weight:bold;
+        color:rgba(40, 85, 156, 1);
+        opacity:1;
+    }
+
+    .content .conts p:last-child{
+        margin-right:0;
+    }
+
+    .content ol li:last-child .conts{
+        border-bottom:#000 1px dashed;
+    }
+
+    .confirm{
+        width:1200px;
+        overflow:hidden;
+        margin:auto;
+        margin-top:110px;
+        margin-bottom:115px;
+    }
+
+    .confirm ul{
+        overflow:hidden;
+    }
+
+    .confirm ul li{
+        width:332px;
+        float:left;
+        margin-right:85px;
+    }
+
+    .confirm ul li:last-child{
+        margin-right:0px;
+    }
+
+    .confirm ul li:first-child{
+        margin-left:30px;
+    }
+
+    .confirm ul li h6{
+        text-align:center;
+        font-size:24px;
+        font-family:Microsoft YaHei;
+        font-weight:bold;
+        line-height:40px;
+        color:rgba(38, 38, 38, 1);
+        opacity:1;
+    }
+
+    .confirm ul li p{
+        margin-top:70px;
+        text-align:center;
+        font-size:18px;
+        font-family:Microsoft YaHei;
+        font-weight:400;
+        line-height:40px;
+        color:rgba(38, 38, 38, 1);
+        opacity:1;
+    }
+}
+@media screen and (max-width:425px){
+    .text{
+        width:90%;
+        margin-left:5%;
+        margin-top:35px;
+        overflow:hidden;
+    }
+    .text p{
+        width:90%;
+        font-size:14px;
+        font-family:Microsoft YaHei;
+        font-weight:400;
+        line-height:20px;
+        color:rgba(45,45,45,1);
+        opacity:1;
+        text-align:center;
+        margin:auto;
+        margin-bottom:20px;
+    }
+    .phoneNav{
+        width:280px;
+        margin:auto;
+        margin-top:55px;
+    }
+    .phoneNav ul{
+        overflow:hidden;
+    }
+    .phoneNav ul li{
+        float:left;
+        width:33.3%;
+        text-align:center;
+        padding:6px 0;
+    }
+    .phoneNav ul li a{
+        font-family:Microsoft YaHei;
+        font-weight:400;
+        line-height:22px;
+        color:rgba(40,85,156,1);
+        opacity:1;
+        border-bottom:#FFF 2px solid;
+        padding-bottom:5px;
+    }
+    .phoneNav ul li.on a{
+        border-bottom:#28559C 2px solid;
+    }
+    .content{
+        width:228px;
+        overflow:hidden;
+        margin:auto;
+        margin-top:50px;
+    }
+    .content ul{
+        position:relative;
+        overflow:hidden;
+        height:655px;
+    }
+    .content ul li{
+        position:absolute;
+        left:0;
+        top:0;
+        width:100%;
+        height:615px;
+    }
+    .content ul li.on{
+        z-index:1;
+    }
+    .content ul li .liCont{
+        background:#28559C;
+        height:330px;
+        overflow:hidden;
+        box-shadow:0px 3px 6px rgba(0,0,0,0.16);
+
+    }
+    .content ul li .liCont h6{
+        font-size:18px;
+        font-family:Microsoft YaHei;
+        font-weight:bold;
+        line-height:22px;
+        color:rgba(255,255,255,1);
+        opacity:1;
+        text-align:center;
+        margin-top:11px;
+    }
+    .liCont p.money{
+        font-size:40px;
+        font-family:Microsoft YaHei;
+        font-weight:bold;
+        line-height:24px;
+        color:rgba(255,255,255,1);
+        opacity:1;
+        text-align:center;
+        margin-top:35px;
+    }
+    .liCont p.money span{
+        font-size:14px;
+    }
+    .liCont p.man{
+        color:#FFF;
+        text-align:center;
+        margin-top:35px;
+    }
+    .liCont a{
+        display:block;
+        width:119px;
+        height:27px;
+        border:2px solid rgba(255,255,255,1);
+        opacity:1;
+        text-align:center;
+        line-height:27px;
+        color:#FFF;
+        margin:auto;
+        margin-top:30px;
+    }
+    .liCont p.liText{
+        width:75%;
+        margin:auto;
+        text-align:center;
+        font-size:12px;
+        font-family:Microsoft YaHei;
+        font-weight:400;
+        line-height:20px;
+        color:rgba(255,255,255,1);
+        opacity:1;
+        margin-top:20px;
+    }
+    .line{
+        height:330px;
+        border-left:#FF2B7F 1px solid;
+        border-right:#FF2B7F 1px solid;
+    }
+    .content ol li .conts p:not(:first-child){
+        display:none;
+    }
+    .content ol{
+        margin-top:-290px;
+    }
+    .content ol li{
+        overflow:hidden;
+        margin:auto;
+        width:100%;
+        height:40px;
+        border-top:#28559C 1px dashed;
+    }
+    .content ol li:last-child{
+        border-bottom:#28559C 1px dashed;
+    }
+    .content ol li h6{
+        display:none;
+    }
+    .content ol li .conts{
+        overflow:hidden;
+        margin:auto;
+    }
+    .content ol li .conts p{
+        font-size:13px;
+        font-family:Microsoft YaHei;
+        font-weight:bold;
+        line-height:40px;
+        color:rgba(40,85,156,1);
+        opacity:1;
+        text-align:center;
+    }
+    .confirm{
+        width:75%;
+        margin-left:12.5%;
+        overflow:hidden;
+        margin-top:70px;
+    }
+    .confirm h6{
+        font-size:16px;
+        font-family:Microsoft YaHei;
+        font-weight:bold;
+        line-height:40px;
+        color:rgba(38,38,38,1);
+        opacity:1;
+        text-align:center;
+    }
+    .confirm p{
+        margin-top:15px;
+        font-size:14px;
+        font-family:Microsoft YaHei;
+        font-weight:400;
+        line-height:20px;
+        color:rgba(38,38,38,1);
+        opacity:1;
+        margin-bottom:40px;
+        text-align:center;
+    }
+}
+

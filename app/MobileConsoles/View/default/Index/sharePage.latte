@@ -1,0 +1,61 @@
+{layout "../Layout/layout.latte"}
+
+{*{block tabs_content}*}
+{*{include "./index_tabs.latte"}*}
+{*{/block}*}
+
+{include "../Public/js/newsShareDing.js"}
+{block private_css}
+    <style>
+        .content{
+            background:#fff;
+        }
+
+        .con{
+            width:100%;
+            margin:auto;
+            margin-top:3.2rem;
+            text-align:center;
+            line-height:26px;
+            font-size:16px;
+        }
+
+        .alert-text{
+            margin-top:5px;
+        }
+    </style>
+{/block}
+{block content}
+    <div class="con">
+        {*<div style="color:#009688;margin-top:150px;font-size: 18px;">*}
+        {*成功申请!*}
+        {*</div>*}
+        {*<div>请耐心等待审核</div>*}
+        <div style="margin-top:50px;margin-bottom:30px;text-align:center">
+            <img src="{path('[MobileConsoles]/img/acorn-share.png')}" alt="" class="" style="width:60%; height:100%; margin: 0 20%; display:block;">
+            {*<div style="color:#888888;font-size:16px;">分享可以获得积分哦~</div>*}
+        </div>
+        <div style="font-size:16px;color:#888888;padding:0 20px;">分享可以获得积分哦~</div>
+    </div>
+    <a class="dynamic-receive alert-text" href="javascript:;" onclick="newsShareDing.call(this,{$content},{$shareUrl},{$corpId},{$title});" data-url="{url("mobileConsoles_share_acornShare_ding")}">
+        <div class="content-block" style="width:100%;font-size:14px;">
+            <div class="col-95" style="width:90%;margin:auto;">
+                <div class="button button-big button-fill" id="bnts" style="background-color:#0087E2;height:48px;line-height:48px;border-radius:50px;">分享到钉钉</div>
+            </div>
+        </div>
+    </a>
+    <a class="dynamic-receive alert-text" href="javascript:;" onclick="newsCopy({$contentAndShareUrl});">
+        <div class="content-block" style="width:100%;font-size:14px;">
+            <div class="col-95" style="width:90%;margin:auto;">
+                <div class="button button-big button-fill" id="bnts" style="background-color:#FF9800;height:48px;line-height:48px;border-radius:50px;">复制链接</div>
+            </div>
+        </div>
+    </a>
+    <a class="dynamic-receive" href="{$gobackUrl}">
+        <div class="content-block" style="width:100%;font-size:14px;">
+            <div class="col-95">
+                <div class="button button-big button-fill" id="bnts" style="height:48px;line-height:48px;color:#333;background: #fff;">返回</div>
+            </div>
+        </div>
+    </a>
+{/block}

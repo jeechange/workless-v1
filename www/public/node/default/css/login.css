@@ -1,0 +1,160 @@
+body,ol,ul,h1,h2,h3,h4,h5,h6,p,th,td,dl,dd,form,fieldset,legend,input,textarea,select{margin:0;padding:0}
+body{font-family:"Microsoft YaHei";font-size:12px;background:#fff;-webkit-text-size-adjust:100%;}
+a{color:#5e87b0;text-decoration:none}
+a:hover{color:#406182;text-decoration:underline}
+em{font-style:normal}
+li{list-style:none}
+img{border:0;vertical-align:top;cursor: pointer;}
+table{border-collapse:collapse;border-spacing:0}
+p{word-wrap:break-word}
+
+.login {
+    background: url("../images/yun_bg.png") repeat scroll 0 0;
+    height: 100%;
+    min-height: 100%;
+}
+.login_top{
+    margin: 2% auto;
+    width: 100%;
+    text-align: center;
+}
+.login_bg_form{
+    margin-top:10px;
+    text-align: center;
+}
+.login_bg_form .loginform{
+    margin: 0 auto 20px;
+    width:500px;
+    background: #fff;
+    border: 1px solid #bfd6e1;
+    box-shadow: 0 1px 4px #d3d3d3;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    position:relative;
+    padding:5px;
+    background:#FFF;
+    z-index:2;
+}
+.login-box-plain{
+    background: none repeat scroll 0 0 #ffffff;
+    min-height: 300px;
+    padding: 1% 60px 30px;
+    position: relative;
+}
+
+.login-box-plain h2{
+    font-size: 25px;
+    line-height: 50px;
+    font-weight: 100;
+    color:#999;
+}
+#loginform .loginBoxCenter{ margin-top: 20px;}
+#loginform .loginBoxCenter p {text-align: left; margin-bottom: 12px; font-size: 14px;}
+.loginBoxCenter .loginInput {
+    border: 1px solid #d2d9dc;
+    color: #444;
+    margin-bottom: 8px;
+    padding: 14px 14px 14px 10px;
+    width: 340px;
+    -moz-border-radius: 0px;
+    -webkit-border-radius: 0px;
+    border-radius: 0px;
+    position:relative;
+    z-index:2;
+}
+
+.loginBoxCenter .phone{height: 46px;line-height: 46px;width: 200px;float: left;}
+
+.loginBoxCenter .code{ width: 170px; height: 46px; float: left; background: #14b9d6;border: none;color: #fff; cursor:pointer;line-height: 46px;text-align: center;}
+.loginBoxCenter .code:hover{ background: #f4daa2;cursor:pointer}
+.loginBoxCenter .codeinput{ width: 160px; margin-left: 10px;}
+
+.loginBoxCenter .login_add_input{padding: 14px 14px 14px 35px;width: 315px;}
+.loginBoxCenter .loginCode{width: 150px;}
+.loginBoxCenter .loginInput:focus {
+    border: 1px solid #b7d4ea;
+    box-shadow: 0 0 8px #b7d4ea;
+}
+
+.chk_remember {
+    display: none;
+}
+.chk_remember + label {
+    background-color: #fff;
+    border: 1px solid #c1caca;
+    border-radius: 5px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05), 0 -15px 10px -12px rgba(0, 0, 0, 0.05) inset;
+    display: inline-block;
+    margin-right: 5px;
+    padding: 9px;
+    position: relative;
+}
+.chk_remember:checked + label::after {
+    color: #758794;
+    content: "✔";
+    font-size: 1em;
+    left: 0;
+    padding: 1px 0 0;
+    position: absolute;
+    text-align: center;
+    top: 0;
+    vertical-align: text-top;
+    width: 100%;
+}
+.chk_remember:checked + label {
+    background-color: #ecf2f7;
+    border: 1px solid #92a1ac;
+    color: #243441;
+}
+
+.remember{ height: 10px;line-height: 10px;vertical-align:text-top;}
+
+.btn-login{
+    background-color: #1296db;
+    border-color: #1296db;
+    color: #ffffff;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    behavior: url(iecss3.htc);
+    width: 370px;
+    height: 45px;
+}
+.btn {
+    -moz-user-select: none;
+    background-image: none;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 1.42857;
+    margin-bottom: 0;
+    padding: 6px 12px;
+    text-align: center;
+    vertical-align: middle;
+    white-space: nowrap;
+}
+.btn-login:hover{background:#68A0D0;}
+
+#loginform .usercode{
+    background: url("../images/icon/sprites.png") no-repeat -45px -185px;
+    position: absolute;
+    z-index: 100;
+    padding: 10px;
+    width: 20px;
+    height: 20px;
+}
+#loginform .password{
+    background: url("../images/icon/sprites.png") no-repeat -188px -77px;
+    position: absolute;
+    z-index: 100;
+    padding: 10px;
+    width: 20px;
+    height: 20px;
+}
+.bg_shu{color: #d2d9dc;}
+
+#message{height:30px;line-height:30px;color: #000;font-size: 12px;border: 1px solid #ff8080;background: #fff2f2;margin-right:15px;display: none;padding:8px;}

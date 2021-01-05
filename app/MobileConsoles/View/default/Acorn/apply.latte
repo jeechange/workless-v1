@@ -1,0 +1,360 @@
+{layout "../Layout/layout.latte"}
+{block headTitle}申请积分{/block}
+{block tabs_content}
+    {include "./index_tabs.latte"}
+{/block}
+{block custom}
+    {include "../Public/custom.latte",title1=>"选择奖扣对象", title2=>"选择审核人", title3=>"选择抄送人"}
+    {include "./indexAdd.latte"}
+{/block}
+{block private_js}
+    <link rel="stylesheet" href="{path('[MobileConsoles]/h5upload/h5upload.css')}">
+    <script src="{path('[MobileConsoles]/h5upload/h5upload.js')}"></script>
+    {include "../Public/customJs.latte"}
+    <script type="text/javascript">
+        $(function () {
+            $("#bnts").click(function () {
+                // console.log($("#formArticle").serialize());
+                $.showPreloader('正在进行操作中，请稍候...');
+                $.ajax({
+                    type: "post",
+                    url: $("#formArticle").attr("action"),
+                    data: $("#formArticle").serialize(),
+                    cache: false,
+                    dataType: "json",
+                    success: function (data) {
+                        $.hidePreloader();
+                        if (data.status == "n") {
+                            $.toast(data.info);
+                            return false;
+                        } else {
+                            $.confirm('分享可以赚取积分哦~', '申请已提交',
+                                    function () {
+                                        location.replace(data.shareUrl)
+                                    },
+                                    function () {
+                                        location.replace(data.url)
+                                    }
+                            );
+                        }
+                    }
+                });
+            })
+        });
+    </script>
+{/block}
+{block private_css}
+    <style>
+        .content{
+            background:#fff;
+        }
+
+        .field-item{
+            margin:5px 10px;
+            padding-bottom:10px;
+        }
+
+        .field-item .field-item-title{
+            color:#101010;
+            font-size:14px;
+            vertical-align:bottom;
+        }
+
+        .field-item .field-item-title .required{
+            color:#e51c23;
+            font-weight:400;
+        }
+
+        .field-item .field-item-body{
+            position:relative;
+            padding-top:5px;
+        }
+
+        .field-item .field-item-body input[type=text]{
+            display:block;
+            position:relative;
+            border-bottom:#e7e7e7 1px solid;
+        }
+
+        .field-item .field-item-body .field-item-tag{
+            position:absolute;
+            right:0.5rem;
+            background:#8BC34A;
+            padding:3px 10px;
+            font-size:12px;
+            margin-left:5px;
+            top:3px;
+            color:#fff;
+        }
+
+        .priority-input{
+            display:inline-block;
+            width:35px;
+            height:35px;
+            line-height:35px;
+            text-align:center;
+            margin-right:15px;
+            color:#fff !important;
+            border:2px solid #fff;
+        }
+
+        .priority-input span{
+            margin:auto !important;
+            display:block;
+            width:30px;
+            height:30px;
+            line-height:30px;
+            border-radius:50%;
+            cursor:pointer;
+        }
+
+        .priority-input input{
+            display:none !important;
+        }
+
+        .priority-input.selected{
+            font-weight:900 !important;
+            border:2px solid #009DD9;
+            background:#d7d7d7;
+        }
+
+        .field-item-body textarea{
+            border:#e7e7e7 1px solid;
+        }
+
+        .field-item-body .field-item-member-box{
+            padding:10px 0;
+            border-bottom:1px solid #ddd;
+        }
+
+        .field-item-body .field-member{
+            display:inline-block;
+            border-radius:15px;
+            padding:3px 10px;
+            border:#e7e7e7 1px solid;
+        }
+
+        .field-item-body .field-item-score-box{
+            padding:10px 0;
+        }
+
+        .field-item-body .field-score{
+            display:inline-block;
+            padding:5px 15px;
+            border:#e7e7e7 1px solid;
+            margin-top:5px;
+        }
+
+        .field-item-between{
+            background:rgba(170, 170, 170, 0.07);
+            height:8px;
+        }
+
+        .medal-item{
+            border:1px solid #ddd;
+            display:inline-block;
+            vertical-align:middle;
+            min-width:80px;
+            padding:3px 8px;
+            margin-right:5px;
+            height:35px;
+            line-height:35px;
+            text-align:center;
+            cursor:pointer;
+            box-sizing:content-box;
+            margin-top:5px;
+        }
+
+        .medal-item img{
+            width:30px;
+            height:30px;
+            vertical-align:middle;
+        }
+
+        .medal-item.medal-item-selected, .field-score.field-score-selected{
+            border:1px solid #009DD9;
+        }
+
+        .pic-add{
+            display:inline-block; width:40px; height:40px; background:#f6f6f6; color:#aaa; text-align:center; line-height:40px; font-size:36px;
+            position:relative;
+        }
+
+        .pic-add input{
+            opacity:0;
+            position:absolute;
+            top:0;
+            left:0;
+            width:40px;
+            height:40px;
+        }
+
+        #deadline{
+            width:120px;
+            display:inline-block;
+            height:auto;
+        }
+
+        .index-add{
+            display:inline-block;
+            padding:8px 15px 8px 15px;
+            height:100%;
+            background:#f6f6f6;
+            color:#aaa;
+            text-align:center;
+            line-height:28px;
+            font-size:18px;
+            border:1px;
+            border-radius:25px;
+            -moz-border-radius:25px;
+            vertical-align:bottom;
+        }
+
+        .content-block{
+            margin:0.875rem 0;
+        }
+
+        .layout-body{
+            padding-bottom:0 !important;
+            margin-bottom:10px !important;
+            overflow:hidden;
+            border-bottom:#e7e7e7 1px solid;
+        }
+
+        .layout-left{
+            line-height:55px;
+            float:left;
+        }
+
+        .layout-right{
+            float:right;
+        }
+
+        .staff-add{
+            width:36px !important;
+            height:36px !important;
+            line-height:32px !important;
+            font-size:36px !important;
+            margin-top:3px;
+        }
+
+        .input-news{
+            text-align:right;
+            border-bottom:none !important;
+            line-height:45px !important;
+            height:45px !important;
+            padding-right:15px !important;
+        }
+
+        .tab-border{
+            border:1px solid #ccc;
+            height:35px;
+            line-height:35px;
+            text-align:center;
+            margin:10px;
+            color:#1c1d1f
+        }
+
+        .tab-active{
+            background:#009AE2;
+            color:white;
+            border:1px solid #009AE2;
+        }
+    </style>
+{/block}
+{block content}
+    <div style="width:100%;height: 5px; margin-top: 3rem;">
+        <div style="width: 33.33%;float: left;">
+            <a href="{url("mobileConsoles_acorn_apply","tabs_two=Action")}">
+                <div class="tab-border {if $tabs_two=='Action'}tab-active{/if}">行为</div>
+            </a>
+        </div>
+        <div style="width: 33.33%;float: left;">
+            <a href="{url("mobileConsoles_acorn_apply","tabs_two=Report")}">
+                <div class="tab-border {if $tabs_two=='Report'}tab-active{/if}">汇报</div>
+            </a>
+        </div>
+        <div style="width: 33.33%;float: left;">
+            <a href="{url("mobileConsoles_acorn_apply","tabs_two=Achievement")}">
+                <div class="tab-border {if $tabs_two=='Achievement'}tab-active{/if}">业绩</div>
+            </a>
+        </div>
+    </div>
+    <form id="formArticle" class="stdform mform" method="post" action="">
+        <div class="list-block" style="margin-top: 3.2rem;">
+            <div class="field-item layout-body">
+                <div class="field-item-title layout-left">
+                    价值维度 <span class="required">*</span>
+                </div>
+                <div class="field-item-body layout-right">
+                    <input type="hidden" id="s_id" name="s_id" value="{$standard['id']}"/>
+                    <input type="hidden" name="__token__" value="{$__token__}">
+                    <span class="staff-add open-popup open-worker-added-box" data-popup=".index-popup" id="index" style="margin-right:15px;"><i class="icon al-icon al-icon-tianjia" style="font-size:36px;"></i></span>
+                </div>
+            </div>
+            <div class="field-item layout-body">
+                <div class="field-item-title layout-left">
+                    积分分数 <span class="required">*</span>
+                </div>
+                <div class="field-item-body layout-right">
+                    <input type="text" placeholder="请输入积分分数" value="{$standard['acorn']}" disabled="disabled" id="acorns" class="input-news"/>
+                    <input type="hidden" name="acorn" placeholder="请输入积分分数" value="{$standard['acorn']}" id="acorn"/>
+                </div>
+            </div>
+            <div class="field-item layout-body">
+                <div class="field-item-title layout-left">
+                    奖扣对象<span class="required">*</span>
+                </div>
+                <div class="field-item-body layout-right">
+                    <div class="field-item-member-box" style="border-bottom: none">
+                        <span class="staff-add open-popup open-worker-added-box" data-popup=".staff-popup" id="executors" style="margin-top:-3px;margin-right:15px;"><i class="icon al-icon al-icon-tianjia" style="font-size:36px;"></i></span>
+                        <input type="hidden" name="toUser">
+                    </div>
+                </div>
+            </div>
+            <div class="field-item layout-body">
+                <div class="field-item-title layout-left">
+                    审核人<span class="required">*</span>
+                </div>
+                <div class="field-item-body layout-right">
+                    <div class="field-item-member-box" style="border-bottom: none">
+                        <span class="staff-add open-popup open-worker-added-box" data-popup=".accept-popup" id="accept" style="margin-top:-3px;margin-right:15px;"><i class="icon al-icon al-icon-tianjia" style="font-size:36px;"></i></span>
+                        <input type="hidden" name="auditor">
+                    </div>
+                </div>
+            </div>
+            <div class="field-item layout-body">
+                <div class="field-item-title layout-left">
+                    抄送人
+                </div>
+                <div class="field-item-body layout-right">
+                    <div class="field-item-member-box" style="border-bottom: none">
+                        <span class="staff-add open-popup open-worker-added-box" data-popup=".cPerson-popup" id="cPerson" style="margin-top:-3px;margin-right:15px;"><i class="icon al-icon al-icon-tianjia" style="font-size:36px;"></i></span>
+                        <input type="hidden" name="cPerson">
+                    </div>
+                </div>
+            </div>
+            <div class="field-item">
+                <div class="field-item-title" style="line-height:50px;">
+                    申请说明
+                </div>
+                <div class="field-item-body">
+                    <textarea name="memo" style="height:6rem" placeholder="多行输入..."></textarea>
+                </div>
+            </div>
+            <div class="field-item">
+                <div class="field-item-title">
+                    图片
+                </div>
+                <div class="field-item-body">
+                    <span class="pic-add">&plus;<input type="file" id="pics" name="thumbs" accept="image/*" multiple data-toggle="h5upload"/></span>
+                </div>
+            </div>
+        </div>
+    </form>
+    <div class="content-block">
+        <div class="col-95">
+            <div class="button button-big button-fill" id="bnts">申请</div>
+        </div>
+    </div>
+{/block}

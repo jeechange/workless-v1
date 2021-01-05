@@ -1,0 +1,1330 @@
+#//MobileConsoles route
+mobileConsoles_index_index:
+  pattern: /
+  callback: "MobileConsoles:Index:index"
+  method: get
+  options:
+  tabs: home
+
+mobileConsoles_index_query:
+  pattern: /query
+  callback: "MobileConsoles:Index:query"
+  method: post|get
+  options:
+  tabs: home
+
+#主页签名
+mobileConsoles_index_hfSignature:
+  pattern: /hfSignature
+  callback: "MobileConsoles:Index:hfSignature"
+  method: get|post
+  options:
+  tabs: home
+#个人价值指数
+mobileConsoles_index_valueIndex:
+  pattern: /valueIndex
+  callback: "MobileConsoles:Index:valueIndex"
+  method: get|post
+  options:
+  tabs: home
+
+#=============申请积分=========
+mobileConsoles_acorn_index:
+  pattern: /acorn
+  callback: "MobileConsoles:Acorn:index"
+  method: get|post
+  options:
+  tabs: acorn
+mobileConsoles_acorn_applyAdd:
+  pattern: /acorn/applyAdd
+  callback: "MobileConsoles:Acorn:applyAdd"
+  method: get|post
+  options:
+  tabs: acorn
+mobileConsoles_acorn_acornShare:
+  pattern: /acorn/acornShare/:id
+  callback: "MobileConsoles:Acorn:acornShare"
+  method: get|post
+  options:
+  tabs: acorn
+mobileConsoles_acorn_applyDetail:
+  pattern: /acorn/applyDetail/:id
+  callback: "MobileConsoles:Acorn:applyDetail"
+  method: get|post
+  options:
+  tabs: acorn
+mobileConsoles_acorn_applyLists:
+  pattern: /acorn/applyLists
+  callback: "MobileConsoles:Acorn:applyLists"
+  method: get|post
+  options:
+  tabs: acorn
+mobileConsoles_acorn_cancel:
+  pattern: /acorn/cancel/:id
+  callback: "MobileConsoles:Acorn:cancel"
+  method: get|post
+  options:
+  tabs: acorn
+mobileConsoles_acorn_apply:
+  pattern: /acorn/capply
+  callback: "MobileConsoles:Acorn:apply"
+  method: get|post
+  options:
+  tabs: acorn
+#=============审核积分=============
+mobileConsoles_acorn_auditLists:
+  pattern: /acorn/auditLists
+  callback: "MobileConsoles:Acorn:auditLists"
+  method: get|post
+  options:
+  tabs: acorn
+mobileConsoles_acorn_auditDetail:
+  pattern: /acorn/auditDetail/:id
+  callback: "MobileConsoles:Acorn:auditDetail"
+  method: get|post
+  options:
+  tabs: acorn
+mobileConsoles_acorn_adopt:
+  pattern: /acorn/adopt/:id
+  callback: "MobileConsoles:Acorn:adopt"
+  method: get|post
+  options:
+  tabs: acorn
+mobileConsoles_acorn_notAdopt:
+  pattern: /acorn/notAdopt/:id
+  callback: "MobileConsoles:Acorn:notAdopt"
+  method: get|post
+  options:
+  tabs: acorn
+
+#=============学习=========
+mobileConsoles_study_rec:
+  pattern: /study/rec
+  callback: "MobileConsoles:Study:rec"
+  method: get|post
+  options:
+  tabs: home
+mobileConsoles_study_lists:
+  pattern: /study
+  callback: "MobileConsoles:Study:lists"
+  method: get|post
+  options:
+  tabs: home
+mobileConsoles_study_allDetail:
+  pattern: /study/allDetail/:id
+  callback: "MobileConsoles:Study:allDetail"
+  method: get|post
+  options:
+  tabs: home
+mobileConsoles_study_receiveTask:
+  pattern: /study/receiveTask/:id
+  callback: "MobileConsoles:Study:receiveTask"
+  method: get|post
+  options:
+  tabs: home
+mobileConsoles_study_add:
+  pattern: /study/add
+  callback: "MobileConsoles:Study:add"
+  method: get|post
+  options:
+  tabs: home
+#我的学习
+mobileConsoles_study_study:
+  pattern: /study/study
+  callback: "MobileConsoles:Study:study"
+  method: get|post
+  options:
+  tabs: home
+mobileConsoles_study_release:
+  pattern: /study/release
+  callback: "MobileConsoles:Study:release"
+  method: get|post
+  options:
+  tabs: home
+mobileConsoles_study_numbers:
+  pattern: /study/numbers/:id
+  callback: "MobileConsoles:Study:numbers"
+  method: get|post
+  options:
+  tabs: home
+mobileConsoles_study_judgement:
+  pattern: /study/judgement
+  callback: "MobileConsoles:Study:judgement"
+  method: get|post
+  options:
+  tabs: home
+mobileConsoles_study_check:
+  pattern: /study/check/:id
+  callback: "MobileConsoles:Study:check"
+  method: get|post
+  options:
+  tabs: home
+
+
+#学习设置
+mobileConsoles_study_studySetting:
+  pattern: /study/studySetting
+  callback: "MobileConsoles:Study:studySetting"
+  method: get|post
+  options:
+  tabs: home
+mobileConsoles_study_studySettingAdd:
+  pattern: /study/studySettingAdd
+  callback: "MobileConsoles:Study:studySettingAdd"
+  method: get|post
+  options:
+  tabs: home
+mobileConsoles_study_studySettingModify:
+  pattern: /study/studySettingModify/:id
+  callback: "MobileConsoles:Study:studySettingModify"
+  method: get|post
+  options:
+  tabs: home
+
+mobileConsoles_login:
+  pattern: /login
+  callback: "MobileConsoles:Login:login"
+  method: get|post
+  options:
+  tabs: false
+mobileConsoles_login_send_verify:
+  pattern: /login_send_verify
+  callback: "MobileConsoles:Login:sendVerify"
+  method: post
+  options:
+  tabs: false
+mobileConsoles_login_forget:
+  pattern: /forget
+  callback: "MobileConsoles:Login:login"
+  method: get
+  options:
+  tabs: false
+mobileConsoles_login_register:
+  pattern: /register
+  callback: "MobileConsoles:Login:login"
+  method: get
+  options:
+  tabs: false
+mobileConsoles_login_verify:
+  pattern: /login/verify
+  callback: "MobileConsoles:Login:verify"
+  method: get
+  options:
+  tabs: false
+
+mobileConsoles_login_YZvcode:
+  pattern: /YZvcode
+  callback: "MobileConsoles:Login:YZvcode"
+  method: get
+  options:
+  tabs: false
+
+mobileConsoles_login_logout:
+  pattern: /logout
+  callback: "MobileConsoles:Login:logout"
+  method: get
+  options:
+  tabs: false
+mobileConsoles_task_settings:
+  pattern: /tasksettings
+  callback: "MobileConsoles:Task:settings"
+  method: get|post
+  options:
+  tabs: task
+mobileConsoles_task:
+  pattern: /task
+  callback: "MobileConsoles:Task:lists"
+  method: get
+  options:
+  tabs: task
+
+mobileConsoles_task_changeTask:
+  pattern: /task
+  callback: "MobileConsoles:Task:lists"
+  method: get
+  options:
+  tabs: task
+
+mobileConsoles_taskreceive:
+  pattern: /taskreceive/:id
+  callback: "MobileConsoles:Task:taskReceive"
+  method: get
+  options:
+  tabs: task
+mobileConsoles_taskreward:
+  pattern: /taskreward
+  callback: "MobileConsoles:Task:listsReward"
+  method: get
+  options:
+  tabs: task
+mobileConsoles_taskcycle:
+  pattern: /taskcycle
+  callback: "MobileConsoles:Task:listsCycle"
+  method: get
+  options:
+  tabs: task
+mobileConsoles_manageReward:
+  pattern: /manageReward
+  callback: "MobileConsoles:Task:manageReward"
+  method: get
+  options:
+  tabs: task
+mobileConsoles_task_detail:
+  pattern: /task_detail/:id
+  callback: "MobileConsoles:Task:detail"
+  method: get
+  options:
+  tabs: task
+mobileConsoles_task_details:
+  pattern: /task_details/:id
+  callback: "MobileConsoles:Task:details"
+  method: get
+  options:
+  tabs: task
+mobileConsoles_task_addreward:
+  pattern: /task_addreward
+  callback: "MobileConsoles:Task:addReward"
+  method: get|post
+  options:
+  tabs: task
+mobileConsoles_task_addtemp:
+  pattern: /task_addtemp
+  callback: "MobileConsoles:Task:addTemp"
+  method: get|post
+  options:
+  tabs: task
+mobileConsoles_task_addcycle:
+  pattern: /task_addcycle
+  callback: "MobileConsoles:Task:addCycle"
+  method: get|post
+  options:
+  tabs: task
+mobileConsoles_task_group_add:
+  pattern: /task_group_add
+  callback: "MobileConsoles:TaskGroup:add"
+  method: get|post
+  options:
+  tabs: task
+
+mobileConsoles_task_group_choice_lists:
+  pattern: /task/group/choice/lists/:names
+  callback: "MobileConsoles:TaskGroup:choiceLists"
+  method: get|post
+  options:
+  tabs: task
+
+#添加任務组
+mobileConsoles_task_addtaskGroup:
+  pattern: /task/addtaskGroup/
+  callback: "MobileConsoles:Task:addtaskGroup"
+  method: get|post
+  options:
+#修改项目
+mobileConsoles_task_groupModify:
+  pattern: /task/groupModify/:id
+  callback: "MobileConsoles:Task:groupModify"
+  method: get|post
+  options:
+#任務組列表
+mobileConsoles_task_taskGroupLists:
+  pattern: /task/taskGroupLists/
+  callback: "MobileConsoles:Task:taskGroupLists"
+  method: get|post
+  options:
+#删除任务
+mobileConsoles_task_groupDelete:
+  pattern: /task/groupDelete/:id
+  callback: "MobileConsoles:Task:groupDelete"
+  method: get|post
+  options:
+
+
+mobileConsoles_taskme_redeploy:
+  pattern: /taskme/redeploy/:id
+  callback: "MobileConsoles:TaskMe:redeploy"
+  method: get|post
+  options:
+  tabs: task
+mobileConsoles_taskme_taskDone:
+  pattern: /taskme/taskDone/:id
+  callback: "MobileConsoles:TaskMe:taskDone"
+  method: get|post
+  options:
+  tabs: task
+mobileConsoles_taskme_dynamicAction:
+  pattern: /taskme/dynamicAction/:id
+  callback: "MobileConsoles:TaskMe:dynamicAction"
+  method: get|post
+  options:
+  tabs: task
+mobileConsoles_taskme_mytodo:
+  pattern: /taskme/mytodo
+  callback: "MobileConsoles:TaskMe:myTodo"
+  method: get|post
+  options:
+  tabs: task
+mobileConsoles_taskme_cancel:
+  pattern: /taskme/task_dancel/:id
+  callback: "MobileConsoles:TaskMe:taskCancel"
+  method: get
+  options:
+  tabs: task
+mobileConsoles_taskme_remove:
+  pattern: /taskme/task_remove
+  callback: "MobileConsoles:TaskMe:taskRemove"
+  method: post
+  options:
+  tabs: task
+mobileConsoles_taskme_addDynamic:
+  pattern: /taskme/add_dynamic/:id
+  callback: "MobileConsoles:TaskMe:addDynamic"
+  method: post
+  options:
+  tabs: task
+mobileConsoles_taskme_commentDynamic:
+  pattern: /taskme/comment_dynamic/:id
+  callback: "MobileConsoles:TaskMe:commentDynamic"
+  method: post
+  options:
+  tabs: task
+mobileConsoles_taskme_allot:
+  pattern: /taskme/allot/:id
+  callback: "MobileConsoles:TaskMe:taskAllot"
+  method: post
+  options:
+  tabs: task
+mobileConsoles_taskMe_accept_allot:
+  pattern: /taskMe/acceptAllot
+  callback: "MobileConsoles:TaskMe:acceptAllot"
+  method: post
+  options:
+mobileConsoles_taskMe_accept_allot_up:
+  pattern: /taskMe/accept_allot_up/:id
+  callback: "MobileConsoles:TaskMe:acceptAllotUp"
+  method: post
+  options:
+mobileConsoles_taskMe_accept_allot_up_submit:
+  pattern: /taskMe/accept_allot_up_submit
+  callback: "MobileConsoles:TaskMe:acceptAllotUpSubmit"
+  method: post
+  options:
+mobileConsoles_taskMe_accept_allot_recheck:
+  pattern: /taskMe/accept_allot_recheck
+  callback: "MobileConsoles:TaskMe:acceptAllotRecheck"
+  method: post
+  options:
+mobileConsoles_taskMe_accept_allot_nopass:
+  pattern: /taskMe/accept_allot_nopass
+  callback: "MobileConsoles:TaskMe:acceptAllotNoPass"
+  method: post
+  options:
+#我的todo
+mobileConsoles_todo_lists:
+  pattern: /todo/lists
+  callback: "MobileConsoles:Todo:lists"
+  method: get|post
+  options:
+  tabs: task
+#我的执行
+mobileConsoles_taskme_myexecute:
+  pattern: /taskme/myExecute
+  callback: "MobileConsoles:TaskMe:myExecute"
+  method: get|post
+  options:
+  tabs: task
+mobileConsoles_taskme_execute_detail:
+  pattern: /taskme/execute/detail/:id
+  callback: "MobileConsoles:TaskMe:executeDetail"
+  method: get|post
+  options:
+  tabs: task
+
+mobileConsoles_taskme_myaccept:
+  pattern: /taskme/myAccept
+  callback: "MobileConsoles:TaskMe:myAccept"
+  method: get|post
+  options:
+  tabs: task
+mobileConsoles_taskme_accept_detail:
+  pattern: /taskme/acceptdetail/:id
+  callback: "MobileConsoles:TaskMe:acceptDetail"
+  method: get|post
+  options:
+  tabs: task
+mobileConsoles_taskme_taskAcceptDone:
+  pattern: /taskme/acceptDone/:id
+  callback: "MobileConsoles:TaskMe:acceptDone"
+  method: get|post
+  options:
+  tabs: task
+mobileConsoles_taskme_issue_detail:
+  pattern: /taskme/issuedetail/:id
+  callback: "MobileConsoles:TaskMe:issueDetail"
+  method: get|post
+  options:
+  tabs: task
+mobileConsoles_task_todo_detail:
+  pattern: /taskme/tododetail/:id
+  callback: "MobileConsoles:TaskMe:todoDetail"
+  method: get|post
+  options:
+  tabs: task
+mobileConsoles_taskme_accept_action:
+  pattern: /taskme/acceptaction/:id
+  callback: "MobileConsoles:TaskMe:acceptAction"
+  method: get|post
+  options:
+  tabs: task
+mobileConsoles_taskme_myissue:
+  pattern: /taskme/myissue
+  callback: "MobileConsoles:TaskMe:myIssue"
+  method: get|post
+  options:
+  tabs: task
+#手机版验收
+mobileConsoles_taskme_acceping:
+  pattern: /taskme/acceping/:id
+  callback: "MobileConsoles:TaskMe:acceping"
+  method: get|post
+  options:
+  tabs: task
+
+#=============福利=========
+mobileConsoles_welfare:
+  pattern: /welfare
+  callback: "MobileConsoles:Welfare:lists"
+  method: get
+  options:
+  tabs: welfare
+#抵扣券
+mobileConsoles_welfare_voucher:
+  pattern: /welfare/voucher
+  callback: "MobileConsoles:Welfare:voucher"
+  method: get|post
+  options:
+  tabs: welfare
+mobileConsoles_welfare_addVoucher:
+  pattern: /welfare/addVoucher
+  callback: "MobileConsoles:Welfare:addVoucher"
+  method: get|post
+  options:
+  tabs: welfare
+mobileConsoles_welfare_voucherModify:
+  pattern: /welfare/voucherModify/:id
+  callback: "MobileConsoles:Welfare:voucherModify"
+  method: get|post
+  options:
+  tabs: welfare
+mobileConsoles_welfare_voucherDelete:
+  pattern: /welfare/voucherDelete/:id
+  callback: "MobileConsoles:Welfare:voucherDelete"
+  method: get|post
+  options:
+  tabs: welfare
+
+
+mobileConsoles_welfare_add:
+  pattern: /welfare/add
+  callback: "MobileConsoles:Welfare:addLists"
+  method: get|post
+  options:
+  tabs: welfare
+mobileConsoles_welfare_add_bonus:
+  pattern: /welfare/addbonus
+  callback: "MobileConsoles:Welfare:addBonus"
+  method: get|post
+  options:
+  tabs: welfare
+mobileConsoles_welfare_receive:
+  pattern: /welfare/receive/:id
+  callback: "MobileConsoles:Welfare:receive"
+  method: get|post
+  options:
+  tabs: welfare
+mobileConsoles_welfare_chat:
+  pattern: /welfare/chat/:id
+  callback: "MobileConsoles:Welfare:chat"
+  method: get|post
+  options:
+  tabs: welfare
+mobileConsoles_welfare_getGift:
+  pattern: /welfare/getGift/:id
+  callback: "MobileConsoles:Welfare:getGift"
+  method: get|post
+  options:
+  tabs: welfare
+mobileConsoles_welfare_listsRevoke:
+  pattern: /welfare/listsRevoke/:id
+  callback: "MobileConsoles:Welfare:listsRevoke"
+  method: get|post
+  options:
+  tabs: welfare
+
+mobileConsoles_welfare_lucky:
+  pattern: /welfare_lucky
+  callback: "MobileConsoles:Welfare:lucky"
+  method: get|post
+  options:
+  tabs: welfare
+mobileConsoles_welfare_bonus:
+  pattern: /welfare_bonus
+  callback: "MobileConsoles:Welfare:bonus"
+  method: get|post
+  options:
+  tabs: welfare
+mobileConsoles_welfare_bonus_lists:
+  pattern: /welfare_bonus_lists
+  callback: "MobileConsoles:Welfare:bonusLists"
+  method: get
+  options:
+  tabs: welfare
+mobileConsoles_welfare_bonus_setting:
+  pattern: /welfare_bonus_setting
+  callback: "MobileConsoles:Welfare:bonusSetting"
+  method: get|post
+  options:
+mobileConsoles_welfare_setting_bonus:
+  pattern: /welfare_settingbonus
+  callback: "MobileConsoles:Welfare:settingBonus"
+  method: get|post
+  options:
+mobileConsoles_welfare_bonusGetVerify:
+  pattern: /bonusGetVerify
+  callback: "MobileConsoles:Welfare:bonusGetVerify"
+  method: get
+  options:
+  tabs: welfare
+#小吃柜
+mobileConsoles_welfare_snack:
+  pattern: /welfare_snack
+  callback: "MobileConsoles:Welfare:snack"
+  method: get|post
+  options:
+  tabs: welfare
+mobileConsoles_welfare_addSnack:
+  pattern: /welfare/addSnack
+  callback: "MobileConsoles:Welfare:addSnack"
+  method: get|post
+  options:
+  tabs: welfare
+mobileConsoles_welfare_snackDetail:
+  pattern: /welfare/snackDetail/:id
+  callback: "MobileConsoles:Welfare:snackDetail"
+  method: get|post
+  options:
+  tabs: welfare
+mobileConsoles_welfare_exchange:
+  pattern: /welfare/exchange/:id
+  callback: "MobileConsoles:Welfare:exchange"
+  method: get|post
+  options:
+  tabs: welfare
+mobileConsoles_welfare_mySnack:
+  pattern: /welfare/mySnack
+  callback: "MobileConsoles:Welfare:mySnack"
+  method: get|post
+  options:
+  tabs: welfare
+mobileConsoles_welfare_mySnackDetail:
+  pattern: /welfare/mySnackDetail/:id
+  callback: "MobileConsoles:Welfare:mySnackDetail"
+  method: get|post
+  options:
+  tabs: welfare
+mobileConsoles_welfare_snackCancel:
+  pattern: /welfare/snackCancel/:id
+  callback: "MobileConsoles:Welfare:snackCancel"
+  method: get|post
+  options:
+  tabs: welfare
+#掌柜
+mobileConsoles_welfare_snackWaiter:
+  pattern: /welfare_waiter
+  callback: "MobileConsoles:Welfare:snackWaiter"
+  method: get|post
+  options:
+  tabs: welfare
+#编辑小吃
+mobileConsoles_welfare_snackModify:
+  pattern: /welfare/snackModify/:id
+  callback: "MobileConsoles:Welfare:snackModify"
+  method: get|post
+  options:
+  tabs: welfare
+#删除小吃
+mobileConsoles_welfare_snackDelete:
+  pattern: /welfare/snackDelete/:id
+  callback: "MobileConsoles:Welfare:snackDelete"
+  method: get|post
+  options:
+  tabs: welfare
+#上下架小吃
+mobileConsoles_welfare_snackSwitch:
+  pattern: /welfare/snackSwitch/:id
+  callback: "MobileConsoles:Welfare:snackSwitch"
+  method: get|post
+  options:
+  tabs: welfare
+#核销列表
+mobileConsoles_welfare_snackCheck:
+  pattern: /welfare/snackCheck
+  callback: "MobileConsoles:Welfare:snackCheck"
+  method: get|post
+  options:
+  tabs: welfare
+#核销详情
+mobileConsoles_welfare_checkDetail:
+  pattern: /welfare/checkDetail/:id
+  callback: "MobileConsoles:Welfare:checkDetail"
+  method: get|post
+  options:
+  tabs: welfare
+#核销成功，失败
+mobileConsoles_welfare_checkAdopt:
+  pattern: /welfare/checkAdopt/:id
+  callback: "MobileConsoles:Welfare:checkAdopt"
+  method: get|post
+  options:
+  tabs: welfare
+mobileConsoles_welfare_checkNotAdopt:
+  pattern: /welfare/checkNotAdopt/:id
+  callback: "MobileConsoles:Welfare:checkNotAdopt"
+  method: get|post
+  options:
+  tabs: welfare
+
+#我的
+mobileConsoles_user_me:
+  pattern: /user_me
+  callback: "MobileConsoles:User:me"
+  method: get
+  options:
+  tabs: me
+mobileConsoles_user_setting:
+  pattern: /user_setting
+  callback: "MobileConsoles:User:setting"
+  method: get
+  options:
+  tabs: me
+mobileConsoles_user_company:
+  pattern: /user/company
+  callback: "MobileConsoles:User:company"
+  method: get|post
+  options:
+  tabs: me
+mobileConsoles_company_supers:
+  pattern: /company/supers
+  callback: "MobileConsoles:Company:supers"
+  method: get|post
+  options:
+  tabs: me
+mobileConsoles_company_super_del:
+  pattern: /company/super_del/:id
+  callback: "MobileConsoles:Company:superDel"
+  method: get
+  options:
+  tabs: me
+mobileConsoles_user_inviting:
+  pattern: /user/inviting
+  callback: "MobileConsoles:User:inviting"
+  method: get|post
+  options:
+  tabs: me
+#部门人员获取
+mobileConsoles_user_DAjaxLists:
+  pattern: /D/ajax/lists
+  callback: "MobileConsoles:User:DAjaxLists"
+  method: get
+  options:
+  tabs: me
+#小组人员获取
+mobileConsoles_user_GAjaxLists:
+  pattern: /G/ajax/lists
+  callback: "MobileConsoles:User:GAjaxLists"
+  method: get
+  options:
+  tabs: me
+#个人信息获取
+mobileConsoles_user_PersonalCard:
+  pattern: /user/personal/card
+  callback: "MobileConsoles:User:PersonalCard"
+  method: get
+  options:
+  tabs: me
+
+mobileConsoles_user_userInfo:
+  pattern: /user_info
+  callback: "MobileConsoles:User:userInfo"
+  method: get|post
+  options:
+  tabs: me
+mobileConsoles_user_modifyPWD:
+  pattern: /user/modify/PWD
+  callback: "MobileConsoles:User:modifyPWD"
+  method: get|post
+  options:
+  tabs: me
+mobileConsoles_user_education:
+  pattern: /user_education
+  callback: "MobileConsoles:User:education"
+  method: get|post
+  options:
+  tabs: me
+mobileConsoles_user_workExp:
+  pattern: /user/work/Exp
+  callback: "MobileConsoles:User:workExp"
+  method: get|post
+  options:
+  tabs: me
+mobileConsoles_user_guide:
+  pattern: /user_guide
+  callback: "MobileConsoles:User:guide"
+  method: get|post
+  options:
+  tabs: false
+#我的积分
+mobileConsoles_user_UserAcorn:
+  pattern: /user/acorn
+  callback: "MobileConsoles:User:UserAcorn"
+  method: get|post
+  options:
+  tabs: false
+
+
+mobileConsoles_company:
+  pattern: /company
+  callback: "MobileConsoles:Company:index"
+  method: get
+  options:
+  tabs: me
+mobileConsoles_company_lists:
+  pattern: /company_lists
+  callback: "MobileConsoles:Company:lists"
+  method: get
+  options:
+  tabs: me
+mobileConsoles_company_toggle:
+  pattern: /company_toggle/:id
+  callback: "MobileConsoles:Company:toggle"
+  method: get
+  options:
+  tabs: me
+mobileConsoles_company_NewJoin:
+  pattern: /company_new_join
+  callback: "MobileConsoles:Company:NewJoin"
+  method: get|post
+  options:
+  tabs: me
+mobileConsoles_company_findUser:
+  pattern: /findUser
+  callback: "MobileConsoles:Company:findUser"
+  method: get|post
+  options:
+  tabs: false
+mobileConsoles_company_joined:
+  pattern: /company_joined
+  callback: "MobileConsoles:Company:joined"
+  method: get
+  options:
+  tabs: me
+mobileConsoles_company_inviteagree:
+  pattern: /company_inviteagree/:id
+  callback: "MobileConsoles:Company:inviteAgree"
+  method: get
+  options:
+  tabs: me
+#添加公司小组
+mobileConsoles_company_AddGroup:
+  pattern: /add/group
+  callback: "MobileConsoles:Company:AddGroup"
+  method: get|post
+  options:
+  tabs: me
+#公司小组(列表)
+mobileConsoles_company_groupLists:
+  pattern: /groupLists
+  callback: "MobileConsoles:Company:groupLists"
+  method: get|post
+  options:
+  tabs: me
+#编辑公司小组
+mobileConsoles_company_modifyGroup:
+  pattern: /modifyGroup
+  callback: "MobileConsoles:Company:modifyGroup"
+  method: get|post
+  options:
+  tabs: me
+#删除公司小组
+mobileConsoles_company_delGroup:
+  pattern: /delGroup
+  callback: "MobileConsoles:Company:delGroup"
+  method: get|post
+  options:
+  tabs: me
+#添加公司部门
+mobileConsoles_company_addDepartment:
+  pattern: /add/department
+  callback: "MobileConsoles:Company:addDepartment"
+  method: get|post
+  options:
+  tabs: me
+#修改公司部门(列表)
+mobileConsoles_company_departmentLists:
+  pattern: /lists/department
+  callback: "MobileConsoles:Company:departmentLists"
+  method: get|post
+  options:
+  tabs: me
+#修改公司部门
+mobileConsoles_company_modifyDepartment:
+  pattern: /modify/department
+  callback: "MobileConsoles:Company:modifyDepartment"
+  method: get|post
+  options:
+  tabs: me
+#查询部门下的同事
+mobileConsoles_company_queryColleague:
+  pattern: /queryColleague
+  callback: "MobileConsoles:Company:queryColleague"
+  method: get|post
+  options:
+  tabs: me
+#查询部门下的同事(ajax返回)
+mobileConsoles_company_ajaxColleague:
+  pattern: /ajaxColleague
+  callback: "MobileConsoles:Company:ajaxColleague"
+  method: get|post
+  options:
+  tabs: me
+#删除公司部门
+mobileConsoles_company_delDepartment:
+  pattern: /del/department
+  callback: "MobileConsoles:Company:delDepartment"
+  method: post
+  options:
+  tabs: me
+#查询公司职位
+mobileConsoles_company_queryStation:
+  pattern: /queryStation
+  callback: "MobileConsoles:Company:queryStation"
+  method: get|post
+  options:
+  tabs: me
+#查询公司职位(ajax返回)
+mobileConsoles_company_ajaxStation:
+  pattern: /ajaxStation
+  callback: "MobileConsoles:Company:ajaxStation"
+  method: get|post
+  options:
+  tabs: me
+#查询公司部门
+mobileConsoles_company_queryDepartment:
+  pattern: /queryDepartment
+  callback: "MobileConsoles:Company:queryDepartment"
+  method: get|post
+  options:
+  tabs: me
+#查询公司部门(ajax返回)
+mobileConsoles_company_ajaxDepartment:
+  pattern: /ajaxDepartment
+  callback: "MobileConsoles:Company:ajaxDepartment"
+  method: get|post
+  options:
+  tabs: me
+#添加工种
+mobileConsoles_company_addWorktype:
+  pattern: /add/addWorktype
+  callback: "MobileConsoles:Company:addWorktype"
+  method: get|post
+  options:
+  tabs: me
+#修改工种
+mobileConsoles_company_modifyWorktype:
+  pattern: /add/modifyWorktype
+  callback: "MobileConsoles:Company:modifyWorktype"
+  method: get|post
+  options:
+  tabs: me
+#修删除工种
+mobileConsoles_company_delWorktype:
+  pattern: /delWorktype
+  callback: "MobileConsoles:Company:delWorktype"
+  method: post
+  options:
+  tabs: me
+#添加职位
+mobileConsoles_company_addStaffstation:
+  pattern: /add/addStaffstation
+  callback: "MobileConsoles:Company:addStaffstation"
+  method: get|post
+  options:
+  tabs: me
+#修改职位
+mobileConsoles_company_modifyStaffstation:
+  pattern: /add/modifyStaffstation
+  callback: "MobileConsoles:Company:modifyStaffstation"
+  method: get|post
+  options:
+  tabs: me
+#删除职位
+mobileConsoles_company_delStaffstation:
+  pattern: /delStaffstation
+  callback: "MobileConsoles:Company:delStaffstation"
+  method: post
+  options:
+  tabs: me
+#选择部门
+mobileConsoles_company_chooseDepartment:
+  pattern: /chooseDepartment
+  callback: "MobileConsoles:Company:chooseDepartment"
+  method: get|post
+  options:
+  tabs: me
+
+#创建团队/企业
+mobileConsoles_company_addTeam:
+  pattern: /addTeam
+  callback: "MobileConsoles:Company:addTeam"
+  method: get|post
+  options:
+  tabs:
+#ajax已有行业
+mobileConsoles_company_ajaxIndustry:
+  pattern: /ajaxIndustry
+  callback: "MobileConsoles:Company:ajaxIndustry"
+  method: get|post
+  options:
+  tabs: me
+
+#外部联系人
+mobileConsoles_company_addWBLXR:
+  pattern: /add/WBLXR
+  callback: "MobileConsoles:Company:addWBLXR"
+  method: get|post
+  options:
+  tabs: false
+mobileConsoles_company_modifyWBLXR:
+  pattern: /modify/WBXLR/:id
+  callback: "MobileConsoles:Company:modifyWBLXR"
+  method: get|post
+  options:
+  tabs: false
+mobileConsoles_company_deleteWBLXR:
+  pattern: /delete/WBXLR/:id
+  callback: "MobileConsoles:Company:deleteWBLXR"
+  method: get|post
+  options:
+  tabs: false
+
+#=============积分标准=========
+mobileConsoles_standard_lists:
+  pattern: /standard/lists
+  callback: "MobileConsoles:Standard:lists"
+  method: get
+  options:
+  tabs: home
+#积分标准添加
+mobileConsoles_standard_add:
+  pattern: /standard/add
+  callback: "MobileConsoles:Standard:add"
+  method: post|get
+  options:
+  tabs: home
+#积分标准修改
+mobileConsoles_standard_modify:
+  pattern: /standard/modify/:id
+  callback: "MobileConsoles:Standard:modify"
+  method: post|get
+  options:
+  tabs: home
+#积分标删除
+mobileConsoles_standard_delete:
+  pattern: /standard/delete/:id
+  callback: "MobileConsoles:Standard:delete"
+  method: post|get
+  options:
+  tabs: home
+#积分标详情
+mobileConsoles_standard_detail:
+  pattern: /standard/detail/:id
+  callback: "MobileConsoles:Standard:detail"
+  method: post|get
+  options:
+  tabs: home
+#申请标准
+mobileConsoles_standard_applyStandard:
+  pattern: /standard/applyStandard
+  callback: "MobileConsoles:Standard:applyStandard"
+  method: post|get
+  options:
+  tabs: home
+#申请标准列表
+mobileConsoles_standard_applyLists:
+  pattern: /standard/applyLists
+  callback: "MobileConsoles:Standard:applyLists"
+  method: post|get
+  options:
+  tabs: home
+#审核标准
+mobileConsoles_standard_auditorStandard:
+  pattern: /standard/auditorStandard/:id
+  callback: "MobileConsoles:Standard:auditorStandard"
+  method: post|get
+  options:
+  tabs: home
+#审核拒绝标准
+mobileConsoles_standard_refusal:
+  pattern: /standard/refusal/:id
+  callback: "MobileConsoles:Standard:refusal"
+  method: post|get
+  options:
+  tabs: home
+#批量修改标准（仅限能力和心态文化）
+mobileConsoles_standard_modifyStandard:
+  pattern: /standard/modifyStandard
+  callback: "MobileConsoles:Standard:modifyStandard"
+  method: post|get
+  options:
+  tabs: home
+
+#=============内容=========
+mobileConsoles_content_lists:
+  pattern: /content/lists
+  callback: "MobileConsoles:Content:lists"
+  method: post|get
+  options:
+  tabs: home
+#内容添加
+mobileConsoles_content_add:
+  pattern: /content/add
+  callback: "MobileConsoles:Content:add"
+  method: post|get
+  options:
+  tabs: home
+
+#==========统计==========
+#统计列表
+mobileConsoles_sort_lists:
+  pattern: /sort/lists
+  callback: "MobileConsoles:Sort:lists"
+  method: post|get
+  options:
+  tabs: home
+#排行
+mobileConsoles_sort_rankings:
+  pattern: /sort/rankings
+  callback: "MobileConsoles:Sort:rankings"
+  method: post|get
+  options:
+  tabs: home
+#排行详情
+mobileConsoles_sort_detail:
+  pattern: /sort/detail/:id/:types
+  callback: "MobileConsoles:Sort:detail"
+  method: post|get
+  options:
+  tabs: home
+#加分、得分、扣分统计
+mobileConsoles_sort_effect_deduction:
+  pattern: /sort/effectDeduction/:sTypes
+  callback: "MobileConsoles:Sort:effectDeduction"
+  method: post|get
+  options:
+  tabs: home
+#统计详情
+mobileConsoles_sort_detailStatistics:
+  pattern: /sort/detailStatistics/:id/:sTypes
+  callback: "MobileConsoles:Sort:detailStatistics"
+  method: post|get
+  options:
+  tabs: home
+#各个部门平均
+mobileConsoles_sort_deAveragePoints:
+  pattern: /sort/deAveragePoints
+  callback: "MobileConsoles:Sort:deAveragePoints"
+  method: post|get
+  options:
+  tabs: home
+
+#得分统计
+mobileConsoles_sort_effect_all:
+  pattern: /sort/effect_all
+  callback: "MobileConsoles:Sort:effect_all"
+  method: post|get
+  options:
+  tabs: home
+#各部门平均分
+mobileConsoles_sort_average:
+  pattern: /sort/average
+  callback: "MobileConsoles:Sort:average"
+  method: post|get
+  options:
+  tabs: home
+#奖扣任务(r&p=>reward and punishment)
+mobileConsoles_sort_randp:
+  pattern: /sort/randp:
+  callback: "MobileConsoles:Sort:randp"
+  method: post|get
+  options:
+  tabs: home
+#===========查询=============
+mobileConsoles_sort_findAcorn:
+  pattern: /findAcorn
+  callback: "MobileConsoles:Sort:findAcorn"
+  method: get
+  options:
+  tabs: home
+
+#任务统计
+mobileConsoles_taskStatistics_lists:
+  pattern: /taskStatistics/lists/
+  callback: "MobileConsoles:TaskStatistics:lists"
+  method: post|get
+  options:
+  tabs: task
+#任务量统计
+mobileConsoles_taskStatistics_taskList:
+  pattern: /taskStatistics/taskList/
+  callback: "MobileConsoles:TaskStatistics:taskList"
+  method: post|get
+  options:
+  tabs: task
+#效率统计
+mobileConsoles_taskStatistics_efficiency:
+  pattern: /taskStatistics/efficiency/
+  callback: "MobileConsoles:TaskStatistics:efficiency"
+  method: post|get
+  options:
+  tabs: task
+#质量统计
+mobileConsoles_taskStatistics_quality:
+  pattern: /taskStatistics/quality/
+  callback: "MobileConsoles:TaskStatistics:quality"
+  method: post|get
+  options:
+  tabs: task
+
+#==========分享==========
+mobileConsoles_index_share:
+  pattern: /index/share
+  callback: "MobileConsoles:index:share"
+  method: post|get
+  options:
+  tabs: false
+mobileConsoles_share_acornShare:
+  pattern: /acornShare
+  callback: "MobileConsoles:Share:acornShare"
+  method: post|get
+  options:
+  tabs: false
+mobileConsoles_share_acornShare_ding:
+  pattern: /acornShare/ding
+  callback: "MobileConsoles:Acorn:acornShareDing"
+  method: post
+  options:
+  tabs: false
+mobileConsoles_index_sharePage:
+  pattern: /index/sharePage
+  callback: "MobileConsoles:Index:sharePage"
+  method: get|post
+  options:
+  tabs: false
+mobileConsoles_share_sharePage:
+  pattern: /sharePage
+  callback: "MobileConsoles:Share:sharePage"
+  method: get|post
+  options:
+  tabs: false
+mobileConsoles_share_sharePageTask:
+  pattern: /sharePageTask
+  callback: "MobileConsoles:Share:sharePageTask"
+  method: get|post
+  options:
+  tabs: false
+mobileConsoles_share_shareDetail:
+  pattern: /shareDetail
+  callback: "MobileConsoles:Share:shareDetail"
+  method: get|post
+  options:
+  tabs: false
+
+#获取钉钉用户信息
+mobileConsoles_jsapi_dinggetuserinfo:
+  pattern: /jsapi_dinggetuserinfo
+  callback: "MobileConsoles:JsApi:dingGetUserInfo"
+  method: post|get
+  options:
+  tabs: false
+
+
+#==========Anything==========
+mobileConsoles_anything_anythingLists:
+  pattern: /anything_anythingLists
+  callback: "MobileConsoles:Anything:anythingLists"
+  method: post|get
+  options:
+  tabs: home
+mobileConsoles_anything_anythingAdd:
+  pattern: /anything_anythingAdd
+  callback: "MobileConsoles:Anything:anythingAdd"
+  method: post|get
+  options:
+  tabs: home
+mobileConsoles_anything_anythingCheck:
+  pattern: /anything_anythingCheck
+  callback: "MobileConsoles:Anything:anythingCheck"
+  method: post|get
+  options:
+  tabs: home
+mobileConsoles_anything_anythingRevoke:
+  pattern: /anything_anythingRevoke
+  callback: "MobileConsoles:Anything:anythingRevoke"
+  method: post|get
+  options:
+  tabs: home
+mobileConsoles_anything_anythingDelete:
+  pattern: /anything_anythingDelete
+  callback: "MobileConsoles:Anything:anythingDelete"
+  method: post|get
+  options:
+  tabs: home
+#================外部联系人=============
+mobileConsoles_externalRelations_lists:
+  pattern: /externalRelations/lists
+  callback: "MobileConsoles:ExternalRelations:lists"
+  method: post|get
+  options:
+  tabs: home
+mobileConsoles_externalRelations_addDynamic:
+  pattern: /externalRelations/addDynamic/:id
+  callback: "MobileConsoles:ExternalRelations:addDynamic"
+  method: post|get
+  options:
+  tabs: home
+#=================调查管理===============
+mobileConsoles_Survey_lists:
+  pattern: /survey/lists/
+  callback: "MobileConsoles:Survey:lists"
+  method: post|get
+  options:
+  tabs: home
+mobileConsoles_Survey_modify:
+  pattern: /survey/modify/:id
+  callback: "MobileConsoles:Survey:modify"
+  method: post|get
+  options:
+  tabs: home
+
+#=================目标显示===============
+mobileConsoles_Target_lists:
+  pattern: /target/lists/
+  callback: "MobileConsoles:Target:lists"
+  method: post|get
+  options:
+  tabs: home
+mobileConsoles_Target_ajaxOthers:
+  pattern: /target/ajax/others/
+  callback: "MobileConsoles:Target:ajaxOthers"
+  method: post|get
+  options:
+  tabs: home

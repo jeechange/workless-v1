@@ -1,0 +1,369 @@
+{layout "../Layout/layout.latte"}
+
+{block tabs_content}
+    {include "./tabs.latte"}
+{/block}
+{block custom}
+    {include "../Public/custom.latte" , title1=>"选择小吃柜负责人", title2=>"选择验收人"}
+    <div class="popup luckyPrize-popup" data-relate-id="info">
+        <header class="bar bar-nav">
+            <a class="button button-link button-nav pull-right close-popup">
+                关闭
+            </a>
+            <h1 class="title">奖品设置</h1>
+        </header>
+        <div class="bar bar-standard bar-footer list-study-block luckyPrize-submit" style="background: #fff;text-align: center;line-height: 35px;">
+            提交
+        </div>
+        <div class="content">
+            <div class="content-inner">
+                <div class="content-block">
+                    <div class="list-block" style="margin-top: 2.3rem;">
+                        <div class="field-item">
+                            <div class="field-item-title">
+                                奖品内容 <span class="required">*</span>
+                            </div>
+                            <div class="field-item-body">
+                                <textarea class="luckyPrize-content">{$settings->getLuckyPrize()}</textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="content-block">
+                    说明：多个奖品内容用英文逗号隔开
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="popup companyBonus-popup" data-relate-id="info">
+        <header class="bar bar-nav">
+            <a class="button button-link button-nav pull-right close-popup">
+                关闭
+            </a>
+            <h1 class="title">总股数设置</h1>
+        </header>
+        <div class="bar bar-standard bar-footer list-study-block companyBonus-submit" style="background: #fff;text-align: center;line-height: 35px;" data-url="{url('mobileConsoles_welfare_setting_bonus')}">
+            提交
+        </div>
+        <div class="content">
+            <div class="content-inner">
+                <div class="list-block">
+                    <ul>
+                        <li id="TypesCode">
+                            <div class="item-content">
+                                <div class="item-inner">
+                                    <div class="item-input">
+                                        <input type="number" name="companyBonusCode" placeholder="请输入验证码">
+                                        <span class="get-verify" data-url="{url('mobileConsoles_welfare_bonusGetVerify')}">获取验证码</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="item-content">
+                                <div class="item-inner">
+                                    <div class="item-input">
+                                        <input type="text" name="companyBonus" placeholder="请设置总股数" value="{floatval($companyBonus)}">
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="content-block">
+                    说明：总股数需要通过管理员手机号码验证才能修改。
+                </div>
+            </div>
+        </div>
+    </div>
+{/block}
+{block private_css}
+    <style>
+        .list-block ul{
+            margin-top:8px;
+        }
+
+        .item-content{
+            height:50px;
+        }
+
+        .item-input{
+            text-align:right;
+        }
+
+        .item-prize{
+            padding:0 15px;
+            border-radius:15px;
+            border:1px solid #bbb;
+            height:30px;
+            line-height:30px;
+            margin-right:5px;
+            display:inline-block;
+        }
+
+        .item-prize-add{
+            width:30px;
+            height:30px;
+            line-height:30px;
+            text-align:center;
+            font-size:20px;
+            border:1px solid #bbb;
+            border-radius:50%;
+        }
+
+        .list-block .item-inner.no-line:after{
+            display:none;
+        }
+
+        .field-item .field-item-body{
+            position:relative;
+            padding-top:5px;
+        }
+
+        .field-item-body textarea{
+            border:#e7e7e7 1px solid;
+        }
+
+        .get-verify{
+            position:absolute;
+            right:0.5rem;
+            z-index:16;
+            color:#3fadf0;
+            top:.5rem;
+        }
+
+        .list-block .item-inner:after{
+            display:none !important;
+        }
+    </style>
+{/block}
+{block private_js}
+    {include "../Public/customJs.latte"}
+    <script>
+        var Countdown;
+        var CountdownTime = 0;
+        $(function () {
+            $(".get-verify").on("click", function () {
+                if (CountdownTime > 0) return false;
+                clearInterval(Countdown);
+                $.showPreloader('正在获取，请稍候...');
+                $.ajax({
+                    url: $(this).attr("data-url"),
+                    type: "GET",
+                    dataType: "json",
+                    success: function (res) {
+                        $.hidePreloader();
+                        if (res.status === "n") {
+                            $.toast(res.info);
+                            return;
+                        }
+                        $.toast(res.data);
+                        CountdownTime = 59;
+                        Countdown = setInterval(function () {
+                            if (CountdownTime <= 0) {
+                                $(".get-verify").text("获取验证码");
+                                clearInterval(Countdown);
+                            } else {
+                                $(".get-verify").text(CountdownTime + "秒重新获取");
+                                CountdownTime--;
+                            }
+                        }, 1000);
+                    }
+                });
+            });
+
+            $(".companyBonus-submit").on("click", function () {
+                var postdata = {
+                    companyBonusCode: $("[name='companyBonusCode']").val(),
+                    companyBonus: $("[name='companyBonus']").val(),
+                };
+                $.showPreloader('正在提交，请稍候...');
+                $.ajax({
+                    url: $(this).attr("data-url"),
+                    type: "POST",
+                    data: postdata,
+                    dataType: "json",
+                    success: function (res) {
+                        $.hidePreloader();
+                        if (res.status === "n") {
+                            $.toast(res.info);
+                            return;
+                        }
+                        $.toast("设置成功");
+                        setTimeout(function () {
+                            location.reload(true);
+                        }, 1000)
+                    }
+                });
+
+            });
+
+
+            $(".submit-form").on("click", function () {
+                $.showPreloader('正在提交，请稍候...');
+                $.ajax({
+                    url: $(this).attr("data-url"),
+                    type: "POST",
+                    data: $("#my-form").serialize(),
+                    dataType: "json",
+                    success: function (res) {
+                        $.hidePreloader();
+                        if (res.status === "n") {
+                            $.alert(res.info);
+                            return;
+                        }
+                        $.toast("设置成功");
+                        setTimeout(function () {
+                            location.reload(true);
+                        }, 1000)
+                    }
+                });
+            });
+            $(".luckyPrize-submit").on("click", function () {
+                var luckyPrizeContent = $(".luckyPrize-content").val();
+
+                $("[name='luckyPrize']").val(luckyPrizeContent);
+                luckyPrizeCreate(luckyPrizeContent);
+                $.closeModal(".luckyPrize-popup");
+            });
+
+            function luckyPrizeCreate(luckyPrizeContent) {
+                if (!luckyPrizeContent) {
+                    $(".item-prize-box").html("");
+                    return;
+                }
+
+                var luckyPrizes = luckyPrizeContent.split(",");
+
+                var html = "";
+
+                for (var i in luckyPrizes) {
+                    if (i > 2) {
+                        html += '<span class="item-prize">...</span>';
+                        break;
+                    }
+                    html += '<span class="item-prize">' + luckyPrizes[i] + '</span>';
+                }
+                $(".item-prize-box").html(html);
+            }
+
+            var luckyPrizeContent = $(".luckyPrize-content").val();
+            luckyPrizeCreate(luckyPrizeContent);
+        })
+    </script>
+{/block}
+
+{block content}
+    <div class="list-block" style="margin-top: 3.2rem;">
+        <form action="" id="my-form">
+            <ul>
+                <li class="item-content">
+                    <div class="item-media"><i class="icon icon-f7"></i></div>
+                    <div class="item-inner">
+                        <div class="item-title label">物资奖</div>
+                        <div class="item-input">
+                            <label class="label-switch">
+                                <input type="checkbox" name="materials" value="1" {if $settings->getMaterials()==1}checked{/if}>
+                                <div class="checkbox"></div>
+                            </label>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+            <ul>
+                <li class="item-content">
+                    <div class="item-media"><i class="icon icon-f7"></i></div>
+                    <div class="item-inner no-line">
+                        <div class="item-title label">幸运奖</div>
+                        <div class="item-input">
+                            <label class="label-switch">
+                                <input type="checkbox" name="lucky" {if $settings->getLucky()==1}checked{/if} value="1">
+                                <div class="checkbox"></div>
+                            </label>
+                        </div>
+                    </div>
+                </li>
+                <li class="item-content">
+                    <div class="item-media"><i class="icon icon-f7"></i></div>
+                    <div class="item-inner" style="height: 40px;">
+                        <div class="item-title">奖品</div>
+                        <div class="item-after">
+                            <span class="item-prize-box"></span>
+                            <span class="item-prize-add open-popup" data-popup=".luckyPrize-popup" style="font-size:  12px;color: #0087E2;border-color:  #0087E2;">编辑</span>
+                            <input type="hidden" name="luckyPrize" value="{$settings->getLuckyPrize()}">
+                        </div>
+                    </div>
+                </li>
+            </ul>
+            <ul>
+                <li class="item-content">
+                    <div class="item-media"><i class="icon icon-f7"></i></div>
+                    <div class="item-inner no-line">
+                        <div class="item-title label">分红股</div>
+                        <div class="item-input">
+                            <label class="label-switch">
+                                <input type="checkbox" name="bonus" {if $settings->getBonus()==1}checked{/if} value="1">
+                                <div class="checkbox"></div>
+                            </label>
+                        </div>
+                    </div>
+                </li>
+                <li class="item-content item-link open-popup" data-popup=".companyBonus-popup">
+                    <div class="item-media"><i class="icon icon-f7"></i></div>
+                    <div class="item-inner no-line">
+                        <div class="item-title">总股数</div>
+                        <div class="item-after">
+                            {$companyBonus|coin}
+                        </div>
+                    </div>
+                </li>
+                <li class="item-content">
+                    <div class="item-media"><i class="icon icon-f7"></i></div>
+                    <div class="item-inner">
+                        <div class="item-title label">分红池</div>
+                        <div class="item-input">
+                            <input type="text" name="bonusPool" style="text-align: right;border:1px solid #bbb;padding-right: 15px;" value="{$settings->getBonusPool()}">
+                        </div>
+                    </div>
+                </li>
+            </ul>
+            <ul>
+                <li class="item-content">
+                    <div class="item-media"><i class="icon icon-f7"></i></div>
+                    <div class="item-inner no-line">
+                        <div class="item-title label">小吃柜</div>
+                        <div class="item-input">
+                            <label class="label-switch">
+                                <input type="checkbox" name="snack" {if $settings->getSnack()==1}checked{/if} value="1">
+                                <div class="checkbox"></div>
+                            </label>
+                        </div>
+                    </div>
+                </li>
+                <li class="item-content">
+                    <div class="item-media"><i class="icon icon-f7"></i></div>
+                    <div class="item-inner">
+                        <div class="item-title label">小吃柜负责人</div>
+                        <div class="item-input">
+                            {$executors["selected"]|noescape}
+                            <span class="staff-add open-popup open-worker-added-box" data-popup=".staff-popup" id="executors">&plus;</span>
+                            <input type="hidden" name="snackUserId" value="{$settings->getSnackUserId()}">
+                        </div>
+                    </div>
+                </li>
+                <li class="item-content">
+                    <div class="item-media"><i class="icon icon-f7"></i></div>
+                    <div class="item-inner">
+                        <div class="item-title label">每周兑换次数</div>
+                        <div class="item-input">
+                            <input type="text" name="snackNum" style="text-align: right;border:1px solid #bbb;padding-right: 15px;" value="{$settings->getSnackNum()}">
+                        </div>
+                    </div>
+                </li>
+            </ul>
+            <div class="content-block">
+                <a href="#" data-url="{url("mobileConsoles_welfare_bonus_setting")}" class="button button-big button-fill button-success submit-form">提交</a>
+            </div>
+        </form>
+    </div>
+{/block}

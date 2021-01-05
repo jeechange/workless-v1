@@ -1,0 +1,38 @@
+/* 
+    Created on : 2015-3-14, 11:48:27
+    Author     : jeeliu <jee.liu@jeechange.com>
+*/
+
+@charset "utf-8";
+
+html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, q, pre, a, abbr, acronym, address, code, del, dfn, em, img, q, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td { margin: 0; padding: 0; border: 0; font-weight: inherit; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; }
+
+body { line-height: 1.8; margin: 0; font-size: 12px;}
+
+table { border-collapse: collapse; border-spacing: 0; }
+
+caption, th, td { text-align: left; font-weight: normal; }
+
+table, td, th { vertical-align: middle; }
+
+
+a{ text-decoration:none;outline:none;color: #666;}
+a:hover{ color:#14b9d6;text-decoration:underline;}
+
+.clear{ clear:both;}
+img{ border:0;}
+span,p,li,h1{font-family:"微软雅黑";}
+
+.box {margin-left: auto; margin-right: auto; padding: 0; clear: both; height: auto; position: relative;}
+.box.block{display: inline-block}
+.box.left{float: left}
+.box.wfull{width: 100%}
+@for $i from 1 through 120{
+    $w: $i*10;    
+    .box.w#{$w}{width: $w+0px}
+}
+
+@for $j from 1 through 80{
+    $h: $j*10; 
+    .box.h#{$h}{height: $h+0px}
+}

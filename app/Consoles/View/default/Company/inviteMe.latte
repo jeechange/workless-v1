@@ -1,0 +1,38 @@
+{layout '../Public/layoutList.latte'}
+{block title}我的企业{/block}
+
+{block actionstab}
+    {include "./actionstab.latte"}
+{/block}
+{block content}
+    <table cellpadding="0" cellspacing="0" border="0" class="stdtable">
+        <thead>
+        <tr>
+            <th data-sort="c.names"><span class="table-head">企业名称</span></th>
+            <th><span class="table-head">企业简称</span></th>
+            <th><span class="table-head">企业级别</span></th>
+            <th><span class="table-head">法人</span></th>
+            <th><span class="table-head">管理人手机/用户名</span></th>
+            <th data-sort="c.status"><span class="table-head">状态</span></th>
+            <th><span class="table-head">操作</span></th>
+        </tr>
+        </thead>
+        <tbody>
+        {foreach $lists as $k=>$item}
+            <tr>
+                <td>{$item['c_names']}</td>
+                <td>{$item['c_shortNames']|default:"--"}</td>
+                <td>{$item['c_levelsMemo']}</td>
+                <td>{$item['c_legal']}</td>
+                <td>{$item['u_phone']}/{$item['u_userName']}</td>
+                <td class="center">{$item['c_statusMemo']}</td>
+                <td>
+                    <a href="{url('consoles_company_inviteagree',"id=".$item['m_id'])}" data-confirm="是否确认同意加入企业?">同意加入企业</a>
+                    |
+                    <a href="{url('consoles_company_invitereject',"id=".$item['m_id'])}" data-confirm="是否确认拒绝加入企业?">拒绝加入企业</a>
+                </td>
+            </tr>
+        {/foreach}
+        </tbody>
+    </table>
+{/block}

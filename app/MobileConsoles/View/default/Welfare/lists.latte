@@ -1,0 +1,156 @@
+{layout "../Layout/layout.latte"}
+{block headTitle}物资奖{/block}
+{block tabs_content}
+    {include "./tabs.latte"}
+{/block}
+{block private_js}
+    <script>
+        $(".create-actions").click(function () {
+            var settingName = $(this).attr("data-settingName");
+            var settingUrl = $(this).attr("data-settingUrl");
+            var welfareAddName = $(this).attr("data-welfareAddName");
+            var welfareAddUrl = $(this).attr("data-welfareAddUrl");
+            var welfareAddTypes = $(this).attr("data-welfareAddTypes");
+            var welfareAddTypesUrl = $(this).attr("data-welfareAddTypesUrl");
+            var buttons1 = [
+                {
+                    text: '请选择',
+                    label: true
+                },
+                {
+                    text: welfareAddName,
+                    onClick: function () {
+                        window.location.href = welfareAddUrl;
+                    }
+                },
+                {
+                    text: welfareAddTypes,
+                    onClick: function () {
+                        window.location.href = welfareAddTypesUrl;
+                    }
+                },
+                {
+                    text: settingName,
+                    onClick: function () {
+                        window.location.href = settingUrl;
+                    }
+                },
+
+            ];
+            var buttons2 = [
+                {
+                    text: '取消',
+                    bg: 'danger'
+                }
+            ];
+            var groups = [buttons1, buttons2];
+            $.actions(groups);
+        });
+
+
+    </script>
+{/block}
+{block private_css}
+    <style type="text/css">
+        .bar-header-secondary ~ .content{
+            top:0;
+        }
+
+        div.item-inner.neirong{
+            overflow:hidden;
+            padding:10px 0;
+            /*height:100% !important;*/
+        }
+
+        div.infos{
+            float:left;
+            width:100%;
+            margin-left:20px;
+        }
+
+        div.infos p{
+            height:unset !important;
+            line-height:24px;
+            margin:0;
+            color:#333;
+        }
+
+        .bg-blue{
+            background-color:#0087e2;
+            height:41px;
+            border-radius:100%;
+            float:left;
+        }
+
+        .bg-blue img, .bg-red img{
+            width:41px;
+            float:left;
+        }
+
+        .name{
+            color:#ff9800 !important;
+        }
+
+        .name span{
+            margin-right:15px;
+            color:#333 !important;
+        }
+
+        .bg-red{
+            background-color:deeppink;
+            height:41px;
+            border-radius:100%;
+            float:left;
+        }
+    </style>
+{/block}
+
+{block content}
+    <div class="list-block" style="margin-top: 3.2rem;">
+        {if $lists}
+            <ul class="list">
+                {foreach $lists as $k=>$v}
+                    <li style="line-height:70px;height:auto;">
+                        <a class="item-content item-link" href="{url("mobileConsoles_welfare_receive",array("id"=>$v["wr_id"]))}">
+                            <div class="item-inner neirong" style="overflow:hidden;">
+                                {if $v['wr_names']}
+                                    <div class="bg-blue">
+                                        <img src="{path('[MobileConsoles]/img/item.png')}" alt="">
+                                    </div>
+                                {else}
+                                    <div class="bg-red">
+                                        <img src="{path('[MobileConsoles]/img/lotteries.png')}" alt="">
+                                    </div>
+                                {/if}
+
+                                <div class="infos">
+                                    <p class="name"><span>{$v['fullName']}</span>奖励：{if $v['wr_names']!=''}{$v['wr_names']}{else}{$v['wv']['names']}{/if}</p>
+                                    <p class="why">事由：{$v['wr_memo']|noescape}</p>
+                                    <p class="time">{$v['wr_addTime']->format('Y-m-d')}</p>
+                                </div>
+
+                                {*<div class="item-name sui-ellipsis-1" style="line-height:70px;height:70px;width:20%;">{$v['fullName']}</div>*}
+                                {*{if $v['wr_wvId']}*}
+                                {*<div class="item-memo sui-ellipsis-1" style="line-height:70px;height:70px;">{$v['wv']['names']}</div>*}
+                                {*{else}*}
+                                {*<div class="item-memo sui-ellipsis-1" style="line-height:70px;height:70px;">{$v['wr_names']}</div>*}
+                                {*{/if}*}
+                                {*<div class="item-memo sui-ellipsis-1" style="line-height:70px;height:70px;">{$v['wr_memo']}</div>*}
+                            </div>
+                        </a>
+                    </li>
+                {/foreach}
+            </ul>
+        {else}
+            <div style="margin-top:150px;text-align:center">
+                <img src="{path('[MobileConsoles]/img/null.png')}" alt="" class="" style="width:60%; height:100%; margin: 0 20%; display:block;">
+                <div style="color:#999;">暂无内容</div>
+            </div>
+        {/if}
+    </div>
+    {if $isSuper}
+        <div>
+            <span data-settingUrl="{url("mobileConsoles_welfare_bonus_setting")}" data-welfareAddUrl="{url("mobileConsoles_welfare_add")}" data-welfareAddTypesUrl="{url("mobileConsoles_welfare_voucher")}" data-settingName="设置" data-welfareAddName="发放物资福利" data-welfareAddTypes="抵扣券管理" class="create-actions">管理</span>
+        </div>
+    {/if}
+{/block}

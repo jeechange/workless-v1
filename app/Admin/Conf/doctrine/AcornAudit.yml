@@ -1,0 +1,119 @@
+Admin\Entity\AcornAudit:
+  type: entity
+  table: acorn_audit
+  id:
+    id:
+      type: integer
+      nullable: false
+      unsigned: false
+      comment: ''
+      id: true
+      generator:
+        strategy: IDENTITY
+  fields:
+    sid:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+    userId:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: user_id
+    fromUser:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: from_user
+    toUser:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+      column: to_user
+    auditor:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    scId:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: sc_id
+    names:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    acorn:
+      type: decimal
+      nullable: true
+      precision: 20
+      scale: 0
+      comment: ''
+    addTime:
+      type: datetime
+      nullable: true
+      comment: ''
+      column: add_time
+    auditTime:
+      type: datetime
+      nullable: true
+      comment: ''
+      column: audit_time
+    status:
+      type: smallint
+      nullable: true
+      unsigned: false
+      comment: ''
+    types:
+      type: smallint
+      nullable: true
+      unsigned: false
+      comment: ''
+    memo:
+      type: text
+      nullable: true
+      length: null
+      fixed: false
+      comment: ''
+    sysMemo:
+      type: text
+      nullable: true
+      length: null
+      fixed: false
+      comment: ''
+      column: sys_memo
+    cPerson:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+      column: c_person
+    tags:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    thumbs:
+      type: text
+      nullable: true
+      length: null
+      fixed: false
+      comment: ''
+    superior:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+  lifecycleCallbacks: {  }

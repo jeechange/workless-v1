@@ -1,0 +1,53 @@
+Admin\Entity\UserToken:
+  type: entity
+  table: user_token
+  id:
+    id:
+      type: integer
+      nullable: false
+      unsigned: false
+      comment: ''
+      id: true
+      generator:
+        strategy: IDENTITY
+  fields:
+    userId:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: user_id
+    deviceId:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+      column: device_id
+    token:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    joinTime:
+      type: datetime
+      nullable: true
+      comment: ''
+      column: join_time
+    loginTime:
+      type: datetime
+      nullable: true
+      comment: ''
+      column: login_time
+    lastTime:
+      type: datetime
+      nullable: true
+      comment: ''
+      column: last_time
+    status:
+      type: smallint
+      nullable: true
+      unsigned: false
+      comment: ''
+  lifecycleCallbacks: {  }

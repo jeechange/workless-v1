@@ -1,0 +1,284 @@
+{layout '../Public/layoutList.latte'} {*继承layoutList模板*}
+{block title}进展{/block}
+{block actions}
+{/block}
+{block actionstab}
+    {include "./detailTab.latte"}
+{/block}
+{block private_css}
+    <style type="text/css">
+        .box-width-70{
+            width:70%;
+            float:left
+        }
+
+        .box-width-50{
+            float:left;
+            width:50%;
+        }
+
+        .box-width-33{
+            float:left;
+            width:33.33%;
+        }
+
+        .box-width-30{
+            float:left;
+            width:30%;
+        }
+
+        .box-width-20{
+            float:left;
+            width:20%;
+        }
+
+        .box-font-18{
+            font-size:18px;
+        }
+
+        .box-border-right{
+            border-right:1px solid #d1d1d1
+        }
+
+        .box-h-200{
+            height:200px;
+        }
+
+        .box-p-20{
+            padding:20px;
+        }
+
+        .box-h-50{
+            height:50px;
+        }
+
+        .box-h-35{
+            line-height:35px;
+        }
+
+        .box-line-50{
+            line-height:50px;
+        }
+
+        .box-line-35{
+            line-height:35px;
+        }
+
+        .box-btn{
+            border:1px solid #ccc;
+            line-height:35px;
+            height:35px;
+            text-align:center;
+            margin:30px;
+            width:35%;
+            padding:10px 20px;
+        }
+
+        .box-rate-progress{
+            border:4px solid #666666;
+            border-radius:10rem;
+            line-height:4rem;
+            padding:24px;
+            width:4rem;
+            height:4rem;
+            text-align:center;
+        }
+
+        .circleChart_text{
+            position:absolute;
+            line-height:100px;
+            width:40%;
+            top:0px;
+            margin:0px;
+            padding:0px;
+            text-align:center;
+            font-size:12px;
+            font-weight:normal;
+        }
+
+        .text-overflow-ellipsis-1{
+            overflow:hidden;
+            text-overflow:ellipsis;
+            display:-webkit-box;
+            -webkit-box-orient:vertical;
+            -webkit-line-clamp:1;
+        }
+
+    </style>
+{/block}
+
+{block private_js}
+    <script type="text/javascript" src="{path('[Consoles]/js/circleChart.min.js')}"></script>
+    <script type="text/javascript" n:syntax="double">
+        $(function () {
+            $(".circleChart").each(function () {
+                var circleChartId = ".circleChart#" + $(this).attr("data-id");
+                $(circleChartId).circleChart({
+                    size: 300,
+                    color: "#00cc00",
+                    backgroundColor: "#666666",
+                    background: true,
+                    speed: 2000,
+                    widthRatio: 0.1,
+                    unit: 'percent',
+                    counterclockwise: false,
+                    startAngle: 0,
+                    animate: true,
+                    backgroundFix: true,
+                    lineCap: "round",
+                    animation: "easeInOutCubic",
+                    text: false,
+                    redraw: false,
+                    cAngle: 0,
+                    textCenter: true,
+                    textSize: false,
+                    textWeight: 'normal',
+                    textFamily: 'sans-serif',
+                    autoCss: true,
+                    onDraw: false
+                });
+            });
+        });
+
+        var myCharts = echarts.init(document.getElementById('main'));
+        //计算两个日期相差天数
+        function DateDiff(sDate1, sDate2) {
+//            sDate1和sDate2是2006-12-18格式
+            var aDate, oDate1, oDate2, iDays;
+            aDate = sDate1.split("-");
+            oDate1 = new Date(aDate[1] + '-' + aDate[2] + '-' + aDate[0]);
+            aDate = sDate2.split("-");
+            oDate2 = new Date(aDate[1] + '-' + aDate[2] + '-' + aDate[0]);
+            iDays = parseInt(Math.abs(oDate1 - oDate2) / 1000 / 60 / 60 / 24);//把相差的毫秒数转换为天数
+            if (iDays <= 0) {
+                iDays = 1;
+            }
+            return iDays;
+        }
+
+        //获得两个日期间所有日期-fn1
+        Date.prototype.format = function () {
+            var s = '';
+            var mouth = (this.getMonth() + 1) >= 10 ? (this.getMonth() + 1) : ('0' + (this.getMonth() + 1));
+            var day = this.getDate() >= 10 ? this.getDate() : ('0' + this.getDate());
+            s += this.getFullYear() + '-'; // 获取年份。
+            s += mouth + "-"; // 获取月份。
+            s += day;   //获取日。
+            return (s); //返回日期。
+        };
+        //获得两个日期间所有日期-fn2
+        function getAll(begin, end) {
+            var lists = [];
+            var ab = begin.split("-");
+            var ae = end.split("-");
+            var db = new Date();
+            db.setUTCFullYear(ab[0], ab[1] - 1, ab[2]);
+            var de = new Date();
+            de.setUTCFullYear(ae[0], ae[1] - 1, ae[2]);
+            var unixDb = db.getTime();
+            var unixDe = de.getTime();
+            for (var k = unixDb; k <= unixDe;) {
+                lists.push((new Date(parseInt(k))).format());
+                k = k + 24 * 60 * 60 * 1000;
+            }
+            return lists;
+        }
+
+
+        var dataa ={{$lists}};//假数据，实际应用可以用ajax从后台请求，获取数据
+        var start = {{$startTime}}, end = {{$endTime}};//用户自定义时间
+        var data0 = DateDiff(start, end);//用户自定义的时间长度
+
+        var data1 = [];
+        var data2 = [];
+        for (var i in dataa) {
+            data1[i] = DateDiff(start, dataa[i].startTime);//项目起始位置
+            data2[i] = DateDiff(dataa[i].startTime, dataa[i].latestTime);//项目持续时间
+        }
+        var x = getAll(start, end);
+
+        var option = {
+            title: {
+                text: "项目甘特图",
+                x: "left"
+            },
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                    type: 'shadow'
+                },
+                formatter: function (params) {
+                    var tar = params[1];
+                    return tar.name + '<br/>' + tar.seriesName + '时长' + tar.value + "天";
+                }
+            },
+            legend: {
+                data: ["计划"],
+                y: 'bottom'
+            },
+            grid: {
+                left: '3%',
+                right: '4%',
+                bottom: '3%',
+                containLabel: true
+            },
+            xAxis: {
+                type: 'value',
+                max: data0,
+                axisLabel: {
+                    formatter: function (value) {
+                        return x[value]
+                    }
+                }
+            },
+            yAxis: {
+                type: 'category',
+                splitLine: {show: false},
+                data: {{$names}}
+            },
+            series: [
+                {
+                    name: '计划开始时间',
+                    type: 'bar',
+                    stack: '时长',
+                    itemStyle: {
+                        normal: {
+                            barBorderColor: 'rgba(0,0,0,0)',
+                            color: 'rgba(0,0,0,0)'
+                        },
+                        emphasis: {
+                            barBorderColor: 'rgba(0,0,0,0)',
+                            color: 'rgba(0,0,0,0)'
+                        }
+                    },
+                    data: data1
+                },
+                {
+                    //每个项目 持续时间长度
+                    name: '计划',
+                    type: 'bar',
+                    stack: '时长',
+                    label: {
+                        normal: {
+                            show: true,
+                            position: 'inside'
+                        }
+                    },
+                    itemStyle: {
+                        normal: {
+                            color: '#F98563'
+                        }
+                    },
+                    data: data2
+                }
+            ]
+        };
+        // 使用刚指定的配置项和数据显示图表。
+        myCharts.setOption(option);
+    </script>
+{/block}
+
+{block content}
+    <div id="main" style="width:100%;height: 700px;"></div>
+{/block}
+

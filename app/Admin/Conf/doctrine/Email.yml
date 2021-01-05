@@ -1,0 +1,71 @@
+Admin\Entity\Email:
+  type: entity
+  table: email
+  id:
+    id:
+      type: integer
+      nullable: false
+      unsigned: false
+      comment: ''
+      id: true
+      generator:
+        strategy: IDENTITY
+  fields:
+    sid:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+    fromemail:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    toemail:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    title:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    content:
+      type: text
+      nullable: true
+      length: null
+      fixed: false
+      comment: ''
+    addTime:
+      type: datetime
+      nullable: true
+      comment: ''
+      column: add_time
+    sendTime:
+      type: datetime
+      nullable: true
+      comment: ''
+      column: send_time
+    sendCode:
+      type: string
+      nullable: true
+      length: 6
+      fixed: false
+      comment: ''
+      column: send_code
+    template:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    status:
+      type: smallint
+      nullable: true
+      unsigned: false
+      comment: ''
+  lifecycleCallbacks: {  }

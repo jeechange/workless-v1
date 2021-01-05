@@ -1,0 +1,84 @@
+Admin\Entity\AcornAuditDetail:
+  type: entity
+  table: acorn_audit_detail
+  id:
+    id:
+      type: integer
+      nullable: false
+      unsigned: false
+      comment: ''
+      id: true
+      generator:
+        strategy: IDENTITY
+  fields:
+    sid:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+    auditId:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: audit_id
+    userId:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: user_id
+    fromUser:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+      column: from_user
+    executor:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    sNames:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+      column: s_names
+    scNames:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+      column: sc_names
+    acorn:
+      type: decimal
+      nullable: true
+      precision: 20
+      scale: 0
+      comment: ''
+    addTime:
+      type: datetime
+      nullable: true
+      comment: ''
+      column: add_time
+    auditTime:
+      type: datetime
+      nullable: true
+      comment: ''
+      column: audit_time
+    status:
+      type: smallint
+      nullable: true
+      unsigned: false
+      comment: ''
+    types:
+      type: smallint
+      nullable: true
+      unsigned: false
+      comment: ''
+  lifecycleCallbacks: {  }

@@ -1,0 +1,27 @@
+{foreach $lists as $item}
+    <li style="padding:6px 0;">
+        <a class="item-content item-link" href="{url(isset($detailsPages[$item["types"]])?$detailsPages[$item["types"]]:$detailsPages[1],"id=".$item["relateId"])}">
+            <div class="item-media">
+                <span class="priority-{$item['priority']}">{$item['priorityMemo']}</span>
+            </div>
+            <div class="item-inner">
+                <div class="item-row">
+                    <div class="item-title item-title-bold" style="font-size:1rem;">{$item['content']}</div>
+                    <div class="item-after" style="max-width:40%;text-overflow:ellipsis;white-space: nowrap;overflow:hidden;display: inline-block;">{$item['executorsMemo']}</div>
+                </div>
+                <div class="item-row">
+                    <div class="item-title" style="font-size:10px;">
+                        <span style="font-size:12px; font-weight:bold;">#{$item['codeNo']}{if $item['subCodeNo']>0}-{$item['subCodeNo']}{/if}</span>
+                        {if $item["groupName"]}<span class="item-group-name">{$item["groupName"]}</span>{/if}
+                        <span class="item-types-name types-memo-class-{$item["types"]}">{$item['typesMemo']}</span>
+                    </div>
+                    {if $item["types"]==4||$item["types"]==5}
+                        <div class="item-after">{$item["statusMemo"]}</div>
+                    {elseif isset($detailsPages[$item["types"]])}
+                        <div class="item-after" {if $item["status"]==0}data-deadline="{$item["deadline"]|totime}"{/if}>{$item["statusMemo"]}</div>
+                    {/if}
+                </div>
+            </div>
+        </a>
+    </li>
+{/foreach}

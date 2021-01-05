@@ -1,0 +1,425 @@
+{layout "../Layout/layout.latte"}
+{block tabs_content}
+    {include "./index_tabs.latte"}
+{/block}
+{block custom}
+    {include "../Public/custom.latte", title4=>"选择上级审核人"}
+{/block}
+{block private_css}
+    <style>
+        .content{
+            background:#fff;
+        }
+
+        .field-item{
+            margin:5px 10px;
+            padding-bottom:10px;
+            border-bottom:1px #e5e5e5 solid;
+        }
+
+        .field-item .field-item-title{
+            color:#101010;
+            font-size:14px;
+            vertical-align:bottom;
+        }
+
+        .field-item .field-item-title .required{
+            color:#e51c23;
+            font-weight:400;
+        }
+
+        .field-item .field-item-body{
+            position:relative;
+            padding-top:5px;
+        }
+
+        .field-item .field-item-body .field-item-tag{
+            position:absolute;
+            right:0.5rem;
+            background:#8BC34A;
+            padding:3px 10px;
+            font-size:12px;
+            margin-left:5px;
+            top:3px;
+            color:#fff;
+        }
+
+        .priority-input{
+            display:inline-block;
+            width:35px;
+            height:35px;
+            line-height:35px;
+            text-align:center;
+            margin-right:15px;
+            color:#fff !important;
+            border:2px solid #fff;
+        }
+
+        .priority-input span{
+            margin:auto !important;
+            display:block;
+            width:30px;
+            height:30px;
+            line-height:30px;
+            border-radius:50%;
+            cursor:pointer;
+        }
+
+        .priority-input input{
+            display:none !important;
+        }
+
+        .priority-input.selected{
+            font-weight:900 !important;
+            border:1px solid #009DD9;
+            background:#d7d7d7;
+        }
+
+        .field-item-body textarea{
+            border:#e7e7e7 1px solid;
+        }
+
+        .field-item-body .field-item-member-box{
+            padding:3px 0;
+        }
+
+        .field-item-body .field-member{
+            display:inline-block;
+            border-radius:15px;
+            padding:3px 10px;
+            border:#e7e7e7 1px solid;
+        }
+
+        .field-item-body .field-item-score-box{
+            padding:3px 0;
+        }
+
+        .field-item-body .field-score{
+            display:inline-block;
+            padding:5px 15px;
+            border:#e7e7e7 1px solid;
+            margin-top:5px;
+        }
+
+        .field-item-between{
+            background:rgba(170, 170, 170, 0.07);
+            height:8px;
+        }
+
+        .medal-item{
+            border:1px solid #ddd;
+            display:inline-block;
+            vertical-align:middle;
+            min-width:80px;
+            padding:3px 8px;
+            margin-right:5px;
+            height:35px;
+            line-height:35px;
+            text-align:center;
+            cursor:pointer;
+            box-sizing:content-box;
+            margin-top:5px;
+        }
+
+        .medal-item img{
+            width:30px;
+            height:30px;
+            vertical-align:middle;
+        }
+
+        .medal-item.medal-item-selected, .field-score.field-score-selected{
+            border:1px solid #009DD9;
+        }
+
+        .content-bottom{
+            height:80px;
+            line-height:80px;
+            text-align:center;
+            color:#d9d9d9;
+        }
+
+        .main-pattern{
+            overflow:hidden !important;
+            min-height:55px;
+        }
+
+        .left-title{
+            padding-left:5px;
+            width:25% !important;
+            font-size:14px;
+            line-height:55px;
+            color:#999999 !important;
+            float:left;
+        }
+
+        .right-body{
+            margin-top:19px;
+            padding-top:0 !important;
+            padding-right:10px;
+            width:75% !important;
+            text-align:right;
+            font-size:14px;
+            color:#101010;
+            float:left;
+        }
+
+        .extraclass{
+            height:60px;
+        }
+
+        .staff-add{
+            width:36px !important;
+            height:36px !important;
+            line-height:32px !important;
+            font-size:36px !important;
+            margin-top:3px;
+        }
+
+    </style>
+{/block}
+{block private_js}
+    {include "../Public/customJs.latte"}
+    <script>
+        $(function () {
+            $(".audit-adopt").on("click", function () {
+                var data = {
+                    id: {$lists['aa_id']},
+                    acorn: $("#acorn").val(),
+                    __token__: $("#__token__").val(),
+                    superior: $("input[name='superior']").val()
+                };
+                getPages($(this).attr("data-url"), data);
+            });
+            $(".audit-notAdopt").on("click", function () {
+                var data = {
+                    id: {$lists['aa_id']},
+                    __token__: $("#__token__").val()
+                };
+                getPages($(this).attr("data-url"), data);
+            });
+        });
+
+        function getPages(toUrl, data) {
+            $.showPreloader('正在进行操作中，请稍候...');
+            $.ajax({
+                type: "POST",
+                dataType: "json",
+                url: toUrl,
+                data: data,
+                success: function (res) {
+                    $.hidePreloader();
+                    try {
+                        if (res.status === "y") {
+                            $.toast(res.info);
+                            setTimeout(function () {
+                                location = (res.url);
+                            }, 2000)
+                        } else {
+                            $.toast(res.info, 2000, "extraclass");
+                        }
+                    } catch (e) {
+                        $.toast(e.message);
+                    }
+                }
+            });
+        }
+        function uploadPhotoBrowser(val) {
+            if (!this.PhotoBrowser) {
+                this.PhotoBrowser = $.photoBrowser({
+                    photos: [val]
+                });
+            }
+            this.PhotoBrowser.open();
+        }
+    </script>
+{/block}
+{block content}
+    <div class="list-block" style="margin-top: 3.2rem;">
+        <form action="" id="my-form">
+            <div class="field-item main-pattern">
+                <div class="field-item-title left-title">
+                    积分事项
+                </div>
+                <div class="field-item-body right-body">
+                    {$lists['sNames']}
+                </div>
+            </div>
+            {if $lists['aa_status'] == 0}
+                <div class="field-item main-pattern">
+                    <div class="field-item-title left-title">
+                        积分分数:
+                    </div>
+                    <div class="field-item-body right-body" style="margin-top:14px;">
+                        <input type="text" name="acorn" placeholder="请输入积分分数" id="acorn" value="{$lists['aa_acorn']}" style="text-align:right;"/>
+                        <input type="hidden" name="__token__" value="{$__token__}" id="__token__">
+                    </div>
+                </div>
+            {elseif $lists['aa_status'] == 1}
+                <div class="field-item main-pattern">
+                    <div class="field-item-title left-title">
+                        积分分数:
+                    </div>
+                    <div class="field-item-body right-body">
+                        {$lists['aa_types']}分
+                    </div>
+                </div>
+            {elseif $lists['aa_status'] == 2}
+                <div class="field-item main-pattern">
+                    <div class="field-item-title left-title">
+                        积分分数:
+                    </div>
+                    <div class="field-item-body right-body">
+                        {$lists['aa_acorn']}分
+                    </div>
+                </div>
+            {/if}
+            <div class="field-item main-pattern">
+                <div class="field-item-title left-title">
+                    申请人
+                </div>
+                <div class="field-item-body right-body">
+                    {$lists['fullName']}
+
+                </div>
+            </div>
+            <div class="field-item main-pattern">
+                <div class="field-item-title left-title">
+                    奖扣对象
+                </div>
+                <div class="field-item-body right-body">
+                    {$lists['toUser']}
+                </div>
+            </div>
+            <div class="field-item main-pattern">
+                <div class="field-item-title left-title">
+                    @审核人
+                </div>
+                <div class="field-item-body right-body">
+                    {$lists['fullNames']}
+                </div>
+            </div>
+            {if $lists['aa_auditor']&&$lists['aa_superior']<=0}
+                <div class="field-item layout-body" style=" height: 60px;">
+                    <div class="field-item-title left-title">
+                        提交上级
+                    </div>
+                    <div class="field-item-body layout-right" style="float: right;">
+                        <div class="field-item-member-box" style="border-bottom: none">
+                            <span class="staff-add open-popup open-worker-added-box" data-popup=".superior-popup" id="superior"><i class="icon al-icon al-icon-tianjia" style="font-size:36px;"></i></span>
+                            <input type="hidden" name="superior">
+                        </div>
+                    </div>
+                </div>
+            {/if}
+            <div class="field-item main-pattern">
+                <div class="field-item-title left-title">
+                    申请时间
+                </div>
+                <div class="field-item-body right-body">
+                    {$lists['aa_addTime']|totime}
+                </div>
+            </div>
+            {if $lists['aa_auditTime']}
+                <div class="field-item main-pattern">
+                    <div class="field-item-title left-title">
+                        审核时间
+                    </div>
+                    <div class="field-item-body right-body">
+                        {$lists['aa_auditTime']|totime}
+                    </div>
+                </div>
+            {/if}
+            <div class="field-item main-pattern" style="height:100%">
+                <div class="field-item-title left-title">
+                    申请说明
+                </div>
+                <div class="field-item-body right-body" style="text-align:left !important;">
+                    {if $lists['aa_memo']}
+                        {str_replace(array("\r\n","\n","\r"),"<br>",$lists['aa_memo'])|noescape}
+                    {else}
+                        暂无内容
+                    {/if}
+                </div>
+            </div>
+            <div class="field-item main-pattern">
+                <div class="field-item-title left-title">
+                    图片
+                </div>
+                <div class="field-item-body  right-body">
+                    {if  $thumbs}
+                        {foreach $thumbs as $thumb}
+                            {if $thumb["type"]=="img"}
+                                <img class="layer-photos" layer-pid="" onclick="uploadPhotoBrowser.call(this,{$thumb['src']})" style="max-width:150px;max-height:150px;cursor:pointer" src="{$cdnThumbBase}{$thumb['val']}" alt="{$thumb['name']}">
+                            {else}
+                                <a href="{$thumb['src']}" title="{$thumb['val']}" target="_blank">{$thumb['name']}</a>
+                            {/if}
+                        {/foreach}
+                    {else}
+                        暂无图片
+                    {/if}
+                </div>
+            </div>
+            {if $lists['aa_status'] == 0}
+                {if $acornAuditDetail['status'] == 0}
+                    <div class="field-item main-pattern" style="height:100%">
+                        <div class="field-item-title left-title">
+                            说明/评论
+                        </div>
+                        <div class="field-item-body right-body" style="text-align:left !important;">
+                            <textarea name="sysMemo" maxlength="200" placeholder="说明/评论200字以内">{$lists['aa_sysMemo']}</textarea>
+                        </div>
+                    </div>
+                {/if}
+            {/if}
+        </form>
+
+        {if ($user['id']==$lists['aa_auditor'])||($lists['aa_superior']==$user['id'])}
+            {if $lists['aa_status'] == 0}
+                {if $acornAuditDetail['status'] == 0}
+                    <a data-url="{url('mobileConsoles_acorn_adopt',array('id'=>$id))}" class="audit-adopt">
+                        <div class="content-block" style="margin-bottom:0.75rem">
+                            <div class="col-95" style="width:85%;margin:auto;">
+                                <div class="button button-big button-fill" id="bnt" style="background-color:#0087E2;border-radius:50px;">审核通过</div>
+                            </div>
+                        </div>
+                    </a>
+                    <a data-url="{url('mobileConsoles_acorn_notAdopt',array('id'=>$id))}" class="audit-notAdopt">
+                        <div class="content-block" style="margin:0.75rem 0 !important;">
+                            <div class="col-95" style="width:85%;margin:auto;">
+                                <div class="button button-big button-fill" id="bnt" style="background-color:#FFFFFF;border-radius:50px;color:#E51C23;border:1px #E51C23 solid;">不通过</div>
+                            </div>
+                        </div>
+                    </a>
+                {else}
+                    <a>
+                        <div class="content-block" style="margin:0.75rem 0 !important;">
+                            <div class="col-95" style="width:85%;margin:auto;">
+                                <div class="button button-big button-fill" id="bnt" style="background-color:#FFFFFF;border-radius:50px;color:#E51C23;border:1px #E51C23 solid;">等待上级验收</div>
+                            </div>
+                        </div>
+                    </a>
+                {/if}
+            {/if}
+        {else}
+            {if $acornAuditDetail['status'] == 0}
+                <a data-url="{url('mobileConsoles_acorn_adopt',array('id'=>$id))}" class="audit-adopt">
+                    <div class="content-block" style="margin-bottom:0.75rem">
+                        <div class="col-95" style="width:85%;margin:auto;">
+                            <div class="button button-big button-fill" id="bnt" style="background-color:#0087E2;border-radius:50px;">已阅读</div>
+                        </div>
+                    </div>
+                </a>
+            {/if}
+        {/if}
+        {if $lists['aa_status'] == 1}
+            <a href="{url("mobileConsoles_index_sharePage", array("share" => $shareId))}" class="acorn-cancel">
+                <div class="content-block">
+                    <div class="col-95" style="width:85%;margin:auto;">
+                        <div class="button button-big button-fill" id="bnt" style="background-color:#FFFFFF;border-radius:50px;color:#0087e1;border:1px #0087e1 solid;">分享</div>
+                    </div>
+                </div>
+            </a>
+        {/if}
+    </div>
+    <div class="content-bottom">— 我是有底线的 —</div>
+{/block}

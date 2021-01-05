@@ -1,0 +1,64 @@
+#//Admin route
+admin_index_index:
+    pattern: /
+    callback: "Admin:Index:index"    
+    method: get   
+    options:
+admin_index_dashboard:
+    pattern: /dashboard
+    callback: "Admin:Index:dashboard"
+    method: any
+    options:
+admin_login_login:
+    pattern: /login
+    callback: "Admin:Login:login"
+    method: any
+    options:
+    
+admin_lists:
+    pattern: /lists/:con/
+    callback: "Admin:{con}:lists"    
+    method: get   
+    options: {require: {con: "[a-zA-Z_]+"}  }
+admin_delete:
+    pattern: /delete/:con/:id
+    callback: "Admin:{con}:delete"    
+    method: get|delete   
+    options: {require: {con: "[a-zA-Z_]+", id: \d+}  }
+admin_detail:
+    pattern: /detail/:con/:id
+    callback: "Admin:{con}:detail"
+    method: get|put
+    options: {require: {con: "[a-zA-Z_]+", id: \d+}  }
+admin_add:
+    pattern: /add/:con
+    callback: "Admin:{con}:add"    
+    method: get|post   
+    options:  {require: {con: "[a-zA-Z_]+"}} 
+admin_mod:
+    pattern: /mod/:con/:id
+    callback: "Admin:{con}:modify"
+    method: get|post
+    options:  {require: {con: "[a-zA-Z_]+", id: \d+}}
+admin_sort_mul:
+    pattern: /sort_mul/:con/:act
+    callback: "Admin:{con}:sortMul"
+    method: post
+    options: {require: {con: "[a-zA-Z_]+"}}
+admin_delete_mul:
+    pattern: /sort_mul/:con/:act
+    callback: "Admin:{con}:deleteMul"
+    method: post
+    options: {require: {con: "[a-zA-Z_]+"}}
+admin_state_mul:
+    pattern: /state_mul/:con/:state
+    callback: "Admin:{con}:stateMul"
+    method: post
+    options: {require: {con: "[a-zA-Z_]+",state: "[0-9]+"}}
+
+admin_user_frozen:
+    pattern: /user/frozen/:id
+    callback: "Admin:User:frozen"
+    method: get|post
+    options:
+

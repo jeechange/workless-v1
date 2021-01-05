@@ -1,0 +1,96 @@
+{layout '../Layout/layout.latte'}
+{block headTitle}企业列表{/block}
+{block private_js}
+    <script>
+
+        $(".buttons-tab .tab-link a").on("click", function (e) {
+            e.stopPropagation();
+        });
+        $(function () {
+            $(".item-after [data-url]").on("click", function () {
+                var title = $(this).attr("data-name");
+                var url = $(this).attr("data-url");
+                $.confirm(title, function () {
+                        $.ajax({
+                            url: url,
+                            type: "GET",
+                            dataType: "json",
+                            success: function (res) {
+                                if (res.status === "n") {
+                                    $.toast(res.info);
+                                    return;
+                                }
+                                $.showPreloader('切换成功，重新加载中...');
+                                setTimeout(function () {
+                                    location.href = res.data;
+                                }, 1000)
+                            }
+                        });
+                    }
+                );
+            });
+        })
+    </script>
+{/block}
+
+{block private_css}
+    <style>
+        .item-after div{
+            font-size:14px; border:1px solid #3797ff; width:100px; text-align:center;
+            height:30px;line-height:28px;
+            color:#3797ff;
+        }
+
+        .item-after div.main{
+            color:#fff;
+            background:#3797ff;
+        }
+
+        .item-after {
+            max-height:unset !important;
+        }
+
+    </style>
+{/block}
+
+{block content}
+    {include "./tabs.latte"}
+    <div class="content-block-title">你的账号加入了{$count}个团队/企业</div>
+    <div class="list-block">
+        <ul>
+            {if $activeCompany}
+                <li class="item-content">
+                    <div class="item-inner">
+                        <div class="item-title">{$activeCompany['c_names']}</div>
+                        <div class="item-after">
+                            <div class="main">主企业</div>
+                        </div>
+                    </div>
+                </li>
+            {/if}
+
+            {foreach $companys as $k=>$item}
+                <li class="item-content">
+                    <div class="item-inner">
+                        <div class="item-title">{$item['c_names']}</div>
+                        <div class="item-after">
+                            <div data-name="将{$item['c_names']}设置为主企业" data-url="{url('mobileConsoles_company_toggle',"id=".$item['c_id'])}">设为主企业</div>
+                        </div>
+                    </div>
+                </li>
+            {/foreach}
+
+            {foreach $staffs as $k=>$item}
+                <li class="item-content">
+                    <div class="item-inner">
+                        <div class="item-title">{$item['c_names']}</div>
+                        <div class="item-after">
+                            <div data-name="将{$item['c_names']}设置为主企业" data-url="{url('mobileConsoles_company_toggle',"id=".$item['c_id'])}">设为主企业</div>
+                        </div>
+                    </div>
+                </li>
+            {/foreach}
+
+        </ul>
+    </div>
+{/block}

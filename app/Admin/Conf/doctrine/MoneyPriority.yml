@@ -1,0 +1,42 @@
+Admin\Entity\MoneyPriority:
+  type: entity
+  table: money_priority
+  id:
+    id:
+      type: integer
+      nullable: false
+      unsigned: false
+      comment: ''
+      id: true
+      generator:
+        strategy: IDENTITY
+  fields:
+    sid:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+    userId:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: user_id
+    categoryId:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: category_id
+    money:
+      type: decimal
+      nullable: true
+      precision: 20
+      scale: 0
+      comment: ''
+    status:
+      type: smallint
+      nullable: true
+      unsigned: false
+      comment: ''
+  lifecycleCallbacks: {  }

@@ -1,0 +1,39 @@
+<div class="tabs" style="height:3.2rem;line-height:3.2rem;">
+    <a href="{url('mobileConsoles_welfare')}" class="tabs-link{if $tabs_sub=='lists'} active{/if}" style="margin-left: 6px;">物资奖</a>
+    <a href="{url('mobileConsoles_welfare_lucky')}" class="tabs-link{if $tabs_sub=='lucky'} active{/if}">幸运奖</a>
+    <a href="{url('mobileConsoles_welfare_bonus')}" class="tabs-link{if $tabs_sub=='bonus'} active{/if}">分红股</a>
+    <a href="{url('mobileConsoles_welfare_snack')}" class="tabs-link{if $tabs_sub=='snack'} active{/if}">小吃柜</a>
+    {*<a href="{url("mobileConsoles_welfare_bonus_setting")}" class="tabs-link tabs-link-settings"><span class="icon icon-settings"></span></a>*}
+</div>
+
+{if $tabs_sub=='snack'}
+    {if $snackUserId == $userId}
+        {if $isSuper}
+            <div>
+                <span class="create-actions" data-name="1">掌柜</span>
+            </div>
+        {else}
+            <div>
+                <span class="create-actions" data-name="2">掌柜</span>
+            </div>
+        {/if}
+    {else}
+        {if $isSuper}
+            <div>
+                <span class="create-actions" data-name="3">我的</span>
+            </div>
+        {else}
+            <div>
+                <span class="create-actions" data-name="4">我的</span>
+            </div>
+        {/if}
+    {/if}
+{else}
+
+    {*{if $isSuper}*}
+        {*<div>*}
+            {*<span data-url="{url("mobileConsoles_welfare_bonus_setting")}" data-name="设置" class="create-actions">管理</span>*}
+        {*</div>*}
+    {*{/if}*}
+
+{/if}

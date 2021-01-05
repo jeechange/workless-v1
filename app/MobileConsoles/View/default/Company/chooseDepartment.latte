@@ -1,0 +1,77 @@
+{layout "../Layout/layout.latte"}
+{block tabs_content}
+    {*{include "./tabs.latte"}*}
+{/block}
+{block private_js}
+    <script type="text/javascript">
+        $(function () {
+            $("#bnt").click(function () {
+                $.ajax({
+                    type: "post",
+                    url: $("#formArticle").attr("action"),
+                    data: $("#formArticle").serialize(),
+                    cache: false,
+                    dataType: "json",
+                    success: function (data) {
+                        console.log(data);
+                        if (data.status == "n") {
+                            $.toast(data.info);
+                            return false;
+                        } else {
+                            $.toast(data.info);
+                            setTimeout(function () {
+                                $.showPreloader();
+                                location.replace(data.url);
+                            }, 1000);
+                        }
+                    }
+                });
+            })
+        });
+        function goback(){
+            location.replace({url("mobileConsoles_user_company")})
+        }
+    </script>
+{/block}
+{block private_css}
+    <style>
+        .item-title, input{ font-size:0.9rem !important; }
+    </style>
+{/block}
+{block content}
+    <form id="formArticle" class="stdform mform" method="post" action="" onsubmit="return false">
+        <input type="hidden" name="userid" value="{$userid}">
+        <input type="hidden" name="sid" value="{$sid}">
+        <div class="list-block">
+            <ul>
+                {foreach $allDepartment as $v}
+                <li>
+                    <div class="item-content">
+                        <div class="item-media"><i class="icon icon-form-name"></i></div>
+                        <div class="item-inner">
+                            <div class="item-title label">{$v}</div>
+                            <div class="item-input" style="text-align: right;">
+                                <label class="label-switch">
+                                    <input type="checkbox" name="{$v}" {if in_array($v,$oldArr)}checked{/if}>
+                                    <div class="checkbox"></div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                {/foreach}
+            </ul>
+        </div>
+    </form>
+    <div class="content-block">
+        <div class="col-95">
+            <div class="button button-big button-fill" id="bnt">提交</div>
+        </div>
+    </div>
+    <div class="content-block">
+        <div class="col-95">
+            <a onclick="goback()" style="text-align: center;display: block;">取消</a>
+        </div>
+    </div>
+
+{/block}

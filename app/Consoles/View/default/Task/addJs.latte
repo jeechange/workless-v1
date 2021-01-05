@@ -1,0 +1,341 @@
+<style>
+    .set-group-name{
+        margin-left:15px;
+        cursor:pointer;
+        color:#0a8acd;
+        position:relative;
+    }
+
+    .find-group-box{
+        height:290px;
+        background:#fff;
+        border:1px solid #eee;
+        position:absolute;
+        display:none;
+        z-index:19880501;
+        box-shadow:0px 0px 10px #ddd;
+    }
+
+    .group-lists li{
+        height:40px;
+        display:flex;
+        position:relative;
+        cursor:default;
+    }
+
+    .find-group-box input, .find-group-box input:hover{
+        width:248px !important;height:25px;
+    }
+
+    .group-lists li:after{
+        content:'';
+        position:absolute;
+        left:0;
+        bottom:0;
+        right:auto;
+        top:auto;
+        height:1px;
+        width:100%;
+        background-color:#e7e7e7;
+        display:block;
+        z-index:15;
+        -webkit-transform-origin:50% 100%;
+        transform-origin:50% 100%;
+    }
+
+    .group-lists li .title-box{
+        flex:1;
+        height:40px;
+        padding-left:12px;
+        color:#6d6d72;
+    }
+
+    .group-lists li .title-box span{
+        margin-top:0;
+    }
+
+    .group-lists li .title-box .group-title{
+        display:block;
+        height:40px;
+        line-height:40px;
+    }
+
+    .group-lists li .title-box .group-title .highlight{
+        color:#ff4a2b;
+    }
+
+    .group-lists li .select-action{
+        height:40px;
+        line-height:40px;
+        text-align:center;
+        width:60px;
+        cursor:pointer;
+    }
+
+    .group-lists li .manage-action{
+        display:none;
+        height:40px;
+        line-height:40px;
+        text-align:center;
+        width:30px;
+        cursor:pointer;
+    }
+
+    .find-group-box.manage-on li .manage-action{
+        display:block;
+    }
+
+    .find-group-box.manage-on li .select-action{
+        display:none;
+    }
+
+    .group-lists li .manage-action.modify-action{
+        color:#0a8acd;
+    }
+
+    .group-lists li .manage-action.delete-action{
+        color:#ff4a2b;
+    }
+
+
+</style>
+
+<script>
+    var groupHtml = {$groupHtml};
+
+    function groupSearch() {
+        var box = $(this).parent(".find-group-box");
+        var val = $(this).val().toString().replace(/^\s+|\s+$/gm, '');
+
+        var lists = box.find("li");
+        if (val === "") {
+            for (var i = 0; i < lists.length; i++) {
+                var text = $(lists[i]).attr("data-names") || "";
+                $(lists[i]).find(".group-title").html(text);
+            }
+            box.find("li").css("display", "flex");
+            return;
+        }
+        for (var i = 0; i < lists.length; i++) {
+            var text = $(lists[i]).attr("data-names") || "";
+            var indexOf = text.indexOf(val);
+            if (indexOf === -1) {
+                $(lists[i]).find(".group-title").html(text);
+                $(lists[i]).css("display", "none");
+                continue;
+            }
+            var newHtml = "";
+            if (indexOf === 0) {
+                newHtml = '<span class="highlight">' + val + '<\/span>' + text.substring(val.length);
+            }
+            if (indexOf > 0) {
+                newHtml = text.substring(0, indexOf) + '<span class="highlight">' + val + '<\/span>' + text.substring(val.length + indexOf);
+            }
+            $(lists[i]).find(".group-title").html(newHtml);
+            $(lists[i]).css("display", "flex");
+        }
+    }
+
+    function selectGroup(e) {
+        var box = $(this).parents(".find-group-box");
+        var id = box.attr("data-rel-id");
+        var $li = $(this).parent();
+        var names = $li.attr("data-names");
+        var val = $li.attr("data-val");
+        if (!val) {
+            $("#" + id).text("设置项目");
+            $("[data-rel='" + id + "']").val(0);
+        } else {
+            $("#" + id).text(names);
+            $("[data-rel='" + id + "']").val(val);
+        }
+        box.css("display", "none");
+        e.stopPropagation();
+    }
+
+    function groupManage() {
+        var box = $(this).parents(".find-group-box");
+        box.toggleClass("manage-on");
+    }
+
+    function groupCreate() {
+        var box = $(this).parents(".find-group-box");
+        var createLayer = layer.open({
+            title: "新建项目", type: 1, closeBtn: 0, shadeClose: false, shade: 0.3,
+            skin: 'layui-layer-rim', //加上边框
+            area: ["300px", "200px"], //宽高
+            btn: ['确定', '取消'],
+            content: "<div style='margin-top:15px;margin-left:15px'>项目名称：<input name='newGroupNames'></div>",//这里content是一个普通的String
+            yes: function () {
+                var newGroupNames = $("[name='newGroupNames']").val().toString().replace(/^\s+|\s+$/gm, '');
+                if (!newGroupNames) {
+                    layer.alert("请输入项目名称", {
+                        closeBtn: 0
+                    });
+                    return;
+                }
+                var msgIndex = layer.msg("正在处理，请稍候", {
+                    offset: 't',
+                    time: 0,
+                    icon: 16,
+                    shade: 0.1
+                });
+                $.ajax({
+                    type: "POST",
+                    dataType: "json",
+                    url: {url('consoles_tasksetting_group_add')},
+                    data: {
+                        names: newGroupNames
+                    },
+                    success: function (res) {
+                        layer.close(msgIndex);
+                        if (res.status === "y") {
+                            layer.msg("添加成功");
+                            var $prepend = $(res.data.html);
+                            box.find(".group-lists").prepend($prepend);
+                            groupHtml = box.find(".group-lists").html();
+                            layer.close(createLayer);
+                        } else {
+                            layer.alert(res.info, {
+                                closeBtn: 0
+                            });
+                        }
+                    }
+                });
+
+            }
+        });
+    }
+
+    function groupClosed(e) {
+        var box = $(this).parents(".find-group-box");
+        box.css("display", "none");
+        e.stopPropagation();
+    }
+
+    function groupCancel(e) {
+        var box = $(this).parents(".find-group-box");
+        var id = box.attr("data-rel-id");
+        $("#" + id).text("设置项目");
+        $("[data-rel='" + id + "']").val(0);
+        box.css("display", "none");
+        e.stopPropagation();
+    }
+
+    function modifyGroup() {
+        var box = $(this).parents(".find-group-box");
+        var $li = $(this).parent();
+        var names = $li.attr("data-names");
+        var val = $li.attr("data-val");
+        var createLayer = layer.open({
+            title: "修改项目", type: 1, closeBtn: 0, shadeClose: false, shade: 0.3,
+            skin: 'layui-layer-rim', //加上边框
+            area: ["300px", "200px"], //宽高
+            btn: ['确定', '取消'],
+            content: "<div style='margin-top:15px;margin-left:15px'>项目名称：<input name='modifyGroupNames' value='" + names + "'></div>",//这里content是一个普通的String
+            yes: function () {
+                var newGroupNames = $("[name='modifyGroupNames']").val().toString().replace(/^\s+|\s+$/gm, '');
+                if (!newGroupNames) {
+                    layer.alert("请输入项目名称", {
+                        closeBtn: 0
+                    });
+                    return;
+                }
+                var msgIndex = layer.msg("正在处理，请稍候", {
+                    offset: 't',
+                    time: 0,
+                    icon: 16,
+                    shade: 0.1
+                });
+                $.ajax({
+                    type: "POST",
+                    dataType: "json",
+                    url: {url('consoles_tasksetting_group_add')},
+                    data: {
+                        names: newGroupNames,
+                        id: val
+                    },
+                    success: function (res) {
+                        layer.close(msgIndex);
+                        if (res.status === "y") {
+                            layer.msg("修改成功");
+                            $li.attr("data-names", newGroupNames);
+                            $li.find(".group-title").html(newGroupNames);
+                            groupHtml = box.find(".group-lists").html();
+                            layer.close(createLayer);
+                        } else {
+                            layer.alert(res.info, {
+                                closeBtn: 0
+                            });
+                        }
+                    }
+                });
+
+            }
+        });
+    }
+
+    function deleteGroup() {
+        var box = $(this).parents(".find-group-box");
+        var $li = $(this).parent();
+        var names = $li.attr("data-names");
+        var val = $li.attr("data-val");
+        var createLayer = layer.confirm("确定删除项目吗？", {
+            closeBtn: 0
+        }, function () {
+            var msgIndex = layer.msg("正在处理，请稍候", {
+                offset: 't',
+                time: 0,
+                icon: 16,
+                shade: 0.1
+            });
+            $.ajax({
+                type: "POST",
+                dataType: "json",
+                url: {url('consoles_tasksetting_group_add')},
+                data: {
+                    id: val,
+                    del: 1,
+                    names: names
+                },
+                success: function (res) {
+                    layer.close(msgIndex);
+                    if (res.status === "y") {
+                        layer.msg("删除成功");
+                        $li.remove();
+                        groupHtml = box.find(".group-lists").html();
+                        layer.close(createLayer);
+                    } else {
+                        layer.alert(res.info, {
+                            closeBtn: 0
+                        });
+                    }
+                }
+            });
+        })
+
+
+    }
+
+
+    init.ready(function () {
+        $(".set-group-name").bind("click", function () {
+            var id = $(this).attr("id");
+            var boxId = id + "-find-group-box";
+            var box = $("#" + boxId);
+            if (box.length === 0) {
+                box = $("<div id=\"" + boxId + "\" class=\"find-group-box\" data-rel-id=\"" + id + "\"><input class='search-input' onkeyup='groupSearch.call(this)'><div style=\"height:220px;overflow-y:scroll\"><ul class=\"group-lists\">" +
+                    groupHtml + "</ul></div><div style='border-top:1px solid #ddd;text-align:right;padding-right:5px;line-height:25px'> <span class='group-manage' onclick='groupManage.call(this);'>管理</span> | <span class='group-create' onclick='groupCreate.call(this);'>新建项目</span> | <span class='group-cancel' onclick='groupCancel.call(this,event)'>取消项目</span> | <span class='group-closed' onclick='groupClosed.call(this,event)'>关闭</span></div></div>");
+                $(this).append(box);
+            }
+            box.css({
+                left: 0,
+                top: 20,
+                display: "block",
+                width: $(this).width() < 260 ? 260 : $(this).width() + 10
+            });
+        });
+    })
+
+
+</script>

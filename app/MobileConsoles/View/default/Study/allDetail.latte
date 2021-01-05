@@ -1,0 +1,322 @@
+{layout "../Layout/layout.latte"}
+
+{block tabs_content}
+    {include "./tabs.latte"}
+{/block}
+
+{block private_css}
+    <style>
+        .content{
+            background:#fff;
+        }
+
+        .field-item{
+            margin:5px 10px;
+            padding-bottom:10px;
+        }
+
+        .field-item .field-item-title{
+            color:#101010;
+            font-size:14px;
+            vertical-align:bottom;
+        }
+
+        .field-item .field-item-title .required{
+            color:#e51c23;
+            font-weight:400;
+        }
+
+        .field-item .field-item-body{
+            position:relative;
+            padding-top:5px;
+        }
+
+        .matter{
+            display:block;
+            position:relative;
+            border-bottom:#e7e7e7 1px solid;
+        }
+
+        .field-item .field-item-body .field-item-tag{
+            position:absolute;
+            right:0.5rem;
+            background:#8BC34A;
+            padding:3px 10px;
+            font-size:12px;
+            margin-left:5px;
+            top:3px;
+            color:#fff;
+        }
+
+        .priority-input{
+            display:inline-block;
+            width:35px;
+            height:35px;
+            line-height:35px;
+            text-align:center;
+            margin-right:15px;
+            color:#fff !important;
+            border:2px solid #fff;
+        }
+
+        .priority-input span{
+            margin:auto !important;
+            display:block;
+            width:30px;
+            height:30px;
+            line-height:30px;
+            border-radius:50%;
+            cursor:pointer;
+        }
+
+        .priority-input input{
+            display:none !important;
+        }
+
+        .priority-input.selected{
+            font-weight:900 !important;
+            border:2px solid #009DD9;
+            background:#d7d7d7;
+        }
+
+        .field-item-body textarea{
+            border:#e7e7e7 1px solid;
+        }
+
+        .field-item-body .field-item-member-box{
+            padding:10px 0;
+            border-bottom:2px solid #ddd;
+        }
+
+        .field-item-body .field-member{
+            display:inline-block;
+            border-radius:15px;
+            padding:3px 10px;
+            border:#e7e7e7 1px solid;
+        }
+
+        .field-item-body .field-item-score-box{
+            padding:10px 0;
+        }
+
+        .field-item-body .field-score{
+            display:inline-block;
+            padding:5px 15px;
+            border:#e7e7e7 1px solid;
+            margin-top:5px;
+        }
+
+        .field-item-between{
+            background:rgba(170, 170, 170, 0.07);
+            height:8px;
+        }
+
+        .medal-item{
+            border:1px solid #ddd;
+            display:inline-block;
+            vertical-align:middle;
+            min-width:80px;
+            padding:3px 8px;
+            margin-right:5px;
+            height:35px;
+            line-height:35px;
+            text-align:center;
+            cursor:pointer;
+            box-sizing:content-box;
+            margin-top:5px;
+        }
+
+        .medal-item img{
+            width:30px;
+            height:30px;
+            vertical-align:middle;
+        }
+
+        .icon-star{
+            color:#FB855C;
+        }
+
+        .contentRec > ul > li{
+            width:100%;
+            line-height:46px;
+            border-bottom:1px #f9f9f9 solid;
+            overflow:hidden
+        }
+
+        .contentRec > ul > li > span{
+            width:80%;
+            float:left;
+            padding-left:18px;
+            overflow:hidden;
+            white-space:nowrap;
+            text-overflow:ellipsis;
+        }
+
+        .contentRec > ul > li > a{
+            width:20%;
+            float:right;
+            padding-right:20px;
+        }
+
+        .recContent{
+            line-height:46px;
+            font-size:16px;
+            text-align:center;
+        }
+
+        .addContent{
+            width:100%;
+            height:46px;
+            font-size:14px;
+            text-align:center;
+            position:relative;
+        }
+
+        .addContent > span{
+            position:absolute;
+            top:50%;
+            left:50%;
+            margin-top:-13.5px;
+            margin-left:-61px;
+            display:block;
+            width:122px;
+            height:27px;
+            line-height:25px;
+            border-radius:20px;
+            font-size:14px;
+            text-align:center;
+            border:1px solid rgba(187, 187, 187, 1);
+        }
+    </style>
+{/block}
+
+{block content}
+    <div class="list-block" style="margin-top: 3.6rem;">
+        <div class="field-item">
+            <div class="field-item-title">
+                学习名称 <img src="{$cdnThumb.$lists[0]['s_icon']}" alt="" style="height:49px;vertical-align: bottom; float:right;">
+            </div>
+            <div class="field-item-body">
+                <p class="matter">{$lists[0]['s_names']}</p>
+            </div>
+        </div>
+        <div class="field-item">
+            <div class="field-item-title matter">
+                推荐: <span style="font-size:0.85rem">{$lists[0]['recHtmlMemoH5']|noescape}</span>
+            </div>
+        </div>
+        <div class="field-item-between"></div>
+        <div class="field-item">
+            <div class="field-item-title">
+                介绍
+            </div>
+            <div class="field-item-body matter">
+                {$lists[0]['s_content']|noescape}
+            </div>
+        </div>
+
+        <div class="field-item">
+            <div class="field-item-title">
+                适应
+            </div>
+            <div class="field-item-body">
+                <div class="field-item-member-box">
+                    {$lists[0]['applyMemo']}
+                </div>
+            </div>
+        </div>
+        <div class="field-item">
+            <div class="field-item-title">
+                发布人
+            </div>
+            <div class="field-item-body">
+                <div class="field-item-member-box">
+                    {$lists[0]['u_fullName']}{$lists[0]['s_addTime']|totime}
+                </div>
+            </div>
+        </div>
+        <div class="field-item">
+            <div class="field-item-title">
+                发布时间
+            </div>
+            <div class="field-item-body">
+                <div class="field-item-member-box">
+                    {$lists[0]['s_addTime']|totime}
+                </div>
+            </div>
+        </div>
+        <div class="field-item">
+            <div class="field-item-title">
+                审核 <span class="required">*</span>
+            </div>
+            <div class="field-item-body" style="">
+                <div style="border-bottom: 1px solid #e7e7e7;display: flex;">
+                    <span style="vertical-align: bottom;line-height: 2.15rem;">完成>={$lists[0]["s_auditTask"]}</span>
+                    <span style="vertical-align: bottom;line-height: 2.15rem;">个关联任务</span>
+                </div>
+            </div>
+        </div>
+        <div class="field-item">
+            <div class="field-item-title">
+                审核人
+            </div>
+            <div class="field-item-body">
+                <div class="field-item-member-box">
+                    {$lists[0]['auditUsers']}
+                </div>
+            </div>
+        </div>
+        <div class="field-item">
+            <div class="field-item-title">
+                积分（橡子）
+            </div>
+            <div class="field-item-body" style="">
+                <div style="border-bottom: 1px solid #e7e7e7;display: flex;">
+                    {$lists[0]['s_acorn']}
+                </div>
+            </div>
+        </div>
+        <div class="field-item-between"></div>
+        <div class="contentRec">
+            <div class="recContent">推荐内容</div>
+            <ul>
+                <li>
+                    <span>如何在一周内迅速学会PHP(黎标华)华华华华华华华华华华华华华华华</span>
+                    <a style="text-align:center;">阅读</a>
+                </li>
+                <li>
+                    <span>如何在一周内迅速学会PHP(黎标华)</span>
+                    <a style="text-align:center;">阅读</a>
+                </li>
+                <li>
+                    <span>如何在一周内迅速学会PHP(黎标华)</span>
+                    <a style="text-align:center;">阅读</a>
+                </li>
+                <li>
+                    <span>如何在一周内迅速学会PHP(黎标华)</span>
+                    <a style="text-align:center;">阅读</a>
+                </li>
+            </ul>
+            <div class="addContent">
+                <span>+ 添加推荐内容</span>
+            </div>
+        </div>
+        <div class="field-item-between"></div>
+        <div class="contentRec">
+            <div class="recContent">学习与评论</div>
+            <div class="addContent">
+                敬请期待~
+            </div>
+        </div>
+        <div class="field-item-between"></div>
+        {if !$lists[0]['stuId']}
+            <a href="{url('mobileConsoles_study_receiveTask',array('id'=>$lists[0]['s_id']))}">
+                <div class="content-block">
+                    <div class="col-95">
+                        <div class="button button-big button-fill" id="bnt" style="background-color:#c61313">领取学习</div>
+                    </div>
+                </div>
+            </a>
+        {/if}
+    </div>
+{/block}

@@ -1,0 +1,53 @@
+<style>
+    .bar-header-secondary ~ .content{
+        top:0;
+    }
+
+    .tabs-lobby{
+        position:absolute;
+        top:3rem;
+        height:3.2rem;
+        width:100%;
+        display:flex;
+        justify-content:space-around;
+        z-index:16;
+        padding-top:.4rem;
+        background:#f2f2f2;
+    }
+
+    .bar-header-secondary ~ .tabs-lobby{
+        top:0;
+    }
+
+    .tabs-lobby a{
+        display:block;
+        border:1px solid #bbb;
+        height:2.2rem;
+        width:30%;
+        text-align:center;
+        line-height:2.2rem;
+        color:#101010;
+        border-radius:5px;
+        background:#fff;
+    }
+
+    .tabs-lobby a.active{
+        border-color:#0087E2;
+        color:#0087E2;
+    }
+
+</style>
+{if $showSearch}
+    <div class="bar bar-header-secondary" style="height:3rem; top:3rem; padding-top:0.4rem; z-index:999;">
+        <form action="">
+            <div class="searchbar">
+                <a class="searchbar-cancel">取消</a>
+                <div class="search-input">
+                    <label class="icon icon-search" for="search"></label>
+                    <input type="search" id='search' name="keywords" placeholder='任务名称/任务编号/姓名' value="{$keywords}"/>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div style="clear:both;"></div>
+{/if}

@@ -1,0 +1,305 @@
+{layout '../Public/layoutList.latte'} {*继承layoutList模板*}
+{block title}我的周期{/block}
+{block actions}
+    <a href="{url('consoles_add','con=task&types=temp')}" class="icon-adds" data-side-form>发布普通任务</a>
+    <a href="{url('consoles_add','con=task&types=cycle')}" class="icon-adds" data-side-form>发布周期任务</a>
+{/block}
+
+{block actionstab}
+    {include "./actionstab.latte"}
+{/block}
+{block private_css}
+    {include "../TaskMe/listCss.latte"}
+    <style>
+        .right-exchange{
+            box-sizing:border-box;
+            margin-right:6px;
+            margin-bottom:6px;
+            padding:0;
+            float:left;
+            border:none;
+            -webkit-user-select:none;
+            -moz-user-select:none;
+            -ms-user-select:none;
+            user-select:none;
+            cursor:pointer;
+        }
+
+        .NewTips{
+            box-sizing:border-box;
+            position:fixed;
+            top:-100%;
+            left:-100%;
+            margin:0;
+            padding:10px 100px;
+            transform:translateX(-50%);
+            max-width:100%;
+            height:50px;
+            line-height:30px;
+            display:none;
+            color:black;
+            background:none;
+        }
+
+        .spread{
+            display:block;
+            float:left;
+            width:20px;
+            margin:auto 5px auto auto;
+            text-align:center;
+            font-size:14px;
+            line-height:14px;
+            border:1px solid #333333;
+            vertical-align:middle;
+            cursor:pointer;
+        }
+
+        .cycleuse{
+            display:none;
+        }
+
+        .cycleuse-indent{
+            text-indent:1em;
+        }
+
+        .divHref:hover{
+            cursor:pointer;
+            text-decoration:underline;
+            color:#14b9d6;
+        }
+
+        .list-more-action{
+            display:none;
+        }
+    </style>
+{/block}
+{block private_js}
+    <script>
+        init.ready(function () {
+            if (typeof window.timerdeadlineList !== "undefined") {
+                clearInterval(window.timerdeadlineList);
+            }
+            window.timerdeadlineList = setInterval(function () {
+                $("[data-deadline]").each(function () {
+                    var endTimes = $(this).attr("data-deadline");
+                    var cTime = countDown(endTimes);
+                    if (cTime === '0秒') {
+                        cTime = '已超时';
+                    }
+                    if (cTime) $(this).text(cTime);
+                });
+            }, 1000);
+            $(".mainItem").unbind().bind("click", function () {
+                var text = $(this).text();
+                var codeno = $(this).attr("data-codeno");
+                if (text === "+") {
+                    $("tr[data-codeno='" + codeno + "']").show();
+                    $(this).text("-");
+                } else {
+                    $("tr[data-codeno='" + codeno + "']").hide();
+                    $(this).text("+");
+                }
+            });
+
+        });
+
+        $(function () {
+            $(".divHref").click(function () {
+
+                var that = this;
+                var toUrl = $(this).attr("data-href");
+                var tip = $(this).attr("data-tip");
+                var confirmLayer = layer.confirm(tip, function () {
+                    $.ajax({
+                        type: "GET",
+                        dataType: "json",
+                        url: toUrl,
+                        success: function (request) {
+                            if (request.status == 'y') {
+                                NewTips(request.status, request.info, true);
+                            } else {
+                                NewTips(request.status, request.info);
+                            }
+                            layer.close(confirmLayer);
+                        },
+                        error: function (request) {
+                            if (request.status == 'y') {
+                                NewTips(request.status, request.info, true);
+                            } else {
+                                NewTips(request.status, request.info);
+                            }
+                            layer.close(confirmLayer);
+                        }
+                    });
+                });
+            });
+        });
+
+        function NewTips(status, info, reload) {
+            document.getElementById('NewTips').innerHTML = info;
+            $(".NewTips").css("top", "10%");
+            $(".NewTips").css("left", "50%");
+            $(".NewTips").css("display", "inline");
+            if (status === 'y') {
+                $(".NewTips").css("background", "green");
+            } else {
+                $(".NewTips").css("background", "red");
+            }
+            $(".NewTips").css("color", "#ffffff");
+
+            setTimeout(function () {
+                var toUrl1 = location.hash.substring(1);
+                getPage(toUrl1);
+                $(".NewTips").css("top", "-100%");
+                $(".NewTips").css("left", "-100%");
+                $(".NewTips").css("display", "none");
+            }, 1000);
+        }
+    </script>
+{/block}
+{block content}
+    {if $lists}
+        <table cellpadding="0" cellspacing="0" border="0" class="stdtable">
+            <thead>
+            <tr>
+                <th>&nbsp;</th>
+                <th data-sort="t.codeNo"><span class="table-head">任务编号</span></th>
+                <th data-sort="t.priority"><span class="table-head">优先级</span></th> {*在th加入 data-sort 可对数据库进行排序*}
+                <th class="minW" data-sort="t.names"><span class="table-head">任务</span></th>
+                <th data-sort="t.issueId"><span class="table-head">发布人</span></th>
+                <th data-sort="t.executors"><span class="table-head">执行人</span></th>
+                <th data-sort="t.acceptId"><span class="table-head">验收人</span></th>
+                <th data-sort="t.addTime"><span class="table-head">发布时间</span></th>
+                <th><span class="table-head">重复</span></th>
+                <th data-sort="t.deadline"><span class="table-head">剩余时间</span></th>
+                <th data-sort="t.status" style=""><span class="table-head">状态</span></th>
+                <th><span class="table-head">操作</span></th>
+            </tr>
+            </thead>
+            <tbody>
+            {foreach $lists as $k=>$item}
+                {if isset($item["subLists"])}
+                    <tr>
+                        <td style="width:60px"><span class="spread mainItem" data-codeno="{$item["t_codeNo"]}">+</span></td>
+                        <td class="wid-auto">
+
+                            #{$item["mainItem"]['t_codeNo']}
+                        </td>
+                        <td class="wid-auto">
+                            <div class="garden Letter-{$item["mainItem"]['priorityMemo']}">{$item["mainItem"]['priorityMemo']}</div>
+                        </td>
+                        <td class="wid-auto">
+                            {if $item["mainItem"]['groupName']}
+                                <span style="box-sizing:border-box; float:left; line-height:19px; font-size:12px; padding:1px 2px; border:1px solid #aaa;margin-right:5px">{$item["mainItem"]['groupName']}</span>
+                            {/if}
+                            {if json_decode($item["mainItem"]["t_thumbs"], true)}                                &nbsp;
+                                <span class="icon al-icon al-icon-fujian" style="color:#ab93fb; font-size:24px;"></span>
+                            {/if}
+                            {$item["mainItem"]['t_names']}
+                        </td>
+                        <td class="wid-auto">{$item["mainItem"]['issueFullName']}</td>
+                        <td class="wid-auto">{$item["mainItem"]['executorsMemo']}</td>
+                        <td class="wid-auto">{$item["mainItem"]['acceptMemo']}</td>
+                        <td class="wid-auto">{$item["mainItem"]['t_addTime']|totime}</td>
+                        <td class="wid-auto">{$item["mainItem"]['cycleMemo']}</td>
+
+                        <td style="width:160px" class="wid-auto" {if $item["mainItem"]["t_status"]==0}data-deadline="{$item["mainItem"]["t_deadline"]|totime}"{/if}></td>
+                        <td class="wid-auto">{$item["cycleInfo"]["statusMemo"]}</td>
+
+                        <td style="width:150px !important;">
+                            <a class="" href="{url("consoles_mod","con=Task&id=".$item["mainItem"]["t_id"])}" data-side-form>编辑</a>
+                            {if $item["cycleInfo"]["status"] !=2}
+                                |
+                                <span class=" divHref" data-tip="确定结束任务吗？" data-href="{url('consoles_taskMe_cycle_status','status=2&id='.$item["cycleInfo"]["id"])}">结束</span>
+                            {/if}
+                            {if $item["cycleInfo"]["status"] ==1}
+                                |
+                                <span class=" divHref" data-tip="确定暂停任务吗？" data-href="{url('consoles_taskMe_cycle_status','status=3&id='.$item["cycleInfo"]["id"])}">暂停</span>
+                            {/if}
+                            {if $item["cycleInfo"]["status"] ==3}
+                                |
+                                <span class=" divHref" data-tip="确定重新开启任务吗？" data-href="{url('consoles_taskMe_cycle_status','status=1&id='.$item["cycleInfo"]["id"])}">继续</span>
+                            {/if}
+                            | <span class=" divHref" data-tip="确定删除任务吗？" data-href="{url('consoles_taskMe_cycle_delete','id='.$item["cycleInfo"]["id"])}">删除</span>
+                        </td>
+                    </tr>
+                    {foreach  $item["subLists"] as $sItem}
+                        <tr data-codeno="{$item["t_codeNo"]}" class="cycleuse">
+                            <td style="width:60px"></td>
+                            <td class="wid-auto cycleuse-indent">#{$sItem['t_codeNo']}{if $sItem['t_cycleUse']>0}-{$sItem['t_cycleUse']}{/if}</td>
+                            <td class="wid-auto">
+                                <div class="garden Letter-{$sItem['priorityMemo']}">{$sItem['priorityMemo']}</div>
+                            </td>
+                            <td class="wid-auto">
+                                {if $sItem['groupName']}
+                                    <span style="box-sizing:border-box; float:left; line-height:19px; font-size:12px; padding:1px 2px; border:1px solid #aaa;margin-right:5px">{$sItem['groupName']}</span>
+                                {/if}
+                                {if json_decode($sItem["t_thumbs"], true)}
+                                    <span class="icon al-icon al-icon-fujian" style="color:#ab93fb; font-size:24px;"></span>
+                                {/if}
+                                &nbsp;{$sItem['t_names']}
+                            </td>
+                            <td class="wid-auto">{$sItem['issueFullName']}</td>
+                            <td class="wid-auto">{$sItem['executorsMemo']}</td>
+                            <td class="wid-auto">{$sItem['acceptMemo']}</td>
+                            <td class="wid-auto">{$sItem['t_addTime']|totime}</td>
+                            <td class="wid-auto">{$sItem['cycleMemo']}</td>
+
+                            <td style="width:160px" class="wid-auto" {if $sItem["t_status"]==0}data-deadline="{$sItem["t_deadline"]|totime}"{/if}>--</td>
+                            <td class="wid-auto">{$sItem["statusMemo"]}</td>
+
+                            <td style="width:140px !important;">
+                                <a class="right-exchange" href="{url('consoles_task_details','id='.$sItem["t_id"])}">详情</a>
+                                <div class="right-exchange divHref" data-tip="确定删除任务吗？" data-href="{url('~consoles_task_delete','id='.$sItem["t_id"])}">删除</div>
+                            </td>
+                        </tr>
+                    {/foreach}
+                {else}
+                    <tr>
+                        <td style="width:60px"></td>
+                        <td class="wid-auto">#{$item['t_codeNo']}{if $item["t_types"]==3 && $item['t_cycleUse']>0}-{$item['t_cycleUse']}{/if}</td>
+                        <td class="wid-auto">
+                            <div class="garden Letter-{$item['priorityMemo']}">{$item['priorityMemo']}</div>
+                        </td>
+                        <td class="wid-auto">
+                            {if $item['groupName']}
+                                <span style="box-sizing:border-box; float:left; line-height:19px; font-size:12px; padding:1px 2px; border:1px solid #aaa;margin-right:5px">{$item['groupName']}</span>
+                            {/if}
+                            {if json_decode($item["t_thumbs"], true)}
+                                <span class="icon al-icon al-icon-fujian" style="color:#ab93fb; font-size:24px;"></span>
+                            {/if}
+                            {$item['t_names']}
+                        </td>
+                        <td class="wid-auto">{$item['issueFullName']}</td>
+                        <td class="wid-auto">{$item['executorsMemo']}</td>
+                        <td class="wid-auto">{$item['acceptMemo']}</td>
+                        <td class="wid-auto">{$item['t_addTime']|totime}</td>
+                        <td class="wid-auto">{$item['cycleMemo']}</td>
+
+                        <td class="wid-auto" {if $item["t_status"]==0}data-deadline="{$item["t_deadline"]|totime}"{/if}></td>
+                        <td class="wid-auto">{$item["statusMemo"]}</td>
+
+                        <td style="width:140px !important;">
+                            <a class="right-exchange" href="{url('consoles_task_details','id='.$item["t_id"])}">详情</a>
+                            <div class="right-exchange divHref" data-href="{url('~consoles_task_delete','id='.$item["t_id"])}">删除</div>
+                        </td>
+                    </tr>
+                {/if}
+            {/foreach}
+            </tbody>
+        </table>
+        <div class="NewTips" id="NewTips"></div>
+    {else}
+        {if $params == 1}
+            <div style="position:relative; width:100%; line-height:50px; display:block; text-align:center;">
+                <img src="{path('[MobileConsoles]/img/null.png')}" alt="" class="" style="margin:50px auto 0; width:300px; height:300px; display:block;">
+                <div style="width:100%; color:#999; text-align:center; font-size:1.5rem;">查询为空</div>
+            </div>
+        {else}
+            <div style="position:relative; width:100%; line-height:50px; display:block; text-align:center;">
+                <img src="{path('[MobileConsoles]/img/null.png')}" alt="" class="" style="margin:50px auto 0; width:300px; height:300px; display:block;">
+                <div style="width:100%; color:#999; text-align:center; font-size:1.5rem;">暂无记录</div>
+            </div>
+        {/if}
+    {/if}
+{/block}

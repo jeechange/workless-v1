@@ -1,0 +1,99 @@
+{layout '../Public/layoutForm.latte'}
+{block return_actions}{/block}
+{block title}邮箱设置{/block}
+
+{block private_js}
+    <script>
+        function togglePassword(id, self) {
+            var obj = $("#" + id);
+            if (obj.attr("type") == "password") {
+                obj.after('<input type="text" id="' + id + '" name="' + obj.attr("name") + '" value="' + obj.val() + '" class="' + obj.attr("class") + '">');
+                obj.remove();
+                $(self).text("隐藏密码");
+            } else {
+                obj.after('<input type="password" id="' + id + '" name="' + obj.attr("name") + '" value="' + obj.val() + '" class="' + obj.attr("class") + '">');
+                obj.remove();
+                $(self).text("显示密码");
+            }
+        }
+    </script>
+{/block}
+
+{block private_css}
+    <style>
+        #formArticle .smallinput{
+            width:500px;
+        }
+    </style>
+{/block}
+
+{block content}
+    <form id="formArticle" class="stdform mform" method="post" action="" onsubmit="return false">
+        <table cellpadding="0" cellspacing="0" border="0" id="frmtable" class="formtable">
+            <thead>
+            <tr>
+                <td><label>邮箱地址</label></td>
+                <td>
+                    <div class="field control-group">
+                        <div class="input-group">
+                            <input type="text" id="frm_address" name="address" class="smallinput" value="{$api['address']}"/>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td><label>密码</label></td>
+                <td>
+                    <div class="field control-group">
+                        <div class="input-group">
+                            <input type="password" id="frm_password" name="password" class="smallinput frm-control" value="{$api['password']}"/>
+                            <span onclick="togglePassword('frm_password',this)" style="margin-left: 5px;cursor: pointer;">显示密码</span>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td><label>发信名称</label></td>
+                <td>
+                    <div class="field control-group">
+                        <div class="input-group">
+                            <input type="text" id="frm_names" name="names" class="smallinput frm-control" value="{$api['names']}"/>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td><label>发送服务器（SMTP）</label></td>
+                <td>
+                    <div class="field control-group">
+                        <div class="input-group">
+                            <input type="text" id="frm_smtp" name="smtp" class="smallinput frm-control" value="{$api['smtp']}"/>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td><label>邮件签名</label></td>
+                <td>
+                    <div class="field control-group">
+                        <div class="input-group">
+                            <input type="text" id="frm_SIGNATURE" name="signature" class="smallinput frm-control" value="{$api['signature']}"/>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td><label>启用</label></td>
+                <td>
+                    <div class="field control-group">
+                        <div class="input-group">
+                            <label style='float:none;'><input {if $api["status"]!=="0"}checked{/if} type="radio" name='status' value='1'> 开启</label>
+                            <label style='float:none'><input {if $api["status"]==="0"}checked{/if} type="radio" name='status' value='0'> 关闭</label>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            </thead>
+        </table>
+    </form>
+{/block}

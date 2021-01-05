@@ -1,0 +1,43 @@
+<script type="text/javascript">
+    {if $ajaxextramethod=="SideForm"}
+    {if isset($showOnPopup) && $showOnPopup}
+    layer.msg({$msg}, {
+        offset: 't',
+        time: {$time} * 1000,
+        icon: 1
+    });
+    $.ajax({
+        type: "GET",
+        dataType: "html",
+        url: '{$jumpUrl|noescape}',
+        complete: function (request) {
+            layer.open({
+                title: null, type: 1, closeBtn: 1, shadeClose: true, shade: 0.3,
+                skin: 'layui-layer-rim', //加上边框
+                area: ["720px", "600px"], //宽高
+                content: request.responseText //这里content是一个普通的String
+            });
+            hideSideForm(false);
+            return false;
+        }, error: function () {
+            hideSideForm(false);
+            return false;
+        }
+    });
+    var toUrl = '{$flushMainUrl|noescape}';
+    if (toUrl)
+        setUrl("url", toUrl);
+    var hash = location.hash;
+    var myURL = new objURL(hash.substring(1));
+    var url = myURL.url();
+    getPage(url);
+    {else}
+    sideSuccessAndJump({$msg}, '{$jumpUrl|noescape}',{$time});
+    {/if}
+    {else}
+    successAndJump({$msg}, '{$jumpUrl|noescape}',{$time});
+
+
+    {/if}
+</script>
+

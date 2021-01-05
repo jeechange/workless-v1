@@ -1,0 +1,198 @@
+{layout '../Public/sideForm.latte'}
+{block title}修改类型{/block}
+{block private_js}
+    <script type="text/javascript">
+        $(function () {
+            var acornTypes = $("input[name='acornTypes']:checked").val();
+            console.log(acornTypes);
+
+            if (acornTypes == 1) {
+                $(".acorn-show").hide();
+            }
+        });
+
+        function acornShow(acornTypes) {
+            if (acornTypes == 1) {
+                $(".acorn-show").hide();
+            } else {
+                $(".acorn-show").show();
+            }
+        }
+
+        $(function () {
+            $('#classify').on('change', function () {
+                var val = $(this).val();
+                var values = $('.reserve input:checked').val();
+                if (val == 4 && values == 0) {
+                    $('#workload-show').css('display', 'table-row');
+                } else {
+                    $('#workload-show').css('display', 'none');
+                }
+            });
+        });
+
+        $(function () {
+            $('.reserve input').on('click', function () {
+                var val = $('#classify').val();
+                var values = $('.reserve input:checked').val();
+                if (val == 4 && values == 0) {
+                    $('#workload-show').css('display', 'table-row');
+                } else {
+                    $('#workload-show').css('display', 'none');
+                }
+            })
+        });
+
+        $(function () {
+            var val = $('#classify').val();
+            var values = $('.reserve input:checked').val();
+            if (val == 4 && values == 0) {
+                $('#workload-show').css('display', 'table-row');
+            } else {
+                $('#workload-show').css('display', 'none');
+            }
+        });
+    </script>
+{/block}
+{block content}
+    <form id="formArticle" class="stdform mform" method="post" action="" onsubmit="return false">
+        <table cellpadding="0" cellspacing="0" border="0" id="frmtable" class="formtable">
+            <thead>
+            <tr>
+                <td><label>名称</label></td>
+                <td>
+                    <div class="field control-group">
+                        <div class="input-group input-auto-find">
+                            <input type="text" name="names" value="{$lists['s_names']}">
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td><label>类型</label></td>
+                <td>
+                    <div class="control-group ">
+                        <div class="field input-group">
+                            <select id="classify" name="classify">
+                                <option value="{$lists['sc_id']}">{$lists['sc_names']}</option>
+                                {foreach $classify as $k=>$v}
+                                    <option value="{$v['id']}">{$v['names']}</option>
+                                {/foreach}
+                            </select>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td><label>是否预设</label></td>
+                <td>
+                    <div class="control-group ">
+                        <div class="field input-group reserve">
+                            <input type="radio" value="0" name="acornTypes" onclick="acornShow(0)" {if $lists['s_acorn']!=0}checked{/if} >预设
+                            <input type="radio" value="1" name="acornTypes" onclick="acornShow(1)" {if $lists['s_acorn']==0}checked{/if}>不预设
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr class="workload-show" id="workload-show">
+                <td><label>任务量</label></td>
+                <td>
+                    <div class="control-group ">
+                        <div class="input-group input-auto-find">
+                            {*<input type="text" name="workload" value="">*}
+                            <input name="acceptDay" id="acceptDay" style="line-height:30px;padding-left:10px;width:60px" value="{$workload[0]}"/> 天
+                            {*，如0.1，1，3.5，7等*}
+                            <select name="acceptHour" id="acceptHour" style="height:35px;padding-left:10px;width:90px">
+                                <option {if $workload[1]== 0}selected{/if} value="0">0小时</option>
+                                <option {if $workload[1]== 1}selected{/if} value="1">1小时</option>
+                                <option {if $workload[1]== 2}selected{/if} value="2">2小时</option>
+                                <option {if $workload[1]== 3}selected{/if} value="3">3小时</option>
+                                <option {if $workload[1]== 4}selected{/if} value="4">4小时</option>
+                                <option {if $workload[1]== 5}selected{/if} value="5">5小时</option>
+                                <option {if $workload[1]== 6}selected{/if} value="6">6小时</option>
+                                <option {if $workload[1]== 7}selected{/if} value="7">7小时</option>
+                            </select>
+                            <select name="acceptMinute" id="acceptMinute" style="height:35px;padding-left:10px;width:90px">
+                                <option {if $workload[2]== 0}selected{/if} value="0">0分</option>
+                                <option {if $workload[2]== 15}selected{/if} value="15">15分</option>
+                                <option {if $workload[2]== 30}selected{/if} value="30">30分</option>
+                                <option {if $workload[2]== 45}selected{/if} value="45">45分</option>
+                            </select>
+                            <span style="margin-left:10px;">量级单位：8小时为1天</span>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr class="acorn-show">
+                <td><label>积分</label></td>
+                <td>
+                    <div class="control-group ">
+                        <div class="input-group input-auto-find">
+                            <input type="text" name="acorn" value="{$lists['s_acorn']}">
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td><label>标准热度</label></td>
+                <td>
+                    <div class="control-group">
+                        <div class="input-group">
+                            <input type="text" name="hot" value="{$lists['s_hot']}">
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr style="display:none">
+                <td><label>发放方式</label></td>
+                <td>
+                    <div class="control-group ">
+                        <div class="field input-group">
+                            <select id="methods" name="methods">
+                                {foreach $methods as $key=>$item}
+                                    <option {if $lists['s_methods']==$key}selected{/if} value="{$key}">{$item}</option>
+                                {/foreach}
+                            </select>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr style="display:none">
+                <td><label>发放频率</label></td>
+                <td>
+                    <div class="control-group ">
+                        <div class="field input-group">
+                            <select id="cycle" name="cycle">
+                                {foreach $cycle as $k=>$values}
+                                    <option {if $lists['s_cycle']==$k}selected{/if} value="{$k}">{$values}</option>
+                                {/foreach}
+                            </select>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td><label>标准说明</label></td>
+                <td>
+                    <div class="field control-group">
+                        <div class="input-group">
+                            <textarea id="frm_memo" name="memo" style="width: 600px; height: 250px">{$lists['s_memo']}</textarea>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td><label>状态</label></td>
+                <td>
+                    <div class="field control-group">
+                        <div class="input-group">
+                            <label class='radio'><input name='status' {if $lists['s_status']==1}checked{/if} type="radio" value='1'>启用</label>
+                            <label class='radio'><input name='status' {if $lists['s_status']==0}checked{/if} type="radio" value='0'>停用</label>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            </thead>
+        </table>
+    </form>
+{/block}

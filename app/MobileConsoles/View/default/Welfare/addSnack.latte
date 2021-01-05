@@ -1,0 +1,166 @@
+{layout "../Layout/layout.latte"}
+{block tabs_content}
+    {include "./tabs.latte"}
+{/block}
+
+{block private_css}
+    {include "../Task/addCss.latte"}
+    <style>
+        .input-rec .icon-star{
+            font-size:20px;
+            cursor:pointer;
+            margin-right:5px;
+        }
+
+        .input-rec .icon-star.start-on{
+            color:#FB855C;
+        }
+
+        .input-rec .icon-star.start-off{
+            color:#A1A1A1;
+        }
+
+        .showcase{
+            width:120px;
+            height:33px;
+            line-height:33px;
+            display:inline-block;
+            border:2px solid #797979;
+            text-align:center;
+            margin-left:10px;
+            color:#fff;
+            background:#A1A1A1;
+        }
+
+        .showcase.selected{
+            background:#FB855C;
+            border-color:#FB855C;
+        }
+
+        .contentRec > ul > li{
+            width:100%;
+            line-height:46px;
+            border-bottom:1px #f9f9f9 solid;
+            overflow:hidden
+        }
+
+        .contentRec > ul > li > span{
+            width:80%;
+            float:left;
+            padding-left:18px;
+            overflow:hidden;
+            white-space:nowrap;
+            text-overflow:ellipsis;
+        }
+
+        .contentRec > ul > li > a{
+            width:20%;
+            float:right;
+            padding-right:20px;
+        }
+
+        .recContent{
+            line-height:46px;
+            font-size:16px;
+            text-align:center;
+        }
+
+        .addContent{
+            width:100%;
+            height:46px;
+            font-size:14px;
+            text-align:center;
+            position:relative;
+        }
+
+        .addContent > span{
+            position:absolute;
+            top:50%;
+            left:50%;
+            margin-top:-13.5px;
+            margin-left:-61px;
+            display:block;
+            width:122px;
+            height:27px;
+            line-height:25px;
+            border-radius:20px;
+            font-size:14px;
+            text-align:center;
+            border:1px solid rgba(187, 187, 187, 1);
+        }
+
+    </style>
+{/block}
+{block private_js}
+    {include "../Welfare/snackJS.latte"}
+    {include "../Public/customJs.latte"}
+    {include "../Task/addJs.latte"}
+    {include "../Public/H5Upload.latte"}
+{/block}
+{block content}
+    <div class="list-block" style="margin-top: 3.2rem;">
+        <form action="" id="my-form">
+            <div class="field-item">
+                <div class="field-item-title">
+                    小吃名称 <span class="required">*</span>
+                </div>
+                <div class="field-item-body">
+                    <input type="text" name="names" placeholder="请输入小吃名称"/>
+                </div>
+            </div>
+            <div class="field-item">
+                <div class="field-item-title">
+                    小吃图片<span class="required">*</span>
+                </div>
+                <div class="field-item-body">
+                    <span class="pic-add">&plus;<input type="file" id="pics" name="pics" accept="image/*" onchange="handleInputChange(this)"/></span>
+                    <input type="hidden" class="pics-added-save" name="icon">
+                </div>
+            </div>
+            <div class="field-item">
+                <div class="field-item-title">
+                    兑换数量(每次) <span class="required">*</span>
+                </div>
+                <div class="field-item-body">
+                    <input type="text" name="everyNum" placeholder="请输入兑换数量"/>
+                </div>
+            </div>
+            <div class="field-item">
+                <div class="field-item-title">
+                    小吃价格 <span class="required">*</span>
+                </div>
+                <div class="field-item-body">
+                    <input type="text" name="acorn" placeholder="请输入小吃价格（积分数量）"/>
+                </div>
+            </div>
+            <div class="field-item">
+                <div class="field-item-title">
+                    小吃库存 <span class="required">*</span>
+                </div>
+                <div class="field-item-body">
+                    <input type="text" name="num" placeholder="请输入小吃库存"/>
+                </div>
+            </div>
+            <div class="field-item">
+                <div class="field-item-title">
+                    小吃单位 <span class="required">*</span>
+                </div>
+                <div class="field-item-body">
+                    <input type="text" name="unit" placeholder="请输入小吃单位"/>
+                </div>
+            </div>
+            <div class="field-item">
+                <div class="field-item-title">
+                    小吃详情
+                </div>
+                <div class="field-item-body">
+                    <textarea name="content"></textarea>
+                </div>
+            </div>
+            <div class="field-item-between"></div>
+        </form>
+        <div class="content-block">
+            <a href="#" data-url="{url("mobileConsoles_welfare_addSnack")}" class="button button-big button-fill button-success submit-form">提交</a>
+        </div>
+    </div>
+{/block}

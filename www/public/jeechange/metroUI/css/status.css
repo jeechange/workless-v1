@@ -1,0 +1,28 @@
+
+.status-icon{
+    display:inline-block;
+    width:16px;
+    height:16px;
+    background-position:0 0;
+    background-repeat:no-repeat;
+}
+
+.status-icon.status-invisible{
+    background-image:url(../images/status-icon/invisible.png);
+}
+.status-icon.status-visible{
+    background-image:url(../images/status-icon/visible.png);
+}
+.status-icon.status-on{
+    background-image:url(../images/status-icon/on.png);
+}
+.status-icon.status-off{
+    background-image:url(../images/status-icon/off.png);
+}
+.status-icon.status-error{
+    background-image:url(../images/status-icon/error.png);
+}
+
+
+
+

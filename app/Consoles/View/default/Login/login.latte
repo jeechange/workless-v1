@@ -1,0 +1,293 @@
+<!DOCTYPE HTML>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
+    <title>{seo()->getTitle()}</title>
+    <meta name="keywords" content="{seo()->getKeywords()}"/>
+    <meta name="description" content="{seo()->getDescription()}"/>
+    <link type="text/css" rel="stylesheet" href="{path('[Jeechange]/metroUI/css/login.css')}"/>
+    <!--[if lte IE 8]>
+    <link rel="stylesheet" type="text/css" href="{path('[Jeechange]/metroUI/css/ie8.css')}"/>
+    <link rel="icon" href="{path('[Home]/images/xiangshuyunIcon.png')}">
+    <![endif]-->
+    <style type="text/css">
+        .login_bg_form .loginform, .loginBoxCenter .loginInput{
+            behavior:url({path('[Jeechange]/metroUI/css/iecss3.htc')})
+        }
+
+        .login_bg_form{
+            margin-top:160px;
+        }
+
+        .icon{
+            padding:20px 0;
+            height:5em;
+            vertical-align:-0.15em;
+            fill:currentColor;
+            overflow:hidden;
+        }
+
+        input::-webkit-outer-spin-button, input::-webkit-inner-spin-button{ -webkit-appearance:none; }
+
+        input[type="number"]{ -moz-appearance:textfield; }
+
+    </style>
+    <link rel="stylesheet" href="{path('[Jeechange]/al-font/iconfont.css')}">
+    <script type="text/javascript" src="{path('[Jeechange]/js/jquery-1.8.3.min.js')}"></script>
+    <script type="text/javascript" src="{path('[Jeechange]/al-font/iconfont.js')}"></script>
+    <script type="text/javascript" src="{path('[Core]/layer/layer.js')}"></script><!-- 弹出层 -->
+    <script n:syntax="double">
+
+        var Countdown;
+        var CountdownTime = 0;
+        $(function () {
+            $("#loginform").on("submit", function () {
+                var url = $(this).attr("action");
+                var postData = $(this).serialize();
+//                $("input").attr("disabled", "disabled");
+                $.ajax({
+                    url: url,
+                    type: "POST",
+                    data: postData,
+                    dataType: "json",
+                    success: function (res) {
+                        if (res.status == "n") {
+                            $("input").attr("disabled", null);
+                            layer.alert(res.info);
+//                            if (res.info == '您尚未注册，请设置真实姓名完成注册！') {
+//                                $(".NewsPassword").css("display", "block");
+//                                $(".NewsPasswordConfirm").css("display", "block");
+//                                $(".NewsFullName").css("display", "block");
+//                                $("#NewUser").val(2);
+//                            }
+                            return;
+                        }
+                        window.location.href = res.url;
+                    }
+                });
+                return false;
+            });
+
+            $(".get-verify").on("click", function () {
+                var vcode = document.getElementById("vcode").value;
+                var Vurl = document.getElementById("Vurl").value;
+                var Curl = document.getElementById("Curl").value;
+                var Gurl = document.getElementById("Gurl").value;
+
+                $.ajax({
+                    url: Vurl,
+                    type: "GET",
+                    data: {
+                        vcode: vcode
+                    },
+                    dataType: "json",
+                    success: function (resss) {
+                        if (resss.status == "n") {
+                            layer.alert(resss.info);
+                            return false;
+                        }
+
+                        if (CountdownTime > 0) return;
+                        var userName = $("input[name='userName']").val();
+                        if (!/^1[3-9][0-9]{9}$/.test(userName)) {
+                            layer.alert("请输入正确手机号码");
+                            return;
+                        }
+                        var url = Curl;
+                        clearInterval(Countdown);
+
+                        $.ajax({
+                            url: url,
+                            type: "POST",
+                            data: {
+                                phone: userName
+                            },
+                            dataType: "json",
+                            success: function (res) {
+                                if (res.status == "n") {
+                                    alert(res.info);
+                                    return;
+                                }
+                                getVerify(Gurl);
+                                layer.alert(res.info);
+                                CountdownTime = 59;
+                                Countdown = setInterval(function () {
+                                    if (CountdownTime <= 0) {
+                                        $(".get-verify").text("获取验证码");
+                                        clearInterval(Countdown);
+                                    } else {
+                                        $(".get-verify").text(CountdownTime + "秒重新获取");
+                                        CountdownTime--;
+                                    }
+                                }, 1000)
+                            }, error: function (err) {
+                                layer.alert(err.info);
+                            }
+                        });
+                    }
+                });
+            });
+        });
+
+        function pwdLogin() {
+            $(".TypesPwd").css("display", 'block');
+            $(".TypesCode").css("display", 'none');
+            $(".TypesCodeTwo").css("display", 'none');
+            $(".NewsPassword").css("display", "none");
+            $(".NewsPasswordConfirm").css("display", "none");
+            $(".NewsFullName").css("display", "none");
+
+            $("#TipsOne").text("忘记密码");
+            $("#TipsTwo").text("注册并登陆");
+            $(".btn-login").val("登 录");
+            $("#LoginTypes").attr("value", 0);
+            $("#NewUser").attr("value", 0);
+        }
+
+        function pwdForget() {
+            $(".TypesPwd").css("display", "none");
+            $(".TypesCode").css("display", "block");
+            $(".TypesCodeTwo").css("display", "block");
+            $(".NewsPassword").css("display", "block");
+            $(".NewsPasswordConfirm").css("display", "block");
+            $(".NewsFullName").css("display", "none");
+
+            $("#TipsOne").text("返回登录");
+            $("#TipsTwo").text("注册并登陆");
+            $(".btn-login").val("修改并登陆");
+            $("#LoginTypes").attr("value", 1);
+            $("#NewUser").attr("value", 0);
+        }
+
+        function registerAndLogin() {
+            $(".TypesPwd").css("display", "none");
+            $(".TypesCode").css("display", "block");
+            $(".TypesCodeTwo").css("display", "block");
+            $(".NewsPassword").css("display", "block");
+            $(".NewsPasswordConfirm").css("display", "block");
+            $(".NewsFullName").css("display", "block");
+
+            $("#TipsOne").text("忘记密码");
+            $("#TipsTwo").text("返回登录");
+            $(".btn-login").val("注册并登陆");
+            $("#LoginTypes").attr("value", 0);
+            $("#NewUser").attr("value", 1);
+        }
+
+        function ChangeTypes(types) {
+            var logintypes = document.getElementById("LoginTypes").value;
+            var NewUser = document.getElementById("NewUser").value;
+
+            if (types == 'forget' && logintypes == 0) {
+                pwdForget();
+            } else if (types == 'register' && NewUser == 0) {
+                registerAndLogin();
+            } else {
+                pwdLogin();
+            }
+        }
+
+        function getVerify(url) {
+            var url = url + "?r=";
+            var src = url + Math.random();
+            $("#imgVerify").attr("src", src);
+        }
+
+    </script>
+</head>
+<body class="login">
+<div class="login_top"></div>
+<div class="login_bg_form">
+    <div class="loginform">
+        <div class="login-box-plain">
+            {*<h2>WorkLess</h2>*}
+            {*<img src="{path('[Admin]/images/workless-logo.png')}" alt="" style="padding:0;width: 80%">*}
+            <a href="https://workless.cn/">
+                <svg class="icon" aria-hidden="true">
+                    <use xlink:href="#al-icon-workless"></use>
+                </svg>
+            </a>
+            <form id="loginform" method="post" action="{url("consoles_login_login")}">
+                {if $message}
+                    <div style="color:red;font-size:14px; padding-top: 5px;">{$message}</div>
+                {/if}
+
+                {if $company}
+                    <input name="company" value="{$company}" hidden style="display:none;">
+                {/if}
+
+                <div class="loginBoxCenter">
+                    <p>
+                        <label for="usercode">手机号：</label>
+                    </p>
+                    <p>
+                        <span class="usercode"></span>
+                        <input id="usercode" class="loginInput login_add_input" type="text" placeholder="请输入手机号码" autocomplete="off" name="userName" value="">
+                    </p>
+                    <p class="TypesPwd">
+                        <label for="password">登录密码：</label>
+                    </p>
+                    <p class="TypesPwd">
+                        <span class="password"></span>
+                        <input class="loginInput login_add_input" type="password" placeholder="请输入登录密码" autocomplete="off" name="pwd">
+                    </p>
+                    <p class="TypesCodeTwo" style="display:none;">
+                        <label for="password">图像验证码：</label>
+                    </p>
+                    <p class="TypesCodeTwo" style="display:none;">
+                        <input type="text" class="loginInput login_add_input" id="vcode" name="verify" placeholder="请输入右图验证码" style="width: 230px;"/>
+                        <img src="{url('consoles_login_verify')}" onclick="getVerify({url('consoles_login_verify')})" title="看不清，换一张" id="imgVerify" style="margin-top: 5px;height: 35px;"/>
+                    </p>
+                    <p class="TypesCode" style="display:none;">
+                        <label for="password">短信验证码：</label>
+                    </p>
+                    <p class="TypesCode" style="display:none;">
+                        <input type="number" class="loginInput login_add_input" name="code" placeholder="请输入短信验证码" style="width: 230px;">
+                        <span class="get-verify" data-url="{url('consoles_login_send_verify')}" style="cursor: pointer;color: #3fadf0;">获取验证码</span>
+                    </p>
+
+                    <p class="NewsFullName" style="display:none;">
+                        <label for="password">请输入姓名：</label>
+                    </p>
+                    <p class="NewsFullName" style="display:none;">
+                        <span class="usercode"></span>
+                        <input id="fullName" class="loginInput login_add_input" type="text" placeholder="请输入姓名" autocomplete="off" name="fullName">
+                    </p>
+
+                    <p class="NewsPassword" style="display:none;">
+                        <label for="password">登录密码：</label>
+                    </p>
+                    <p class="NewsPassword" style="display:none;">
+                        <span class="password"></span>
+                        <input class="loginInput login_add_input" type="password" placeholder="请输入登录密码" autocomplete="off" name="password">
+                    </p>
+
+                    <p class="NewsPasswordConfirm" style="display:none;">
+                        <label for="password">确认密码：</label>
+                    </p>
+                    <p class="NewsPasswordConfirm" style="display:none;">
+                        <span class="password"></span>
+                        <input class="loginInput login_add_input" type="password" placeholder="请输入确认密码" autocomplete="off" name="password_confirm">
+                    </p>
+
+                    <p>
+                        <input class="btn btn-login" type="submit" value="登 录"/>
+                    </p>
+
+                    <p style="float:left" onclick="ChangeTypes('forget')">
+                        <span><a href="javascript:void(0)" id="TipsOne">忘记密码</a></span>
+                    </p>
+                    <p style="float:right" onclick="ChangeTypes('register')">
+                        <span><a href="javascript:void(0)" id="TipsTwo">注册并登录</a></span>
+                    </p>
+                    <input type="hidden" id="NewUser" name="NewUser" value="0">
+                    <input type="hidden" id="LoginTypes" name="types" value="0">
+                    <input id="Vurl" type="hidden" style="display:none;" value="{url("consoles_login_yzVcode")}"/>
+                    <input id="Curl" type="hidden" style="display:none;" value="{url('consoles_login_send_verify')}"/>
+                    <input id="Gurl" type="hidden" style="display:none;" value="{url('consoles_login_verify')}"/>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

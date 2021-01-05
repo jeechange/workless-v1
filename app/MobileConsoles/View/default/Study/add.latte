@@ -1,0 +1,295 @@
+{layout "../Layout/layout.latte"}
+{block tabs_content}
+    {include "./tabs.latte"}
+{/block}
+
+{block private_css}
+    {include "../Task/addCss.latte"}
+    <style>
+        .input-rec .icon-star{
+            font-size:20px;
+            cursor:pointer;
+            margin-right:5px;
+        }
+
+        .input-rec .icon-star.start-on{
+            color:#FB855C;
+        }
+
+        .input-rec .icon-star.start-off{
+            color:#A1A1A1;
+        }
+
+        .showcase{
+            width:120px;
+            height:33px;
+            line-height:33px;
+            display:inline-block;
+            border:2px solid #797979;
+            text-align:center;
+            margin-left:10px;
+            color:#fff;
+            background:#A1A1A1;
+        }
+
+        .showcase.selected{
+            background:#FB855C;
+            border-color:#FB855C;
+        }
+
+        .contentRec > ul > li{
+            width:100%;
+            line-height:46px;
+            border-bottom:1px #f9f9f9 solid;
+            overflow:hidden
+        }
+
+        .contentRec > ul > li > span{
+            width:80%;
+            float:left;
+            padding-left:18px;
+            overflow:hidden;
+            white-space:nowrap;
+            text-overflow:ellipsis;
+        }
+
+        .contentRec > ul > li > a{
+            width:20%;
+            float:right;
+            padding-right:20px;
+        }
+
+        .recContent{
+            line-height:46px;
+            font-size:16px;
+            text-align:center;
+        }
+
+        .addContent{
+            width:100%;
+            height:46px;
+            font-size:14px;
+            text-align:center;
+            position:relative;
+        }
+
+        .addContent > span{
+            position:absolute;
+            top:50%;
+            left:50%;
+            margin-top:-13.5px;
+            margin-left:-61px;
+            display:block;
+            width:122px;
+            height:27px;
+            line-height:25px;
+            border-radius:20px;
+            font-size:14px;
+            text-align:center;
+            border:1px solid rgba(187, 187, 187, 1);
+        }
+
+    </style>
+{/block}
+{block custom}
+    {include "../Public/custom.latte" , title1=>"选择执行人", title2=>"选择审核人"}
+{/block}
+{block private_js}
+    {include "../Public/customJs.latte"}
+    {include "../Task/addJs.latte"}
+    {include "../Public/H5Upload.latte"}
+    <script type="text/javascript">
+        $(function () {
+            $(".input-rec .icon-star").on("click", function () {
+                $(this).nextAll(".icon-star").addClass("start-off").removeClass("start-on");
+                $(this).prevAll(".icon-star").addClass("start-on").removeClass("start-off");
+                $(this).addClass("start-on").removeClass("start-off");
+                var val = $(this).index() + 1;
+                $(this).siblings(".star").val(val);
+            });
+            $(".showcase").on("click", function () {
+                var isChecked = $(this).children("input").attr("checked");
+                if (isChecked) {
+                    $(this).addClass("selected");
+                } else {
+                    $(this).removeClass("selected");
+                }
+            });
+        });
+    </script>
+{/block}
+{block content}
+    <div class="list-block" style="margin-top: 3.4rem;">
+        <form action="" id="my-form">
+            <div class="field-item">
+                <div class="field-item-title">
+                    学习名称 <span class="required">*</span>
+                </div>
+                <div class="field-item-body">
+                    <input type="text" name="names" placeholder="请输入学习名称"/>
+                </div>
+            </div>
+            <div class="field-item">
+                <div class="field-item-title">
+                    标准名称 <span class="required">*</span>
+                </div>
+                <div class="field-item-body">
+                    {if $lists}
+                        <select id="standardId" name="standardId">
+                            {foreach $lists as $v}
+                                <option value="{$v['id']}">{$v['names']}</option>
+                            {/foreach}
+                        </select>
+                    {else}
+                        <span style="color:red">请先添加学习标准后，再添加学习</span>
+                        <a href="{url("mobileConsoles_standard_add")}">跳转到添加标准</a>
+                    {/if}
+                </div>
+            </div>
+            <div class="field-item">
+                <div class="field-item-title">
+                    推荐<span class="required">*</span>
+                </div>
+                <div class="field-item-body">
+                    <div class="item-content item-link" style="padding-left: 0;">
+                        <div class="field input-group input-rec">
+                            <i class="icon icon-star start-on"></i>
+                            <i class="icon icon-star start-on"></i>
+                            <i class="icon icon-star start-on"></i>
+                            <i class="icon icon-star start-off"></i>
+                            <i class="icon icon-star start-off"></i>
+                            <input type="hidden" name="rec" class="star" value="3">
+                            <label class="showcase">显示在推荐页 <input type="checkbox" style="display: none;" name="showcase" value="1"></label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="field-item">
+                <div class="field-item-title">
+                    介绍 <span class="required">*</span>
+                </div>
+                <div class="field-item-body">
+                    <textarea name="content"></textarea>
+                </div>
+            </div>
+            {*<div class="field-item">*}
+            {*<div class="field-item-title">*}
+            {*学习标识*}
+            {*</div>*}
+            {*<div class="field-item-body">*}
+
+            {*<span class="pic-add">&plus;*}
+            {*<input type="file" name="icon" accept="image/*"/>*}
+            {*</span>*}
+            {*<input type="hidden" name="thumbs">*}
+            {*</div>*}
+            {*</div>*}
+            <div class="field-item">
+                <div class="field-item-title">
+                    学习标识
+                </div>
+                <div class="field-item-body">
+                    <span class="pic-add">&plus;<input type="file" id="pics" name="pics" accept="image/*" onchange="handleInputChange(this)"/></span>
+                    <input type="hidden" class="pics-added-save" name="icon">
+                </div>
+            </div>
+            <div class="field-item">
+                <div class="field-item-title">
+                    适应 <span class="required">*</span>
+                </div>
+                <div class="field-item-body">
+                    {foreach $workTypes as $workType}
+                        <label class="showcase" style="margin-top:10px;">
+                            {$workType["names"]}<input type="checkbox" style="display: none;" name="apply[]" value="{$workType["id"]}">
+                        </label>
+                    {/foreach}
+                </div>
+            </div>
+            <div class="field-item-between"></div>
+            <div class="field-item">
+                <div class="field-item-title">
+                    审核 <span class="required">*</span>
+                </div>
+                <div class="field-item-body" style="">
+                    <div style="border-bottom: 1px solid #e7e7e7;display: flex;">
+                        <span style="vertical-align: bottom;line-height: 2.15rem;">完成>=</span>
+                        <input type="text" name="auditTask" style="flex: 1;line-height: 2.15rem;border:none;text-align: center;"/>
+                        <span style="vertical-align: bottom;line-height: 2.15rem;">个关联任务</span>
+                    </div>
+                </div>
+            </div>
+            <div class="field-item-between"></div>
+            <div class="field-item-between"></div>
+            <div class="field-item">
+                <div class="field-item-title">
+                    审核人 <span class="required">*</span>
+                </div>
+                <div class="field-item-body">
+                    <div class="field-item-member-box">
+                        <span class="staff-add open-popup open-worker-added-box" data-popup=".accept-popup" id="accept">&plus;</span>
+                        <input type="hidden" name="auditUser">
+                    </div>
+                </div>
+            </div>
+            <div class="field-item-between"></div>
+            <div class="field-item">
+                <div class="field-item-title">
+                    积分 <span class="required">*</span>
+                </div>
+                <div class="field-item-body" style="">
+                    <div style="border-bottom: 1px solid #e7e7e7;display: flex;">
+                        <input type="text" name="acorn[1]" style="flex: 1;line-height: 2.15rem;border:none;text-align: center;"/>
+                        <span style="vertical-align: bottom;line-height: 2.15rem;">至</span>
+                        <input type="text" name="acorn[2]" style="flex: 1;line-height: 2.15rem;border:none;text-align: center;"/>
+                    </div>
+                </div>
+            </div>
+            <div class="field-item-between"></div>
+            <div class="contentRec">
+                <div class="recContent">推荐内容</div>
+                {*<ul>*}
+                {*<li>*}
+                {*<span>如何在一周内迅速学会PHP(黎标华)华华华华华华华华华华华华华华华</span>*}
+                {*<a>删除</a>*}
+                {*</li>*}
+                {*<li>*}
+                {*<span>如何在一周内迅速学会PHP(黎标华)</span>*}
+                {*<a>删除</a>*}
+                {*</li>*}
+                {*<li>*}
+                {*<span>如何在一周内迅速学会PHP(黎标华)</span>*}
+                {*<a>删除</a>*}
+                {*</li>*}
+                {*<li>*}
+                {*<span>如何在一周内迅速学会PHP(黎标华)</span>*}
+                {*<a>删除</a>*}
+                {*</li>*}
+                {*</ul>*}
+                <div style="text-align:center">
+                    <img src="{path('[MobileConsoles]/img/null.png')}" alt="" class="" style="width:60%; height:100%;margin:0 20%;display:block;">
+                    <div>暂无内容</div>
+                </div>
+                <div class="addContent">
+                    <span>+ 添加推荐内容</span>
+                </div>
+            </div>
+            <div class="field-item-between"></div>
+            <div class="item-content">
+                <div class="item-media"><i class="icon icon-form-email"></i></div>
+                <div class="item-inner">
+                    <div class="item-title label">允许讨论</div>
+                    <div class="item-input">
+                        <input name='status' checked type="radio" value='1'>允许
+                        &nbsp;
+                        <input name='status' type="radio" value='0'>禁止
+                    </div>
+                </div>
+            </div>
+            <div class="field-item-between"></div>
+        </form>
+        <div class="field-item-between"></div>
+        <div class="content-block">
+            <a href="#" data-url="{url("mobileConsoles_study_add")}" class="button button-big button-fill button-success submit-form">提交</a>
+        </div>
+    </div>
+{/block}

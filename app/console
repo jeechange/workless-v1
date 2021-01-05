@@ -1,0 +1,15 @@
+<?php
+
+set_time_limit(0);
+include_once __DIR__ . '/start.php';
+
+use phpex\Console\Application;
+use Symfony\Component\Console\Input\ArgvInput;
+
+$input = new ArgvInput();
+
+$env = $input->getParameterOption(array('--env', '-e'), 'dev');
+$debug = !$input->hasParameterOption(array('--no-debug', '')) && $env !== 'prod';
+$main = new appMain($env, $debug);
+$application = new Application($main);
+$application->run($input);

@@ -1,0 +1,51 @@
+Admin\Entity\StudyRes:
+  type: entity
+  table: study_res
+  id:
+    id:
+      type: integer
+      nullable: false
+      unsigned: false
+      comment: ''
+      id: true
+      generator:
+        strategy: IDENTITY
+  fields:
+    sid:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+    tid:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+    aid:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+    stuId:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: stu_id
+    settingId:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: setting_id
+    addTime:
+      type: datetime
+      nullable: true
+      comment: ''
+      column: add_time
+    status:
+      type: smallint
+      nullable: true
+      unsigned: false
+      comment: ''
+  lifecycleCallbacks: {  }

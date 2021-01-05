@@ -1,0 +1,332 @@
+{layout "../Layout/layout.latte"}
+{block headTitle}我的{/block}
+{block private_css}
+    <style>
+        .item-title{
+            font-size:14px;
+        }
+
+        .item-title .icon{
+            font-size:25px;
+        }
+
+        .anything{
+            width:100%;
+            opacity:0.6;
+            padding:0.3rem 0 0.2rem;
+            background:#0087E2;
+            font-family:Arial;
+            font-style:normal;
+            font-size:14px;
+            text-align:center;
+            line-height:30px;
+            color:#fff;
+            clear:both;
+            overflow:hidden;
+        }
+
+        .anything span{
+            display:inline-block;
+            vertical-align:middle;
+        }
+
+        .anything .badge{
+            background:#fff;
+            vertical-align:middle;
+            color:#FF4081;
+        }
+
+        .anything .close{
+            float:right;
+            margin-right:10px;
+        }
+
+        .user-info{
+            box-sizing:border-box;
+            height:130px;
+            background:#fafafa;
+            padding:15px 30px;
+            vertical-align:bottom;
+            color:#aaa;
+            position:relative;
+        }
+
+        .user-info .headerImg{
+            position:absolute;
+            top:0;
+            left:0;
+            z-index:3;
+            width:100%;
+            height:100%;
+            display:block;
+        }
+
+        .headerSZ{
+            position:relative;
+            display:block;
+            width:100%;
+            height:30px;
+            z-index:5;
+        }
+
+        .user-info .user-overview{
+            width:65%;
+            float:left;
+            padding-top:20px;
+            position:absolute;
+            z-index:5;
+            color:white;
+        }
+
+        .user-info .user-overview .user-names{
+            /*color:#101010;*/
+            font-size:18px;
+            line-height:26px;
+            font-weight:bold;
+            display:inline-block;
+        }
+
+        .user-info .user-overview .user-acorn{
+            height:23px;
+            line-height:20px;
+            /*color:rgba(16, 16, 16, 1);*/
+            font-size:14px;
+            text-align:center;
+            display:inline-block;
+            margin-left:20px;
+        }
+
+        .user-base{
+            padding:0px 0px 5px;
+        }
+
+        .user-info .user-overview .user-company{
+            display:block;
+            height:40px;
+            line-height:20px;
+            /*color:rgba(16, 16, 16, 1);*/
+            color:white;
+            font-size:12px;
+            padding:5px 0px;
+        }
+
+        .user-info .user-head{
+            position:absolute;
+            z-index:5;
+            right:10px;
+            top:50%;
+            width:35%;
+            float:right;
+            text-align:center;
+            transform:translateY(-50%);
+        }
+
+        .user-info .user-head .user-img{
+            display:block;
+            margin:0 auto;
+            width:60px;
+            height:60px;
+            border-radius:50%;
+        }
+
+        .user-info .user-head span{
+            color:#0087E2;
+            font-size:12px;
+            line-height:17px;
+        }
+
+        .mlrLogo{
+            margin:0 0.8rem 0 0.5rem;
+            color:#0087E2;
+        }
+
+        .influence{
+            width:100%;
+            padding:0.5rem 0;
+            display:block;
+            background:#fff;
+        }
+
+        .boxOne{
+            position:relative;
+            float:left;
+            width:33.33%;
+            text-align:center;
+        }
+
+        .boxOne:after{
+            position:absolute;
+            content:'';
+            top:30%;
+            left:0;
+            width:1px;
+            height:40%;
+            background:#0087E2;
+        }
+
+        .boxOne:first-child:after{
+            position:absolute;
+            content:'';
+            top:30%;
+            left:0;
+            width:1px;
+            height:40%;
+            background:none !important;
+        }
+
+        .fraction{
+            color:#0087E2;
+            font-size:1.2rem;
+            margin:0.05rem 0;
+        }
+
+        .words{
+            font-size:0.60rem;
+            margin:0.05rem 0;
+        }
+    </style>
+{/block}
+
+{block private_js}
+    <script type="text/javascript" src="/public/consoles/default/js/echarts.js"></script>
+    <script>
+        function openSetting() {
+            location.replace({url('mobileConsoles_user_setting')})
+        }
+        function anythingOpen() {
+            window.location ={url('mobileConsoles_anything_anythingLists')};
+        }
+
+    </script>
+{/block}
+
+{block content}
+    <div class="user-info">
+        {*<div class="headerSZ">*}
+        {*<a href="{url('mobileConsoles_user_setting')}" class="" style="">*}
+        {*<i style="position:absolute; top:-5px; right:-15px; font-size:20px; z-index:5; color:#fff;" class="icon al-icon al-icon-shezhi"></i>*}
+        {*</a>*}
+        {*</div>*}
+        <img class="headerImg" src="{path('[MobileConsoles]/img/user_header.png')}">
+        <div class="user-overview">
+            <div class="user-base">
+                <div class="user-names">{$user["fullName"]}</div>
+                <div class="user-acorn">{$department}</div>
+            </div>
+            <a class="user-company" href="{url("mobileConsoles_company")}">{$company["names"]} <span class="icon icon-caret"></span> <span style="font-size:0.5rem;">{$isManager}</span></a>
+        </div>
+        <div class="user-head">
+            <div class="user-img">
+                {*<img src="{path('[MobileConsoles]/img/head.png')}" alt="" class="user-img"> 头像图片*}
+                {*{if $user['photo']}*}
+                {*<img src="{$prefix.$user['photo']}" alt="WorkLess" class="user-img" onclick="openSetting()">*}
+                {*{else}*}
+                {*<div class="user-img" style="background:#0087e2; text-align:center; line-height:60px; color:white; font-size:22px;" onclick="openSetting()">{$fullName}</div>*}
+                {*{/if}*}
+                <div class="user-img" style="background:#0087e2; text-align:center; line-height:60px; color:white; font-size:22px;" onclick="openSetting()">{$fullName}</div>
+            </div>
+        </div>
+        <div style="clear:both;"></div>
+    </div>
+    <div style="position:relative;">
+        {*<div class="anything" id="anything">*}
+        {*<span style="width:80%; height:30px; overflow:hidden;">从西乡塘挑5桶水到青秀区，限定时间30分钟，加1分</span>*}
+        {*<span class="badge">2</span>*}
+        {*<span class="close" onclick="closeOne('anything')">X</span>*}
+        {*</div>*}
+        <div class="influence">
+            <div class="boxOne">
+                <p class="fraction">{$acornALL|default:0} <i class="icon al-icon al-icon-influence" style="font-size:0.8rem;"></i></p>
+                <p class="words">总积分</p>
+            </div>
+            <div class="boxOne">
+                <p class="fraction">{$acornYES|default:0} <i class="icon al-icon al-icon-influence" style="font-size:0.8rem;"></i></p>
+                <p class="words">昨日积分</p>
+            </div>
+            <div class="boxOne" onclick="anythingOpen()">
+                <p class="fraction">{$todayCount}</p>
+                <p class="words {if $redDot['me']['anything'] > 0}redDot{/if}">备忘</p>
+            </div>
+            <div style="clear:both;"></div>
+        </div>
+    </div>
+    <div class="list-block" style="margin: 0;">
+        <ul>
+            <li>
+                <a href="{url('mobileConsoles_user_setting')}" class="item-content item-link">
+                    <div class="item-inner">
+                        <div class="item-title"><i class="icon al-icon al-icon-wode mlrLogo"></i> 我的账户</div>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a href="{url('mobileConsoles_user_UserAcorn')}" class="item-content item-link">
+                    <div class="item-inner">
+                        <div class="item-title"><i class="icon al-icon al-icon-influence mlrLogo"></i> 我的积分</div>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a href="{url('mobileConsoles_taskme_mytodo')}" class="item-content item-link">
+                    <div class="item-inner">
+                        <div class="item-title"><i class="icon al-icon al-icon-renwu mlrLogo"></i> 我的任务</div>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a href="{url("mobileConsoles_externalRelations_lists")}" class="item-content item-link">
+                    <div class="item-inner">
+                        <div class="item-title"><i class="icon al-icon al-icon-renwu mlrLogo"></i>外部任务</div>
+                    </div>
+                </a>
+            </li>
+            {*<li>*}
+            {*<a href="{url("mobileConsoles_study_study","types=study")}" class="item-content item-link">*}
+            {*<div class="item-inner">*}
+            {*<div class="item-title"><i class="icon al-icon al-icon-xuexi mlrLogo"></i> 我的学习</div>*}
+            {*</div>*}
+            {*</a>*}
+            {*</li>*}
+            {*<li>*}
+            {*<a href="{url("mobileConsoles_content_lists","types=my")}" class="item-content item-link">*}
+            {*<div class="item-inner">*}
+            {*<div class="item-title"><i class="icon al-icon al-icon-neirong mlrLogo"></i> 我的内容</div>*}
+            {*</div>*}
+            {*</a>*}
+            {*</li>*}
+            {*<li>*}
+            {*<a href="{url('mobileConsoles_user_setting')}" class="item-content item-link">*}
+            {*<div class="item-inner">*}
+            {*<div class="item-title"><i class="icon al-icon al-icon-fuli mlrLogo"></i> 我的福利</div>*}
+            {*</div>*}
+            {*</a>*}
+            {*</li>*}
+        </ul>
+    </div>
+    <div class="list-block" style="margin: 0.75rem 0;">
+        <ul>
+            <li>
+                <a href="{url('mobileConsoles_user_inviting')}" class="item-content item-link">
+                    <div class="item-inner">
+                        <div class="item-title"><i class="icon al-icon al-icon-yaoqing mlrLogo"></i> 邀请同事</div>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a href="{url('mobileConsoles_user_company')}" class="item-content item-link">
+                    <div class="item-inner">
+                        <div class="item-title"><i class="icon al-icon al-icon-zuzhi mlrLogo"></i> 组织架构</div>
+                    </div>
+                </a>
+            </li>
+            {*<li>*}
+            {*<a href="{url('mobileConsoles_user_setting')}" class="item-content item-link">*}
+            {*<div class="item-inner">*}
+            {*<div class="item-title"><i class="icon al-icon al-icon-help mlrLogo"></i> 帮助</div>*}
+            {*</div>*}
+            {*</a>*}
+            {*</li>*}
+        </ul>
+    </div>
+    {*<div id="main" style="width: 340px;height:400px;margin:0 auto">/div>*}
+{/block}

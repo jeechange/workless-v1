@@ -1,0 +1,60 @@
+Admin\Entity\ProductPrice:
+  type: entity
+  table: product_price
+  indexes:
+    product_id:
+      columns:
+        - product_id
+  id:
+    id:
+      type: integer
+      nullable: false
+      unsigned: false
+      comment: ''
+      id: true
+      generator:
+        strategy: IDENTITY
+  fields:
+    productId:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: product_id
+    skuId:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: sku_id
+    levels:
+      type: smallint
+      nullable: true
+      unsigned: false
+      comment: ''
+    price:
+      type: decimal
+      nullable: true
+      precision: 10
+      scale: 2
+      comment: ''
+    sPrice:
+      type: decimal
+      nullable: true
+      precision: 10
+      scale: 2
+      comment: ''
+      column: s_price
+    marketPrice:
+      type: decimal
+      nullable: true
+      precision: 10
+      scale: 2
+      comment: ''
+      column: market_price
+    status:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+  lifecycleCallbacks: {  }

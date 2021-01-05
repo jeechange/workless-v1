@@ -1,0 +1,59 @@
+{layout '../Public/layoutList.latte'} {*继承layoutList模板*}
+{block title}统计分析{/block}
+{block actions}
+{/block}
+{block actionstab}
+    {include "./actionstab2.latte"}
+{/block}
+{block checkbox}{/block}
+{block private_css}
+{/block}
+{block private_js}
+{/block}
+{block selectButton}
+    <div class="ranking-box">
+        <a href="{url("consoles_taskStatistics_quality","types={$active}&bTypes=1")}">
+            <div class="ranking-select {if $bTypes==1}ativce{/if}">昨日</div>
+        </a>
+        <a href="{url("consoles_taskStatistics_quality","types={$active}&bTypes=2")}">
+            <div class="ranking-select {if $bTypes==2}ativce{/if}">7日内</div>
+        </a>
+        <a href="{url("consoles_taskStatistics_quality","types={$active}&bTypes=3")}">
+            <div class="ranking-select {if $bTypes==3}ativce{/if}">30日内</div>
+        </a>
+    </div>
+{/block}
+{block content}
+    <table cellpadding="0" cellspacing="0" border="0" class="stdtable">
+        <thead>
+        <tr>
+            <th><span class="table-head">姓名</span></th> {*在th加入 data-sort 可对数据库进行排序*}
+            <th><span class="table-head">平均难度系数</span></th>
+            <th><span class="table-head">平均质量</span></th>
+            <th><span class="table-head">排名</span></th>
+        </tr>
+        </thead>
+        <tbody>
+        {foreach $lists as $k=>$item}
+            <tr>
+                <td class="wid-auto input-rec-td">{$item['userName']}</td>
+                <td class="wid-auto">{$item['coefficientAverage']}</td>
+                <td class="wid-auto">{$item['qualityAverage']}</td>
+                <td class="wid-auto">{$k+1}</td>
+            </tr>
+        {/foreach}
+        </tbody>
+    </table>
+{/block}
+{block sub_content}
+    {if $names}
+        <div style="height: 80px;"></div>
+        <div style="width:100%;float:left;">
+            <!-- 为 echarts 准备一个具备大小（宽高）的Dom。 -->
+            <div id="main" style="width:100%;height:400px;margin:0 auto"></div>
+        </div>
+    {/if}
+{/block}
+
+
+

@@ -1,0 +1,251 @@
+
+*{
+    margin:0;
+    padding:0;
+}
+li{
+    list-style:none;
+}
+img{
+    image-rendering: -moz-crisp-edges;         /* Firefox */
+    image-rendering:   -o-crisp-edges;         /* Opera */
+    image-rendering: -webkit-optimize-contrast;/* Webkit (non-standard naming) */
+    image-rendering: crisp-edges;
+}
+a{
+    text-decoration:none;
+}
+
+/*myOrder导航*/
+.my_order{
+    width:100%;
+    margin:auto;
+    overflow:hidden;
+    margin-top:44px;
+}
+.my_order .my_order_nav{
+    width:50%;
+    margin:auto;
+    overflow:hidden;
+}
+.my_order .my_order_nav>ul{
+    display:flex;
+    justify-content:space-between;
+}
+.my_order .my_order_nav>ul>li>a{
+    font-size:24px;
+    font-family:Microsoft YaHei;
+    font-weight:bold;
+    line-height:40px;
+    color:rgba(38,38,38,1);
+}
+.my_order .my_order_nav>ul>li>a:hover,.my_order .my_order_nav>ul>li .center{
+    color:rgba(40,85,156,1);
+    border-bottom:3px solid #28559C;
+}
+/*订单*/
+.order{
+    width:95%;
+    margin:auto;
+    margin-top:44px;
+    margin-bottom:391px;
+}
+.order>ul{
+    border-bottom:2px dashed #eee;
+}
+.order>ul>li{
+    border-top:2px dashed #eee;
+}
+.order>ul>li .order_list{
+    width:70%;
+    margin:auto;
+    display:flex;
+    justify-content:space-between;
+}
+.order>ul>li .order_list>p{
+    width:257px;
+    font-size:16px;
+    font-family:Microsoft YaHei;
+    font-weight:400;
+    line-height:60px;
+    color:rgba(38,38,38,1);
+}
+.order>ul>li .order_list>ul{
+    width:274px;
+    display:flex;
+    justify-content:space-between;
+    margin-top: 14px;
+}
+.order>ul>li .order_list>ul>li{
+    text-align:center;
+    width:82px;
+    height:32px;
+    background:rgba(255,255,255,1);
+    border:1px solid rgba(112,112,112,1);
+    font-size:16px;
+    font-family:Microsoft YaHei;
+    font-weight:400;
+    line-height:32px;
+    color:rgba(38,38,38,1);
+    border-radius:27px;
+}
+
+.order>ul>li .order_list .due{
+    font-size:16px;
+    font-family:Microsoft YaHei;
+    font-weight:400;
+    line-height:40px;
+    color:rgba(230,9,9,1);
+}
+.order .btn{
+    width:154px;
+    height:43px;
+    margin:auto;
+    margin-top:107px;
+
+}
+.order .btn>button{
+    width:154px;
+    height:43px;
+    background:rgba(255,255,255,1);
+    border:1px solid rgba(112,112,112,1);
+    outline:none;
+    font-size:16px;
+    font-family:Microsoft YaHei;
+    font-weight:400;
+    line-height:40px;
+    color:rgba(38,38,38,1);
+    border-radius:37px;
+
+}
+.order>ul>li .order_list>ul .fk{
+    background:rgba(230,9,9,1);
+}
+
+@media screen and (max-width:425px){
+    /*myOrder导航*/
+    .my_order{
+        width:90%;
+        margin-top:31px;
+    }
+    .my_order .my_order_nav{
+        width:80%;
+        margin:auto;
+        overflow:hidden;
+    }
+
+    .my_order .my_order_nav>ul>li>a{
+        font-size:14px;
+        font-family:Microsoft YaHei;
+        font-weight:bold;
+        line-height:40px;
+        color:rgba(38,38,38,1);
+    }
+    .my_order .my_order_nav>ul>li>a:hover,.my_order .my_order_nav>ul>li .center{
+        color:rgba(40,85,156,1);
+
+    }
+
+    /*订单*/
+    .order{
+        width:90%;
+        margin:auto;
+        margin-top:10px;
+        margin-bottom:40px;
+
+    }
+    .order>ul{
+        border-bottom:none;
+    }
+    .order>ul>li{
+        border-top:none;
+        margin-bottom:10px;
+    }
+    .order>ul>li .order_list{
+        width:100%;
+        margin:auto;
+        display:flex;
+        flex-wrap:wrap;
+        box-shadow:0px 3px 6px rgba(0,0,0,0.16);
+    }
+    .order>ul>li .order_list>p{
+        width:100%;
+        font-size:12px;
+        font-family:Microsoft YaHei;
+        font-weight:400;
+        line-height:40px;
+        color:rgba(38,38,38,1);
+        text-align:center;
+    }
+    .order>ul>li .order_list>p:first-child{
+        color:rgba(40,85,156,1);
+    }
+    .order>ul>li .order_list>ul{
+        width:100%;
+        height:59px;
+        margin:auto;
+        display:flex;
+        justify-content:center;
+        margin-top: 14px;
+        border-top:2px solid rgba(245,245,245,1);
+    }
+    .order>ul>li .order_list>ul>li{
+        text-align:center;
+        width:56px;
+        height:20px;
+        background:rgba(255,255,255,1);
+        border:1px solid rgba(112,112,112,1);
+        font-size:12px;
+        font-family:Microsoft YaHei;
+        font-weight:400;
+        line-height:20px;
+        color:rgba(38,38,38,1);
+        border-radius:27px;
+        box-shadow:0px 3px 6px rgba(0,0,0,0.16);
+        margin-top:21px;
+    }
+    .order>ul>li .order_list>ul>li:nth-child(2){
+        margin-left:34px;
+        margin-right:34px;
+    }
+
+    .order>ul>li .order_list .due{
+        font-size:12px;
+        font-family:Microsoft YaHei;
+        font-weight:400;
+        line-height:40px;
+        color:rgba(230,9,9,1);
+    }
+    .order .btn{
+        width:20%;
+        height:20px;
+        margin:auto;
+        margin-top:30px;
+
+    }
+    .order .btn>button{
+        width:74px;
+        height:20px;
+        background:rgba(255,255,255,1);
+        border:1px solid rgba(112,112,112,1);
+        outline:none;
+        font-size:12px;
+        font-family:Microsoft YaHei;
+        font-weight:400;
+        line-height:19px;
+        color:rgba(38,38,38,1);
+        border-radius:37px;
+
+    }
+    .order>ul>li .order_list>ul .fk{
+        background:rgba(230,9,9,1);
+        border:none;
+        font-size:12px;
+        font-family:Microsoft YaHei;
+        font-weight:400;
+        color:rgba(255,255,255,1);
+    }
+
+}
+
+

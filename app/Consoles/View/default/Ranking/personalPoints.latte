@@ -1,0 +1,222 @@
+{layout '../Public/layoutList.latte'} {*继承layoutList模板*}
+{block title}{if $types==2}加分统计{elseif $types==1}扣分统计{else}得分统计{/if}{/block}
+{block actionstab}
+    {include "./actionstab.latte"}
+{/block}
+
+{block private_css}
+    <style type="text/css">
+        .item-search-box{
+            width:30%;
+            float:left;
+        }
+
+        .item-table-box{
+            width:70%;
+            float:left;
+        }
+
+        .item-search-box .item-search-border{
+            margin:10px;
+            padding:20px;
+            border:1px solid #dddddd;
+        }
+
+        .item-search-bar{
+            width:100%;
+            margin-bottom:20px;
+        }
+
+        .item-search-input{
+            width:100%;
+            height:25px;
+            line-height:25px;
+        }
+
+        .item-inner{
+            width:100%;
+            margin:0.1rem;
+        }
+
+        .item-inner .item-title-depament{
+            padding:0.5rem;
+            background:#f7f7f7;
+        }
+
+        ol{
+            list-style:none;
+        }
+
+        .triangle{
+            width:0;
+            height:0;
+            border-top:0.7rem solid transparent;
+            border-bottom:0.7rem solid transparent;
+            border-left:0.7rem solid #797676;
+            position:absolute;
+            top:50%;
+            transform:translateY(-50%);
+        }
+
+        .triangle-down{
+            width:0;
+            height:0;
+            border-left:0.7rem solid transparent;
+            border-right:0.7rem solid transparent;
+            border-top:0.7rem solid #797676;
+            position:absolute;
+            top:50%;
+            transform:translateY(-50%);
+        }
+
+        div.showStaff{
+            cursor:pointer;
+            position:relative;
+            overflow:hidden;
+        }
+
+        .hidestaff{
+            display:none;
+        }
+
+        .showstaff{
+            display:block;
+        }
+    </style>
+{/block}
+{block private_js}
+    <script type="text/javascript">
+        var department = {$department}?{$department}: [];
+        var staff = {$staff}?{$staff}: [];
+        function showStaff(obj) {
+            $(obj).next().next().toggleClass('showstaff');
+            $(obj).find('span.triangle').toggleClass('triangle-down');
+        }
+        function showName(obj) {
+            var newdepartment = [];
+            var names = $(obj).val()
+            var name = new RegExp(names);
+            if (!names) {
+                newdepartment = department;
+            } else {
+                for (var index in department) {
+                    if (department[index]['staff']) {
+                        var pig = 0;
+                        for (var key in department[index]['staff']) {
+                            if (name.test(department[index]['staff'][key]['fullName']) && !pig) {
+                                pig = 1;
+                                newdepartment.push(department[index])
+                            }
+                        }
+                    }
+                }
+            }
+            var html = '';
+            for (var i in newdepartment) {
+                var triangle = '';
+                if (department[i]['count'] > 0 && !names) triangle = '<span class="triangle"></span>';
+                if (department[i]['count'] > 0 && names) triangle = '<span class="triangle triangle-down"></span>';
+                var staffshow = '<ol class="hidestaff">';
+                if (names) staffshow = '<ol class="hidestaff showstaff">';
+
+                html += '<li><div class="item-inner"><div class="item-title-depament showStaff" onclick="showStaff(this)">' + triangle + '<span style="float:left;margin-left:1.5rem;color: #999;">' + newdepartment[i]['names'] + '</span><span style="float:right;color: #999;">' + newdepartment[i]['count'] + '人</span></div><div style="clear:both;"></div>' + staffshow;
+
+                for (var j in newdepartment[i]['staff']) {
+                    var url = {url('consoles_ranking_personalPoints',array('types'=>$types))}+'&userId=' + newdepartment[i]['staff'][j]['userId'];
+                    html += "<li><a class='item-content item-link' style='border-bottom:1px solid #eee;' href='" + url + "'>" + '<div style="width:95%;"><div class="item-title" style="padding:0.5rem 0;"><div style="width:100%; float:left;"><p style="margin:0 0 0 25px;">' + newdepartment[i]['staff'][j]['fullName'] + ' ' + newdepartment[i]['staff'][j]['phone'] + '</p></div></div><div style="clear:both;"></div></div></a></li>';
+                }
+                html += '</ol></div></li>';
+            }
+            var newstaff = [];
+            for (var k in staff) {
+                if (name.test(staff[k]['fullName'])) {
+                    newstaff.push(staff[k])
+                }
+            }
+            for (var kk in newstaff) {
+                var nurl = {url('consoles_ranking_personalPoints',array('types'=>$types))}+'&userId=' + newstaff[kk]['id'];
+                html += "<a class='item-content item-link' href='" + nurl + "'>" + '<div style="width:95%;"><div class="item-title" style="padding:0.5rem 0;"><div style="width:75%; float:left;"><p style="margin:0 25px;">' + newstaff[kk]['fullName'] + ' ' + newstaff[kk]['phone'] + '</p></div></div><div style="clear:both;"></div></div></a>';
+            }
+            $('#department').html(html)
+        }
+    </script>
+{/block}
+{block content}
+    <div class="item-search-box">
+        <div class="item-search-border">
+            <div class="item-search-bar">
+                <input type="text" placeholder="输入关键字" name="search" onkeyup="showName(this)" class="item-search-input" value="{$user['fullName']}">
+            </div>
+            <ul style="list-style: none;" id="department">
+                {foreach $department as $k => $v}
+                    <li>
+                        <div class="item-inner">
+                            <div class="item-title-depament showStaff" onclick="showStaff(this)">
+                                {if $v['count']>0}<span class="triangle">{/if}</span><span style="float:left;margin-left:1.5rem;color: #999;">{$v['names']} </span><span style="float:right;color: #999;">{$v['count']}人</span>
+                            </div>
+                            <div style="clear:both;"></div>
+                            <ol class="hidestaff">
+                                {foreach $v['staff'] as $kk => $vv}
+                                    <li>
+                                        <a class="item-content item-link" style="border-bottom:1px solid #eee;" href="{url('consoles_ranking_personalPoints',array('types'=>$types,'userId'=>$vv['userId']))}">
+                                            <div style="width:95%;">
+                                                <div class="item-title" style="padding:0.5rem 0;">
+                                                    <div style="width:100%; float:left;">
+                                                        <p style="margin:0 0 0 25px;">{$vv['fullName']} {$vv['phone']}</p>
+                                                    </div>
+                                                </div>
+                                                <div style="clear:both;"></div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                {/foreach}
+                            </ol>
+                        </div>
+                    </li>
+                {/foreach}
+                {if $staff}
+                    {foreach $staff as $kk=>$vv}
+                        <a class="item-content item-link" href="{url('consoles_ranking_personalPoints',array('types'=>$types,'userId'=>$vv['id']))}">
+                            <div style="width:95%;">
+                                <div class="item-title" style="padding:0.5rem 0;">
+                                    <div style="width:75%; float:left;">
+                                        <p style="margin:0 25px;">{$vv['fullName']} {$vv['phone']}</p>
+                                    </div>
+                                </div>
+                                <div style="clear:both;"></div>
+                            </div>
+                        </a>
+                    {/foreach}
+                {/if}
+            </ul>
+        </div>
+    </div>
+    <div class="item-table-box">
+        <table cellpadding="0" cellspacing="0" border="0" class="stdtable">
+            <thead>
+            <tr>
+                <th></th>
+                <th data-sort="userName"><span class="table-head">姓名</span></th> {*在th加入 data-sort 可对数据库进行排序*}
+                <th data-sort="addTime"><span class="table-head">日期</span></th>
+                <th><span class="table-head">内容</span></th>
+                <th><span class="table-head">{if $types==2}总加分{elseif $types==1}总扣分{else}总得分{/if}</span></th>
+            </tr>
+            </thead>
+            <tbody>
+            {foreach $lists as $k=>$item}
+                <tr>
+                    <td style="width: 60px;"><input type="checkbox" name='ids[]' class="checkall_1 checkall-item" value="{$item['s_id']}"/></td>
+                    <td class="wid-auto">{$item['userName']}</td>
+                    <td class="wid-auto">{$item['addTime']|totime}</td>
+                    <td class="wid-auto">{$item['memo']}</td>
+                    <td class="wid-auto">{$item['acorn']}</td>
+                </tr>
+            {/foreach}
+            </tbody>
+        </table>
+    </div>
+{/block}
+
+
+
+

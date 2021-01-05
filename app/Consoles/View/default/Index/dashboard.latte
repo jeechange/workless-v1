@@ -1,0 +1,573 @@
+{block private_css}
+    <style type="text/css">
+        #contentdiv{
+            padding:10px 10px 10px 10px !important;
+            background:#e9ecf1;
+        }
+
+        .content-box{
+            width:100%;
+            height:100%;
+        }
+
+        .content-box .content-box-left{
+            width:30%;
+            float:left;
+        }
+
+        .content-box .content-box-right{
+            width:70%;
+            float:left;
+        }
+
+        .content-dynamic-1{
+            background:white;
+            height:316px;
+            margin-bottom:20px;
+            border-radius:8px;
+        }
+
+        .content-dynamic{
+            background:white;
+            height:652px;
+            margin-bottom:20px;
+            border-radius:8px;
+        }
+        #main{
+            width:100%;
+            height:750px;
+            margin:0 auto;
+            overflow-y:scroll;
+        }
+
+        #main::-webkit-scrollbar-track-piece{
+            background-color:#f8f8f8;
+        }
+
+        #main::-webkit-scrollbar{
+            width:0;
+            height:9px;
+        }
+
+        .content-dynamic-right{
+            background:white;
+            height:316px;
+            margin-bottom:20px;
+            border-radius:8px
+        }
+
+        .content-title{
+            color:#333333;
+            padding:10px 0;
+            font-family:'Microsoft YaHei';
+            border-bottom:1px solid #f5f5f5
+        }
+
+        .content-title .right{
+            float:right;
+            text-decoration:none;
+            margin-right:10px;
+        }
+
+        .content-title .left{
+            text-decoration:none;
+            margin-left:10px;
+        }
+
+        .content-title .content-title-text{
+            border-left:#0087e2 solid 2px;
+            padding-left:10px;
+            font-size:14px;
+            line-height:14px;
+            height:14px;
+        }
+
+        .content-margin{
+            margin: 20px;
+            overflow-y: scroll;
+            height: 571px;
+        }
+        .content-margin::-webkit-scrollbar {
+            display: none;
+        }
+        .content-todo-block{
+            margin:20px 10px;
+            height:234px;
+        }
+
+        .content-todo-block-relative{
+            position:relative;
+            width:25%;
+            float:left;
+            height:230px;
+        }
+
+        .content-todo-block-relative-box{
+            margin:20px 10px;
+            height:210px;
+            border-radius:5px;
+            -moz-box-shadow:2px 2px 5px #898383;
+            -webkit-box-shadow:2px 2px 5px #898383;
+            box-shadow:2px 2px 5px #898383;
+        }
+
+        .content-todo-block-title{
+            position:absolute;
+            border-radius:50px;
+            width:50px;
+            border:3px solid white;
+            height:50px;
+            top:-4px; bottom:0;
+            left:0; right:0; margin:0 auto;
+            line-height:50px;
+            text-align:center;
+            color:white;
+            font-size:25px;
+        }
+
+        .content-todo-block-bg-lightRed{
+            background:#fd9c9c;
+        }
+
+        .content-todo-block-bg-orange{
+            background:#fdc49c;
+        }
+
+        .content-todo-block-bg-lightBlue{
+            background:#9cd7fd;
+        }
+
+        .content-todo-block-bg-seaBlue{
+            background:#9cbffd;
+        }
+
+        .content-todo-block-text{
+            padding:40px 10px;
+            color:white
+        }
+
+        .content-Statistics-block{
+            background:white;
+            height:316px;
+            margin-bottom:20px;
+            border-radius:8px
+        }
+
+        .content-col-xs-40{
+            width:40%;
+            float:left;
+        }
+
+        .content-col-xs-20{
+            width:20%;
+            float:left;
+        }
+
+        .atvice{
+            color:#0087e1;
+        }
+
+        ul li{
+            list-style:none;
+        }
+
+        /*单行文字，超出自动省略*/
+        .sui-ellipsis-1{
+            display:-webkit-box;
+            overflow:hidden;
+            text-overflow:ellipsis;
+            word-wrap:break-word;
+            word-break:break-all;
+            white-space:normal !important;
+            -webkit-line-clamp:1;
+            -webkit-box-orient:vertical;
+        }
+
+        .content-box-text-name{
+            font-weight:400;
+            font-size:20px;
+        }
+
+        .content-box-text{
+            text-align:center;
+            font-weight:400;
+            font-size:14px;
+            color:#FF0000;
+        }
+
+        .content-box-line-height{
+            line-height:35px;
+            margin-top:20px;
+        }
+
+        .content-box-p-font{
+            font-size:14px;
+            color:#959595;
+        }
+
+        .content-box-left-50{
+            width:50%;
+            float:left;
+        }
+
+        .content-box-left-60{
+            width:60%;
+            float:left;
+        }
+
+        .content-box-left-40{
+            width:40%;
+            float:left;
+        }
+
+        .content-border-radius-10{
+            width:10rem;
+            height:10rem;
+            border:1px solid #6C8CD5;
+            border-radius:10rem;
+            margin:auto;
+            background:#6C8CD5;
+        }
+
+        .content-border-radius-font{
+            height:10rem;
+            line-height:10rem;
+            text-align:center;
+            color:white;
+            font-size:40px;
+            font-weight:400;
+        }
+    </style>
+{/block}
+{block private_js}
+    <script type="text/javascript" n:syntax="double">
+        //图二
+        var myChart1 = echarts.init(document.getElementById('main1'));
+        option1 = {
+            title: {
+                text: '',
+                subtext: ''
+            },
+            tooltip: {
+                trigger: 'axis'
+            },
+            legend: {
+                data: ['任务量', '平均质量', '平均难度(*100)']
+            },
+            toolbox: {
+                show: true,
+                feature: {
+                    dataView: {show: true, readOnly: false},
+                    magicType: {show: true, type: ['line', 'bar']},
+                    restore: {show: true},
+                    saveAsImage: {show: true}
+                }
+            },
+            calculable: true,
+            xAxis: [
+                {
+                    type: 'category',
+                    data: {{$countNames}}
+                }
+            ],
+            yAxis: [
+                {
+                    type: 'value'
+                }
+            ],
+            series: [
+                {
+                    name: '任务量',
+                    type: 'bar',
+                    data:{{$countVlues2}},
+                    markPoint: {
+                        data: [
+                            {type : 'max', name: '最大值'},
+                            {type : 'min', name: '最小值'}
+                        ]
+                    },
+                    markLine: {
+                        data: [
+                            {type : 'average', name : '平均值'}
+                        ]
+                    }
+                },
+                {
+                    name: '平均质量',
+                    type: 'bar',
+                    data:{{$countVlues1}},
+                    markPoint: {
+                        data: [
+                            {type : 'max', name: '最大值'},
+                            {type : 'min', name: '最小值'}
+                        ]
+                    },
+                    markLine: {
+                        data: [
+                            {type : 'average', name : '平均值'}
+                        ]
+                    }
+                },
+                {
+                    name: '平均难度(*100)',
+                    type: 'bar',
+                    data:{{$countVlues}},
+                    markPoint: {
+                        data: [
+                            {type : 'max', name: '最大值'},
+                            {type : 'min', name: '最小值'}
+                        ]
+                    },
+                    markLine: {
+                        data: [
+                            {type : 'average', name: '平均值'}
+                        ]
+                    }
+                }
+
+            ]
+        };
+
+        myChart1.setOption(option1);
+        //图三
+        var myChart4 = echarts.init(document.getElementById('main4'));
+        option4 = {
+            title: {
+                text: '',
+                subtext: ''
+            },
+            tooltip: {
+                trigger: 'axis'
+            },
+            legend: {
+                data: ['积分']
+            },
+            toolbox: {
+                show: true,
+                feature: {
+                    dataView: {
+                        show: true, readOnly: false
+                    },
+                    magicType: {
+                        show: true, type: ['line', 'bar']
+                    },
+                    restore: {
+                        show: true
+                    },
+                    saveAsImage: {
+                        show: true
+                    }
+                }
+            },
+            calculable: true,
+            xAxis: [
+                {
+                    type: 'category',
+                    data: {{$rankingNames}}
+                }
+            ],
+            yAxis: [
+                {
+                    type: 'value'
+                }
+            ],
+            series: [
+                {
+                    name: '积分',
+                    type: 'bar',
+                    itemStyle: {
+                        normal: {
+                            color: "#fd9c9c",
+                            lineStyle: {
+                                color: "#fd9c9c"
+                            }
+                        }
+                    },
+                    data:{{$rankingVlues}},
+                    markPoint: {
+                        data: [
+                            {
+                                type: 'max', name: '最大值'
+                            },
+                            {
+                                type: 'min', name: '最小值'
+                            }
+                        ]
+                    },
+                    markLine: {
+                        data: [
+                            {
+                                type: 'average', name: '平均值'
+                            }
+                        ]
+                    }
+                }
+            ]
+        };
+        myChart4.setOption(option4);
+
+        //积分动态
+        function aconShow() {
+            var id = $(this).attr('data-id');
+            $(".acon-show-" + id).toggle();
+        }
+
+        //任务时间
+        init.ready(function () {
+            if (typeof window.timerdeadlineList !== "undefined") {
+                clearInterval(window.timerdeadlineList);
+            }
+            window.timerdeadlineList = setInterval(function () {
+                $("[data-deadline]").each(function () {
+                    var endTimes = $(this).attr("data-deadline");
+                    var cTime = countDown(endTimes);
+                    $(this).text("剩余时间：" + cTime);
+                });
+            }, 1000);
+        });
+
+
+    </script>
+{/block}
+{block content}
+    <div id="contentdiv">
+        <div class="content-box">
+            <div class="content-box-left">
+                <div class="content-dynamic-1">
+                    <div style="padding:15px;">
+                        <div style="line-height: 35px;height: 35px;width: 100%;">
+                            <div class="content-box-text-name content-box-left-40">{$user['u_fullName']}</div>
+                            <div class="content-box-left-60" style="display: none">
+                                <a href="{url('consoles_set_myuser','different=yes')}" class="content-box-left-60" style="text-align:right">
+                                    {if $user['c_leader']>0}
+                                        <span>直线经理：{$user['c_leaderName']}</span>
+                                    {elseif  $user['c_leader']==-1}
+                                        <span>直线经理：无</span>
+                                    {else}
+                                        <span class="content-box-text">请完善您的直线经理</span>
+                                    {/if}
+                                </a>
+
+                            </div>
+                        </div>
+                        <div class="content-box-line-height content-box-left-50">
+                            <p class="content-box-p-font">积分：{$user['c_acorn']|default:0}分</p>
+                            <p class="content-box-p-font">本月积分：{$monthAcorn['acorn']|default:0}分</p>
+                            <p class="content-box-p-font">TODO：您有 <a href="{url('consoles_lists','con=Todo')}" style="color: #0087e1;">{$todoCount|default:0}</a> 个待办事项</p>
+                            <p class="content-box-p-font">A类任务：您有 <a href="{url('consoles_lists','con=Todo')}" style="color: #0087e1;">{$AtodoCount|default:0}</a> A个类任务</p>
+                        </div>
+                        <div class="content-box-left-50 content-box-line-height">
+                            <p class="content-box-p-font" style="text-align: center;">本月排名</p>
+
+                            <div class="content-border-radius-10">
+                                {if $myRanking&&$myRanking['ranking']>0}
+                                    <div class="content-border-radius-font">{$myRanking['ranking']}</div>
+                                {else}
+                                    <div class="content-border-radius-font">无</div>
+                                {/if}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="content-dynamic">
+                    <div class="content-title">
+                        <span class="content-title-text">积分动态</span>
+                        <a href="{url('consoles_acorn_allLists')}" class="right">更多</a>
+                    </div>
+                    <div class="content-margin">
+                        {if $dynamics}
+                            <ul>
+                                {foreach $dynamics as  $k=>$v}
+                                    <li data-id="{$v['a_id']}" onclick="aconShow.call(this)" style="line-height: 35px;cursor:pointer">
+                                        <div class="content-col-xs-40 sui-ellipsis-1">{$v['fullName']} {if $v['a_acorn'] > 0}+{/if}{$v['a_acorn']}</div>
+                                        <div class="content-col-xs-40 sui-ellipsis-1">{$v['sNames']?$v['sNames']:"未知"}</div>
+                                        <div class="content-col-xs-20 sui-ellipsis-1">{$v['addTimes']}</div>
+                                        <div style="display:none;background: #e9ecf1;width: 100%;float: left;line-height: 2.2rem; " class="acon-show-{$v['a_id']}">
+                                            <div style="margin: 20px;">
+                                                <div>内容：{$v['sNames']}</div>
+                                                <div>详情：{$v['a_sysMemo']?$v['a_sysMemo']:"-"}</div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                {/foreach}
+                            </ul>
+                        {else}
+                            <div style="position:relative; width:100%; line-height:50px; display:block; text-align:center;">
+                                <a href="{url('consoles_lists','con=Todo')}" style="width:100%; height:100%; display:block; text-decoration:none;">
+                                    <img src="{path('[MobileConsoles]/img/null.png')}" alt="" class="" style="margin:0 auto; width:180px; height:180px; display:block;">
+                                    <div style="width:100%; color:#999; text-align:center; font-size:1.2rem;">暂无积分记录</div>
+                                </a>
+                            </div>
+                        {/if}
+                    </div>
+                </div>
+            </div>
+            <div class="content-box-right">
+                <div style="margin-left: 20px;">
+                    <div class="content-dynamic-right">
+                        <div class="content-title">
+                            <span class="content-title-text">我的TODO</span>
+                            <a href="{url('consoles_lists','con=Todo')}" class="right">更多</a>
+                        </div>
+                        <div class="content-todo-block">
+                            {if $myTodo}
+                                {foreach $myTodo as $key=>$item}
+                                    <a href="{url('consoles_task_details','id='.$item["relateId"])}#421">
+                                        <div class="content-todo-block-relative">
+                                            <div class="content-todo-block-relative-box content-todo-block-bg-{if $key==0}lightRed{elseif $key==1}orange{elseif $key==2}lightBlue{else}seaBlue{/if}">
+                                                <div class="content-todo-block-title content-todo-block-bg-{if $key==0}lightRed{elseif $key==1}orange{elseif $key==2}lightBlue{else}seaBlue{/if}">
+                                                    {$item['priorityMemo']}
+                                                </div>
+                                                <div class="content-todo-block-text">
+                                                    <p>任务：{$item['content']}</p>
+                                                    <p>领取时间：{totime($item['addTime'])}</p>
+                                                    {if $item["status"]==0}
+                                                        <p class="item-after" data-deadline="{$item["deadline"]|totime}"></p>
+                                                    {else}
+                                                        <p class="item-after">{$item["statusMemo"]}</p>
+                                                    {/if}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                {/foreach}
+                            {else}
+                                <div style="position:relative; width:100%; line-height:50px; display:block; text-align:center;">
+                                    <a href="{url('consoles_lists','con=Todo')}" style="width:100%; height:100%; display:block; text-decoration:none;">
+                                        <img src="{path('[MobileConsoles]/img/null.png')}" alt="" class="" style="margin:0 auto; width:180px; height:180px; display:block;">
+                                        <div style="width:100%; color:#999; text-align:center; font-size:1.2rem;">所有任务已完成</div>
+                                    </a>
+                                </div>
+                            {/if}
+                        </div>
+                    </div>
+                    <div class="content-Statistics-block">
+                        <div class="content-title">
+                            <span class="content-title-text">积分排名</span>
+                            <a class="left {if $atvice=="week"}atvice{/if}" href="{url('consoles_index_dashboard',array("types"=>0))}">本周排名</a>
+                            <a class="left {if $atvice=="month"}atvice{/if}" href="{url('consoles_index_dashboard',array("types"=>1))}">本月排名</a>
+                            <a class="left {if $atvice=="year"}atvice{/if}" href="{url('consoles_index_dashboard',array("types"=>2))}">本年排名</a>
+                            <a class="left {if $atvice=="total"}atvice{/if}" href="{url('consoles_index_dashboard',array("types"=>3))}">总排名</a>
+                            <a href="{url("consoles_lists","con=Ranking")}" class="right">更多</a>
+                        </div>
+                        <!-- 为 echarts 准备一个具备大小（宽高）的Dom。 -->
+                        <div id="main4" style="width:100%;height:280px;margin:0 auto"></div>
+                    </div>
+                    <div class="content-Statistics-block">
+                        <div class="content-title">
+                            <span class="content-title-text">任务统计</span>
+                            <a class="left {if $countatvice==1}atvice{/if}" href="{url('consoles_index_dashboard',array("countTypes"=>1))}">昨天</a>
+                            <a class="left {if $countatvice==2}atvice{/if}" href="{url('consoles_index_dashboard',array("countTypes"=>2))}">7天内</a>
+                            <a class="left {if $countatvice==3}atvice{/if}" href="{url('consoles_index_dashboard',array("countTypes"=>3))}">30天内</a>
+                            <a href="{url('consoles_lists',"con=taskStatistics")}" class="right">更多</a>
+                        </div>
+                        <div style="width:100%;float:left;">
+                            <!-- 为 echarts 准备一个具备大小（宽高）的Dom。 -->
+                            <div id="main1" style="width:100%;height:280px;margin:0 auto"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{/block}

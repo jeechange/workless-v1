@@ -1,0 +1,87 @@
+.input-file{ overflow:visible; width:135px; height:135px; line-height:135px; position:relative; text-align:center; cursor:pointer; box-sizing:content-box; background:#f7f7f7; vertical-align:middle; }
+
+.input-file img{ max-width:135px; max-height:135px; vertical-align:middle; }
+
+.input-file .input-file-action{ position:absolute; z-index:9; top:0; background:#f7f7f7; cursor:pointer; height:90px; width:135px; line-height:90px; font-size:16px; display:none; }
+
+.input-file.hover .input-file-action, .input-file.hover .input-file-action-2{ display:block; background:#f7f7f7; }
+
+.input-file .input-file-action.hover, .input-file .input-file-action-2.hover{ background:#dee8f5; color:#3986c6; }
+
+.input-file.input-file-edit .input-file-action{ height:46px; line-height:45px; }
+
+.input-file .input-file-action-2, .input-file .input-file-action-3{ position:absolute; z-index:9; top:90px; height:45px; line-height:45px; width:135px; font-size:16px; display:none; background:#f7f7f7; }
+
+.input-file.input-file-edit .input-file-action-2{ top:45px; }
+
+.input-file.input-file-edit.hover .input-file-action, .input-file.input-file-edit.hover .input-file-action-2, .input-file.input-file-edit.hover .input-file-action-3{ filter:alpha(opacity=80); -moz-opacity:0.8; opacity:0.8; display:block; }
+
+.input-file.input-file-edit .input-file-action-2.hover, .input-file.input-file-edit .input-file-action.hover{ background:#dee8f5; color:#3986c6; }
+
+.input-file.input-file-edit .input-file-action-3.hover{ background:#dee8f5; color:#f20000; }
+
+.pic-upload-stock-item{ width:135px; height:155px; display:inline-block; padding:2px; margin:8px; background:#f7f7f7; line-height:135px; vertical-align:middle; border:1px solid #dedede;
+    text-align:center; cursor:pointer; }
+
+.pic-upload-stock-item span{ display:block; height:20px; line-height:20px; text-align:left; }
+
+.pic-upload-stock-item.hover, .pic-upload-stock-item.selected{ background:#b4d5f7; border-color:#5392cd; }
+
+.pic-upload-stock-item.hover.selected, .pic-upload-stock-item.selected{ background:#a2d6f7; border-color:#5285cd; }
+
+.pic-upload-stock img{ max-width:135px; max-height:135px; vertical-align:middle; }
+
+.pic-upload-stock:after, .pic-upload-stock:before{ content:" "; display:block; clear:both; }
+
+.input-file-mul{ overflow:visible; width:135px; height:135px; line-height:135px; position:relative; text-align:center; cursor:pointer; box-sizing:content-box; background:#f7f7f7; vertical-align:middle; float:left; margin-top:20px;
+    margin-left:20px; }
+
+.input-file-mul img{ max-width:135px; max-height:135px; vertical-align:middle; }
+
+.input-file-mul .input-file-action{ position:absolute; z-index:9; top:0; background:#f7f7f7; cursor:pointer; height:90px; width:135px; line-height:90px; font-size:16px; display:none; }
+
+.input-file-mul.hover .input-file-action, .input-file-mul.hover .input-file-action-2{ display:block; background:#f7f7f7; }
+
+.input-file-mul .input-file-action.hover, .input-file-mul .input-file-action-2.hover{ background:#dee8f5; color:#3986c6; }
+
+.input-file-mul .input-file-action-2{ position:absolute; z-index:9; top:90px; height:46px; line-height:45px; width:135px; font-size:16px; display:none; background:#f7f7f7; }
+
+.input-file-item{ width:135px; float:left; margin-top:20px; margin-left:20px; vertical-align:middle; position:relative; text-align:center; cursor:pointer; box-sizing:content-box; border:1px solid #dfdfdf;
+}
+
+.input-file-item .img-container{ width:135px; vertical-align:middle; height:135px; background:#f7f7f7; }
+
+.input-file-item .img-container img{ max-width:135px; max-height:135px; vertical-align:middle; }
+
+.input-file-item .input-file-item-action-1, .input-file-item .input-file-item-action-2{ height:20px; line-height:20px; display:none; width:67px; position:absolute; bottom:20px; background:#f7f7f7; }
+
+.input-file-item .input-file-item-action-1{ left:0; }
+
+.input-file-item .input-file-item-action-2{ left:68px; }
+
+.input-file-item .input-file-item-action-3{ background:#f7f7f7; height:20px; line-height:20px; color:#f20000; display:none; position:absolute; bottom:0; width:135px; left:0; }
+
+.input-file-item.hover .input-file-item-action-1,
+.input-file-item.hover .input-file-item-action-2{
+    display:inline-block;
+    filter:alpha(opacity=80); -moz-opacity:0.8; opacity:0.8;
+}
+
+.input-file-item.hover .input-file-item-action-3{ display:block; filter:alpha(opacity=80); -moz-opacity:0.8; opacity:0.8; }
+
+.input-file-item.active{ background:#fafafa; border:2px solid #0a8acd }
+
+
+
+.pic-upload-stock-item-mul{ width:135px; height:155px; display:inline-block; padding:2px; margin:8px; background:#f7f7f7; line-height:135px; vertical-align:middle; border:1px solid #dedede;
+    text-align:center; cursor:pointer; }
+
+.pic-upload-stock-item-mul span{ display:block; height:20px; line-height:20px; text-align:left; }
+
+.pic-upload-stock-item-mul.hover, .pic-upload-stock-item-mul.selected{ background:#b4d5f7; border-color:#5392cd; }
+
+.pic-upload-stock-item-mul.hover.selected, .pic-upload-stock-item-mul.selected{ background:#a2d6f7; border-color:#5285cd; }
+
+.pic-upload-stock-mul img{ max-width:135px; max-height:135px; vertical-align:middle; }
+
+.pic-upload-stock:after, .pic-upload-stock:before{ content:" "; display:block; clear:both; }

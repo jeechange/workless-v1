@@ -1,0 +1,124 @@
+@media screen and (min-width:426px){
+    .top{
+        width:50px;
+        height:50px;
+        position:fixed;
+        right:1vw;
+        bottom:5vh;
+        cursor:pointer;
+        border-radius:100%;
+        background:#FFF;
+        border:#FFF 1px solid;
+    }
+
+    .top img{
+        width:100%;
+        display:block;
+    }
+
+    .bots{
+        overflow:hidden;
+        float:right;
+        margin-top:10px;
+    }
+
+    .icons{
+        float:left;
+        margin-right:40px;
+        margin-top:20px;
+    }
+
+    .icons:last-child{
+        margin-right:0;
+    }
+
+    .icons p{
+        font-size:14px;
+        font-family:Microsoft YaHei;
+        font-weight:400;
+        line-height:19px;
+        color:rgb(112, 145, 197);
+        opacity:1;
+        text-align:center;
+    }
+
+    .botLeft p:last-child{
+        margin-top:19px;
+    }
+
+    .botPhone{
+        display:none;
+        width:100%;
+        background:#28559c;
+        overflow:hidden;
+    }
+
+    .botPhone p, .botPhone a{
+        width:100%;
+        font-size:10px;
+        font-family:Microsoft YaHei;
+        font-weight:400;
+        line-height:19px;
+        opacity:1;
+        text-align:center;
+        color:rgb(112, 145, 197);
+    }
+
+    .botPhone p{
+        width:1000px;
+        margin:auto;
+        text-align:left;
+    }
+}
+
+@media screen and (max-width:425px){
+    .top{
+        position:fixed;
+        bottom:5vh;
+        right:20px;
+        width:32px;
+        z-index:40;
+    }
+
+    .top img{
+        width:100%;
+        background:#FFF;
+        border-radius:100%;
+        border:#FFF 1px solid;
+    }
+
+    .foot{
+        overflow:hidden;
+    }
+
+    .botLeft{
+        float:left;
+    }
+
+    .bots{
+        float:right;
+        margin-top:45px;
+    }
+
+    .icons{
+        /*display:none;*/
+        float:left;
+        margin-left:15px;
+    }
+
+    .icons p{
+        font-size:12px;
+        font-family:Segoe UI;
+        font-weight:400;
+        line-height:25px;
+        color:rgb(112, 145, 197);
+        opacity:1;
+        text-align:center;
+    }
+
+    .icons img{
+        width:40px;
+        display:block;
+        margin:auto;
+    }
+}

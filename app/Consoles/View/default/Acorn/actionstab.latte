@@ -1,0 +1,13 @@
+{*<a href="{url('consoles_acorn_applyLists','types=my')}" {if $active=="my"}class="selected"{/if}>我的申请</a>*}
+{*<a href="{url('consoles_acorn_submitApply','types=submit')}" {if $active=="submit"}class="selected"{/if}>提交申请</a>*}
+
+{*<a href="{url('consoles_acorn_apply','types=apply')}" {if $types=="apply"}class="selected"{/if}>申请</a>*}
+{*<a href="{url('consoles_lists',"con=acorn&&types=lists")}" {if $types=="lists"}class="selected"{/if}>积分明细</a>*}
+{*<a href="{url('consoles_acorn_analysis',"types=analysis")}" {if $types=="analysis"}class="selected"{/if}>我的价值分析</a>*}
+{*<a href="{url('consoles_acorn_auditLists',"types=audit")}" {if $types=="audit"}class="selected"{/if}>审核</a>*}
+
+<a href="{url('consoles_lists',"con=acorn&&types=All")}" {if $types=="All"}class="selected"{/if}>全部</a>
+<a href="{url('consoles_lists',"con=acorn&&types=Action")}" {if $types=="Action"}class="selected"{/if}>行为</a>
+<a href="{url('consoles_lists',"con=acorn&&types=Report")}" {if $types=="Report"}class="selected"{/if}>汇报</a>
+<a href="{url('consoles_lists',"con=acorn&&types=Achievement")}" {if $types=="Achievement"}class="selected"{/if}>业绩</a>
+<a href="{url('consoles_lists',"con=acorn&&types=Task")}" {if $types=="Task"}class="selected"{/if}>任务</a>

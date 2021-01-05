@@ -1,0 +1,24 @@
+<table cellpadding="0" cellspacing="0" border="0" class="stdtable" style="width:100%">
+    <thead>
+    <tr>
+        <th>姓名</th> {*在th加入 data-sort 可对数据库进行排序*}
+        <th>部门</th>
+        <th>职位</th>
+        <th>审核上限</th>
+        <th>操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    {foreach $lists as $k=>$item}
+        <tr>
+            <td>{$item["s_fullName"]}</td>
+            <td>{$item["d_names"]}</td>
+            <td>{$item['ss_names']}</td>
+            <td>{$item['ss_limitAcorn']==1?$item['ss_riseAcorn']:"不限制"}</td>
+            <td>
+                <div style="cursor:pointer;text-decoration:underline;color:#009DD9" onclick="submitAccept.call(this,{$item['s_id']});" data-posts="{json_encode($posts)}">交给TA审核</div>
+            </td>
+        </tr>
+    {/foreach}
+    </tbody>
+</table>

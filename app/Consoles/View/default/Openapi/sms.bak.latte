@@ -1,0 +1,93 @@
+{layout '../Public/layoutForm.latte'}
+{block return_actions}{/block}
+{block title}短信设置{/block}
+
+{block private_js}
+    <script>
+        function togglePassword(id, self) {
+            var obj = $("#" + id);
+            if (obj.attr("type") == "password") {
+                obj.after('<input type="text" id="' + id + '" name="' + obj.attr("name") + '" value="' + obj.val() + '" class="' + obj.attr("class") + '">');
+                obj.remove();
+                $(self).text("隐藏密码");
+            } else {
+                obj.after('<input type="password" id="' + id + '" name="' + obj.attr("name") + '" value="' + obj.val() + '" class="' + obj.attr("class") + '">');
+                obj.remove();
+                $(self).text("显示密码");
+            }
+        }
+    </script>
+{/block}
+
+{block private_css}
+    <style>
+        #formArticle .smallinput{
+            width:500px;
+        }
+    </style>
+{/block}
+
+{block content}
+    <form id="formArticle" class="stdform mform" method="post" action="" onsubmit="return false">
+        <table cellpadding="0" cellspacing="0" border="0" id="frmtable" class="formtable">
+            <thead>
+            <tr>
+                <td><label>短信接口URL</label></td>
+                <td>
+                    <div class="field control-group">
+                        <div class="input-group">
+                            <input type="text" id="frm_address" readonly class="smallinput" value="http://api.sms.cn/mtutf8/"/>
+
+                            目前仅支持[云信]提供的短信接口，如您还没开通，请到云信平台开通并添加IP[127.0.0.1]到白名单中，
+                            <a href="http://www.sms.cn" target="_blank" style="color:#2e6da4">立即开通</a>
+
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td><label>用户名<i class='must'>*</i></label></td>
+                <td>
+                    <div class="control-group ">
+                        <div class="field input-group">
+                            <input type="text" id="frm_username" name="username" class="smallinput frm-control" value="{$api['username']}"/><br/>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td><label>密码</label></td>
+                <td>
+                    <div class="field control-group">
+                        <div class="input-group">
+                            <input type="password" id="frm_password" name="password" class="smallinput frm-control" value="{$api['password']}"/>
+                            <span onclick="togglePassword('frm_password',this)" style="margin-left: 5px;cursor: pointer;">显示密码</span>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td><label>短信签名<i class='must'>*</i></label></td>
+                <td>
+                    <div class="control-group">
+                        <div class="field input-group">
+                            <input type="text" id="frm_SIGNATURE" name="SIGNATURE" class="smallinput frm-control" value="{$api['SIGNATURE']}"/>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td><label>启用</label></td>
+                <td>
+                    <div class="field control-group">
+                        <div class="input-group">
+                            <label style='float:none;'><input {if $api["status"]!=="0"}checked{/if} type="radio" name='status' value='1'> 开启</label>
+                            <label style='float:none'><input {if $api["status"]==="0"}checked{/if} type="radio" name='status' value='0'> 关闭</label>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            </thead>
+        </table>
+    </form>
+{/block}

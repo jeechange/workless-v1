@@ -1,0 +1,81 @@
+{layout '../Layout/layout.latte'}
+{block headTitle}主企业信息{/block}
+{block private_js}
+    <script>
+        $(".buttons-tab .tab-link a").on("click", function (e) {
+            e.stopPropagation();
+        })
+    </script>
+{/block}
+
+{block private_css}
+    <style>
+
+    </style>
+{/block}
+{block content}
+    {include "./tabs.latte"}
+    <div class="content-block-title">基础信息</div>
+    <div class="list-block">
+        <ul>
+            <li class="item-content">
+                <div class="item-inner">
+                    <div class="item-title">企业名称</div>
+                    <div class="item-after">{$auth->getNames()}</div>
+                </div>
+            </li>
+            <li class="item-content">
+                <div class="item-inner">
+                    <div class="item-title">行业</div>
+                    <div class="item-after">{$industry}</div>
+                </div>
+            </li>
+            <li class="item-content">
+                <div class="item-inner">
+                    <div class="item-title">企业规模</div>
+                    <div class="item-after">{$scales[$auth->getScales()]}</div>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div class="content-block-title">法人信息</div>
+    <div class="list-block">
+        <ul>
+            <li class="item-content">
+                <div class="item-inner">
+                    <div class="item-title">法人姓名</div>
+                    <div class="item-after">{$auth->getLegal()}</div>
+                </div>
+            </li>
+            <li class="item-content">
+                <div class="item-inner">
+                    <div class="item-title">法人身份证号码</div>
+                    <div class="item-after">{hideInfo($auth->getLegalIdentity())}</div>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div class="content-block-title">营业执照信息</div>
+    <div class="list-block">
+        <ul>
+            <li class="item-content">
+                <div class="item-inner">
+                    <div class="item-title">信用代码</div>
+                    <div class="item-after">{$auth->getLicenseCode()}</div>
+                </div>
+            </li>
+            <li class="item-content">
+                <div class="item-inner">
+                    <div class="item-title">地区</div>
+                    <div class="item-after">{$auth->getProvince()}-{$auth->getCity()}-{$auth->getArea()}</div>
+                </div>
+            </li>
+            <li class="item-content">
+                <div class="item-inner">
+                    <div class="item-title">详细地址</div>
+                    <div class="item-after">{$auth->getAddress()}</div>
+                </div>
+            </li>
+        </ul>
+    </div>
+{/block}

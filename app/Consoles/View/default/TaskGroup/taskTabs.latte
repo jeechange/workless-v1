@@ -1,0 +1,5 @@
+<a href="{url('consoles_lists','con=taskGroup&active=1&types='.$types)}" {if $active=="1"}class="selected"{/if}>执行中</a>
+<a href="{url('consoles_lists','con=taskGroup&active=0&types='.$types)}" {if $active=="0"}class="selected"{/if}>已完成</a>
+<a href="{url('consoles_lists','con=taskGroup&active=2&types='.$types)}" {if $active=="2"}class="selected"{/if}>准备中</a>
+<a href="{url('consoles_lists','con=taskGroup&active=3&types='.$types)}" {if $active=="3"}class="selected"{/if}>已暂停</a>
+<a href="{url('consoles_lists','con=taskGroup&active=4&types='.$types)}" {if $active=="4"}class="selected"{/if}>已取消</a>

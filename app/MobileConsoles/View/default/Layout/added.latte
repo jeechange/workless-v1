@@ -1,0 +1,139 @@
+<style>
+    .added-popup .content{
+        padding:30px 6px 0 6px;
+    }
+
+    .added-popup .content .added-popup-item{
+        text-align:center;
+        margin-bottom:20px;
+        color:#101010;
+    }
+
+    .added-popup-item-icon{
+        width:60px;
+        height:60px;
+        line-height:60px;
+        vertical-align:middle;
+        margin:5px auto;
+        border-radius:50%;
+    }
+
+    .added-popup-item-icon .icon{
+        color:#fff;
+        font-size:24px;
+        vertical-align:top;
+    }
+
+    .added-popup .bar-footer .added-closed{
+        text-align:center; border-radius:50%; width:25px; height:25px; line-height:20px; vertical-align:top;
+        margin:12px auto;
+        border:2px solid #101010;
+        font-size:24px;
+    }
+
+</style>
+<div class="popup added-popup" style="height: 300px;top:auto;bottom:0;left: 8px;right: 8px;width:auto;border-radius:12px 12px 0 0">
+    <div class="bar bar-standard bar-footer close-popup" data-popup=".added-popup" style="background: #fff;height: 50px;">
+        <div class="added-closed">&times;</div>
+    </div>
+    {if $menu=="task"}
+        <div class="content">
+            <div class="row added-popup-row">
+
+                <a class="col-33 added-popup-item" href="{url("mobileConsoles_todo_lists")}">
+                    <div class="added-popup-item-icon" style="background: #FD5853;">
+                        <i class="icon al-icon al-icon-putongrenwu"></i>
+                    </div>
+                    TODO
+                </a>
+                <a class="col-33 added-popup-item" href="{url("mobileConsoles_taskme_myissue")}">
+                    <div class="added-popup-item-icon" style="background: #3FADF0;">
+                        <i class="icon al-icon al-icon-fabuzhouqi"></i>
+                    </div>
+                    我的发布
+                </a>
+                <a class="col-33 added-popup-item" href="{url("mobileConsoles_taskme_myaccept")}">
+                    <div class="added-popup-item-icon" style="background: #3FADF0;">
+                        <i class="icon al-icon al-icon-fabuzhouqi"></i>
+                    </div>
+                    我的验收
+                </a>
+                <a class="col-33 added-popup-item" href="{url("mobileConsoles_taskme_myexecute")}">
+                    <div class="added-popup-item-icon" style="background: #FF9A4B;">
+                        <i class="icon al-icon al-icon-fabuxuanshang"></i>
+                    </div>
+                    我的执行
+                </a>
+                <a class="col-33 added-popup-item" href="{url("mobileConsoles_taskreward")}">
+                    <div class="added-popup-item-icon" style="background: #FF9A4B;">
+                        <i class="icon al-icon al-icon-fabuxuanshang"></i>
+                    </div>
+                    悬赏
+                </a>
+            </div>
+            <div class="row added-popup-row">
+                <a class="col-33 added-popup-item" href="{url("mobileConsoles_todo_lists")}">
+                    <div class="added-popup-item-icon" style="background: #FDCF53;">
+                        <i class="icon al-icon al-icon-xiaochigui"></i>
+                    </div>
+                    任务
+                </a>
+            </div>
+        </div>
+    {elseif $menu="target"}
+        <div class="content">
+            <div class="row added-popup-row">
+
+                <a class="col-33 added-popup-item" href="{url('mobileConsoles_Target_lists',array("types"=>"my"))}">
+                    <div class="added-popup-item-icon" style="background: #FD5853;">
+                        <i class="icon al-icon al-icon-putongrenwu"></i>
+                    </div>
+                    我的目标
+                </a>
+            </div>
+        </div>
+    {elseif $menu="standard"}
+
+    {elseif $menu=""}
+        <div class="row added-popup-row" style="display:none">
+            <a class="col-33 added-popup-item" href="{url("mobileConsoles_welfare_add")}">
+                <div class="added-popup-item-icon" style="background: #FDCF53;">
+                    <i class="icon al-icon al-icon-yaoqing"></i>
+                </div>
+                发放物资福利
+            </a>
+            <a class="col-33 added-popup-item" href="{url("mobileConsoles_study_add")}">
+                <div class="added-popup-item-icon" style="background: #A58DFC;">
+                    <i class="icon al-icon al-icon-welfare-"></i>
+                </div>
+                幸运抽奖
+            </a>
+            <a class="col-33 added-popup-item" href="{url("mobileConsoles_welfare_add_bonus")}">
+                <div class="added-popup-item-icon" style="background: #3EC9A8;">
+                    <i class="icon al-icon al-icon-influence"></i>
+                </div>
+                发放分红股
+            </a>
+        </div>
+        <div class="row added-popup-row" style="display:none">
+            <a class="col-33 added-popup-item" href="{url("mobileConsoles_welfare_snack")}">
+                <div class="added-popup-item-icon" style="background: #FDCF53;">
+                    <i class="icon al-icon al-icon-xiaochigui"></i>
+                </div>
+                小吃柜
+            </a>
+            <a class="col-33 added-popup-item" href="{url("mobileConsoles_acorn_apply","tabs_two=Action")}">
+                <div class="added-popup-item-icon" style="background: #A58DFC;">
+                    <i class="icon al-icon al-icon-influence"></i>
+                </div>
+                申请积分
+            </a>
+            <a class="col-33 added-popup-item" href="{url("mobileConsoles_anything_anythingLists")}">
+                <div class="added-popup-item-icon" style="background: #3EC9A8;">
+                    <i class="icon al-icon al-icon-beizhu"></i>
+                </div>
+                备忘
+            </a>
+        </div>
+    {/if}
+</div>

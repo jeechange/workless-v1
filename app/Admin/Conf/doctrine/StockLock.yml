@@ -1,0 +1,55 @@
+Admin\Entity\StockLock:
+  type: entity
+  table: stock_lock
+  id:
+    id:
+      type: integer
+      nullable: false
+      unsigned: false
+      comment: ''
+      id: true
+      generator:
+        strategy: IDENTITY
+  fields:
+    sid:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+    userId:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: user_id
+    price:
+      type: decimal
+      nullable: true
+      precision: 10
+      scale: 2
+      comment: ''
+    stock:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+    priceOri:
+      type: decimal
+      nullable: true
+      precision: 10
+      scale: 2
+      comment: ''
+      column: price_ori
+    stockOri:
+      type: decimal
+      nullable: true
+      precision: 10
+      scale: 2
+      comment: ''
+      column: stock_ori
+    addTime:
+      type: datetime
+      nullable: true
+      comment: ''
+      column: add_time
+  lifecycleCallbacks: {  }

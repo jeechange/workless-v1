@@ -1,0 +1,118 @@
+{layout '../Public/layoutList.latte'} {*继承layoutList模板*}
+{block title}我的TODO{/block}
+{block actions}
+    <a href="{url('consoles_add','con=task&types=temp')}" class="icon-adds" data-side-form>发布普通任务</a>
+{*    <a href="{url('consoles_add','con=task&types=cycle')}" class="icon-adds" data-side-form>发布周期任务</a>*}
+{/block}
+{block actionstab}
+    {include "./actionstab.latte"}
+{/block}
+{block private_css}
+    {include "./listCss.latte"}
+{/block}
+{block private_js}
+    <script>
+        init.ready(function () {
+            if (typeof window.timerdeadlineList !== "undefined") {
+                clearInterval(window.timerdeadlineList);
+            }
+            window.timerdeadlineList = setInterval(function () {
+                $("[data-deadline]").each(function () {
+                    var endTimes = $(this).attr("data-deadline");
+                    var cTime = countDown(endTimes);
+                    if (cTime == '0秒') {
+                        var cTime = '已超时';
+                    }
+                    $(this).text(cTime);
+                });
+            }, 1000);
+        });
+    </script>
+{/block}
+{block content}
+    {if $lists}
+        <table cellpadding="0" cellspacing="0" border="0" class="stdtable">
+            <thead>
+            <tr>
+                <th data-sort="t.code_no"><span class="table-head">任务编号</span></th> {*在th加入 data-sort 可对数据库进行排序*}
+                <th data-sort="t.priority"><span class="table-head">优先级</span></th> {*在th加入 data-sort 可对数据库进行排序*}
+                <th data-sort="t.types"><span class="table-head">任务类型</span></th>
+                <th data-sort="t.names"><span class="table-head">任务</span></th>
+                <th data-sort="u.full_name"><span class="table-head">发布人</span></th>
+                <th><span class="table-head">执行人</span></th>
+                <th><span class="table-head">验收人</span></th>
+                <th data-sort="t.add_time"><span class="table-head">发布时间</span></th>
+                <th data-sort="t.deadline"><span class="table-head">状态</span></th>
+                <th><span class="table-head">操作</span></th>
+            </tr>
+            </thead>
+            <tbody>
+
+            {foreach $lists as $k=>$item}
+                <tr>
+                    <td class="wid-auto">#{$item['t_code_no']}{if $item["t_types"]==3 && $item['t_cycle_use']>0}-{$item['t_cycle_use']}{/if}</td>
+                    <td class="wid-auto">
+                        <div class="garden Letter-{$priorityMemo[$item['t_priority']]}">{$priorityMemo[$item['t_priority']]}</div>
+                    </td>
+                    <td class="wid-auto">{$typesMemo[$item['t_types']]}</td>
+                    <td class="wid-auto" style="line-height:24px;">
+                        {if $item['groupName']}
+                            <span style="box-sizing:border-box; float:left; line-height:19px; font-size:12px; padding:1px 2px; border:1px solid #aaa;margin-right:5px">{$item['groupName']}</span>
+                        {/if}
+                        {if json_decode($item["t_thumbs"], true)}
+                            <span class="icon al-icon al-icon-fujian" style="color:#ab93fb; font-size:24px;"></span>
+                        {/if}
+                        {$item['t_names']}
+                    </td>
+                    <td class="wid-auto">{$item['u_full_name']}</td>
+                    <td class="wid-auto">{$item['executorMemo']}</td>
+                    <td class="wid-auto">{$item['u2_full_name']}</td>
+                    <td class="wid-auto">{$item['t_add_time']|totime}</td>
+                    {*<td class="wid-auto">{$item['remainTime']}</td>*}
+                    <td class="wid-auto"
+                            {if $item["t_status"]==0}
+                                style="color:#009AE2;"
+                            {elseif $item["t_status"]==1}
+                                style="color:#FF9800;"
+                            {elseif $item["t_status"]==2}
+                                style="color:#E51C23;"
+                            {elseif $item["t_status"]==3}
+                                style="color:#259B24;"
+                            {/if}
+                    >
+                        {if $userId == $item['a_recheck_id'] && $item['a_accept']==2}
+                            等待验收审核
+                        {else}
+                            {$statusMemo[$item['t_status']]}
+                            {if $item["t_status"]==0}
+                                (
+                                <span {if $item["t_status"]==0}data-deadline="{$item["t_deadline"]|totime}"{/if}></span>
+                                )
+                            {/if}
+                            {if $TSlists[$item['a_rating']]["names"]}
+                                <span style="padding:3px 8px; display:inline-block; color:#999; border:1px solid #999; border-radius:4px;">{$TSlists[$item['a_rating']]["names"]}</span>
+                            {/if}
+                        {/if}
+                    </td>
+
+                    <td>
+                        <a class="right-exchange" href="{url('consoles_task_details','id='.$item["t_id"])}">详情</a>
+                    </td>
+                </tr>
+            {/foreach}
+            </tbody>
+        </table>
+    {else}
+        {if $params == 1}
+            <div style="position:relative; width:100%; line-height:50px; display:block; text-align:center;">
+                <img src="{path('[MobileConsoles]/img/null.png')}" alt="" class="" style="margin:50px auto 0; width:300px; height:300px; display:block;">
+                <div style="width:100%; color:#999; text-align:center; font-size:1.5rem;">查询为空</div>
+            </div>
+        {else}
+            <div style="position:relative; width:100%; line-height:50px; display:block; text-align:center;">
+                <img src="{path('[MobileConsoles]/img/null.png')}" alt="" class="" style="margin:50px auto 0; width:300px; height:300px; display:block;">
+                <div style="width:100%; color:#999; text-align:center; font-size:1.5rem;">所有事情都做完了，你很优秀！</div>
+            </div>
+        {/if}
+    {/if}
+{/block}

@@ -1,0 +1,47 @@
+{layout "../Layout/layout.latte"}
+
+{block tabs_content}
+    {include "./tabs.latte"}
+{/block}
+{block private_css}
+    <style>
+        .list-block{
+            margin-top:2.61em;
+        }
+
+        .item-title{
+            /*font-size:;*/
+        }
+    </style>
+{/block}
+{block private_js}
+
+{/block}
+
+{block content}
+    <div class="list-block" style="">
+        <ul>
+            <li>
+                <a href="javascript:void(0)" class="item-content item-link">
+                    <div class="item-inner">
+                        <div class="item-title"> 企业加分统计</div>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a href="javascript:void(0)" class="item-content item-link">
+                    <div class="item-inner">
+                        <div class="item-title"> 部门加分统计</div>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a href="javascript:void(0)" class="item-content item-link">
+                    <div class="item-inner">
+                        <div class="item-title"> 个人加分统计</div>
+                    </div>
+                </a>
+            </li>
+        </ul>
+    </div>
+{/block}

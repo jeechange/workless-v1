@@ -1,0 +1,44 @@
+<!DOCTYPE HTML>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
+    <title>{seo()->getTitle()}</title>
+    <meta name="keywords" content="{seo()->getKeywords()}"/>
+    <meta name="description" content="{seo()->getDescription()}"/>
+    <link type="text/css" rel="stylesheet" href="{path('[Jeechange]/metroUI/css/login.css')}"/>
+    <!--[if lte IE 8]>
+    <link rel="stylesheet" type="text/css" href="{path('[Jeechange]/metroUI/css/ie8.css')}"/>
+    <link rel="icon" href="{path('[Home]/images/xiangshuyunIcon.png')}">
+    <![endif]-->
+    <style type="text/css">
+        .icon {
+            padding:20px 0;
+            height: 5em;
+            vertical-align: -0.15em;
+            fill: currentColor;
+            overflow: hidden;
+        }
+    </style>
+    <link rel="stylesheet" href="{path('[MobileConsoles]/al-font/iconfont.css')}">
+    <script type="text/javascript" src="{path('[MobileConsoles]/al-font/iconfont.js')}"></script>
+</head>
+<body class="login">
+<div class="login_top"></div>
+<div class="login_bg_form">
+    <div class="loginform">
+        <div class="login-box-plain">
+            {*<h2>WorkLess</h2>*}
+            {*<img src="{path('[Home]/images/xiangshuyunLogo.png')}" alt="" style="padding:20px 0;">*}
+            <div style="margin-top: 60px;"></div>
+            <svg class="icon" aria-hidden="true">
+                <use xlink:href="#al-icon-xiangshuyunlogo_lan"></use>
+            </svg>
+            <form id="loginform" method="post" action="{url("consoles_login_login")}">
+                <div class="loginBoxCenter">
+                    <div style="text-align: center;color:red" class="show-message">{$message?$message:'已退出系统，请从钉钉工作台重新进入'}</div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

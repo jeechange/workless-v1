@@ -1,0 +1,7 @@
+<script type="text/javascript">
+    {if $ajaxextramethod=="SideForm"}
+    sideErrorAndJump({$msg}, '{$jumpUrl|noescape}',{$time});
+    {else}
+    errorAndJump({$msg}, '{$jumpUrl|noescape}',{$time});
+    {/if}
+</script>

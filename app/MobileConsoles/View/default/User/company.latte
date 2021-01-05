@@ -1,0 +1,627 @@
+8{layout "../Layout/layout.latte"}
+{block headTitle}组织架构{/block}
+{block private_css}
+    <style>
+        .item-title{
+            font-size:14px;
+        }
+
+        .item-title .icon{
+            font-size:25px;
+        }
+
+        .anything{
+            width:100%;
+            opacity:0.6;
+            padding:0.3rem 0;
+            background:#0087E2;
+            font-family:Arial;
+            font-style:normal;
+            font-size:14px;
+            text-align:center;
+            line-height:31px;
+            color:#fff;
+            clear:both;
+        }
+
+        .anything span{
+            display:inline-block;
+            vertical-align:middle;
+        }
+
+        .anything .badge{
+            background:#fff;
+            vertical-align:middle;
+            color:#FF4081;
+        }
+
+        .anything .close{
+            float:right;
+            margin-right:10px;
+        }
+
+        .user-info{
+            box-sizing:border-box;
+            height:130px;
+            background:#fafafa;
+            padding:15px 30px;
+            vertical-align:bottom;
+            color:#aaa;
+            position:relative;
+        }
+
+        .user-info .headerImg{
+            position:absolute;
+            top:0;
+            left:0;
+            z-index:3;
+            width:100%;
+            height:100%;
+            display:block;
+        }
+
+        .headerSZ{
+            position:relative;
+            display:block;
+            width:100%;
+            height:30px;
+            z-index:5;
+        }
+
+        .user-info .user-overview{
+            width:65%;
+            float:left;
+            padding-top:5px;
+            position:absolute;
+            z-index:5;
+            color:white;
+        }
+
+        .user-info .user-overview .user-names{
+            /*color:#101010;*/
+            font-size:18px;
+            line-height:26px;
+            font-weight:bold;
+            display:inline-block;
+        }
+
+        .user-info .user-overview .user-acorn{
+            height:23px;
+            line-height:20px;
+            /*color:rgba(16, 16, 16, 1);*/
+            font-size:14px;
+            text-align:center;
+            display:inline-block;
+            margin-left:30px;
+        }
+
+        .user-base{
+            padding:0px 10px 5px;
+        }
+
+        .user-info .user-overview .user-company{
+            display:block;
+            height:40px;
+            line-height:20px;
+            /*color:rgba(16, 16, 16, 1);*/
+            color:white;
+            font-size:14px;
+            padding:5px 10px;
+        }
+
+        .user-info .user-head{
+            position:absolute;
+            z-index:5;
+            right:10px;
+            width:35%;
+            float:right;
+            text-align:center;
+        }
+
+        .user-info .user-head img{
+            display:block;
+            margin:0 auto;
+            width:70px;
+            height:70px;
+            border-radius:50%;
+        }
+
+        .user-info .user-head span{
+            color:#0087E2;
+            font-size:12px;
+            line-height:17px;
+        }
+
+        .user-info .user-head .user-img{
+            display:block;
+            margin:0 auto;
+            width:60px;
+            height:60px;
+            border-radius:50%;
+        }
+
+        .mlrLogo{
+            margin:0 0.8rem 0 0.5rem;
+            color:#0087E2;
+        }
+
+        .influence{
+            width:100%;
+            padding:0.5rem 0;
+            display:block;
+            background:#fff;
+        }
+
+        .boxOne{
+            position:relative;
+            float:left;
+            width:33.333%;
+            text-align:center;
+        }
+
+        .boxOne:after{
+            position:absolute;
+            content:'';
+            top:30%;
+            left:0;
+            width:1px;
+            height:40%;
+            background:#0087E2;
+        }
+
+        .boxOne:first-child:after{
+            position:absolute;
+            content:'';
+            top:30%;
+            left:0;
+            width:1px;
+            height:40%;
+            background:none !important;
+        }
+
+        .fraction{
+            color:#0087E2;
+            font-size:1.1rem;
+            margin:0.05rem 0;
+        }
+
+        .words{
+            font-size:0.75rem;
+            margin:0.05rem 0;
+        }
+
+        .Abtn{
+            box-sizing:border-box;
+            margin:30px 0 20px;
+            width:100%;
+            height:2.4rem;
+            line-height:2.4rem;
+            display:block;
+            background:#fff;
+            color:#333;
+        }
+
+        .signOut{
+            width:100%;
+            height:2.4rem;
+            line-height:2.4rem;
+            text-align:center;
+        }
+
+        .companyName{
+            padding:0.8rem;
+            background:white;
+        }
+
+        .mlrLogo{
+            margin:0 0.8rem 0 0.8rem;
+            color:#0087E2;
+        }
+
+        .influence{
+            width:100%;
+            padding:0.5rem 0;
+            display:block;
+            background:#fff;
+        }
+
+        .wztx{
+            width:40px;
+            height:40px;
+            display:block;
+            line-height:40px;
+            text-align:center;
+            font-size:0.7rem;
+            color:white;
+            border-radius:50%;
+            background:#0087e2;
+        }
+
+        .JiaoHaoIMG{
+            width:40px;
+            height:40px;
+            display:block;
+            line-height:40px;
+            text-align:center;
+            font-size:30px;
+            color:white;
+            border-radius:50%;
+            background:#0087e2;
+            float:left;
+        }
+
+        .boxOne{
+            position:relative;
+            float:left;
+            width:33.33%;
+            text-align:center;
+        }
+
+        .boxOne:after{
+            position:absolute;
+            content:'';
+            top:30%;
+            left:0;
+            width:1px;
+            height:40%;
+            background:#0087E2;
+        }
+
+        .boxOne:first-child:after{
+            position:absolute;
+            content:'';
+            top:30%;
+            left:0;
+            width:1px;
+            height:40%;
+            background:none !important;
+        }
+
+        .fraction{
+            color:#0087E2;
+            font-size:1.2rem;
+            margin:0.05rem 0;
+        }
+
+        .words{
+            font-size:0.60rem;
+            margin:0.05rem 0;
+        }
+
+        .tab-link{
+            height:3rem !important;
+            line-height:3rem !important;
+        }
+
+        .create-actions{
+            position:fixed;
+            background:rgba(24, 28, 31, 0.6);
+            width:44px;
+            height:44px;
+            line-height:44px;
+            z-index:9999;
+            bottom:65px;
+            right:15px;
+            text-align:center;
+            color:#fff;
+            border-radius:50px;
+        }
+    </style>
+{/block}
+{block custom}
+    {include "../Public/custom.latte"}
+{/block}
+{block content}
+    <div class="bar bar-header-secondary" style="top:0px; background:white;">
+        <div class="searchbar">
+            <a class="searchbar-cancel">取消</a>
+            <div class="search-input">
+                <label class="icon icon-search" for="search"></label>
+                <input type="search" id='search' placeholder='输入关键字...'/>
+            </div>
+        </div>
+    </div>
+    <div style="width:100%; height:2.3rem; display:block;"></div>
+    <div class="companyName">
+        <a class="user-company" href="{url("mobileConsoles_company")}">{$company["names"]} <span style="float:right;">切换企业</span></a>
+    </div>
+    <div class="list-block" style="margin:0.5rem auto 0;">
+        <ul>
+            <li>
+                <a class="item-content item-link" href="{url('mobileConsoles_company_supers')}">
+                    <div class="item-inner" style="width:95%;">
+                        <div class="item-title" style="padding:0.5rem 0;width:100%">
+                            <div style="width:15%; float:left;">
+                                <div class="wztx">{$companyUser?$companyUser->getFullName():""}</div>
+                            </div>
+                            <div style="width:85%; float:left;">
+                                <p style="margin:0;">{$companyUser?$companyUser->getFullName():""}（主管理员）</p>
+                                <p style="margin:0;">TEL:{$companyUser?$companyUser->getPhone():"未设置"}</p>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </li>
+        </ul>
+    </div>
+    {*<div class="list-block" style="margin:0.5rem auto;">*}
+    {*<ul>*}
+    {*<li>*}
+    {*<a href="{url('mobileConsoles_user_inviting')}" class="item-content item-link">*}
+    {*<div style="width:95%;">*}
+    {*<div class="item-title" style="padding:0.5rem 0;">*}
+    {*<div class="JiaoHaoIMG">+</div>*}
+    {*<div style="float:left; line-height:40px; margin-left:10px;">邀请同事加入公司</div>*}
+    {*</div>*}
+    {*<div style="clear:both;"></div>*}
+    {*</div>*}
+    {*</a>*}
+    {*</li>*}
+    {*</ul>*}
+    {*</div>*}
+    <div class="buttons-tab" style="margin:10px 0;">
+        <div class="tab-link external button {if $active == "BUMEN"}active{/if}" id="BUMEN" onclick="changeUserCompany('BUMEN')">
+            <a href="{url("mobileConsoles_user_company")}">部门</a>
+        </div>
+        <div class="tab-link external button {if $active == "XIAOZU"}active{/if}" id="XIAOZU" onclick="changeUserCompany('XIAOZU')">
+            <a href="{url("mobileConsoles_user_company")}">小组</a>
+        </div>
+        {*<div class="tab-link external button {if active == "GONGZHONG"}active{/if}" id="GONGZHONG" onclick="changeUserCompany('GONGZHONG')">*}
+        {*<a href="{url("mobileConsoles_user_company")}">工种</a>*}
+        {*</div>*}
+        <div class="tab-link external button {if $active == "ZHIWEI"}active{/if}" id="ZHIWEI" onclick="changeUserCompany('ZHIWEI')">
+            <a href="{url("mobileConsoles_user_company")}">职位</a>
+        </div>
+        <div class="tab-link external button {if $active == "WBLXR"}active{/if}" id="WBLXR" onclick="changeUserCompany('WBLXR')">
+            <a href="{url("mobileConsoles_user_company")}">外部</a>
+        </div>
+    </div>
+    <div id="ChangeBox" style="width:100%; margin:0 0 10px 0; padding:0;">
+        <div class="list-block" id="BUMENlists" style="margin:0 auto; display:{if $active == "BUMEN"}block{else}none{/if};">
+            <ul>
+                {foreach $department as $k => $v}
+                    <li>
+                        <a class="item-content item-link" onclick="addlists({$v['id']})">
+                            <div class="item-inner">
+                                <div class="item-title" style="width:100%; padding:0.5rem 0;">
+                                    {*<i class="icon al-icon al-icon-personalcenter mlrLogo"></i>*}
+                                    {*{$v['names']} {if $v['director']}<span style="float:right;">负责人：{$v['director']}</span>{/if}*}
+                                    {$v['names']}
+                                    <span style="float:right;color: #999;">{$v['count']}人</span>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <li style="margin:0; padding:0;">
+                        <div id="addDlists{$v['id']}" style="margin:0; padding:0; display:none;"></div>
+                    </li>
+                {/foreach}
+            </ul>
+
+            {if $staff}
+                <div style="overflow:hidden;margin-top: 5px;background: #fff;">
+                    {foreach $staff as $kk=>$vv}
+                        <a class="item-content item-link open-popup" data-popup=".info-popup" onclick="GetUserData({$vv['id']})" style="border-bottom:1px solid #eee;">
+                            <div style="width:95%;">
+                                <div class="item-title" style="padding:0.5rem 0;">
+                                    <div style="width:15%; float:left;">
+                                        <div class="wztx">{$vv['fullName']}</div>
+                                    </div>
+                                    <div style="width:75%; float:left;">
+                                        <p style="margin:0;">{$vv['fullName']}</p>
+                                        <p style="margin:0;">{$vv['phone']}</p>
+                                    </div>
+                                    <div style="width:10%; float:left; color:#0078e2; line-height: 40px;">
+                                        详情
+                                    </div>
+                                </div>
+                                <div style="clear:both;"></div>
+                            </div>
+                        </a>
+                    {/foreach}
+                </div>
+            {/if}
+
+            {if $isSuper}
+                <div>
+                    <span data-url="{url("mobileConsoles_company_departmentLists")}" data-name="管理部门" class="create-actions">管理</span>
+                </div>
+            {/if}
+        </div>
+
+        <div class="list-block" id="XIAOZUlists" style="margin:0 auto; display:{if $active == "XIAOZU"}block{else}none{/if};">
+            <ul>
+                {foreach $group as $kk => $vv}
+                    <li>
+                        <a class="item-content item-link" onclick="addgroup({$vv['id']})">
+                            <div class="item-inner">
+                                <div class="item-title" style="width:100%; padding:0.5rem 0;">
+                                    {*<i class="icon al-icon al-icon-personalcenter mlrLogo"></i>*}
+                                    {$vv['names']} <span style="float:right;">组长：{$vv['leader']['nickName']}</span>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <li style="margin:0; padding:0;">
+                        <div id="addglists{$vv['id']}" style="margin:0; padding:0; display:none;"></div>
+                    </li>
+                {/foreach}
+            </ul>
+            {if $isSuper}
+                <div>
+                    <span data-url="{url("mobileConsoles_company_groupLists")}" data-name="管理小组" class="create-actions">管理</span>
+                </div>
+            {/if}
+        </div>
+        {*<div class="list-block" id="GONGZHONGlists" style="margin:0 auto; display:{if $active == "GONGZHONG"}block{else}none{/if};">*}
+        {*<ul>*}
+        {*{foreach $worktype as $key => $val}*}
+        {*<li>*}
+        {*<a class="item-content item-link"*}
+        {*href="{url("mobileConsoles_company_modifyWorktype",array("id"=>$val['id']))}">*}
+        {*<div class="item-inner">*}
+        {*<div class="item-title" style="width:100%; padding:0.5rem 0;">*}
+        {*<i class="icon al-icon al-icon-personalcenter mlrLogo"></i>*}
+        {*{$val['names']} <span style="float:right;">详情</span>*}
+        {*</div>*}
+        {*</div>*}
+        {*</a>*}
+        {*</li>*}
+        {*{/foreach}*}
+        {*</ul>*}
+        {*{if $isSuper}*}
+        {*<div>*}
+        {*<span data-url="{url("mobileConsoles_company_addWorktype")}" data-name="添加工种" class="create-actions">管理</span>*}
+        {*</div>*}
+        {*{/if}*}
+        {*</div>*}
+        <div class="list-block" id="ZHIWEIlists" style="margin:0 auto; display:{if $active == "ZHIWEI"}block{else}none{/if};">
+            <ul>
+                {foreach $staffStation as $value}
+                    <li>
+                        <a class="item-content item-link" href="{url("mobileConsoles_company_modifyStaffstation",array("id"=>$value['id']))}">
+                            <div class="item-inner">
+                                <div class="item-title" style="width:100%; padding:0.5rem 0;">
+                                    {$value['names']} <span style="float:right;">({if $value['limitAcorn'] == 1}{$value['riseAcorn']}{else}不限制{/if})&nbsp;详情</span>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                {/foreach}
+            </ul>
+            {if $isSuper}
+                <div>
+                    <span data-url="{url("mobileConsoles_company_addStaffstation")}" data-name="添加职位" class="create-actions">管理</span>
+                </div>
+            {/if}
+        </div>
+        <div class="list-block" id="WBLXRlists" style="margin:0 auto; display:{if $active == "WBLXR"}block{else}none{/if};">
+            <ul>
+                {foreach $exLists as $key => $val}
+                    <li>
+                        <a class="item-content item-link" href="{url("mobileConsoles_company_modifyWBLXR",array("id"=>$val['e_id']))}">
+                            <div style="width:95%;">
+                                <div class="item-title" style="padding:0.5rem 0;">
+                                    <div style="width:15%; float:left;">
+                                        <div class="wztx">{$val['u_fullName']}</div>
+                                    </div>
+                                    <div style="width:65%; float:left;">
+                                        <p style="margin:0;">{$val['u_phone'] ? $val['u_phone'] : $val['e_phone']}</p>
+                                        <p style="margin:0;">{$val['e_memo']}</p>
+                                    </div>
+                                    <div style="width:20%; font-size:0.7rem; float:left; color:{if $val['e_status'] == 1}#0078e2{else}red{/if}; line-height:40px;">详情({$val['statusMemo']})</div>
+                                </div>
+                                <div style="clear:both;"></div>
+                            </div>
+                        </a>
+                    </li>
+                {/foreach}
+            </ul>
+            {if $isSuper}
+                <div>
+                    <span data-url="{url("mobileConsoles_company_addWBLXR")}" data-name="添加外部联系人" class="create-actions">管理</span>
+                </div>
+            {/if}
+        </div>
+    </div>
+{/block}
+
+{block private_js}
+    <script type="text/javascript">
+        function changeUserCompany(e) {
+            $(".buttons-tab > div").attr('class', "tab-link external button");
+            $("#" + e).attr('class', "tab-link external button active");
+
+            var listsId = e + 'lists';
+            $("#ChangeBox > .list-block").css('display', 'none');
+            $("#" + listsId).css('display', 'block');
+        }
+
+        function addlists(e) {
+            var idname = 'addDlists' + e;
+            var getDisplay = $('#' + idname).css('display');
+            if (getDisplay === 'none') {
+                $("#" + idname).css('display', 'block');
+
+                $.ajax({
+                    url: {$Dajax} +"?did=" + e,
+                    dataType: 'json',
+                    success: function (ret) {
+                        $('#' + idname).html(ret['DAjaxLists']);
+                    }
+                });
+            } else {
+                $("#" + idname).css('display', 'none');
+            }
+        }
+
+        function addgroup(e) {
+            var idname = 'addglists' + e;
+            var getDisplay = $('#' + idname).css('display');
+            if (getDisplay === 'none') {
+                $("#" + idname).css('display', 'block');
+
+                $.ajax({
+                    url: {$Gajax} +"?did=" + e,
+                    dataType: 'json',
+                    success: function (ret) {
+                        $("#" + idname).html(ret['GAjaxLists']);
+                    }
+                });
+            } else {
+                $("#" + idname).css('display', 'none');
+            }
+        }
+
+        function GetUserData(e) {
+
+            $.ajax({
+                url: {$UserInfoUrl}+"?id=" + e,
+                dataType: 'json',
+                success: function (ret) {
+                    if (ret['status'] == 'n') {
+                        alert(ret['info']);
+                    } else {
+                        $("#PersonalCard").html(ret['custom']);
+                    }
+                },
+                error: function (ret) {
+                    alert(ret['info']);
+                }
+            });
+        }
+
+        function chooseDepartment(userid, sid) {
+            // var userid = userid;
+            // var sid = sid;
+            location.replace({url('mobileConsoles_company_chooseDepartment')}+"?userid=" + userid + "&sid=" + sid);
+        }
+
+        $(function () {
+            $(".create-actions").click(function () {
+                var name = $(this).attr("data-name");
+                var toUrl = $(this).attr("data-url");
+                var buttons1 = [
+                    {
+                        text: '请选择',
+                        label: true
+                    },
+                    {
+                        text: name,
+                        onClick: function () {
+                            window.location.href = toUrl;
+                        }
+                    }
+                ];
+                var buttons2 = [
+                    {
+                        text: '取消',
+                        bg: 'danger'
+                    }
+                ];
+                var groups = [buttons1, buttons2];
+                $.actions(groups);
+            });
+        })
+    </script>
+{/block}

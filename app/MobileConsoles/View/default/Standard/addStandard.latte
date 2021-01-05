@@ -1,0 +1,184 @@
+{layout "../Layout/layoutBoth.latte"}
+{block headTitle}维度{/block}
+{block tabs_content}
+    {include "./tabs.latte"}
+{/block}
+{block custom}
+{/block}
+{block private_js}
+    <script type="text/javascript">
+        $(document).on("pageInit", function () {
+            $(document).on('refresh', '.pull-to-refresh-content', function (e) {
+                setTimeout(function () {
+
+                    $.pullToRefreshDone('.pull-to-refresh-content');
+                }, 2000);
+            });
+
+            $(document).on('infinite', '.infinite-scroll-bottom', function () {
+                $('.infinite-scroll-preloader').remove();
+                // $.refreshScroller(); //刷新滚动
+            });
+            $('.infinite-scroll-preloader').remove();
+        });
+        $(function () {
+            $(".addSubmit").unbind().bind("click", function () {
+                var str = '<li><div class="item-content">' +
+                        '<div class="item-media"><i class="icon icon-form-calendar"></i></div>' +
+                        '<div class="item-inner">' +
+                        '<div class="item-title label">' +
+                        '<input type="text" name="names[]" value="" style="border:1px solid #ccc"></div>' +
+                        '<div class="item-input">' +
+                        '<input type="text" name="acorn1[]" value="" maxlength="10" style="border:1px solid #ccc"></div>分<div>' +
+                        '<div><a href="#" class="user-delete">删除</a></div>' +
+                        '</div></div></div>' +
+                        '</li>';
+                $("#last").before(str);
+            });
+            $("#bnt").click(function () {
+                $.ajax({
+                    type: "post",
+                    url: $("#formArticle").attr("action"),
+                    data: $("#formArticle").serialize(),
+                    cache: false,
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.status == "n") {
+                            $.toast(data.info);
+                            return false;
+                        } else {
+                            $.toast(data.info);
+                            setTimeout(function () {
+                                location.replace(data.url);
+                            }, 1000);
+                        }
+                    }
+                });
+            });
+            $("a.user-delete").live("click", function () {
+                $(this).parents('li').remove();
+            });
+        });
+        function deleteAdr(atr) {
+            $.confirm('是否确认删除?', function () {
+                var dele = $(atr);
+                $.ajax({
+                    type: "post",
+                    url: dele.attr("data-url"),
+                    data: " ",
+                    cache: false,
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.status == "n") {
+                            $.toast(data.info);
+                            return false;
+                        } else {
+                            $.toast(data.info);
+                            setTimeout(function () {
+                                $.showPreloader();
+                                location.replace(data.url);
+                            }, 2000);
+                        }
+                    }
+                });
+            });
+        }
+    </script>
+{/block}
+{block private_css}
+    <style type="text/css">
+        .bar{
+            background-color:#efeff4
+        }
+
+        .bar .searchbar{
+            background:rgb(255, 255, 255);
+            border:1px solid #ddd;
+            border-radius:25px;
+        }
+
+        .tabs{
+            height:3rem !important;
+        }
+
+        .tabs .tabs-link{
+            height:3rem;
+            line-height:3rem;
+        }
+
+        .create-actions{
+            position:fixed;
+            background:rgba(24, 28, 31, 0.6);
+            width:44px;
+            height:44px;
+            line-height:44px;
+            z-index:9999;
+            bottom:65px;
+            right:15px;
+            text-align:center;
+            color:#fff;
+            border-radius:50px;
+        }
+
+        .list-block{
+            margin:0.75rem 0;
+        }
+
+        .list-block .item-inner{
+            min-height:3rem;
+        }
+
+        a{
+            color:#3d4145
+        }
+
+        .list-block .item-input{
+            width:30%;
+        }
+    </style>
+{/block}
+{block content}
+    <form id="formArticle" action="{url('mobileConsoles_standard_modifyStandard',"active=".$active)}">
+        <div class="list-block" style="background:#ffffff">
+            <ul>
+                <!-- Text inputs -->
+                {foreach $lists as $key=>$item}
+                    <li>
+                        <div class="item-content">
+                            <div class="item-media"><i class="icon icon-form-calendar"></i></div>
+                            <div class="item-inner">
+                                <div class="item-title label">
+                                    <input type="text" name="names[{$item['s_id']}]" value="{$item['s_names']}" style="border:1px solid #ccc"></div>
+                                <div class="item-input">
+                                    <input type="text" name="acorn1[{$item['s_id']}]" value="{$item['s_acorn']}" maxlength="10" style="border:1px solid #ccc">
+                                </div>
+                                分
+                                <div>
+                                    <a href="#" data-url="{url('mobileConsoles_standard_delete',array("id"=>$item['s_id'],"active"=>$active))}" onclick="deleteAdr($(this))">删除</a>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                {/foreach}
+                <li id="last">
+                    <div class="item-content">
+                        <div class="item-media"><i class="icon icon-form-calendar"></i></div>
+                        <div class="item-inner">
+                            <div class="addSubmit">添加</div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <input type="hidden" name="active" value="{$active}">
+    </form>
+    <div class="content-block">
+        <div class="col-95">
+            <div class="button button-big button-fill" id="bnt">保存</div>
+        </div>
+    </div>
+{/block}
+
+
+
+

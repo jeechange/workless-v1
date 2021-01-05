@@ -1,0 +1,75 @@
+Admin\Entity\SurveyResult:
+  type: entity
+  table: survey_result
+  indexes:
+    survey_id:
+      columns:
+        - survey_id
+    team_id:
+      columns:
+        - team_id
+    user_id:
+      columns:
+        - user_id
+  id:
+    id:
+      type: integer
+      nullable: false
+      unsigned: false
+      comment: ''
+      id: true
+      generator:
+        strategy: IDENTITY
+  fields:
+    sid:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+    surveyId:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: survey_id
+    teamId:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: team_id
+    userId:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: user_id
+    total:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    userScore:
+      type: text
+      nullable: true
+      length: null
+      fixed: false
+      comment: ''
+      column: user_score
+    addTime:
+      type: datetime
+      nullable: true
+      comment: ''
+      column: add_time
+    scoreTime:
+      type: datetime
+      nullable: true
+      comment: ''
+      column: score_time
+    status:
+      type: smallint
+      nullable: true
+      unsigned: false
+      comment: ''
+  lifecycleCallbacks: {  }

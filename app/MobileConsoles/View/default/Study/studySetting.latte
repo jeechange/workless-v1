@@ -1,0 +1,86 @@
+{layout "../Layout/layoutBoth.latte"}
+
+{block tabs_content}
+    {include "./tabs.latte"}
+{/block}
+{block private_css}
+    <style>
+        .content{
+            background:#fff;
+        }
+
+        .field-item{
+            margin:5px 10px;
+            padding-bottom:10px;
+        }
+
+        .field-item .field-item-title{
+            color:#101010;
+            font-size:14px;
+            vertical-align:bottom;
+        }
+
+        .field-item .field-item-body{
+            position:relative;
+            padding-top:5px;
+        }
+
+        .field-item-body .field-item-score-box{
+            padding:10px 0;
+        }
+
+        .field-item-body .field-score{
+            display:inline-block;
+            padding:5px 15px;
+            border:#e7e7e7 1px solid;
+            margin-top:5px;
+        }
+
+        .addSetting{
+            float:right;
+            margin-top:-5%;
+            margin-right:5%;
+        }
+    </style>
+{/block}
+{block private_js}
+    <script>
+        $(document).on("pageInit", function () {
+            $(document).on('refresh', '.pull-to-refresh-content', function (e) {
+                setTimeout(function () {
+
+                    $.pullToRefreshDone('.pull-to-refresh-content');
+                }, 2000);
+            });
+
+            $(document).on('infinite', '.infinite-scroll-bottom', function () {
+                $('.infinite-scroll-preloader').remove();
+                // $.refreshScroller(); //刷新滚动
+            });
+            $('.infinite-scroll-preloader').remove();
+        })
+
+    </script>
+{/block}
+
+{block content}
+    <div class="list-block">
+        <div class="list-block" style="margin-top: 2.3rem;">
+            <div class="field-item">
+                <div class="field-item-title">
+                    学习设置
+                </div>
+                <a class="addSetting" href="{url("mobileConsoles_study_studySettingAdd")}">
+                    添加设置
+                </a>
+                <div class="field-item-body">
+                    <div class="field-item-score-box">
+                        {foreach $lists as $v}
+                            <a href="{url("mobileConsoles_study_studySettingModify",array('id'=>$v['id']))}" class="field-score field-score-selected" {if $v['status'] == 0}style="color:red;" {/if}>{$v['names']}</a>
+                        {/foreach}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{/block}

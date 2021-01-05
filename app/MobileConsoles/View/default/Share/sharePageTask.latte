@@ -1,0 +1,128 @@
+{layout '../Layout/layout.latte'}
+{block private_css}
+    <style>
+        p {
+            margin: 0.5rem 0;
+        }
+    </style>
+{/block}
+
+{block private_js}
+    <script type="text/javascript">
+        $(function () {
+
+            if (typeof window.timerdeadlineList !== "undefined") {
+                clearInterval(window.timerdeadlineList);
+            }
+
+            window.timerdeadlineList = setInterval(function () {
+                $("[data-deadline]").each(function () {
+                    var endTimes = $(this).attr("data-deadline");
+                    var cTime = countDown(endTimes);
+                    $(this).text("剩余：" + cTime);
+                });
+            }, 1000);
+
+            $('#detailBtn').click(function () {
+                var that = $(this);
+                var url = that.attr('href');
+                var gobackurl = that.attr('data-gobackurl');
+                var shareid = that.attr('data-shareid');
+
+                $.ajax({
+                    type: "post",
+                    url: url,
+                    data: {
+                        gobackurl: gobackurl,
+                        shareid: shareid
+                    },
+                    cache: false,
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.status == "n") {
+                            $.toast("获取任务详情失败");
+                            return false;
+                        } else {
+                            location.replace(data.url)
+                            // console.log(data.url)
+                        }
+                    }
+                });
+                return false;
+            })
+
+        })
+
+
+        function countDown(endTimes) {
+            var times = (new Date(endTimes.replace(/-/g, "/"))) - (new Date());
+
+
+            var $return = "";
+
+            if (times < 0) {
+                $return = "已超时:";
+                times = Math.abs(times);
+            } else if (times === 0) {
+                return "已超时";
+            }
+            var day = Math.floor(times / 1000 / 60 / 60 / 24);
+            var hour = Math.floor(times / 1000 / 60 / 60 % 24);
+            var minute = Math.floor(times / 1000 / 60 % 60);
+            var second = Math.floor(times / 1000 % 60);
+
+            if (day > 0) $return += day + "天";
+            if (hour > 0) $return += hour + "小时";
+            if (minute > 0) $return += minute + "分";
+            return $return + second + "秒";
+        }
+
+    </script>
+{/block}
+
+{block content}
+    <div style="width:100%;overflow: hidden;background:#fafafa;">
+        <div style="width:100%;background:#fff;margin-top:60px;padding-bottom: 5%;">
+            <img src="{path('[MobileConsoles]/img/task.png')}"
+                 style="display: block;margin: 0 auto;position:  relative;top: -35px;">
+            <ul style="margin: 0;padding: 0;overflow: hidden;">
+                <li style="width: 100%;padding: 0 5%;list-style: none;overflow: hidden;border-bottom: 1px solid #eee;margin-bottom: 10px;">
+                    <p style="width:30%;float: left;">任务名称</p>
+                    <p style="width:70%;float: left;">{$curTask['names']}</p>
+                </li>
+                <li style="width: 100%;padding: 0 5%;list-style: none;overflow: hidden;border-bottom: 1px solid #eee;margin-bottom: 10px;">
+                    <p style="width:30%;float: left;">任务类型</p>
+                    <p style="width:70%;float: left;">{$curTask['types']}任务</p>
+                </li>
+                <li style="width: 100%;padding: 0 5%;list-style: none;overflow: hidden;border-bottom: 1px solid #eee;margin-bottom: 10px;">
+                    <p style="width:30%;float: left;">任务内容</p>
+                    <p style="width:70%;float: left;">{$curTask['content']}</p>
+                </li>
+                <li style="width: 100%;padding: 0 5%;list-style: none;overflow: hidden;border-bottom: 1px solid #eee;margin-bottom: 10px;">
+                    <p style="width:30%;float: left;">任务期限</p>
+                    <div style="width: 70%;float:left;">
+                        <p style="color:#009AE2" class="data-deadline"
+                           data-deadline="{$curTask['deadline']|totime}"></p>
+                        <p style="" id="deadline" class="">{$curTask['deadline']} 之前</p>
+                    </div>
+                </li>
+                <li style="width: 100%;padding: 0 5%;list-style: none;overflow: hidden;border-bottom: 1px solid #eee;margin-bottom: 10px;">
+                    <p style="width:30%;float: left;">积分</p>
+                    <p style="width:70%;float: left;">{if !$acorn}不预设{else}{$acorn}{/if}</p>
+                </li>
+                <li style="width: 100%;padding: 0 5%;list-style: none;overflow: hidden;border-bottom: 1px solid #eee;margin-bottom: 10px;">
+                    <p style="width:30%;float: left;">执行人</p>
+                    <p style="width:70%;float: left;">{$executors}</p>
+                </li>
+                <li style="width: 100%;padding: 0 5%;list-style: none;overflow: hidden;border-bottom: 1px solid #eee;margin-bottom: 10px;">
+                    <p style="width:30%;float: left;">验收人</p>
+                    <p style="width:70%;float: left;">{$accept}</p>
+                </li>
+            </ul>
+            <a id="detailBtn" href="{url('mobileConsoles_share_shareDetail')}" data-gobackurl="{$gobackUrl}"
+               data-shareid="{$curShare['id']}"
+               style="display: block;width: 80%;text-align: center;margin: 10px auto;line-height: 50px;background: #0894ec;color: #fff;font-size: 14px;border-radius: 50px;">任务详情</a>
+        </div>
+    </div>
+    <div></div>
+{/block}

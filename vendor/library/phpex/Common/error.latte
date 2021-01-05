@@ -1,0 +1,10 @@
+<script type="text/javascript">
+    if (jQuery) {
+        var div = $("<div style=\"background-color:#C72015;height:30px;text-align:center;color:#fff;line-height:30px;margin:5px;z-index:9999;\"></div>");
+        div.html("<b>" +{$msg} + "</b>");
+        $("body").prepend(div);
+        div.delay(5000).slideUp(500);
+    } else {
+        alert({$msg});
+    }
+</script>

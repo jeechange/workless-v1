@@ -1,0 +1,150 @@
+Admin\Entity\Ranking:
+  type: entity
+  table: ranking
+  indexes:
+    user_id:
+      columns:
+        - user_id
+    issue_id:
+      columns:
+        - issue_id
+    from_user:
+      columns:
+        - from_user
+    group_id:
+      columns:
+        - group_id
+    sc_id:
+      columns:
+        - sc_id
+    applicant:
+      columns:
+        - applicant
+    stand_id:
+      columns:
+        - stand_id
+    p_id:
+      columns:
+        - p_id
+  id:
+    id:
+      type: integer
+      nullable: false
+      unsigned: false
+      comment: ''
+      id: true
+      generator:
+        strategy: IDENTITY
+  fields:
+    sid:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+    userId:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: user_id
+    issueId:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: issue_id
+    acorn:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    fromUser:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+      column: from_user
+    addTime:
+      type: datetime
+      nullable: true
+      comment: ''
+      column: add_time
+    week:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+    month:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+    seasons:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+    year:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+    depId:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: dep_id
+    groupId:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: group_id
+    types:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+    atypes:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+    memo:
+      type: string
+      nullable: true
+      length: 255
+      fixed: false
+      comment: ''
+    status:
+      type: smallint
+      nullable: true
+      unsigned: false
+      comment: ''
+    scId:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: sc_id
+    applicant:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+    standId:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: stand_id
+    pId:
+      type: integer
+      nullable: true
+      unsigned: false
+      comment: ''
+      column: p_id
+  lifecycleCallbacks: {  }

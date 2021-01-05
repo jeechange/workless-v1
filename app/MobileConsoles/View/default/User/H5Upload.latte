@@ -1,0 +1,279 @@
+<style>
+    .pics-added-item{
+        display:inline-block;
+        width:40px;
+        height:40px;
+        background:#aaa;
+        text-align:center;
+        line-height:40px;
+        font-size:12px;
+        margin-right:15px;
+        position:relative;
+        margin-top:10px;
+        vertical-align:bottom;
+    }
+
+    .pics-added-item img{
+        width:40px;
+        height:40px;
+        background:transparent;
+    }
+
+    .pics-added-item-remove{
+        position:absolute;
+        top:-5px;
+        right:-5px;
+        line-height:12px;
+        width:12px;
+        height:12px;
+        text-align:center;
+        border-radius:50%;
+        background:#181c1f;
+        color:#fff;
+    }
+</style>
+<script>
+
+    var cdnThumbBase = 'https://cdn.itmakes.com/uploads';
+    var imgFile = {
+        type: "image/jpeg",
+        size: 0,
+        name: ""
+    };
+
+    function handleInputChange(target) {
+        // 获取当前选中的文件
+        var file = target.files[0];
+        var imgMasSize = 7 * 1024 * 1024;
+        if (['jpeg', 'png', 'gif', 'jpg'].indexOf(file.type.split("/")[1]) < 0) {
+            $.toast("文件类型仅支持/jpg/png/gif");
+            return;
+        }
+        if (file.size > imgMasSize) {
+            $.toast("文件大小不能超过7M");
+            return;
+        }
+        // 判断是否是ios
+        if (!!window.navigator.userAgent.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/)) {
+            transformFileToFormData(file, target);
+            return;
+        }
+        transformFileToDataUrl(file, target);
+    }
+
+    function transformFileToFormData(file, target) {
+        var formData = new FormData();
+        // 自定义formData中的内容
+        // type
+        formData.append('type', file.type || "image/jpeg");
+        // size
+        formData.append('size', file.size);
+        // name
+        formData.append('name', file.name);
+        formData.append('fromDomain', location.hostname);
+        formData.append('apply', "xiangshuyun");
+        formData.append('sid', {$sid});
+        // lastModifiedDate
+        formData.append('lastModifiedDate', file.lastModifiedDate);
+        // append 文件
+        formData.append('file', file);
+        // 上传图片
+        uploadImg(formData, target);
+    }
+
+    // 将file转成dataUrl
+    function transformFileToDataUrl(file, target) {
+        var imgCompassMaxSize = 200 * 1024; // 超过 200k 就压缩
+
+        // 存储文件相关信息
+        imgFile.type = file.type || 'image/jpeg'; // 部分安卓出现获取不到type的情况
+        imgFile.size = file.size;
+        imgFile.name = file.name;
+        imgFile.lastModifiedDate = file.lastModifiedDate;
+
+        // 封装好的函数
+        var reader = new FileReader();
+
+        // file转dataUrl是个异步函数，要将代码写在回调里
+        reader.onload = function (e) {
+            var result = e.target.result;
+
+            if (result.length < imgCompassMaxSize) {
+                compress(target, result, processData, false);    // 图片不压缩
+            } else {
+                compress(target, result, processData);            // 图片压缩
+            }
+        };
+        reader.readAsDataURL(file);
+    }
+
+    // 使用canvas绘制图片并压缩
+    function compress(target, dataURL, callback, shouldCompress = true) {
+        var img = new Image();
+
+        img.src = dataURL;
+        img.onload = function () {
+            var canvas = document.createElement('canvas');
+            var ctx = canvas.getContext('2d');
+
+            canvas.width = img.width;
+            canvas.height = img.height;
+
+            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+            var compressedDataUrl;
+
+            if (shouldCompress) {
+                compressedDataUrl = canvas.toDataURL(imgFile.type, 0.2);
+            } else {
+                compressedDataUrl = canvas.toDataURL(imgFile.type, 1);
+            }
+
+            callback(compressedDataUrl, target);
+        }
+    }
+
+    function processData(dataUrl, target) {
+        // 这里使用二进制方式处理dataUrl
+        var binaryString = window.atob(dataUrl.split(',')[1]);
+        var arrayBuffer = new ArrayBuffer(binaryString.length);
+        var intArray = new Uint8Array(arrayBuffer);
+        var imgFile = this.imgFile;
+
+        for (var i = 0, j = binaryString.length; i < j; i++) {
+            intArray[i] = binaryString.charCodeAt(i);
+        }
+        var data = [intArray];
+        var blob;
+        try {
+            blob = new Blob(data, {
+                type: imgFile.type
+            });
+        } catch (error) {
+            window.BlobBuilder = window.BlobBuilder ||
+                window.WebKitBlobBuilder ||
+                window.MozBlobBuilder ||
+                window.MSBlobBuilder;
+            if (error.name === 'TypeError' && window.BlobBuilder) {
+                var builder = new BlobBuilder();
+                builder.append(arrayBuffer);
+                blob = builder.getBlob(imgFile.type);
+            } else {
+                // Toast.error("版本过低，不支持上传图片", 2000, undefined, false);
+                $.toast('版本过低，不支持上传图片');
+            }
+            return;
+        }
+
+        // blob 转file
+        var fileOfBlob = new File([blob], imgFile.name);
+        var formData = new FormData();
+
+        // type
+        formData.append('type', imgFile.type);
+        // size
+        formData.append('size', fileOfBlob.size);
+        // name
+        formData.append('name', imgFile.name);
+        formData.append('fromDomain', location.hostname);
+        // lastModifiedDate
+        formData.append('lastModifiedDate', imgFile.lastModifiedDate);
+        // append 文件
+        formData.append('file', fileOfBlob);
+
+        uploadImg(formData, target);
+    }
+
+    // 上传图片
+    function uploadImg(formData, target) {
+        var xhr = new XMLHttpRequest();
+
+        // 进度监听
+        xhr.upload.addEventListener('progress', function (e) {
+            console.log(e.loaded / e.total)
+        }, false);
+        // 加载监听
+        xhr.addEventListener('load', function () {
+            console.log("加载中");
+        }, false);
+        // 错误监听
+        xhr.addEventListener('error', function () {
+            $.toast("上传失败！");
+        }, false);
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4) {
+                var result = JSON.parse(xhr.responseText);
+                if (xhr.status === 200) {
+                    if (typeof window.uploadSucces === "function") uploadSucces(result, target, xhr);
+                    else defaultUploadSuccess(result, target, xhr);
+                } else {
+                    if (typeof window.uploadSucces === "function") uploadError(result, target, xhr);
+                    else defaultUploadError(result, target, xhr);
+                }
+            }
+        };
+        xhr.open('POST', $(target).attr("data-url") || "https://cdn.itmakes.com/uploader.php", true);
+        xhr.send(formData);
+    }
+
+    function defaultUploadError(result, target, xhr) {
+
+    }
+
+    function defaultUploadSuccess(result, target, xhr) {
+
+        $.toast("上传成功");
+        var item = $(target).parent();
+
+        // var saveVal = item.siblings(".pics-added-save").val();
+        //
+        // var vals = saveVal ? saveVal.toString().split(",") : [];
+        //
+        // vals.push(result.saveName);
+        // item.siblings(".pics-added-save").val(vals.join(","));
+        // var html = [
+        //     '<div class="pics-added-item">',
+        //     '<span class="pics-added-item-result" onclick="uploadPhotoBrowser.call(this,\'' +
+        //     cdnThumbBase + result.saveName + '\')"><img src="',
+        //     cdnThumbBase + result.saveName,
+        //     '"></span>',
+        //     '<span class="pics-added-item-remove" onclick="removePicItem.call(this,\'',
+        //     result.saveName,
+        //     '\');">×</span>',
+        //     '</div>'
+        // ].join("");
+        // item.before(html);
+        item.siblings(".pics-added-save").val(result.saveName);
+        var html = '<span class="pic-add" style="border-radius:50%;"><img src="'+cdnThumbBase+result.saveName+'" /><input type="file" id="pics" name="pics" accept="image/*" onchange="handleInputChange(this)"/></span>';
+        item.before(html);
+        item.remove();
+    }
+
+    function uploadPhotoBrowser(val) {
+        if (!this.PhotoBrowser) {
+            this.PhotoBrowser = $.photoBrowser({
+                photos: [val]
+            });
+        }
+        this.PhotoBrowser.open();
+    }
+
+
+    function removePicItem(val) {
+        var picItem = $(this).parent();
+
+        var saveVal = picItem.siblings(".pics-added-save").val();
+
+        var vals = saveVal ? saveVal.toString().split(",") : [];
+
+        var newVals = [];
+
+        for (var i in vals) {
+            if (vals[i] === val) continue;
+            newVals.push(vals[i]);
+        }
+
+        picItem.siblings(".pics-added-save").val(newVals.join(","));
+        picItem.remove();
+    }
+</script>

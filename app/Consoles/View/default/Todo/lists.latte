@@ -1,0 +1,109 @@
+{layout '../Public/layoutList.latte'} {*继承layoutList模板*}
+{block title}我的TODO{/block}
+{block actions}
+    <a href="{url('consoles_add','con=task&types=temp')}" class="icon-adds" data-side-form>发布普通任务</a>
+{*    <a href="{url('consoles_add','con=task&types=cycle')}" class="icon-adds" data-side-form>发布周期任务</a>*}
+{/block}
+{block actionstab}
+    {include "../TaskMe/actionstab.latte"}
+{/block}
+{block private_css}
+    {include "../TaskMe/listCss.latte"}
+    <style type="text/css">
+        .list-more-action{
+            display:none;
+        }
+    </style>
+{/block}
+{block private_js}
+    <script>
+        init.ready(function () {
+            if (typeof window.timerdeadlineList !== "undefined") {
+                clearInterval(window.timerdeadlineList);
+            }
+            window.timerdeadlineList = setInterval(function () {
+                $("[data-deadline]").each(function () {
+                    var endTimes = $(this).attr("data-deadline");
+                    var cTime = countDown(endTimes);
+                    if (cTime === '0秒') {
+                        cTime = '已超时';
+                    }
+                    if (cTime) $(this).text("( " + cTime + " )");
+                });
+            }, 1000);
+        });
+    </script>
+{/block}
+{block content}
+    {if $lists}
+        <table cellpadding="0" cellspacing="0" border="0" class="stdtable">
+            <thead>
+            <tr>
+                <th data-sort="t.codeNo"><span class="table-head">任务编号</span></th> {*在th加入 data-sort 可对数据库进行排序*}
+                <th data-sort="t.priority" style="width:60px;text-align:center"><span class="table-head">优先级</span></th> {*在th加入 data-sort 可对数据库进行排序*}
+                <th data-sort="t.content"><span class="table-head">内容</span></th>
+                <th data-sort="t.issueId"><span class="table-head">发布人</span></th>
+                <th><span class="table-head">执行人</span></th>
+                <th><span class="table-head">验收人</span></th>
+                <th data-sort="t.addTime"><span class="table-head">发布时间</span></th>
+                <th data-sort="t.types"><span class="table-head">TODO类型</span></th>
+                <th data-sort="t.deadline" style="width:230px;text-align:center"><span class="table-head">状态</span></th>
+                <th><span class="table-head">操作</span></th>
+            </tr>
+            </thead>
+            <tbody>
+
+            {foreach $lists as $k=>$item}
+                <tr {if $item['priorityMemo']=='A'}style="background-color:#eae8e8;"{/if}>
+                    <td class="wid-auto">#{$item['codeNo']}{if $item['subCodeNo']>0}-{$item['subCodeNo']}{/if}</td>
+                    <td class="wid-auto" style="width:40px;text-align:center">
+                        <div class="garden Letter-{$item['priorityMemo']}">{$item['priorityMemo']}</div>
+                    </td>
+                    <td class="wid-auto" style="line-height:24px;">
+                        {if $item['groupName']}
+                            <span style="box-sizing:border-box; float:left; line-height:19px; font-size:12px; padding:1px 2px; border:1px solid #aaa;margin-right:5px">{$item['groupName']}</span>
+                        {/if}
+                        {if json_decode($item["t_thumbs"], true)}
+                            <span class="icon al-icon al-icon-fujian" style="color:#ab93fb; font-size:24px;"></span>
+                        {/if}
+                        {$item['content']}
+                    </td>
+                    <td class="wid-auto">{$item['issueFullName']}</td>
+                    <td class="wid-auto">{$item['executorsMemo']}</td>
+                    <td class="wid-auto">{$item['acceptMemo']}</td>
+                    <td class="wid-auto">{$item['addTime']|totime}</td>
+                    {*<td class="wid-auto">{$item['remainTime']}</td>*}
+                    <td class="wid-auto types-memo-class-{$item["types"]}">{$item['typesMemo']}</td>
+                    <td class="wid-auto status-memo-{$item["status"]}" style="text-align:center">
+                        {if $item["types"]==4||$item["types"]==5}
+                            {$item["statusMemo"]}
+                        {elseif isset($detailsPages[$item["types"]])}
+                            {$item["statusMemo"]}
+                            <span {if $item["status"]==0}data-deadline="{$item["deadline"]|totime}"{/if}></span>
+                        {/if}
+                    </td>
+                    <td>
+                        {if $item["types"]==4||$item["types"]==5}
+                            <a class="right-exchange" href="{url($detailsPages[$item["types"]],'id='.$item["relateId"])}" data-side-form>详情</a>
+                        {elseif isset($detailsPages[$item["types"]])}
+                            <a class="right-exchange" href="{url($detailsPages[$item["types"]],'id='.$item["relateId"])}">详情</a>
+                        {/if}
+                    </td>
+                </tr>
+            {/foreach}
+            </tbody>
+        </table>
+    {else}
+        {if $params == 1}
+            <div style="position:relative; width:100%; line-height:50px; display:block; text-align:center;">
+                <img src="{path('[MobileConsoles]/img/null.png')}" alt="" class="" style="margin:50px auto 0; width:300px; height:300px; display:block;">
+                <div style="width:100%; color:#999; text-align:center; font-size:1.5rem;">查询为空</div>
+            </div>
+        {else}
+            <div style="position:relative; width:100%; line-height:50px; display:block; text-align:center;">
+                <img src="{path('[MobileConsoles]/img/null.png')}" alt="" class="" style="margin:50px auto 0; width:300px; height:300px; display:block;">
+                <div style="width:100%; color:#999; text-align:center; font-size:1.5rem;">所有事情都做完了，你很优秀！</div>
+            </div>
+        {/if}
+    {/if}
+{/block}
